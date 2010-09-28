@@ -13,12 +13,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     scene.cpp \
-    oelement.cpp \
-    gelement.cpp
+    element.cpp \
+    gatter.cpp \
+    connection.cpp \
+    switch.cpp \
+    lamp.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
-    oelement.h \
-    gelement.h
+    element.h \
+    gatter.h \
+    connection.h \
+    defines.h \
+    switch.h \
+    lamp.h
 
 FORMS    += mainwindow.ui
+TRANSLATIONS += gatter_de_DE.ts

@@ -1,0 +1,5 @@
+--UNRELEASED--
+--Commit 1--
+-Reimplemented QGraphicsScene to be able to select items with a selection-rectangle
+  -Implemented (very) basic functionality of OElement and GElement.
+  -Designed MainWindow UI to have only a QGraphicsView that is filling the entire window and is painted flat.

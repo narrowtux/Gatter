@@ -1,5 +1,5 @@
 #include "scene.h"
-
+#include "element.h"
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -21,6 +21,7 @@ QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+    QGraphicsScene::mousePressEvent(event);
 	bool check=true;
 	QGraphicsItem* item=itemAt(event->scenePos());
 	if(item!=0){
@@ -35,10 +36,13 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+    QGraphicsScene::mouseMoveEvent(event);
 	if(pressed){
 		if(rect==0){
 			rect=addRect(rectFromPoints(startPos,event->scenePos()));
-			rect->setBrush(QApplication::palette().highlight());
+			QColor hi=QApplication::palette().highlight().color();
+			hi.setAlpha(128);
+			rect->setBrush(hi);
 			rect->setPen(Qt::NoPen);
 		} else {
 			rect->setRect(rectFromPoints(startPos,event->scenePos()));
@@ -46,17 +50,40 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 		QPainterPath selection;
 		selection.addRect(rect->rect());
 		setSelectionArea(selection);
+		foreach(QGraphicsView* view, views()){
+			view->ensureVisible(event->scenePos().x(),event->scenePos().y(),5,5);
+		}
 	}
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+    QGraphicsScene::mouseReleaseEvent(event);
 	if(pressed){
-		rect->setRect(rectFromPoints(startPos,event->scenePos()));
 		QPainterPath selection;
-		selection.addRect(rect->rect());
-		removeItem(rect);
-		delete rect;
+		selection.addRect(rectFromPoints(startPos,event->scenePos()));
+		if(rect!=0){
+			removeItem(rect);
+			delete rect;
+		}
 		rect=0;
 		pressed=false;
 	}
+}
+
+void Scene::addElement(Element *e){
+    addItem(e);
+    int maxID=0;
+    foreach(int key, elements.keys()){
+	if(key>maxID){
+	    maxID=key;
+	}
+    }
+    elements.insert(maxID+1,e);
+    e->uniqueId=maxID+1;
+}
+
+void Scene::removeElement(Element *e){
+    //Warning: this does not delete the removed Element!
+    removeItem(e);
+    elements.remove(e->uniqueId);
 }
