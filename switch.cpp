@@ -9,6 +9,7 @@ Switch::Switch(QObject *parent) :
     width=50;
     addOutput(new Connection);
     setData(ElementName,"Switch");
+    setMinMaxInputsOutputs(0,0,1,1);
 }
 
 void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

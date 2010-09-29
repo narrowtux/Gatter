@@ -18,9 +18,13 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
 
 Element::~Element()
 {
-    lineEdits.clear();
-    checkBoxes.clear();
-    additionalWidgets.clear();
+    if(hasFocus()){
+	deleteForm();
+    } else {
+	lineEdits.clear();
+	checkBoxes.clear();
+	additionalWidgets.clear();
+    }
 }
 
 void Element::addInput(Connection *i){
