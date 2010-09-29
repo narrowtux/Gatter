@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m->updateActions();
     }
     ui->spinDelay->setValue(Gatter::delayMS);
+    myScene->setSceneRect(ui->graphicsView->rect());
 }
 
 MainWindow::~MainWindow()
@@ -147,4 +148,17 @@ void MainWindow::on_spinDelay_valueChanged(int val)
 
 QFormLayout* MainWindow::getFormLayout(){
     return ui->selectionOptions;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    updateSceneRect();
+}
+
+void MainWindow::updateSceneRect()
+{
+    if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
+	myScene->setSceneRect(ui->graphicsView->rect());
+    }
 }

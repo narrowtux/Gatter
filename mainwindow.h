@@ -32,6 +32,7 @@ private:
     Scene* myScene;
     void updateActions();
     void closeEvent(QCloseEvent *);
+    void resizeEvent(QResizeEvent *);
 private slots:
     void on_spinDelay_valueChanged(int );
     void on_actionInsertButton_triggered();
@@ -45,6 +46,7 @@ private slots:
     void on_actionInsertAND_triggered();
     void on_actionClose_triggered();
     void on_actionNew_triggered();
+    void updateSceneRect();
 };
 
 #endif // MAINWINDOW_H

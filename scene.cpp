@@ -73,6 +73,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::addElement(Element *e){
     addItem(e);
+    e->setPos(sceneRect().center());
     e->setFormLayout(myMainWindow->getFormLayout());
     int maxID=0;
     foreach(int key, elements.keys()){
@@ -86,6 +87,7 @@ void Scene::addElement(Element *e){
 
 void Scene::removeElement(Element *e){
     //Warning: this does not delete the removed Element!
+    e->deleteForm();
     QGraphicsScene::removeItem(e);
     elements.remove(e->uniqueId);
 }

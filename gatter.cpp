@@ -116,17 +116,16 @@ void Gatter::recalculate(){
 	val=myInputs[0]->value();
 	break;
     case XOR:
-	val=0;
 	int co;
 	foreach(Connection*c, myInputs){
 	    if(c->value()==High){
 		co++;
 	    }
-	    if(co%2!=0){
-		val=1;
-	    } else {
-		val=0;
-	    }
+	}
+	if(co%2!=0){
+	    val=1;
+	} else {
+	    val=0;
 	}
 	break;
     case DUPLICATOR:

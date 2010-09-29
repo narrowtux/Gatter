@@ -22,7 +22,7 @@ Connection::Connection(QObject *parent) :
 
 bool Connection::isConnected()
 {
-    return connectedTo==0;
+    return connectedTo!=0;
 }
 
 void Connection::setValue(bool v)

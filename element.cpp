@@ -18,13 +18,9 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
 
 Element::~Element()
 {
-    if(hasFocus()){
-	deleteForm();
-    } else {
-	lineEdits.clear();
-	checkBoxes.clear();
-	additionalWidgets.clear();
-    }
+    lineEdits.clear();
+    checkBoxes.clear();
+    additionalWidgets.clear();
 }
 
 void Element::addInput(Connection *i){
@@ -205,9 +201,8 @@ void Element::createForm()
 {
     QLabel* label=new QLabel(tr("<b>Inputs</b>"));
     additionalWidgets<<label;
-    layout->addRow(label);
-    label=new QLabel(tr("Count"));
     QSpinBox* widget=new QSpinBox;
+    layout->addRow(label,widget);
     widget->setMinimum(minInputs);
     if(maxInputs==-1)
 	widget->setMaximum(100);
@@ -215,13 +210,13 @@ void Element::createForm()
 	widget->setMaximum(maxInputs);
     widget->setValue(myInputs.count());
     connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateInputs(int)));
-    layout->addRow(label, widget);
     additionalWidgets<<label<<widget;
     foreach(Connection* c, myInputs)
     {
 	QLineEdit*l=new QLineEdit(c->myName);
 	QCheckBox*ch=new QCheckBox("");
 	ch->setChecked(c->isNegated());
+	ch->setToolTip(tr("Negated"));
 	layout->addRow(l,ch);
 	lineEdits.insert(c,l);
 	lineMapper.setMapping(l,l);
@@ -233,9 +228,8 @@ void Element::createForm()
     }
     label= new QLabel(tr("<b>Outputs</b>"));
     additionalWidgets<<label;
-    layout->addRow(label);
-    label=new QLabel(tr("Count"));
     widget=new QSpinBox;
+    layout->addRow(label,widget);
     widget->setMinimum(minOutputs);
     if(maxOutputs==-1)
 	widget->setMaximum(100);
@@ -243,12 +237,12 @@ void Element::createForm()
 	widget->setMaximum(maxOutputs);
     widget->setValue(myOutputs.count());
     connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateOutputs(int)));
-    layout->addRow(label, widget);
     additionalWidgets<<label<<widget;
     foreach(Connection* c, myOutputs)
     {
 	QLineEdit*l=new QLineEdit(c->myName);
 	QCheckBox*ch=new QCheckBox("");
+	ch->setToolTip(tr("Negated"));
 	layout->addRow(l,ch);
 	lineEdits.insert(c,l);
 	lineMapper.setMapping(l,l);
