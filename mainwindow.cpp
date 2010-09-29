@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     myScene=new Scene(this);
+    myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
 
     fileName=tr("unnamed ")+QString().setNum(++unnamedIndex);
@@ -142,4 +143,8 @@ void MainWindow::on_actionInsertButton_triggered()
 void MainWindow::on_spinDelay_valueChanged(int val)
 {
     Gatter::delayMS=val;
+}
+
+QFormLayout* MainWindow::getFormLayout(){
+    return ui->selectionOptions;
 }

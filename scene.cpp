@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "element.h"
+#include "mainwindow.h"
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -72,6 +73,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::addElement(Element *e){
     addItem(e);
+    e->setFormLayout(myMainWindow->getFormLayout());
     int maxID=0;
     foreach(int key, elements.keys()){
 	if(key>maxID){
@@ -84,6 +86,22 @@ void Scene::addElement(Element *e){
 
 void Scene::removeElement(Element *e){
     //Warning: this does not delete the removed Element!
-    removeItem(e);
+    QGraphicsScene::removeItem(e);
     elements.remove(e->uniqueId);
+}
+
+void Scene::removeItem(QGraphicsItem *item){
+    if(isElement(item)){
+	removeElement(static_cast<Element*>(item));
+    } else {
+	QGraphicsScene::removeItem(item);
+    }
+}
+
+bool Scene::isElement(QGraphicsItem *item){
+    return elements.contains(elements.key(static_cast<Element*>(item)));
+}
+
+void Scene::setMainWindow(MainWindow *m){
+    myMainWindow=m;
 }

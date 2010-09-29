@@ -5,6 +5,7 @@
 #include <QtGui>
 #include "defines.h"
 class Element;
+class MainWindow;
 
 class Scene : public QGraphicsScene
 {
@@ -14,6 +15,9 @@ public:
 	QRectF rectFromPoints(QPointF p1, QPointF p2);
 	void addElement(Element* e);
 	void removeElement(Element* e);
+	void removeItem(QGraphicsItem *item);
+	bool isElement(QGraphicsItem* item);
+	void setMainWindow(MainWindow* m);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -22,6 +26,7 @@ protected:
 	QPointF startPos;
 	QGraphicsRectItem* rect;
 	QMap<int, Element*> elements;
+	MainWindow* myMainWindow;
 signals:
 
 public slots:

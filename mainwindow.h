@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "defines.h"
+#include <QFormLayout>
 class Scene;
 namespace Ui {
     class MainWindow;
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QFormLayout* getFormLayout();
 	
 public slots:
 

@@ -20,6 +20,11 @@ Connection::Connection(QObject *parent) :
     setAcceptHoverEvents(true);
 }
 
+bool Connection::isConnected()
+{
+    return connectedTo==0;
+}
+
 void Connection::setValue(bool v)
 {
     myValue=v;
@@ -45,6 +50,7 @@ void Connection::setValue(bool v)
 void Connection::setNegated(bool n)
 {
     myNegated=n;
+    update();
 }
 
 bool Connection::isNegated()
@@ -66,6 +72,8 @@ QRectF Connection::boundingRect() const{
 
 void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->setBrush(QColor("white"));
     if(myValue&&!myNegated||!myValue&&myNegated){
 	painter->setPen(QColor("red"));
@@ -73,14 +81,16 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	painter->setPen(QColor("black"));
     }
 
-    
+    QRectF text;
     switch(myConnectionType){
     case Input:
 	if(isNegated()){
 	    painter->drawEllipse(QPointF(15,0),5,5);
 	    painter->drawLine(QPointF(0,0),QPointF(10,0));
+	    text.setRect(0,-5,10,10);
 	}else {
 	    painter->drawLine(QPointF(0,0),QPointF(20,0));
+	    text.setRect(0,-5,20,10);
 	}
 	if(poked){
 	    painter->setBrush(QColor("gray"));
@@ -92,8 +102,10 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	if(isNegated()){
 	    painter->drawEllipse(QPointF(5,0),5,5);
 	    painter->drawLine(QPointF(10,0),QPointF(20,0));
+	    text.setRect(10,-5,10,10);
 	}else {
 	    painter->drawLine(QPointF(0,0),QPointF(20,0));
+	    text.setRect(0,-5,20,10);
 	}
 	if(poked){
 	    painter->setBrush(QColor("gray"));
@@ -102,6 +114,11 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	}
 	break;
     }
+    painter->setPen("green");
+    QFont font;
+    font.setPixelSize(12);
+    painter->setFont(font);
+    painter->drawText(text,myName,QTextOption(Qt::AlignTop|Qt::AlignCenter));
 }
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -226,4 +243,13 @@ Connection::~Connection()
     if(connectedTo!=0){
 	    connectedTo->setOther(0);
     }
+}
+
+void Connection::setName(QString name){
+    myName=name;
+    update();
+}
+
+QString Connection::name(){
+    return myName;
 }

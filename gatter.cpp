@@ -5,10 +5,8 @@ Gatter::Gatter(QObject *parent) :
 {
     height=50;
     width=50;
-    myType=AND;
-    addInput(new Connection);
-    addInput(new Connection);
-    addOutput(new Connection);
+    setMinMaxInputsOutputs(2,-1,1,1);
+    setType(AND);
     setData(ElementName,"Gatter");
     beforeUndefined=true;
     beforeValue=false;
@@ -62,25 +60,26 @@ void Gatter::setType(Type t){
     switch(t){
     case AND:
 	setData(ElementName,"And");
+	setMinMaxInputsOutputs(2,-1,1,1);
 	break;
     case NOT:
-	removeInput(myInputs[0]);
+	setMinMaxInputsOutputs(1,1,1,1);
 	myOutputs[0]->setNegated(1);
 	setData(ElementName,"Not");
 	break;
     case OR:
+	setMinMaxInputsOutputs(2,-1,1,1);
 	setData(ElementName,"Or");
 	break;
     case XOR:
+	setMinMaxInputsOutputs(2,-1,1,1);
 	setData(ElementName,"XOr");
 	break;
     case DUPLICATOR:
-	setData(ElementName,"Multiplexer");
+	setData(ElementName,"Duplicator");
 	width=20;
-	removeInput(myInputs[0]);
-	for(int i=0;i<8;i++){
-	    addOutput(new Connection);
-	}
+	setMinMaxInputsOutputs(1,1,1,-1);
+	setOutputs(4);
 	break;
     }
     update(boundingRect());

@@ -18,12 +18,16 @@ public:
     bool value();
     void setValue(bool v);
     QRectF boundingRect() const;
+    bool isConnected();
+    void setName(QString name);
+    QString name();
 signals:
     void changed(bool);
 protected:
     bool myValue;
     bool myNegated;
     bool lastValue;
+    QString myName;
     
     
     //For making connections
