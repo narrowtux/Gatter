@@ -20,6 +20,7 @@ signals:
 private slots:
     void inputChanged();
 protected:
+    bool pressed;
     QList<Connection*> myInputs;
     QList<Connection*> myOutputs;
     void addInput(Connection* i);
@@ -28,6 +29,9 @@ protected:
     void removeOutput(Connection* o);
     qreal height, width;
     virtual void recalculate();
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 private:
     int uniqueId;
     void relayoutConnections();

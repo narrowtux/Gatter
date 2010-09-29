@@ -13,10 +13,12 @@ Connection::Connection(QObject *parent) :
     myConnectionType=Output;
     setData(ElementRecognition,QVariant("Connection"));
     setFlag(ItemSendsScenePositionChanges,true);
+    setFlag(ItemSendsGeometryChanges);
     connectedTo=0;
     lastI=0;
     line=0;
     poked=false;
+    setAcceptHoverEvents(true);
 }
 
 void Connection::setValue(bool v)
@@ -186,7 +188,7 @@ void Connection::setOther(Connection *other){
 }
 
 QVariant Connection::itemChange(GraphicsItemChange change, const QVariant &value){
-    if(change==ItemScenePositionHasChanged){
+    if(change==ItemScenePositionHasChanged||change==ItemPositionHasChanged){
 	updateLine();
     }
     return value;

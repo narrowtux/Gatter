@@ -7,6 +7,7 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
     setFlag(ItemIsMovable,true);
     setFlag(ItemSendsScenePositionChanges,true);
     setData(ElementName,"Element");
+    pressed=false;
 }
 
 void Element::addInput(Connection *i){
@@ -76,4 +77,29 @@ void Element::inputChanged(){
 
 void Element::recalculate(){
     //DUMMY-Method
+}
+
+void Element::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+    QGraphicsItem::mouseMoveEvent(event);
+    if(pressed){
+	foreach(Connection*c, QList<Connection*>()<<myInputs<<myOutputs){
+	    c->itemChange(ItemScenePositionHasChanged,QVariant(c->scenePos()));
+	}
+    }
+}
+
+void Element::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
+    if(event->button()==Qt::LeftButton){
+	pressed=true;
+    }
+}
+
+void Element::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    if(event->button()==Qt::LeftButton){
+	pressed=false;
+    }
 }

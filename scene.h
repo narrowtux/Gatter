@@ -25,7 +25,6 @@ protected:
 signals:
 
 public slots:
-
 };
 
 #endif // SCENE_H

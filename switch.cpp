@@ -13,6 +13,8 @@ Switch::Switch(QObject *parent) :
 
 void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     QRadialGradient gradient;
     gradient.setRadius(boundingRect().height());
     gradient.setColorAt(1,QColor(30,30,30));

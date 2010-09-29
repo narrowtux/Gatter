@@ -34,6 +34,9 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     case XOR:
 	text="=1";
 	break;
+    case MULTIPLEXER:
+	text="";
+	break;
     }
     QTextOption o;
     o.setAlignment(Qt::AlignCenter);
