@@ -31,6 +31,8 @@ private:
     void updateActions();
     void closeEvent(QCloseEvent *);
 private slots:
+    void on_spinDelay_valueChanged(int );
+    void on_actionInsertButton_triggered();
     void on_actionDelete_triggered();
     void on_actionInsertLamp_triggered();
     void on_actionInsertSwitch_triggered();

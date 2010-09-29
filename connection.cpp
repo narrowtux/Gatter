@@ -12,8 +12,7 @@ Connection::Connection(QObject *parent) :
     myNegated=false;
     myConnectionType=Output;
     setData(ElementRecognition,QVariant("Connection"));
-    setFlag(ItemSendsScenePositionChanges,true);
-    setFlag(ItemSendsGeometryChanges);
+    setFlags(ItemSendsScenePositionChanges);
     connectedTo=0;
     lastI=0;
     line=0;
@@ -31,7 +30,7 @@ void Connection::setValue(bool v)
 	}
 	emit(changed(endValue));
 	if(connectedTo!=0&&myConnectionType==Output){
-	    qDebug()<<"Connection Value Changed.";
+	    qDebug()<<"Connection Value Changed to"<<endValue;
 	    if(endValue){
 		connectedTo->setValue(High);
 	    } else {
@@ -68,13 +67,10 @@ QRectF Connection::boundingRect() const{
 void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QColor("white"));
-    switch(myValue){
-    case High:
+    if(myValue&&!myNegated||!myValue&&myNegated){
 	painter->setPen(QColor("red"));
-	break;
-    case Low:
+    } else {
 	painter->setPen(QColor("black"));
-	break;
     }
 
     

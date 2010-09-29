@@ -43,13 +43,13 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 void Switch::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mousePressEvent(event);
+    Element::mousePressEvent(event);
     mouseDownPos=event->scenePos();
 }
 
 void Switch::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseReleaseEvent(event);
+    Element::mouseReleaseEvent(event);
     if(event->scenePos()==mouseDownPos){
 	value=!value;
 	foreach(Connection* c, myOutputs){

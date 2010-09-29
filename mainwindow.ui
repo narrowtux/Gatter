@@ -93,6 +93,7 @@
       <string>Inputs</string>
      </property>
      <addaction name="actionInsertSwitch"/>
+     <addaction name="actionInsertButton"/>
     </widget>
     <widget class="QMenu" name="menuOutputs">
      <property name="title">
@@ -146,7 +147,24 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents"/>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QFormLayout" name="formLayout">
+     <item row="2" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Delay</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="spinDelay">
+       <property name="maximum">
+        <number>2000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dockUTDiagram">
    <property name="windowTitle">
@@ -305,10 +323,13 @@
   </action>
   <action name="actionMultiplexer">
    <property name="text">
-    <string>Multiplexer</string>
+    <string>Duplicator</string>
+   </property>
+   <property name="toolTip">
+    <string>Duplicator</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+M</string>
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
   <action name="actionInsertSwitch">
@@ -319,6 +340,11 @@
   <action name="actionInsertLamp">
    <property name="text">
     <string>Lamp</string>
+   </property>
+  </action>
+  <action name="actionInsertButton">
+   <property name="text">
+    <string>Button</string>
    </property>
   </action>
  </widget>

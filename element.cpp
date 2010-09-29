@@ -5,9 +5,12 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
 {
     setFlag(ItemIsSelectable,true);
     setFlag(ItemIsMovable,true);
-    setFlag(ItemSendsScenePositionChanges,true);
     setData(ElementName,"Element");
+    
+    setFlag(ItemSendsGeometryChanges,true);
+    setFlag(ItemSendsScenePositionChanges,true);
     pressed=false;
+    qDebug()<<(QGraphicsItem*)this<<"flags:"<<flags();
 }
 
 void Element::addInput(Connection *i){
@@ -81,25 +84,14 @@ void Element::recalculate(){
 
 void Element::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsItem::mouseMoveEvent(event);
-    if(pressed){
-	foreach(Connection*c, QList<Connection*>()<<myInputs<<myOutputs){
-	    c->itemChange(ItemScenePositionHasChanged,QVariant(c->scenePos()));
-	}
-    }
 }
 
 void Element::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
-    if(event->button()==Qt::LeftButton){
-	pressed=true;
-    }
 }
 
 void Element::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
-    if(event->button()==Qt::LeftButton){
-	pressed=false;
-    }
 }

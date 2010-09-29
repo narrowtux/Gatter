@@ -12,7 +12,12 @@ Gatter::Gatter(QObject *parent) :
     setData(ElementName,"Gatter");
     beforeUndefined=true;
     beforeValue=false;
+    delay=new QTimer;
+    connect(delay,SIGNAL(timeout()),this,SLOT(sendChanges()));
+    delay->setSingleShot(true);
 }
+
+int Gatter::delayMS=0;
 
 void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
@@ -34,7 +39,7 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     case XOR:
 	text="=1";
 	break;
-    case MULTIPLEXER:
+    case DUPLICATOR:
 	text="";
 	break;
     }
@@ -69,7 +74,7 @@ void Gatter::setType(Type t){
     case XOR:
 	setData(ElementName,"XOr");
 	break;
-    case MULTIPLEXER:
+    case DUPLICATOR:
 	setData(ElementName,"Multiplexer");
 	width=20;
 	removeInput(myInputs[0]);
@@ -125,16 +130,19 @@ void Gatter::recalculate(){
 	    }
 	}
 	break;
-    case MULTIPLEXER:
+    case DUPLICATOR:
 	val=myInputs[0]->value();
 	break;
     }
     if(beforeUndefined||beforeValue!=val){
-	foreach(Connection*c, myOutputs){
-	    if(val)c->setValue(High);
-	    else c->setValue(Low);
-	}
 	beforeUndefined=false;
 	beforeValue=val;
+	delay->start(delayMS);
+    }
+}
+
+void Gatter::sendChanges(){
+    foreach(Connection*c, myOutputs){
+	c->setValue(beforeValue);
     }
 }

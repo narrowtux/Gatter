@@ -4,6 +4,7 @@
 #include "gatter.h"
 #include "switch.h"
 #include "lamp.h"
+#include "button.h"
 
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach(MainWindow* m, mainWindows){
 	m->updateActions();
     }
+    ui->spinDelay->setValue(Gatter::delayMS);
 }
 
 MainWindow::~MainWindow()
@@ -110,7 +112,7 @@ void MainWindow::on_actionInsertNOT_triggered()
 void MainWindow::on_actionMultiplexer_triggered()
 {
     Gatter*g=new Gatter(this);
-    g->setType(Gatter::MULTIPLEXER);
+    g->setType(Gatter::DUPLICATOR);
     myScene->addElement(g);
 }
 
@@ -130,4 +132,14 @@ void MainWindow::on_actionDelete_triggered()
 	myScene->removeItem(i);
 	delete i;
     }
+}
+
+void MainWindow::on_actionInsertButton_triggered()
+{
+    myScene->addElement(new Button);
+}
+
+void MainWindow::on_spinDelay_valueChanged(int val)
+{
+    Gatter::delayMS=val;
 }
