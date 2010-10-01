@@ -15,13 +15,15 @@ public:
     Type type();
     void recalculate();
     static int delayMS;
+    void setPrivateXml(QCoreXmlStreamWriter *xml);
+    void readPrivateXml(QCoreXmlStreamReader *xml);
 signals:
 
 public slots:
     void sendChanges();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    Type myType;
+    Type myGatterType;
     bool beforeValue;
     bool beforeUndefined;
     QTimer* delay;

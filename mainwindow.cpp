@@ -6,7 +6,7 @@
 #include "lamp.h"
 #include "button.h"
 #include "clock.h"
-
+#include <qxmlstream.h>
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m->updateActions();
     }
     ui->spinDelay->setValue(Gatter::delayMS);
-    myScene->setSceneRect(ui->graphicsView->rect());
+    //myScene->setSceneRect(ui->graphicsView->rect());
 }
 
 MainWindow::~MainWindow()
@@ -160,7 +160,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::updateSceneRect()
 {
     if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
-	myScene->setSceneRect(ui->graphicsView->rect());
+	//myScene->setSceneRect(ui->graphicsView->rect());
     }
 }
 
@@ -172,4 +172,22 @@ void MainWindow::on_zoomSlider_valueChanged(int value)
 void MainWindow::on_actionInsertClock_triggered()
 {
     myScene->addElement(new Clock);
+}
+
+void MainWindow::saveFileTo(QString fileName){
+    myScene->save(fileName);
+}
+
+void MainWindow::loadFileFrom(QString fileName){
+    myScene->load(fileName);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    saveFileTo("/Users/tux/test.xml");
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    loadFileFrom("/Users/tux/test.xml");
 }

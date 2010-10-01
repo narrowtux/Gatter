@@ -14,6 +14,7 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
     maxInputs=-1;
     minOutputs=1;
     maxOutputs=1;
+    myType="generic";
 }
 
 Element::~Element()
@@ -27,6 +28,7 @@ void Element::addInput(Connection *i){
     if(i==0){
 	i=new Connection;
     }
+    i->setElement(this);
     connect(i,SIGNAL(recalculate()),this,SLOT(recalculate()));
     i->setParentItem(this);
     myInputs<<i;
@@ -39,6 +41,7 @@ void Element::addOutput(Connection *o){
     if(o==0){
 	o=new Connection;
     }
+    o->setElement(this);
     connect(o,SIGNAL(recalculate()),this,SLOT(recalculate()));
     o->setParentItem(this);
     myOutputs<<o;
@@ -318,4 +321,12 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 	}
     }
     return value;
+}
+
+void Element::setPrivateXml(QXmlStreamWriter *xml){
+    Q_UNUSED(xml)
+}
+
+void Element::readPrivateXml(QCoreXmlStreamReader *xml){
+    Q_UNUSED(xml)
 }

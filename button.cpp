@@ -4,6 +4,7 @@ Button::Button(QObject *parent) :
     Switch(parent)
 {
     setData(ElementName,"Button");
+    myType="button";
 }
 
 void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

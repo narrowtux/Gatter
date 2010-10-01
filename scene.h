@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include "defines.h"
+#include <qxmlstream.h>
 class Element;
 class MainWindow;
 
@@ -13,12 +14,15 @@ class Scene : public QGraphicsScene
 public:
     explicit Scene(QObject *parent = 0);
 	QRectF rectFromPoints(QPointF p1, QPointF p2);
-	void addElement(Element* e);
+	void addElement(Element* e, int uniqueId=-1);
 	void removeElement(Element* e);
 	void removeItem(QGraphicsItem *item);
 	bool isElement(QGraphicsItem* item);
 	void setMainWindow(MainWindow* m);
 	void setScale(qreal scale);
+	void save(QString fileName);
+	void load(QString fileName);
+	Element* getElementFromTypeName(QString typeName);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

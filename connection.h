@@ -21,6 +21,9 @@ public:
     bool isConnected();
     void setName(QString name);
     QString name();
+    Element* element();
+    void setElement(Element* e);
+    Connection* connectedTo();
 signals:
     void changed(bool);
     void recalculate();
@@ -30,7 +33,7 @@ protected:
     bool lastValue;
     QString myName;
     QGraphicsTextItem* label;
-    
+    Element* myElement;
     //For making connections
     void setOther(Connection* other);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -42,7 +45,7 @@ protected:
     ConnectionType myConnectionType;
     QGraphicsLineItem* line;
     QPointF startPos;
-    Connection* connectedTo;
+    Connection* myConnectedTo;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void poke(bool in);
     Connection* lastI;

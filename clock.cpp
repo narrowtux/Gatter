@@ -15,6 +15,7 @@ Clock::Clock(QObject *parent) :
     connect(low,SIGNAL(timeout()),this,SLOT(setLow()));
     connect(high,SIGNAL(timeout()),this,SLOT(setHigh()));
     high->start();
+    myType="clock";
 }
 
 void Clock::setLow(){
@@ -77,4 +78,10 @@ void Clock::setLowTime(int value){
 
 void Clock::setHighTime(int value){
     high->setInterval(value);
+}
+
+void Clock::setPrivateXml(QCoreXmlStreamWriter *xml)
+{
+    xml->writeAttribute("lowTime",QString().setNum(low->interval()));
+    xml->writeAttribute("highTime",QString().setNum(high->interval()));
 }

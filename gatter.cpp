@@ -13,6 +13,7 @@ Gatter::Gatter(QObject *parent) :
     delay=new QTimer;
     connect(delay,SIGNAL(timeout()),this,SLOT(sendChanges()));
     delay->setSingleShot(true);
+    myType="gatter";
 }
 
 int Gatter::delayMS=0;
@@ -24,12 +25,12 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->setBrush(QColor("white"));
     painter->drawRect(boundingRect().adjusted(2,2,-2,-2));
     QString text;
-    switch(myType){
+    switch(myGatterType){
     case AND:
 	text="&";
 	break;
     case OR:
-	text=">0";
+	text=QString::fromUtf8("≥1");
 	break;
     case NOT:
 	text="1";
@@ -56,7 +57,7 @@ QSize Gatter::sizeHint() const{
 }
 
 void Gatter::setType(Type t){
-    myType=t;
+    myGatterType=t;
     switch(t){
     case AND:
 	setData(ElementName,"And");
@@ -86,7 +87,7 @@ void Gatter::setType(Type t){
 }
 
 Gatter::Type Gatter::type(){
-    return myType;
+    return myGatterType;
 }
 
 QRectF Gatter::boundingRect() const{
@@ -95,7 +96,7 @@ QRectF Gatter::boundingRect() const{
 
 void Gatter::recalculate(){
     bool val;
-    switch(myType){
+    switch(myGatterType){
     case AND:
 	val=1;
 	foreach(Connection*c, myInputs){
@@ -143,4 +144,15 @@ void Gatter::sendChanges(){
     foreach(Connection*c, myOutputs){
 	c->setValue(beforeValue);
     }
+}
+
+void Gatter::setPrivateXml(QCoreXmlStreamWriter *xml)
+{
+    xml->writeAttribute("gatterType",QString().setNum(myGatterType));
+}
+
+void Gatter::readPrivateXml(QCoreXmlStreamReader *xml)
+{
+    QXmlStreamAttributes attr=xml->attributes();
+    setType(static_cast<Type>(attr.value("gatterType").toString().toInt()));
 }

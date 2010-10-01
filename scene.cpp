@@ -1,6 +1,11 @@
 #include "scene.h"
 #include "element.h"
 #include "mainwindow.h"
+#include "button.h"
+#include "clock.h"
+#include "gatter.h"
+#include "lamp.h"
+#include "switch.h"
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -53,7 +58,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 		selection.addRect(rect->rect());
 		setSelectionArea(selection);
 		foreach(QGraphicsView* view, views()){
-			view->ensureVisible(event->scenePos().x(),event->scenePos().y(),5,5);
+			view->ensureVisible(event->scenePos().x(),event->scenePos().y(),0,0);
 		}
 	}
 }
@@ -72,18 +77,23 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 	}
 }
 
-void Scene::addElement(Element *e){
+void Scene::addElement(Element *e,int uniqueId){
     addItem(e);
     e->setPos(sceneRect().center());
     e->setFormLayout(myMainWindow->getFormLayout());
-    int maxID=0;
-    foreach(int key, elements.keys()){
-	if(key>maxID){
-	    maxID=key;
+    if(uniqueId==-1){
+	int maxID=0;
+	foreach(int key, elements.keys()){
+	    if(key>maxID){
+		maxID=key;
+	    }
 	}
+	elements.insert(maxID+1,e);
+	e->uniqueId=maxID+1;
+    } else {
+	elements.insert(uniqueId,e);
+	e->uniqueId=uniqueId;
     }
-    elements.insert(maxID+1,e);
-    e->uniqueId=maxID+1;
 }
 
 void Scene::removeElement(Element *e){
@@ -113,4 +123,156 @@ void Scene::setScale(qreal scale){
     foreach(Element* e, elements){
 	e->setScale(scale);
     }
+}
+
+void Scene::load(QString fileName)
+{
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QXmlStreamReader xml;
+    xml.setDevice(&file);
+    bool readingElements=false;
+    bool readingConnections=false;
+    while(!xml.atEnd()){
+	xml.readNext();
+	if(xml.name()=="elements"){
+	    readingElements=true;
+	}
+	if(xml.name()=="connections"){
+	    readingConnections=true;
+	}
+	if(xml.name()=="element"){
+	    QXmlStreamAttributes attr=xml.attributes();
+	    QString elementType=attr.value("type").toString();
+	    Element* element=getElementFromTypeName(elementType);
+	    if(element!=0){
+		addElement(element,attr.value("id").toString().toInt());
+		element->setX(attr.value("x").toString().toDouble());
+		element->setY(attr.value("y").toString().toDouble());
+		while(!(xml.name()=="inputs"&&xml.isEndElement()))
+		{
+		    xml.readNext();
+		    if(xml.name()=="private"){
+			element->readPrivateXml(&xml);
+		    }
+		    if(xml.name()=="connection"){
+			attr=xml.attributes();
+			int id=attr.value("id").toString().toInt();
+			bool negated=(attr.value("negated").toString()=="true"?1:0);
+			QString label=attr.value("name").toString();
+			Connection*c;
+			if(element->myInputs.count()>=id-1){
+			    c=element->myInputs.value(id);
+			}else{
+			    element->addInput(1);
+			    c=element->myInputs.last();
+			}
+			c->setNegated(negated);
+			c->setName(label);
+		    }
+		}
+	    }
+	}
+    }
+    file.close();
+}
+
+void Scene::save(QString fileName)
+{
+    QXmlStreamWriter xml;
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate);
+    xml.setDevice(&file);
+    xml.setAutoFormatting(true);
+    xml.writeStartDocument();
+    xml.writeStartElement("scene");
+    /*Elements*/{
+	xml.writeStartElement("elements");
+	foreach(Element* e,elements){
+	    xml.writeStartElement("element");
+	    QCoreXmlStreamAttributes elementAttributes;
+	    elementAttributes.append("x",QString().setNum(e->scenePos().x()));
+	    elementAttributes.append("y",QString().setNum(e->scenePos().y()));
+	    elementAttributes.append("id",QString().setNum(e->uniqueId));
+	    elementAttributes.append("type",e->myType);
+	    xml.writeAttributes(elementAttributes);
+	    xml.writeStartElement("private");
+	    e->setPrivateXml(&xml);
+	    xml.writeEndElement();
+	    xml.writeStartElement("inputs");
+	    
+	    int count=0;
+	    foreach(Connection*c,e->myInputs)
+	    {
+		xml.writeStartElement("connection");
+		QCoreXmlStreamAttributes connectionAttributes;
+		connectionAttributes.append("id",QString().setNum(count));
+		connectionAttributes.append("name",c->name());
+		connectionAttributes.append("negated",c->isNegated()?"true":"false");
+		xml.writeAttributes(connectionAttributes);
+		xml.writeEndElement();
+		count++;
+	    }
+
+	    xml.writeEndElement();
+	    xml.writeStartElement("outputs");
+	    
+	    count=0;
+	    foreach(Connection*c,e->myOutputs)
+	    {
+		xml.writeStartElement("connection");
+		QCoreXmlStreamAttributes connectionAttributes;
+		connectionAttributes.append("id",QString().setNum(count));
+		connectionAttributes.append("name",c->name());
+		connectionAttributes.append("negated",c->isNegated()?"true":"false");
+		xml.writeAttributes(connectionAttributes);
+		xml.writeEndElement();
+		count++;
+	    }
+	    
+	    xml.writeEndElement();
+	    xml.writeEndElement();
+	}
+	xml.writeEndElement();
+    }
+    /*Connections*/{
+	xml.writeStartElement("connections");
+	foreach(Element*e,elements){
+	    foreach(Connection*c,e->myInputs)
+	    {
+		if(c->isConnected())
+		{
+		    xml.writeStartElement("connect");
+		    QCoreXmlStreamAttributes connectionAttributes;
+		    connectionAttributes.append("inElement",QString().setNum(c->element()->uniqueId));
+		    connectionAttributes.append("outElement",QString().setNum(c->connectedTo()->element()->uniqueId));
+		    int id;
+		    id=e->myInputs.indexOf(c);
+		    connectionAttributes.append("input",QString().setNum(id));
+		    id=c->connectedTo()->element()->myOutputs.indexOf(c->connectedTo());
+		    connectionAttributes.append("output",QString().setNum(id));
+		    xml.writeAttributes(connectionAttributes);
+		    xml.writeEndElement();
+		}
+	    }
+	}
+	xml.writeEndElement();
+    }
+    xml.writeEndElement();
+    xml.writeEndDocument();
+    file.close();
+}
+
+Element* Scene::getElementFromTypeName(QString typeName){
+    if(typeName=="gatter")
+	return new Gatter;
+    if(typeName=="button")
+	return new Button;
+    if(typeName=="clock")
+	return new Clock;
+    if(typeName=="lamp")
+	return new Lamp;
+    if(typeName=="switch")
+	return new Switch;
+    return 0;
 }

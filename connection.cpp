@@ -13,7 +13,7 @@ Connection::Connection(QObject *parent) :
     myConnectionType=Output;
     setData(ElementRecognition,QVariant("Connection"));
     setFlags(ItemSendsScenePositionChanges);
-    connectedTo=0;
+    myConnectedTo=0;
     lastI=0;
     line=0;
     poked=false;
@@ -23,7 +23,7 @@ Connection::Connection(QObject *parent) :
 
 bool Connection::isConnected()
 {
-    return connectedTo!=0;
+    return myConnectedTo!=0;
 }
 
 void Connection::setValue(bool v)
@@ -35,13 +35,13 @@ void Connection::setValue(bool v)
 	    endValue=!endValue;
 	}
 	emit(changed(endValue));
-	if(connectedTo!=0&&myConnectionType==Output){
+	if(myConnectedTo!=0&&myConnectionType==Output){
 	    qDebug()<<"Connection Value Changed to"<<endValue;
 	    if(endValue){
-		connectedTo->setValue(High);
+		myConnectedTo->setValue(High);
 		line->setPen(QColor("red"));
 	    } else {
-		connectedTo->setValue(Low);
+		myConnectedTo->setValue(Low);
 		line->setPen(QColor("black"));
 	    }
 	}
@@ -130,12 +130,12 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(event->button()==Qt::LeftButton){
-	if(connectedTo!=0){
-	    connectedTo->connectedTo=0;
-	    connectedTo->line=0;
-	    connectedTo->update();
+	if(myConnectedTo!=0){
+	    myConnectedTo->myConnectedTo=0;
+	    myConnectedTo->line=0;
+	    myConnectedTo->update();
 	    delete line;
-	    connectedTo=0;
+	    myConnectedTo=0;
 	    update();
 	}
 	line=scene()->addLine(QLineF(event->scenePos(),event->scenePos()));
@@ -188,21 +188,21 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Connection::setOther(Connection *other){
-    if(connectedTo!=0){
-	connectedTo->line=0;
-	connectedTo->connectedTo=0;
-	connectedTo->update();
+    if(myConnectedTo!=0){
+	myConnectedTo->line=0;
+	myConnectedTo->myConnectedTo=0;
+	myConnectedTo->update();
 	delete line;
 	line=0;
     }
-    connectedTo=other;
+    myConnectedTo=other;
     if(other!=0){
 	line=other->line;
-	connectedTo->connectedTo=this;
+	myConnectedTo->myConnectedTo=this;
 	if(myConnectionType==Input)
-	    setValue(connectedTo->value());
+	    setValue(myConnectedTo->value());
 	else
-	    connectedTo->setValue(myValue);
+	    myConnectedTo->setValue(myValue);
     }
     update();
 }
@@ -228,16 +228,16 @@ void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
 }
 
 void Connection::updateLine(){
-    if(connectedTo!=0){
+    if(myConnectedTo!=0){
 	QPointF p1,p2;
 	switch(myConnectionType){
 	case Input:
 	    p1=scenePos();
-	    p2=connectedTo->scenePos()+QPointF(20,0);
+	    p2=myConnectedTo->scenePos()+QPointF(20,0);
 	    break;
 	case Output:
 	    p1=scenePos()+QPointF(20,0);
-	    p2=connectedTo->scenePos();
+	    p2=myConnectedTo->scenePos();
 	    break;
 	}
 
@@ -247,8 +247,8 @@ void Connection::updateLine(){
 
 Connection::~Connection()
 {
-    if(connectedTo!=0){
-	    connectedTo->setOther(0);
+    if(myConnectedTo!=0){
+	    myConnectedTo->setOther(0);
     }
 }
 
@@ -266,4 +266,16 @@ void Connection::setName(QString name){
 
 QString Connection::name(){
     return myName;
+}
+
+void Connection::setElement(Element *e){
+    myElement=e;
+}
+
+Element* Connection::element(){
+    return myElement;
+}
+
+Connection* Connection::connectedTo(){
+    return myConnectedTo;
 }

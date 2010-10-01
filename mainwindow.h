@@ -33,7 +33,11 @@ private:
     void updateActions();
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *);
+    void saveFileTo(QString fileName);
+    void loadFileFrom(QString fileName);
 private slots:
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
     void on_actionInsertClock_triggered();
     void on_zoomSlider_valueChanged(int value);
     void on_spinDelay_valueChanged(int );

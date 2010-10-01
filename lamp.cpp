@@ -9,6 +9,7 @@ Lamp::Lamp(QObject *parent) :
     addInput(new Connection);
     setData(ElementName,"Lamp");
     setMinMaxInputsOutputs(1,1,0,0);
+    myType="lamp";
 }
 
 QRectF Lamp::boundingRect() const {

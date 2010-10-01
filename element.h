@@ -10,6 +10,7 @@
 #include <QCheckBox>
 #include <QLabel>
 #include <QSignalMapper>
+#include <qxmlstream.h>
 
 class Element : public QObject, public QGraphicsItem
 {
@@ -24,6 +25,8 @@ public:
     void setInputs(int c);
     void setOutputs(int c);
     void setFormLayout(QFormLayout* layout);
+    virtual void setPrivateXml(QXmlStreamWriter* xml);
+    virtual void readPrivateXml(QXmlStreamReader *xml);
 signals:
 protected slots:
     virtual void recalculate();
@@ -59,6 +62,7 @@ protected:
     QMap<Connection*,QCheckBox*> checkBoxes;
     QSignalMapper lineMapper, checkMapper;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QString myType;
 private:
     int uniqueId;
     void relayoutConnections();
