@@ -5,6 +5,7 @@ Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
 	rect=0;
+	pressed=false;
 }
 
 QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
@@ -106,4 +107,10 @@ bool Scene::isElement(QGraphicsItem *item){
 
 void Scene::setMainWindow(MainWindow *m){
     myMainWindow=m;
+}
+
+void Scene::setScale(qreal scale){
+    foreach(Element* e, elements){
+	e->setScale(scale);
+    }
 }

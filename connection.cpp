@@ -18,6 +18,7 @@ Connection::Connection(QObject *parent) :
     line=0;
     poked=false;
     setAcceptHoverEvents(true);
+    label=new QGraphicsTextItem(this);
 }
 
 bool Connection::isConnected()
@@ -38,8 +39,10 @@ void Connection::setValue(bool v)
 	    qDebug()<<"Connection Value Changed to"<<endValue;
 	    if(endValue){
 		connectedTo->setValue(High);
+		line->setPen(QColor("red"));
 	    } else {
 		connectedTo->setValue(Low);
+		line->setPen(QColor("black"));
 	    }
 	}
     }
@@ -49,7 +52,12 @@ void Connection::setValue(bool v)
 
 void Connection::setNegated(bool n)
 {
+    bool last=myNegated;
     myNegated=n;
+    emit(recalculate());
+    if(last!=myNegated){
+	//setValue(!myValue);
+    }
     update();
 }
 
@@ -67,7 +75,7 @@ bool Connection::value()
 }
 
 QRectF Connection::boundingRect() const{
-    return QRectF(0,-5,20,10);
+    return QRectF(0,-10,20,20);
 }
 
 void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -77,8 +85,14 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setBrush(QColor("white"));
     if(myValue&&!myNegated||!myValue&&myNegated){
 	painter->setPen(QColor("red"));
+//	if(line!=0){
+//	    line->setPen(QColor("red"));
+//	}
     } else {
 	painter->setPen(QColor("black"));
+//	if(line!=0){
+//	    line->setPen(QColor("black"));
+//	}
     }
 
     QRectF text;
@@ -87,38 +101,31 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	if(isNegated()){
 	    painter->drawEllipse(QPointF(15,0),5,5);
 	    painter->drawLine(QPointF(0,0),QPointF(10,0));
-	    text.setRect(0,-5,10,10);
 	}else {
 	    painter->drawLine(QPointF(0,0),QPointF(20,0));
-	    text.setRect(0,-5,20,10);
 	}
 	if(poked){
 	    painter->setBrush(QColor("gray"));
 	    painter->setPen(Qt::NoPen);
 	    painter->drawEllipse(QPointF(3,0),3,3);
 	}
+	label->setPos(20,-10);
 	break;
     case Output:
 	if(isNegated()){
 	    painter->drawEllipse(QPointF(5,0),5,5);
 	    painter->drawLine(QPointF(10,0),QPointF(20,0));
-	    text.setRect(10,-5,10,10);
 	}else {
 	    painter->drawLine(QPointF(0,0),QPointF(20,0));
-	    text.setRect(0,-5,20,10);
 	}
 	if(poked){
 	    painter->setBrush(QColor("gray"));
 	    painter->setPen(Qt::NoPen);
 	    painter->drawEllipse(QPointF(17,0),3,3);
 	}
+	label->setPos(-10,-10);
 	break;
     }
-    painter->setPen("green");
-    QFont font;
-    font.setPixelSize(12);
-    painter->setFont(font);
-    painter->drawText(text,myName,QTextOption(Qt::AlignTop|Qt::AlignCenter));
 }
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -247,7 +254,14 @@ Connection::~Connection()
 
 void Connection::setName(QString name){
     myName=name;
-    update();
+    QFont f;
+    if(name.contains('*')){
+	f.setOverline(true);
+	name.replace('*',"");
+    }
+    label->setFont(f);
+    label->setPlainText(name);
+
 }
 
 QString Connection::name(){

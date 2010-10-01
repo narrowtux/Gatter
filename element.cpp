@@ -27,6 +27,7 @@ void Element::addInput(Connection *i){
     if(i==0){
 	i=new Connection;
     }
+    connect(i,SIGNAL(recalculate()),this,SLOT(recalculate()));
     i->setParentItem(this);
     myInputs<<i;
     i->myConnectionType=Input;
@@ -38,6 +39,7 @@ void Element::addOutput(Connection *o){
     if(o==0){
 	o=new Connection;
     }
+    connect(o,SIGNAL(recalculate()),this,SLOT(recalculate()));
     o->setParentItem(this);
     myOutputs<<o;
     o->myConnectionType=Output;
@@ -124,8 +126,8 @@ void Element::setOutputs(int c){
 
 void Element::relayoutConnections(){
     //Precalculate Optimal Height
-    if(myInputs.count()*10>height||myOutputs.count()*10>height){
-	height=qMax(myInputs.count()*10,myOutputs.count()*10);
+    if(myInputs.count()*20>height||myOutputs.count()*20>height){
+	height=qMax(myInputs.count()*10,myOutputs.count()*20);
     }
 
     //Inputs

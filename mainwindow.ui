@@ -94,6 +94,7 @@
      </property>
      <addaction name="actionInsertSwitch"/>
      <addaction name="actionInsertButton"/>
+     <addaction name="actionInsertClock"/>
     </widget>
     <widget class="QMenu" name="menuOutputs">
      <property name="title">
@@ -221,6 +222,31 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QSlider" name="zoomSlider">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimum">
+              <number>25</number>
+             </property>
+             <property name="maximum">
+              <number>400</number>
+             </property>
+             <property name="value">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::TicksBelow</enum>
+             </property>
+             <property name="tickInterval">
+              <number>25</number>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -248,7 +274,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>149</height>
+             <height>113</height>
             </size>
            </property>
           </spacer>
@@ -439,6 +465,11 @@
   <action name="actionInsertButton">
    <property name="text">
     <string>Button</string>
+   </property>
+  </action>
+  <action name="actionInsertClock">
+   <property name="text">
+    <string>Clock</string>
    </property>
   </action>
  </widget>

@@ -34,6 +34,8 @@ private:
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *);
 private slots:
+    void on_actionInsertClock_triggered();
+    void on_zoomSlider_valueChanged(int value);
     void on_spinDelay_valueChanged(int );
     void on_actionInsertButton_triggered();
     void on_actionDelete_triggered();

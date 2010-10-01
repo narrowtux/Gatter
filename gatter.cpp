@@ -22,7 +22,7 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     Q_UNUSED(widget)
     painter->setPen("black");
     painter->setBrush(QColor("white"));
-    painter->drawRect(boundingRect().adjusted(2,2,-3,-3));
+    painter->drawRect(boundingRect().adjusted(2,2,-2,-2));
     QString text;
     switch(myType){
     case AND:
@@ -77,7 +77,7 @@ void Gatter::setType(Type t){
 	break;
     case DUPLICATOR:
 	setData(ElementName,"Duplicator");
-	width=20;
+	width=30;
 	setMinMaxInputsOutputs(1,1,1,-1);
 	setOutputs(4);
 	break;

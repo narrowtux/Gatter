@@ -5,6 +5,7 @@
 #include "switch.h"
 #include "lamp.h"
 #include "button.h"
+#include "clock.h"
 
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
@@ -161,4 +162,14 @@ void MainWindow::updateSceneRect()
     if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
 	myScene->setSceneRect(ui->graphicsView->rect());
     }
+}
+
+void MainWindow::on_zoomSlider_valueChanged(int value)
+{
+   myScene->setScale(value/100.0);
+}
+
+void MainWindow::on_actionInsertClock_triggered()
+{
+    myScene->addElement(new Clock);
 }

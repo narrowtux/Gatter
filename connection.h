@@ -23,12 +23,13 @@ public:
     QString name();
 signals:
     void changed(bool);
+    void recalculate();
 protected:
     bool myValue;
     bool myNegated;
     bool lastValue;
     QString myName;
-    
+    QGraphicsTextItem* label;
     
     //For making connections
     void setOther(Connection* other);

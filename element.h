@@ -25,7 +25,8 @@ public:
     void setOutputs(int c);
     void setFormLayout(QFormLayout* layout);
 signals:
-
+protected slots:
+    virtual void recalculate();
 private slots:
     void inputChanged();
     void updateName(QWidget* lineEdit);
@@ -50,7 +51,6 @@ protected:
     void removeOutput(int c);
     void setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOut);
     qreal height, width;
-    virtual void recalculate();
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

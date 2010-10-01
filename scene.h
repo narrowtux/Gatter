@@ -18,6 +18,7 @@ public:
 	void removeItem(QGraphicsItem *item);
 	bool isElement(QGraphicsItem* item);
 	void setMainWindow(MainWindow* m);
+	void setScale(qreal scale);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

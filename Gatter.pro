@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     connection.cpp \
     switch.cpp \
     lamp.cpp \
-    button.cpp
+    button.cpp \
+    clock.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h \
     defines.h \
     switch.h \
     lamp.h \
-    button.h
+    button.h \
+    clock.h
 
 FORMS    += mainwindow.ui
 TRANSLATIONS += gatter_de_DE.ts
