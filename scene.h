@@ -23,6 +23,7 @@ public:
 	void save(QString fileName);
 	void load(QString fileName);
 	Element* getElementFromTypeName(QString typeName);
+	void connectItems(int inElement, int outElement, int input, int output);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m->updateActions();
     }
     ui->spinDelay->setValue(Gatter::delayMS);
+    on_actionOpen_triggered();
     //myScene->setSceneRect(ui->graphicsView->rect());
 }
 

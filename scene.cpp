@@ -131,15 +131,23 @@ void Scene::load(QString fileName)
     file.open(QIODevice::ReadOnly);
     QXmlStreamReader xml;
     xml.setDevice(&file);
-    bool readingElements=false;
-    bool readingConnections=false;
     while(!xml.atEnd()){
 	xml.readNext();
-	if(xml.name()=="elements"){
-	    readingElements=true;
-	}
+	qDebug()<<xml.name()<<xml.isStartElement();
 	if(xml.name()=="connections"){
-	    readingConnections=true;
+	    while(!(xml.name()=="connections"&&xml.isEndElement())){
+		xml.readNext();
+		qDebug()<<xml.name()<<xml.isStartElement();
+		if(xml.name()=="connect"&&xml.isStartElement()){
+		    QXmlStreamAttributes attr=xml.attributes();
+		    int inElement, outElement, input, output;
+		    inElement=attr.value("inElement").toString().toInt();
+		    outElement=attr.value("outElement").toString().toInt();
+		    input=attr.value("input").toString().toInt();
+		    output=attr.value("output").toString().toInt();
+		    connectItems(inElement,outElement,input,output);
+		}
+	    }
 	}
 	if(xml.name()=="element"){
 	    QXmlStreamAttributes attr=xml.attributes();
@@ -152,10 +160,11 @@ void Scene::load(QString fileName)
 		while(!(xml.name()=="inputs"&&xml.isEndElement()))
 		{
 		    xml.readNext();
-		    if(xml.name()=="private"){
+		    qDebug()<<xml.name()<<xml.isStartElement();
+		    if(xml.name()=="private"&&xml.isStartElement()){
 			element->readPrivateXml(&xml);
 		    }
-		    if(xml.name()=="connection"){
+		    if(xml.name()=="connection"&&xml.isStartElement()){
 			attr=xml.attributes();
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
@@ -166,6 +175,25 @@ void Scene::load(QString fileName)
 			}else{
 			    element->addInput(1);
 			    c=element->myInputs.last();
+			}
+			c->setNegated(negated);
+			c->setName(label);
+		    }
+		}
+		while(!(xml.name()=="outputs"&&xml.isEndElement())){
+		    xml.readNext();
+		    qDebug()<<xml.name()<<xml.isStartElement();
+		    if(xml.name()=="connection"&&xml.isStartElement()){
+			attr=xml.attributes();
+			int id=attr.value("id").toString().toInt();
+			bool negated=(attr.value("negated").toString()=="true"?1:0);
+			QString label=attr.value("name").toString();
+			Connection*c;
+			if(element->myOutputs.count()>=id+1){
+			    c=element->myOutputs.value(id);
+			}else{
+			    element->addOutput(1);
+			    c=element->myOutputs.last();
 			}
 			c->setNegated(negated);
 			c->setName(label);
@@ -275,4 +303,13 @@ Element* Scene::getElementFromTypeName(QString typeName){
     if(typeName=="switch")
 	return new Switch;
     return 0;
+}
+
+void Scene::connectItems(int inElement, int outElement, int input, int output)
+{
+    Element* in=elements[inElement];
+    Element* out=elements[outElement];
+    Connection* inputC=in->myInputs[input];
+    Connection* outputC=out->myOutputs[output];
+    inputC->connectWith(outputC);
 }

@@ -199,10 +199,17 @@ void Connection::setOther(Connection *other){
     if(other!=0){
 	line=other->line;
 	myConnectedTo->myConnectedTo=this;
-	if(myConnectionType==Input)
-	    setValue(myConnectedTo->value());
-	else
-	    myConnectedTo->setValue(myValue);
+	if(myConnectionType==Input){
+	    if(myConnectedTo->myNegated)
+		setValue(!myConnectedTo->value());
+	    else
+		setValue(myConnectedTo->value());
+	}else{
+	    if(myNegated)
+		myConnectedTo->setValue(!myValue);
+	    else
+		myConnectedTo->setValue(myValue);
+	}
     }
     update();
 }
@@ -278,4 +285,10 @@ Element* Connection::element(){
 
 Connection* Connection::connectedTo(){
     return myConnectedTo;
+}
+
+void Connection::connectWith(Connection *c){
+    line=new QGraphicsLineItem(0,scene());
+    c->setOther(this);
+    updateLine();
 }

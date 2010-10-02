@@ -24,6 +24,7 @@ public:
     Element* element();
     void setElement(Element* e);
     Connection* connectedTo();
+    void connectWith(Connection* c);
 signals:
     void changed(bool);
     void recalculate();

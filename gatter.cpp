@@ -154,5 +154,6 @@ void Gatter::setPrivateXml(QCoreXmlStreamWriter *xml)
 void Gatter::readPrivateXml(QCoreXmlStreamReader *xml)
 {
     QXmlStreamAttributes attr=xml->attributes();
-    setType(static_cast<Type>(attr.value("gatterType").toString().toInt()));
+    Type t=static_cast<Type>(attr.value("gatterType").toString().toInt());
+    setType(t);
 }
