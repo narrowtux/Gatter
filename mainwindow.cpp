@@ -7,6 +7,7 @@
 #include "button.h"
 #include "clock.h"
 #include <qxmlstream.h>
+#include <QSettings>
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -20,8 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
 
-    fileName=tr("unnamed ")+QString().setNum(++unnamedIndex);
-    setWindowTitle(fileName);
+    setCurrentFile("");
     mainWindows<<this;
     myAction=new QAction(windowTitle(),this);
     myAction->setCheckable(true);
@@ -35,7 +35,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	m->updateActions();
     }
     ui->spinDelay->setValue(Gatter::delayMS);
-    on_actionOpen_triggered();
+    connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
+    connect(ui->actionSave_As,SIGNAL(triggered()),this,SLOT(saveAs()));
+    connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
+    connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
+    connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
+    connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
     //myScene->setSceneRect(ui->graphicsView->rect());
 }
 
@@ -56,10 +61,11 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-void MainWindow::on_actionNew_triggered()
+MainWindow* MainWindow::newFile()
 {
     MainWindow* m=new MainWindow(0);
-	m->show();
+    m->show();
+    return m;
 }
 
 void MainWindow::on_actionClose_triggered()
@@ -78,11 +84,18 @@ void MainWindow::updateActions()
     ui->menuWindow->addActions(windowActions);
 }
 
-void MainWindow::closeEvent(QCloseEvent *){
-    windowActions.removeAll(myAction);
-    myAction->deleteLater();
-    updateActions();
-    mainWindows.removeAll(this);
+void MainWindow::closeEvent(QCloseEvent *event){
+
+    if (maybeSave()) {
+	writeSettings();
+	event->accept();
+	windowActions.removeAll(myAction);
+	myAction->deleteLater();
+	updateActions();
+	mainWindows.removeAll(this);
+    } else {
+	event->ignore();
+    }
 }
 
 void MainWindow::on_actionInsertAND_triggered()
@@ -176,19 +189,111 @@ void MainWindow::on_actionInsertClock_triggered()
 }
 
 void MainWindow::saveFileTo(QString fileName){
-    myScene->save(fileName);
+    save();
 }
 
 void MainWindow::loadFileFrom(QString fileName){
+    open();
+}
+
+void MainWindow::open()
+{
+    if (maybeSave()) {
+	QString fileName = QFileDialog::getOpenFileName(this);
+	if (!fileName.isEmpty()){
+	    MainWindow*m=newFile();
+	    m->loadFile(fileName);
+	}
+    }
+}
+
+bool MainWindow::save()
+{
+    if (curFile.isEmpty()) {
+	return saveAs();
+    } else {
+	return saveFile(curFile);
+    }
+}
+
+bool MainWindow::saveAs()
+{
+    QString fileName = QFileDialog::getSaveFileName(this);
+    if (fileName.isEmpty())
+	return false;
+
+    return saveFile(fileName);
+}
+
+void MainWindow::about()
+{
+   QMessageBox::about(this, tr("About Gatter"),
+	    tr("Gatter is a simulation for digital circuits."));
+}
+
+void MainWindow::documentWasModified()
+{
+    setWindowModified(true);
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings;
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(800, 600)).toSize();
+    resize(size);
+    move(pos);
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings;
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+}
+
+bool MainWindow::maybeSave()
+{
+    if (isWindowModified()) {
+	QMessageBox::StandardButton ret;
+	ret = QMessageBox::warning(this, tr("Gatter"),
+		     tr("The document has been modified.\n"
+			"Do you want to save your changes?"),
+		     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+	if (ret == QMessageBox::Save)
+	    return save();
+	else if (ret == QMessageBox::Cancel)
+	    return false;
+    }
+    return true;
+}
+
+void MainWindow::loadFile(const QString &fileName)
+{
     myScene->load(fileName);
+    setCurrentFile(fileName);
 }
 
-void MainWindow::on_actionSave_triggered()
+bool MainWindow::saveFile(const QString &fileName)
 {
-    saveFileTo("/Users/tux/test.xml");
+    myScene->save(fileName);
+    setCurrentFile(fileName);
+    return true;
 }
 
-void MainWindow::on_actionOpen_triggered()
+void MainWindow::setCurrentFile(const QString &fileName)
 {
-    loadFileFrom("/Users/tux/test.xml");
+    curFile = fileName;
+    setWindowModified(false);
+
+    QString shownName = curFile;
+    if (curFile.isEmpty())
+	shownName = tr("untitled")+ QString().setNum(++unnamedIndex) +".gtr";
+    setWindowFilePath(shownName);
+    setWindowTitle(strippedName(shownName)+" - "+tr("Gatter"));
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
 }

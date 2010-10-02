@@ -85,3 +85,8 @@ void Clock::setPrivateXml(QCoreXmlStreamWriter *xml)
     xml->writeAttribute("lowTime",QString().setNum(low->interval()));
     xml->writeAttribute("highTime",QString().setNum(high->interval()));
 }
+
+void Clock::readPrivateXml(QCoreXmlStreamReader *xml){
+    low->setInterval(xml->attributes().value("lowTime").toString().toInt());
+    high->setInterval(xml->attributes().value("highTime").toString().toInt());
+}

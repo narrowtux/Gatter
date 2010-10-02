@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QDebug>
+#include "element.h"
 Connection::Connection(QObject *parent) :
     QObject(parent)
 {
@@ -56,7 +57,7 @@ void Connection::setNegated(bool n)
     myNegated=n;
     emit(recalculate());
     if(last!=myNegated){
-	//setValue(!myValue);
+	setValue(myValue);
     }
     update();
 }
@@ -210,6 +211,7 @@ void Connection::setOther(Connection *other){
 	    else
 		myConnectedTo->setValue(myValue);
 	}
+	emit(changed(myValue));
     }
     update();
 }

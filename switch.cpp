@@ -67,3 +67,14 @@ QRectF Switch::boundingRect() const
 {
     return QRectF(-25,-25,width,height);
 }
+
+void Switch::setPrivateXml(QCoreXmlStreamWriter *xml){
+    xml->writeAttribute("value",value?"true":"false");
+}
+
+void Switch::readPrivateXml(QCoreXmlStreamReader *xml){
+    value=(xml->attributes().value("value").toString()=="true"?1:0);
+    foreach(Connection* c, myOutputs){
+	c->setValue(value);
+    }
+}

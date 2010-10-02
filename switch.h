@@ -9,6 +9,8 @@ class Switch : public Element
     Q_OBJECT
 public:
     explicit Switch(QObject *parent = 0);
+    void setPrivateXml(QCoreXmlStreamWriter *xml);
+    void readPrivateXml(QCoreXmlStreamReader *xml);
 protected:
     bool value;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

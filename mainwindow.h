@@ -19,6 +19,12 @@ public:
     QFormLayout* getFormLayout();
 	
 public slots:
+    MainWindow* newFile();
+    void open();
+    bool save();
+    bool saveAs();
+    void about();
+    void documentWasModified();
 
 protected:
     void changeEvent(QEvent *e);
@@ -35,9 +41,15 @@ private:
     void resizeEvent(QResizeEvent *);
     void saveFileTo(QString fileName);
     void loadFileFrom(QString fileName);
+    void readSettings();
+    void writeSettings();
+    bool maybeSave();
+    void loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+    QString curFile;
 private slots:
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
     void on_actionInsertClock_triggered();
     void on_zoomSlider_valueChanged(int value);
     void on_spinDelay_valueChanged(int );
@@ -51,7 +63,6 @@ private slots:
     void on_actionInsertOR_triggered();
     void on_actionInsertAND_triggered();
     void on_actionClose_triggered();
-    void on_actionNew_triggered();
     void updateSceneRect();
 };
 

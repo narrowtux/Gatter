@@ -34,7 +34,7 @@ protected:
 	QMap<int, Element*> elements;
 	MainWindow* myMainWindow;
 signals:
-
+	void modified();
 public slots:
 };
 

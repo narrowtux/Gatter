@@ -11,6 +11,7 @@ Scene::Scene(QObject *parent) :
 {
 	rect=0;
 	pressed=false;
+	connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
 }
 
 QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
@@ -94,6 +95,7 @@ void Scene::addElement(Element *e,int uniqueId){
 	elements.insert(uniqueId,e);
 	e->uniqueId=uniqueId;
     }
+    emit(modified());
 }
 
 void Scene::removeElement(Element *e){
@@ -109,6 +111,7 @@ void Scene::removeItem(QGraphicsItem *item){
     } else {
 	QGraphicsScene::removeItem(item);
     }
+    emit(modified());
 }
 
 bool Scene::isElement(QGraphicsItem *item){
@@ -312,4 +315,5 @@ void Scene::connectItems(int inElement, int outElement, int input, int output)
     Connection* inputC=in->myInputs[input];
     Connection* outputC=out->myOutputs[output];
     inputC->connectWith(outputC);
+    emit(modified());
 }

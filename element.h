@@ -16,6 +16,7 @@ class Element : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     friend class Scene;
+    friend class Connection;
 public:
     explicit Element(QObject *parent = 0, QGraphicsItem *gparent=0);
     ~Element();

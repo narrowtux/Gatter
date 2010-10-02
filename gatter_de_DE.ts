@@ -4,12 +4,12 @@
 <context>
     <name>Clock</name>
     <message>
-        <location filename="clock.cpp" line="51"/>
+        <location filename="clock.cpp" line="52"/>
         <source>Low-Time</source>
         <translation>Low-Zeitraum</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="58"/>
+        <location filename="clock.cpp" line="59"/>
         <source>High-Time</source>
         <translation>High-Zeitraum</translation>
     </message>
@@ -17,13 +17,13 @@
 <context>
     <name>Element</name>
     <message>
-        <location filename="element.cpp" line="204"/>
+        <location filename="element.cpp" line="207"/>
         <source>&lt;b&gt;Inputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Eingänge&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="element.cpp" line="221"/>
-        <location filename="element.cpp" line="247"/>
+        <location filename="element.cpp" line="224"/>
+        <location filename="element.cpp" line="250"/>
         <source>Negated</source>
         <translation>Negiert</translation>
     </message>
@@ -32,7 +32,7 @@
         <translation type="obsolete">Anzahl</translation>
     </message>
     <message>
-        <location filename="element.cpp" line="231"/>
+        <location filename="element.cpp" line="234"/>
         <source>&lt;b&gt;Outputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Ausgänge&lt;/b&gt;</translation>
     </message>
@@ -40,10 +40,34 @@
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="mainwindow.cpp" line="229"/>
+        <source>About Gatter</source>
+        <translation>Über Gatter</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="230"/>
+        <source>Gatter is a simulation for digital circuits.</source>
+        <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="258"/>
+        <location filename="mainwindow.cpp" line="292"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="84"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="259"/>
+        <source>The document has been modified.
+Do you want to save your changes?</source>
+        <translation>Das Dokument wurde verändert.
+Möchten Sie die Änderungen speichern?</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="290"/>
+        <source>untitled</source>
+        <translation>Unbenannt</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="53"/>
@@ -308,9 +332,8 @@
         <translation>Taktgeber</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="23"/>
         <source>unnamed </source>
-        <translation>Unbenannt</translation>
+        <translation type="obsolete">Unbenannt</translation>
     </message>
 </context>
 </TS>

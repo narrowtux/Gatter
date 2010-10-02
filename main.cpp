@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	translator.load(QString("gatter_") + locale);
 	a.installTranslator(&translator);
 	qDebug()<<locale;
-	a.setOrganizationDomain("moritz-schmale.de");
+	a.setOrganizationDomain("de.moritz-schmale");
 	a.setApplicationName("Gatter");
 
     MainWindow w;

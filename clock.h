@@ -8,6 +8,7 @@ class Clock : public Element
 public:
     explicit Clock(QObject *parent = 0);
     void setPrivateXml(QCoreXmlStreamWriter *xml);
+    void readPrivateXml(QCoreXmlStreamReader *xml);
 signals:
 
 public slots:
