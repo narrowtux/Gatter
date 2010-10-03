@@ -11,12 +11,14 @@ public:
     
 signals:
 private slots:
+    void setColor(QColor c);
 protected:
     QRectF boundingRect() const;
     bool value;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    
+    QColor color;
     void recalculate();
+    void createFormBefore();
 };
 
 #endif // LAMP_H

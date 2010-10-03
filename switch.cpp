@@ -11,6 +11,7 @@ Switch::Switch(QObject *parent) :
     setData(ElementName,"Switch");
     setMinMaxInputsOutputs(0,0,1,1);
     myType="switch";
+    tr("Switch");
 }
 
 void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

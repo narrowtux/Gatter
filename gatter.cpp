@@ -14,6 +14,7 @@ Gatter::Gatter(QObject *parent) :
     connect(delay,SIGNAL(timeout()),this,SLOT(sendChanges()));
     delay->setSingleShot(true);
     myType="gatter";
+    tr("Gatter");
 }
 
 int Gatter::delayMS=0;

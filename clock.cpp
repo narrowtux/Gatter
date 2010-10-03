@@ -16,6 +16,7 @@ Clock::Clock(QObject *parent) :
     connect(high,SIGNAL(timeout()),this,SLOT(setHigh()));
     high->start();
     myType="clock";
+    tr("Clock");
 }
 
 void Clock::setLow(){
@@ -47,7 +48,7 @@ void Clock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     }
 }
 
-void Clock::createForm()
+void Clock::createFormBefore()
 {
     QLabel* l=new QLabel(tr("Low-Time"));
     QSpinBox* s=new QSpinBox();
@@ -63,14 +64,8 @@ void Clock::createForm()
     additionalWidgets<<l<<s;
     layout->addRow(l,s);
     connect(s,SIGNAL(valueChanged(int)),this,SLOT(setHighTime(int)));
-    Element::createForm();
 }
 
-void Clock::deleteForm()
-{
-    
-    Element::deleteForm();
-}
 
 void Clock::setLowTime(int value){
     low->setInterval(value);

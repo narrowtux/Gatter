@@ -7,6 +7,7 @@ Button::Button(QObject *parent) :
     myType="button";
     connect(&delay,SIGNAL(timeout()),this,SLOT(updateValue()));
     delay.setSingleShot(true);
+    tr("Button");
 }
 
 void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

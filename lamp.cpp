@@ -1,5 +1,5 @@
 #include "lamp.h"
-
+#include "colorbutton.h"
 Lamp::Lamp(QObject *parent) :
     Element(parent)
 {
@@ -10,6 +10,8 @@ Lamp::Lamp(QObject *parent) :
     setData(ElementName,"Lamp");
     setMinMaxInputsOutputs(1,1,0,0);
     myType="lamp";
+    color=Scene::highValueColor;
+    tr("Lamp");
 }
 
 QRectF Lamp::boundingRect() const {
@@ -35,7 +37,7 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(QPointF(0,0),20,20);
     painter->setPen(Qt::NoPen);
     if(value){
-	painter->setBrush(Scene::highValueColor);
+	painter->setBrush(color);
     }else{
 	painter->setBrush(QColor("black"));
     }
@@ -55,4 +57,18 @@ void Lamp::recalculate(){
     value=myInputs[0]->value();
     qDebug()<<"Recalculated";
     update();
+}
+
+void Lamp::setColor(QColor c){
+    color=c;
+    update();
+}
+
+void Lamp::createFormBefore(){
+    ColorButton* c=new ColorButton;
+    c->setColor(color);
+    connect(c,SIGNAL(colorChanged(QColor)),this,SLOT(setColor(QColor)));
+    QLabel*l=new QLabel(tr("Color"));
+    additionalWidgets<<c<<l;
+    layout->addRow(l,c);
 }

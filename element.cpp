@@ -204,60 +204,88 @@ void Element::setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOu
 
 void Element::createForm()
 {
-    QLabel* label=new QLabel(tr("<b>Inputs</b>"));
+    QFrame* frame=new QFrame;
+    frame->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+    additionalWidgets<<frame;
+    layout->addRow(frame);
+    QLabel* label;
+    label=new QLabel("<h2>"+tr(metaObject()->className())+"</h2>");
     additionalWidgets<<label;
-    QSpinBox* widget=new QSpinBox;
-    layout->addRow(label,widget);
-    widget->setMinimum(minInputs);
-    if(maxInputs==-1)
-	widget->setMaximum(100);
-    else
-	widget->setMaximum(maxInputs);
-    widget->setValue(myInputs.count());
-    connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateInputs(int)));
-    additionalWidgets<<label<<widget;
-    foreach(Connection* c, myInputs)
-    {
-	QLineEdit*l=new QLineEdit(c->myName);
-	QCheckBox*ch=new QCheckBox("");
-	ch->setChecked(c->isNegated());
-	ch->setToolTip(tr("Negated"));
-	layout->addRow(l,ch);
-	lineEdits.insert(c,l);
-	lineMapper.setMapping(l,l);
-	checkBoxes.insert(c,ch);
-	checkMapper.setMapping(ch,ch);
-	connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
-	connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
-	
+    layout->addRow(label);
+    createFormBefore();
+    QSpinBox* widget;
+    if(myInputs.count()!=0){
+	label=new QLabel(tr("<b>Inputs</b>"));
+	additionalWidgets<<label;
+	if(minInputs!=maxInputs){
+	    widget=new QSpinBox;
+	    layout->addRow(label,widget);
+	    widget->setMinimum(minInputs);
+	    if(maxInputs==-1)
+		widget->setMaximum(100);
+	    else
+		widget->setMaximum(maxInputs);
+	    widget->setValue(myInputs.count());
+	    connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateInputs(int)));
+	    additionalWidgets<<widget;
+	}else{
+	    layout->addRow(label);
+	}
+	foreach(Connection* c, myInputs)
+	{
+	    QLineEdit*l=new QLineEdit(c->myName);
+	    QCheckBox*ch=new QCheckBox("");
+	    ch->setChecked(c->isNegated());
+	    ch->setToolTip(tr("Negated"));
+	    layout->addRow(l,ch);
+	    lineEdits.insert(c,l);
+	    lineMapper.setMapping(l,l);
+	    checkBoxes.insert(c,ch);
+	    checkMapper.setMapping(ch,ch);
+	    connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
+	    connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
+	    
+	}
     }
-    label= new QLabel(tr("<b>Outputs</b>"));
-    additionalWidgets<<label;
-    widget=new QSpinBox;
-    layout->addRow(label,widget);
-    widget->setMinimum(minOutputs);
-    if(maxOutputs==-1)
-	widget->setMaximum(100);
-    else
-	widget->setMaximum(maxOutputs);
-    widget->setValue(myOutputs.count());
-    connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateOutputs(int)));
-    additionalWidgets<<label<<widget;
-    foreach(Connection* c, myOutputs)
-    {
-	QLineEdit*l=new QLineEdit(c->myName);
-	QCheckBox*ch=new QCheckBox("");
-	ch->setToolTip(tr("Negated"));
-	layout->addRow(l,ch);
-	lineEdits.insert(c,l);
-	lineMapper.setMapping(l,l);
-	checkBoxes.insert(c,ch);
-	checkMapper.setMapping(ch,ch);
-	connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
-	connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
+    if(myOutputs.count()!=0){
+	label= new QLabel(tr("<b>Outputs</b>"));
+	additionalWidgets<<label;
+	    if(minOutputs!=maxOutputs){
+	    widget=new QSpinBox;
+	    layout->addRow(label,widget);
+	    widget->setMinimum(minOutputs);
+	    if(maxOutputs==-1)
+		widget->setMaximum(100);
+	    else
+		widget->setMaximum(maxOutputs);
+	    widget->setValue(myOutputs.count());
+	    connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateOutputs(int)));
+	    additionalWidgets<<widget;
+	}else{
+	    layout->addRow(label);
+	}
+	foreach(Connection* c, myOutputs)
+	{
+	    QLineEdit*l=new QLineEdit(c->myName);
+	    QCheckBox*ch=new QCheckBox("");
+	    ch->setToolTip(tr("Negated"));
+	    layout->addRow(l,ch);
+	    lineEdits.insert(c,l);
+	    lineMapper.setMapping(l,l);
+	    checkBoxes.insert(c,ch);
+	    checkMapper.setMapping(ch,ch);
+	    connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
+	    connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
+	}
     }
     connect(&checkMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateNegation(QWidget*)));
     connect(&lineMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateName(QWidget*)));
+    foreach(QLineEdit*l,lineEdits){
+	l->setMinimumWidth(50);
+	l->setMaximumWidth(50);
+    }
+
+    createFormAfter();
 }
 
 void Element::deleteForm()
@@ -329,4 +357,12 @@ void Element::setPrivateXml(QXmlStreamWriter *xml){
 
 void Element::readPrivateXml(QCoreXmlStreamReader *xml){
     Q_UNUSED(xml)
+}
+
+void Element::createFormBefore(){
+    //Dummy
+}
+
+void Element::createFormAfter(){
+    //Dummy
 }

@@ -39,8 +39,6 @@ private slots:
     void updateOutputs(int);
 protected:
     QFormLayout*layout;
-    virtual void createForm();
-    virtual void deleteForm();
     int minInputs,minOutputs,maxInputs,maxOutputs;
     bool pressed;
     QList<Connection*> myInputs;
@@ -64,9 +62,13 @@ protected:
     QSignalMapper lineMapper, checkMapper;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     QString myType;
+    virtual void createFormBefore();
+    virtual void createFormAfter();
 private:
     int uniqueId;
     void relayoutConnections();
+    void createForm();
+    void deleteForm();
 };
 
 #endif // ELEMENT_H

@@ -9,6 +9,9 @@ ColorButton::ColorButton(QWidget *parent) :
 	m_color=QColor("black");
 	connect(this,SIGNAL(clicked()),this,SLOT(cl()));
 	setAcceptDrops(true);
+	dialog=new QColorDialog(this);
+	dialog->setOption(QColorDialog::NoButtons);
+	connect(dialog,SIGNAL(currentColorChanged(QColor)),this,SLOT(onColorChanged(QColor)));
 }
 
 void ColorButton::paintEvent(QPaintEvent *e){
@@ -29,12 +32,8 @@ QColor ColorButton::color(){
 }
 
 void ColorButton::cl(){
-	QColor color=QColorDialog::getColor(m_color);
-	if(color.isValid()){
-		m_color=color;
-		update();
-		emit(colorChanged(color));
-	}
+    dialog->setCurrentColor(m_color);
+    dialog->show();
 }
 
 void ColorButton::mousePressEvent(QMouseEvent *event)
@@ -72,4 +71,10 @@ void ColorButton::dropEvent(QDropEvent *e){
 	setColor(qvariant_cast<QColor>(e->mimeData()->colorData()));
 	emit colorChanged(m_color);
 	e->acceptProposedAction();
+}
+
+void ColorButton::onColorChanged(QColor c){
+    m_color=c;
+    update();
+    emit(colorChanged(c));
 }

@@ -5,7 +5,7 @@
 #include <QColor>
 #include <QMouseEvent>
 #include <QPoint>
-
+#include <QColorDialog>
 class ColorButton : public QToolButton
 {
     Q_OBJECT
@@ -16,8 +16,9 @@ public:
 signals:
 
 public slots:
-	void cl();						
+	void cl();
 	/*Diese Methode wird ausgeführt, wenn der Button geklickt wurde*/
+	void onColorChanged(QColor c);
 signals:
 	void colorChanged(QColor);
 protected:
@@ -28,6 +29,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent *e);
 	void dragEnterEvent(QDragEnterEvent *e);
 	void dropEvent(QDropEvent *e);
+	QColorDialog* dialog;
 };
 
 #endif // COLORBUTTON_H
