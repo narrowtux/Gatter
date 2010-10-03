@@ -33,9 +33,9 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     
     QColor val;
     if(value){
-	val.setNamedColor("red");
+	val=Scene::highValueColor;
     } else {
-	val.setNamedColor("darkred");
+	val=Scene::highValueColor.darker(200);
     }
     painter->setBrush(val);
     painter->setPen(Qt::NoPen);

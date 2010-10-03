@@ -12,7 +12,17 @@ Scene::Scene(QObject *parent) :
 	rect=0;
 	pressed=false;
 	connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
+	QSettings settings;
+	highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
 }
+
+Scene::~Scene(){
+    foreach(Element* e, elements){
+	delete e;
+    }
+}
+
+QColor Scene::highValueColor=QColor("red");
 
 QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
 	qreal x1, x2, y1, y2;

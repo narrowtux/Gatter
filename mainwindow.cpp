@@ -41,8 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
-    //myScene->setSceneRect(ui->graphicsView->rect());
-    loadFile("/Users/tux/test.gtr");
 }
 
 MainWindow::~MainWindow()
@@ -94,6 +92,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
 	myAction->deleteLater();
 	updateActions();
 	mainWindows.removeAll(this);
+	delete myScene;
     } else {
 	event->ignore();
     }
@@ -199,12 +198,10 @@ void MainWindow::loadFileFrom(QString fileName){
 
 void MainWindow::open()
 {
-    if (maybeSave()) {
-	QString fileName = QFileDialog::getOpenFileName(this);
-	if (!fileName.isEmpty()){
-	    MainWindow*m=newFile();
-	    m->loadFile(fileName);
-	}
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty()){
+	MainWindow*m=newFile();
+	m->loadFile(fileName);
     }
 }
 
@@ -297,4 +294,10 @@ void MainWindow::setCurrentFile(const QString &fileName)
 QString MainWindow::strippedName(const QString &fullFileName)
 {
     return QFileInfo(fullFileName).fileName();
+}
+
+void MainWindow::on_actionPreferences_triggered()
+{
+    settingsDialog=new SettingsDialog(this);
+    settingsDialog->show();
 }

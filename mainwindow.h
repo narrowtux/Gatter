@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "defines.h"
 #include <QFormLayout>
+#include "settingsdialog.h"
 class Scene;
 namespace Ui {
     class MainWindow;
@@ -28,8 +29,8 @@ public slots:
 
 protected:
     void changeEvent(QEvent *e);
-	QString fileName;
-	static int unnamedIndex;
+    QString fileName;
+    static int unnamedIndex;
 private:
     Ui::MainWindow *ui;
     static QList<MainWindow*> mainWindows;
@@ -49,7 +50,9 @@ private:
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
     QString curFile;
+    SettingsDialog* settingsDialog;
 private slots:
+    void on_actionPreferences_triggered();
     void on_actionInsertClock_triggered();
     void on_zoomSlider_valueChanged(int value);
     void on_spinDelay_valueChanged(int );

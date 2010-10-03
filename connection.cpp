@@ -40,7 +40,7 @@ void Connection::setValue(bool v)
 	    qDebug()<<"Connection Value Changed to"<<endValue;
 	    if(endValue){
 		myConnectedTo->setValue(High);
-		line->setPen(QColor("red"));
+		line->setPen(Scene::highValueColor);
 	    } else {
 		myConnectedTo->setValue(Low);
 		line->setPen(QColor("black"));
@@ -85,7 +85,7 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget)
     painter->setBrush(QColor("white"));
     if(myValue&&!myNegated||!myValue&&myNegated){
-	painter->setPen(QColor("red"));
+	painter->setPen(Scene::highValueColor);
 //	if(line!=0){
 //	    line->setPen(QColor("red"));
 //	}

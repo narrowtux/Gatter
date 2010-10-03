@@ -35,7 +35,7 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(QPointF(0,0),20,20);
     painter->setPen(Qt::NoPen);
     if(value){
-	painter->setBrush(QColor("red"));
+	painter->setBrush(Scene::highValueColor);
     }else{
 	painter->setBrush(QColor("black"));
     }

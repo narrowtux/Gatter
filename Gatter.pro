@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     switch.cpp \
     lamp.cpp \
     button.cpp \
-    clock.cpp
+    clock.cpp \
+    subscene.cpp \
+    colorbutton.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -30,7 +33,11 @@ HEADERS  += mainwindow.h \
     switch.h \
     lamp.h \
     button.h \
-    clock.h
+    clock.h \
+    subscene.h \
+    colorbutton.h \
+    settingsdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settingsdialog.ui
 TRANSLATIONS += gatter_de_DE.ts

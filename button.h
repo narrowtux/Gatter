@@ -9,12 +9,14 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void updateValue();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     QPointF startPos;
+    QTimer delay;
 };
 
 #endif // BUTTON_H
