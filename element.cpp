@@ -139,13 +139,13 @@ void Element::relayoutConnections(){
     qreal topSide=boundingRect().top();
     int count=myInputs.count();
     for(int i=0;i<count;i++){
-	myInputs[i]->setPos(leftSide-20+2,(height/(qreal)(count+1))*(1+i)+topSide);
+	myInputs[i]->setPos(leftSide-20,(height/(qreal)(count+1))*(1+i)+topSide);
     }
 
     //Outputs
     count=myOutputs.count();
     for(int i=0;i<count;i++){
-	myOutputs[i]->setPos(rightSide-2,(height/(qreal)(count+1))*(1+i)+topSide);
+	myOutputs[i]->setPos(rightSide,(height/(qreal)(count+1))*(1+i)+topSide);
     }
 
 }
@@ -365,4 +365,31 @@ void Element::createFormBefore(){
 
 void Element::createFormAfter(){
     //Dummy
+}
+
+void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    painter->setRenderHint(QPainter::HighQualityAntialiasing,true);
+    painter->setPen(QColor("gray"));
+    if(isSelected()){
+	painter->setPen(getSelectionPen());
+    }
+    QLinearGradient gradient;
+    gradient.setColorAt(0,QColor(220,220,220));
+    gradient.setColorAt(1,QColor(255,255,255));
+    gradient.setStart(boundingRect().topLeft());
+    gradient.setFinalStop(boundingRect().bottomLeft());
+    painter->setBrush(QBrush(gradient));
+    painter->drawRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
+    QPen pointPen;
+    pointPen.setColor(QColor(100,100,100));
+    painter->setPen(pointPen);
+    painter->setBrush(Qt::NoBrush);
+    painter->drawPoint(boundingRect().topLeft()+QPointF(5,5));
+    painter->drawPoint(boundingRect().topRight()+QPointF(-5,5));
+    painter->drawPoint(boundingRect().bottomLeft()+QPointF(5,-5));
+    painter->drawPoint(boundingRect().bottomRight()+QPointF(-5,-5));
+    painter->setPen(QColor("black"));
+    painter->setBrush(Qt::NoBrush);
 }

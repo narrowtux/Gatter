@@ -29,29 +29,29 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 	painter->setPen(getSelectionPen());
     }
     QRadialGradient g;
-    g.setRadius(40);
-    g.setCenter(-20,-20);
+    g.setRadius(44);
+    g.setCenter(-22,-22);
     g.setColorAt(1,QColor(50,50,50));
     g.setColorAt(0,QColor(150,150,150));
     QBrush b(g);
     painter->setBrush(b);
-    painter->drawEllipse(QPointF(0,0),20,20);
+    painter->drawEllipse(QPointF(0,0),22,22);
     painter->setPen(Qt::NoPen);
     if(value){
 	painter->setBrush(color);
     }else{
 	painter->setBrush(QColor("black"));
     }
-    painter->drawEllipse(QPointF(0,0),15,15);
+    painter->drawEllipse(QPointF(0,0),17,17);
     QRadialGradient g2;
-    g2.setRadius(30);
-    g2.setCenter(-7,-7);
+    g2.setRadius(35);
+    g2.setCenter(-9,-9);
     g2.setColorAt(0,QColor(Qt::transparent));
     QColor color(150,150,150);
     color.setAlpha(150);
     g2.setColorAt(1,color);
     painter->setBrush(QBrush(g2));
-    painter->drawEllipse(QPointF(0,0),15,15);
+    painter->drawEllipse(QPointF(0,0),17,17);
 }
 
 void Lamp::recalculate(){

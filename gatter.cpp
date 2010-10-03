@@ -22,9 +22,7 @@ int Gatter::delayMS=0;
 void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    painter->setPen("black");
-    painter->setBrush(QColor("white"));
-    painter->drawRect(boundingRect().adjusted(2,2,-2,-2));
+    Element::paint(painter,option,widget);
     QString text;
     switch(myGatterType){
     case AND:

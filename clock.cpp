@@ -34,11 +34,8 @@ QRectF Clock::boundingRect() const{
 }
 
 void Clock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-    painter->setPen("black");
-    painter->setBrush(QColor("white"));
-    painter->drawRect(boundingRect().adjusted(2,2,-2,-2));    QTextOption o;
+    Element::paint(painter,option,widget);
+    QTextOption o;
     o.setAlignment(Qt::AlignCenter);
     painter->drawText(boundingRect().adjusted(5,5,-5,-5),"C",o);
     if(isSelected()){

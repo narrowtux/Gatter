@@ -90,7 +90,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::addElement(Element *e,int uniqueId){
     addItem(e);
-    e->setPos(sceneRect().center());
+    e->setPos(QPointF(0.5,0.5));
     e->setFormLayout(myMainWindow->getFormLayout());
     if(uniqueId==-1){
 	int maxID=0;

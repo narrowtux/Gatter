@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
+    loadFile("/Users/tux/test.gtr");
 }
 
 MainWindow::~MainWindow()
