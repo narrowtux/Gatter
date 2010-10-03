@@ -170,6 +170,7 @@ void Scene::load(QString fileName)
 		addElement(element,attr.value("id").toString().toInt());
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
+		int count=0;
 		while(!(xml.name()=="inputs"&&xml.isEndElement()))
 		{
 		    xml.readNext();
@@ -178,6 +179,7 @@ void Scene::load(QString fileName)
 			element->readPrivateXml(&xml);
 		    }
 		    if(xml.name()=="connection"&&xml.isStartElement()){
+			count++;
 			attr=xml.attributes();
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
@@ -193,6 +195,8 @@ void Scene::load(QString fileName)
 			c->setName(label);
 		    }
 		}
+		element->setInputs(count);
+		count=0;
 		while(!(xml.name()=="outputs"&&xml.isEndElement())){
 		    xml.readNext();
 		    qDebug()<<xml.name()<<xml.isStartElement();
@@ -210,8 +214,10 @@ void Scene::load(QString fileName)
 			}
 			c->setNegated(negated);
 			c->setName(label);
+			count++;
 		    }
 		}
+		element->setOutputs(count);
 	    }
 	}
     }

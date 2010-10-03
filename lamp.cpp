@@ -1,5 +1,6 @@
 #include "lamp.h"
 #include "colorbutton.h"
+#include <QRegExp>
 Lamp::Lamp(QObject *parent) :
     Element(parent)
 {
@@ -71,4 +72,18 @@ void Lamp::createFormBefore(){
     QLabel*l=new QLabel(tr("Color"));
     additionalWidgets<<c<<l;
     layout->addRow(l,c);
+}
+
+void Lamp::setPrivateXml(QCoreXmlStreamWriter *xml){
+    xml->writeAttribute("color",QString("rgb(%0,%1,%2)").arg(color.red()).arg(color.green()).arg(color.blue()));
+}
+
+void Lamp::readPrivateXml(QCoreXmlStreamReader *xml){
+    QString colorString=xml->attributes().value("color").toString();
+    QRegExp exp("rgb\\(([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3})\\)");
+    exp.indexIn(colorString);
+    color.setRed(exp.cap(1).toInt());
+    qDebug()<<exp.capturedTexts();
+    color.setGreen(exp.cap(2).toInt());
+    color.setBlue(exp.cap(3).toInt());
 }
