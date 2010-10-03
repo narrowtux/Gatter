@@ -119,9 +119,17 @@
     <addaction name="actionAbout"/>
     <addaction name="actionHelp"/>
    </widget>
+   <widget class="QMenu" name="menuLayout">
+    <property name="title">
+     <string>Layout</string>
+    </property>
+    <addaction name="actionLayout_Horizontally"/>
+    <addaction name="actionLayout_Vertically"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuInsert"/>
+   <addaction name="menuLayout"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -449,6 +457,16 @@
   <action name="actionInsertClock">
    <property name="text">
     <string>Clock</string>
+   </property>
+  </action>
+  <action name="actionLayout_Horizontally">
+   <property name="text">
+    <string>Layout Horizontally</string>
+   </property>
+  </action>
+  <action name="actionLayout_Vertically">
+   <property name="text">
+    <string>Layout Vertically</string>
    </property>
   </action>
  </widget>

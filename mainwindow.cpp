@@ -302,3 +302,31 @@ void MainWindow::on_actionPreferences_triggered()
     settingsDialog=new SettingsDialog(this);
     settingsDialog->show();
 }
+
+void MainWindow::on_actionLayout_Vertically_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int center=0;
+	foreach(QGraphicsItem* i, myScene->selectedItems()){
+	    center+=i->x();
+	}
+	center/=myScene->selectedItems().count();
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setX(center+0.5);
+	}
+    }
+}
+
+void MainWindow::on_actionLayout_Horizontally_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int center=0;
+	foreach(QGraphicsItem* i, myScene->selectedItems()){
+	    center+=i->y();
+	}
+	center/=myScene->selectedItems().count();
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setY(center+0.5);
+	}
+    }
+}
