@@ -31,13 +31,13 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     if(!value){
 	darkGradient.setStart(lower.bottomLeft());
 	darkGradient.setFinalStop(lower.topLeft());
-	upperBrush=QBrush("white");
+	upperBrush=QBrush(QColor(240,240,240));
 	lowerBrush=QBrush(darkGradient);
     }else{
 	darkGradient.setStart(upper.topLeft());
 	darkGradient.setFinalStop(upper.bottomLeft());
 	upperBrush=QBrush(darkGradient);
-	lowerBrush=QBrush("white");
+	lowerBrush=QBrush(QColor(240,240,240));
     }
     painter->setPen(Qt::NoPen);
     painter->setBrush(upperBrush);
@@ -47,8 +47,12 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->setPen(QColor(240,240,240));
     if(value){
 	painter->drawLine(upper.topLeft()+QPointF(1,1),upper.topRight()+QPointF(-1,1));
+	painter->setPen(QColor(150,150,150));
+	painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
     } else {
 	painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
+	painter->setPen(QColor(150,150,150));
+	painter->drawLine(upper.topLeft()+QPointF(1,1),upper.topRight()+QPointF(-1,1));
     }
 //    QRadialGradient gradient;
 //    gradient.setRadius(boundingRect().height());
@@ -79,13 +83,14 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 void Switch::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     Element::mousePressEvent(event);
-    mouseDownPos=event->scenePos();
+    if(event->button()==Qt::LeftButton&&boundingRect().adjusted(15,10,-15,-10).contains(event->pos()))
+	mouseDownPos=event->scenePos();
 }
 
 void Switch::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     Element::mouseReleaseEvent(event);
-    if(event->scenePos()==mouseDownPos){
+    if(event->scenePos()==mouseDownPos&&event->button()==Qt::LeftButton&&boundingRect().adjusted(15,10,-15,-10).contains(event->pos())){
 	value=!value;
 	foreach(Connection* c, myOutputs){
 	    if(value)c->setValue(High);

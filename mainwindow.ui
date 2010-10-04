@@ -123,8 +123,28 @@
     <property name="title">
      <string>Layout</string>
     </property>
-    <addaction name="actionLayout_Horizontally"/>
-    <addaction name="actionLayout_Vertically"/>
+    <widget class="QMenu" name="menuLayoutSub">
+     <property name="title">
+      <string>Layout</string>
+     </property>
+     <addaction name="actionLayoutTop"/>
+     <addaction name="actionLayoutMiddle"/>
+     <addaction name="actionLayoutBottom"/>
+     <addaction name="separator"/>
+     <addaction name="actionLayoutLeft"/>
+     <addaction name="actionLayoutCenter"/>
+     <addaction name="actionLayoutRight"/>
+    </widget>
+    <widget class="QMenu" name="menuDistribute">
+     <property name="title">
+      <string>Distribute</string>
+     </property>
+     <addaction name="actionDistribute_Horizontal"/>
+     <addaction name="actionDistribute_Vertical"/>
+    </widget>
+    <addaction name="menuLayoutSub"/>
+    <addaction name="separator"/>
+    <addaction name="menuDistribute"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -459,14 +479,44 @@
     <string>Clock</string>
    </property>
   </action>
-  <action name="actionLayout_Horizontally">
+  <action name="actionLayoutLeft">
    <property name="text">
-    <string>Layout Horizontally</string>
+    <string>Left</string>
    </property>
   </action>
-  <action name="actionLayout_Vertically">
+  <action name="actionLayoutCenter">
    <property name="text">
-    <string>Layout Vertically</string>
+    <string>Center</string>
+   </property>
+  </action>
+  <action name="actionLayoutRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionLayoutTop">
+   <property name="text">
+    <string>Top</string>
+   </property>
+  </action>
+  <action name="actionLayoutMiddle">
+   <property name="text">
+    <string>Middle</string>
+   </property>
+  </action>
+  <action name="actionLayoutBottom">
+   <property name="text">
+    <string>Bottom</string>
+   </property>
+  </action>
+  <action name="actionDistribute_Horizontal">
+   <property name="text">
+    <string>Horizontal</string>
+   </property>
+  </action>
+  <action name="actionDistribute_Vertical">
+   <property name="text">
+    <string>Vertical</string>
    </property>
   </action>
  </widget>

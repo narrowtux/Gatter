@@ -52,8 +52,9 @@ private:
     QString curFile;
     SettingsDialog* settingsDialog;
 private slots:
-    void on_actionLayout_Horizontally_triggered();
-    void on_actionLayout_Vertically_triggered();
+    void on_actionLayoutMiddle_triggered();
+    void on_actionLayoutCenter_triggered();
+    void on_actionLayoutLeft_triggered();
     void on_actionPreferences_triggered();
     void on_actionInsertClock_triggered();
     void on_zoomSlider_valueChanged(int value);

@@ -28,6 +28,8 @@ public:
     void setFormLayout(QFormLayout* layout);
     virtual void setPrivateXml(QXmlStreamWriter* xml);
     virtual void readPrivateXml(QXmlStreamReader *xml);
+    void setPos(const QPointF &pos);
+    void setPos(qreal x, qreal y);
 signals:
 protected slots:
     virtual void recalculate();

@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
-    loadFile("/Users/tux/test.gtr");
+    //loadFile("/Users/tux/test.gtr");
 }
 
 MainWindow::~MainWindow()
@@ -303,7 +303,34 @@ void MainWindow::on_actionPreferences_triggered()
     settingsDialog->show();
 }
 
-void MainWindow::on_actionLayout_Vertically_triggered()
+/*
+
+void MainWindow::on_actionDistribute_Horizontally_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int left=INT_MAX, right=INT_MIN, totalWidth=0;
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    left=qMin(left,(int)i->x());
+	    right=qMax(right,(int)(i->x()+i->boundingRect().width()));
+	    totalWidth+=i->boundingRect().width();
+	}
+	int space=abs(right-left-totalWidth)/myScene->selectedItems().count();
+	qDebug()<<"Left:"<<left<<"Right:"<<right<<"Space:"<<space;
+	int pos=left;
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setX(pos+0.5);
+	    pos+=i->boundingRect().width()+space;
+	}
+    }
+}
+*/
+
+void MainWindow::on_actionLayoutLeft_triggered()
+{
+    
+}
+
+void MainWindow::on_actionLayoutCenter_triggered()
 {
     if(myScene->selectedItems().count()>1){
 	int center=0;
@@ -317,7 +344,7 @@ void MainWindow::on_actionLayout_Vertically_triggered()
     }
 }
 
-void MainWindow::on_actionLayout_Horizontally_triggered()
+void MainWindow::on_actionLayoutMiddle_triggered()
 {
     if(myScene->selectedItems().count()>1){
 	int center=0;

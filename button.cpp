@@ -8,6 +8,7 @@ Button::Button(QObject *parent) :
     connect(&delay,SIGNAL(timeout()),this,SLOT(updateValue()));
     delay.setSingleShot(true);
     tr("Button");
+    pressed=0;
 }
 
 void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -28,7 +29,7 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     Element::mousePressEvent(event);
     startPos=event->pos();
-    if(event->button()==Qt::LeftButton){
+    if(event->button()==Qt::LeftButton&&boundingRect().adjusted(15,15,-15,-15).contains(event->pos())){
 	foreach(Connection* c, myOutputs){
 	    c->setValue(High);
 	}
@@ -52,4 +53,18 @@ void Button::updateValue(){
     }
     value=0;
     update();
+}
+
+void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Element::paint(painter,option,widget);
+    QRectF rect=boundingRect().adjusted(15,10,-15,-10);
+    painter->drawRect(rect);
+    QLinearGradient gradient;
+    gradient.setColorAt(!value,QColor(220-value*50,220-value*50,220-value*50));
+    gradient.setColorAt(value,QColor(180-value*50,180-value*50,180-value*50));
+    gradient.setStart(rect.topLeft());
+    gradient.setFinalStop(rect.bottomLeft());
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QBrush(gradient));
+    painter->drawRect(rect);
 }

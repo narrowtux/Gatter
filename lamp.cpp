@@ -52,6 +52,12 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     g2.setColorAt(1,color);
     painter->setBrush(QBrush(g2));
     painter->drawEllipse(QPointF(0,0),17,17);
+    painter->setPen(QColor(220,220,220));
+    painter->setBrush(Qt::NoBrush);
+    painter->drawPoint(0,boundingRect().top()+3);
+    painter->drawPoint(boundingRect().left()+3,0);
+    painter->drawPoint(boundingRect().right()-3,0);
+    painter->drawPoint(0,boundingRect().bottom()-3);
 }
 
 void Lamp::recalculate(){

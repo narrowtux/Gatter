@@ -393,3 +393,13 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->setPen(QColor("black"));
     painter->setBrush(Qt::NoBrush);
 }
+
+void Element::setPos(const QPointF &pos){
+    qreal x=(int)pos.x()+0.5;
+    qreal y=(int)pos.y()+0.5;
+    QGraphicsItem::setPos(x,y);
+}
+
+void Element::setPos(qreal x, qreal y){
+    setPos(QPointF(x,y));
+}
