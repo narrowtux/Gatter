@@ -11,6 +11,7 @@ public:
     explicit SubScene(QObject *parent = 0);
     QRectF boundingRect() const;
     void loadFromFile(QString file);
+    ~SubScene();
 signals:
 private slots:
     void updateConnections();

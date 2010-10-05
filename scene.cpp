@@ -16,12 +16,17 @@ Scene::Scene(QObject *parent) :
 	QSettings settings;
 	highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
 	blank=true;
+	loads=false;
 }
 
 Scene::~Scene(){
     foreach(Element* e, elements){
 	delete e;
     }
+}
+
+bool Scene::isLoading(){
+    return loads;
 }
 
 QColor Scene::highValueColor=QColor("red");
@@ -145,6 +150,7 @@ void Scene::setScale(qreal scale){
 
 void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 {
+    loads=true;
     clear();
     bool own=false;
     QFile file(fileName);
@@ -194,6 +200,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
 			QString label=attr.value("name").toString();
+			bool value=(attr.value("value").toString()=="true"?1:0);
 			Connection*c;
 			if(element->myInputs.count()>=id+1){
 			    c=element->myInputs.value(id);
@@ -201,6 +208,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			    element->addInput(1);
 			    c=element->myInputs.last();
 			}
+			c->setValue(value);
 			c->setNegated(negated);
 			c->setName(label);
 		    }
@@ -215,6 +223,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
 			QString label=attr.value("name").toString();
+			bool value=(attr.value("value").toString()=="true"?1:0);
 			Connection*c;
 			if(element->myOutputs.count()>=id+1){
 			    c=element->myOutputs.value(id);
@@ -222,6 +231,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			    element->addOutput(1);
 			    c=element->myOutputs.last();
 			}
+			c->setValue(value);
 			c->setNegated(negated);
 			c->setName(label);
 			count++;
@@ -232,6 +242,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 	}
     }
    if(own)file.close();
+   loads=false;
 }
 
 void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
@@ -270,6 +281,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
+		connectionAttributes.append("value",c->value()?"true":"false");
 		xml->writeAttributes(connectionAttributes);
 		xml->writeEndElement();
 		count++;
@@ -286,6 +298,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
+		connectionAttributes.append("value",c->value()?"true":"false");
 		xml->writeAttributes(connectionAttributes);
 		xml->writeEndElement();
 		count++;

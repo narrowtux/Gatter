@@ -93,3 +93,8 @@ void SubScene::selectFile(){
     QSettings settings;
     loadFromFile(QFileDialog::getOpenFileName(0,tr("Select File"),settings.value("lastOpenDir").toString()));
 }
+
+SubScene::~SubScene(){
+    myMainWindow->close();
+    myMainWindow->deleteLater();
+}

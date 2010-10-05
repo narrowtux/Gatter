@@ -28,6 +28,7 @@ public:
     Element* getElementFromTypeName(QString typeName);
     void connectItems(int inElement, int outElement, int input, int output);
     bool isBlank();
+    bool isLoading();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -38,6 +39,7 @@ protected:
     QMap<int, Element*> elements;
     MainWindow* myMainWindow;
     bool blank;
+    bool loads;
 signals:
     void modified();
     void elementAddedOrRemoved();

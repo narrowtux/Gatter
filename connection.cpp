@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QDebug>
+#include "scene.h"
 #include "element.h"
 Connection::Connection(QObject *parent) :
     QObject(parent)
@@ -35,6 +36,7 @@ void Connection::setValue(bool v)
 	if(myNegated){
 	    endValue=!endValue;
 	}
+	if(!((Scene*)scene())->isLoading())
 	emit(changed(endValue));
 	if(myConnectedTo!=0&&myConnectionType==Output){
 	    qDebug()<<"Connection Value Changed to"<<endValue;
