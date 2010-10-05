@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
     //loadFile("/Users/tux/test.gtr");
+    ui->zoomSlider->hide();
+    ui->dockUTDiagram->close();
 }
 
 MainWindow::~MainWindow()
@@ -303,12 +305,21 @@ void MainWindow::setCurrentFile(const QString &fileName)
 {
     curFile = fileName;
     setWindowModified(false);
-    myShouldBeSaved=true;
+    if(fileName!="")
+	myShouldBeSaved=true;
     QString shownName = curFile;
     if (curFile.isEmpty())
 	shownName = tr("untitled")+ QString().setNum(++unnamedIndex) +".gtr";
     setWindowFilePath(shownName);
-    setWindowTitle(strippedName(shownName)+" - "+tr("Gatter"));
+    if(mySubScene){
+	if(myShouldBeSaved){
+	    setWindowTitle(strippedName(shownName)+" "+tr("Subscene")+" - "+tr("Gatter"));
+	} else {
+	    setWindowTitle(tr("Subscene")+" - "+tr("Gatter"));
+	}
+    } else {
+	setWindowTitle(strippedName(shownName)+" - "+tr("Gatter"));
+    }
 }
 
 QString MainWindow::strippedName(const QString &fullFileName)

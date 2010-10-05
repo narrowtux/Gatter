@@ -195,7 +195,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
 			QString label=attr.value("name").toString();
 			Connection*c;
-			if(element->myInputs.count()>=id-1){
+			if(element->myInputs.count()>=id+1){
 			    c=element->myInputs.value(id);
 			}else{
 			    element->addInput(1);

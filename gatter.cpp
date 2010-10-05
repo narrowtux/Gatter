@@ -140,11 +140,9 @@ void Gatter::recalculate(){
 	val=myInputs[0]->value();
 	break;
     }
-    if(beforeUndefined||beforeValue!=val){
-	beforeUndefined=false;
-	beforeValue=val;
-	delay->start(delayMS);
-    }
+    beforeUndefined=false;
+    beforeValue=val;
+    delay->start(delayMS);
 }
 
 void Gatter::sendChanges(){
