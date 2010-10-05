@@ -294,3 +294,14 @@ void Connection::connectWith(Connection *c){
     c->setOther(this);
     updateLine();
 }
+
+
+void Connection::setPos(const QPointF &pos){
+    qreal x=pos.x();
+    qreal y=(int)pos.y();
+    QGraphicsItem::setPos(x,y);
+}
+
+void Connection::setPos(qreal x, qreal y){
+    setPos(QPointF(x,y));
+}

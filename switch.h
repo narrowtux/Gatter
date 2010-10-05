@@ -11,8 +11,9 @@ public:
     explicit Switch(QObject *parent = 0);
     void setPrivateXml(QCoreXmlStreamWriter *xml);
     void readPrivateXml(QCoreXmlStreamReader *xml);
+    bool isInput();
+    void setInput(bool value);
 protected:
-    bool value;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

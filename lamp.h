@@ -8,13 +8,13 @@ class Lamp : public Element
     Q_OBJECT
 public:
     explicit Lamp(QObject *parent = 0);
+    bool isOutput();
     
 signals:
 private slots:
     void setColor(QColor c);
 protected:
     QRectF boundingRect() const;
-    bool value;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QColor color;
     void recalculate();

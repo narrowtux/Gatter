@@ -41,3 +41,4 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     settingsdialog.ui
 TRANSLATIONS += gatter_de_DE.ts
+ICON = Gatter.icns

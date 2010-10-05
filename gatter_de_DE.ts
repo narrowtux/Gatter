@@ -66,7 +66,7 @@
         <translation>Lampe</translation>
     </message>
     <message>
-        <location filename="lamp.cpp" line="72"/>
+        <location filename="lamp.cpp" line="78"/>
         <source>Color</source>
         <translation>Farbe</translation>
     </message>
@@ -74,32 +74,42 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="229"/>
+        <location filename="mainwindow.cpp" line="208"/>
+        <source>Select File</source>
+        <translation>Datei auswählen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="228"/>
+        <source>Save File As</source>
+        <translation>Datei Speichern unter</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="237"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="230"/>
+        <location filename="mainwindow.cpp" line="238"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="258"/>
-        <location filename="mainwindow.cpp" line="292"/>
+        <location filename="mainwindow.cpp" line="266"/>
+        <location filename="mainwindow.cpp" line="300"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="84"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="259"/>
+        <location filename="mainwindow.cpp" line="267"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="298"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
@@ -435,7 +445,7 @@ Möchten Sie die Änderungen speichern?</translation>
 <context>
     <name>SubScene</name>
     <message>
-        <location filename="subscene.cpp" line="6"/>
+        <location filename="subscene.cpp" line="8"/>
         <source>SubScene</source>
         <translation>Unterschaltung</translation>
     </message>

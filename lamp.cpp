@@ -4,7 +4,7 @@
 Lamp::Lamp(QObject *parent) :
     Element(parent)
 {
-    value=false;
+    myValue=false;
     height=44;
     width=44;
     addInput(new Connection);
@@ -37,7 +37,7 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(b);
     painter->drawEllipse(QPointF(0,0),22,22);
     painter->setPen(Qt::NoPen);
-    if(value){
+    if(myValue){
 	painter->setBrush(color);
     }else{
 	painter->setBrush(QColor("black"));
@@ -61,8 +61,9 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 void Lamp::recalculate(){
-    value=myInputs[0]->value();
+    myValue=myInputs[0]->value();
     qDebug()<<"Recalculated";
+    emit(outputChanged(myValue));
     update();
 }
 
@@ -92,4 +93,8 @@ void Lamp::readPrivateXml(QCoreXmlStreamReader *xml){
     qDebug()<<exp.capturedTexts();
     color.setGreen(exp.cap(2).toInt());
     color.setBlue(exp.cap(3).toInt());
+}
+
+bool Lamp::isOutput(){
+    return true;
 }

@@ -8,16 +8,26 @@
 #include "clock.h"
 #include <qxmlstream.h>
 #include <QSettings>
+#include "subscene.h"
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    myScene=new Scene(this);
+    if(scene!=0){
+	myScene=scene;
+	mySubScene=true;
+	myShouldBeSaved=false;
+    }else{
+	myScene=new Scene(this);
+	mySubScene=false;
+	myShouldBeSaved=true;
+    }
+    
     myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
 
@@ -84,16 +94,18 @@ void MainWindow::updateActions()
     ui->menuWindow->addActions(windowActions);
 }
 
-void MainWindow::closeEvent(QCloseEvent *event){
-
+void MainWindow::closeEvent(QCloseEvent *event)
+{
     if (maybeSave()) {
 	writeSettings();
 	event->accept();
 	windowActions.removeAll(myAction);
 	myAction->deleteLater();
 	updateActions();
-	mainWindows.removeAll(this);
-	delete myScene;
+	if(!mySubScene){
+	    mainWindows.removeAll(this);
+	    delete myScene;
+	}
     } else {
 	event->ignore();
     }
@@ -199,9 +211,15 @@ void MainWindow::loadFileFrom(QString fileName){
 
 void MainWindow::open()
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
+    QSettings settings;
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Select File"),settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
     if (!fileName.isEmpty()){
-	MainWindow*m=newFile();
+	settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
+	MainWindow*m;
+	if(!myScene->isBlank())
+	    m=newFile();
+	else
+	    m=this;
 	m->loadFile(fileName);
     }
 }
@@ -217,10 +235,11 @@ bool MainWindow::save()
 
 bool MainWindow::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
+    QSettings settings;
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Save File As"),settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
     if (fileName.isEmpty())
 	return false;
-
+    settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
     return saveFile(fileName);
 }
 
@@ -253,7 +272,7 @@ void MainWindow::writeSettings()
 
 bool MainWindow::maybeSave()
 {
-    if (isWindowModified()) {
+    if (isWindowModified()&&myShouldBeSaved) {
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(this, tr("Gatter"),
 		     tr("The document has been modified.\n"
@@ -284,7 +303,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
 {
     curFile = fileName;
     setWindowModified(false);
-
+    myShouldBeSaved=true;
     QString shownName = curFile;
     if (curFile.isEmpty())
 	shownName = tr("untitled")+ QString().setNum(++unnamedIndex) +".gtr";
@@ -356,4 +375,9 @@ void MainWindow::on_actionLayoutMiddle_triggered()
 	    i->setY(center+0.5);
 	}
     }
+}
+
+void MainWindow::on_actionInsertSubscene_triggered()
+{
+    myScene->addElement(new SubScene);
 }

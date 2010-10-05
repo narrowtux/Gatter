@@ -19,7 +19,7 @@ void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	    foreach(Connection* c, myOutputs){
 		c->setValue(Low);
 	    }
-	    value=0;
+	    myValue=0;
 	    update();
 	}
     }
@@ -33,7 +33,7 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	foreach(Connection* c, myOutputs){
 	    c->setValue(High);
 	}
-	value=1;
+	myValue=1;
 	update();
     }
 }
@@ -51,7 +51,7 @@ void Button::updateValue(){
     foreach(Connection* c, myOutputs){
 	c->setValue(Low);
     }
-    value=0;
+    myValue=0;
     update();
 }
 
@@ -60,8 +60,8 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     QRectF rect=boundingRect().adjusted(15,10,-15,-10);
     painter->drawRect(rect);
     QLinearGradient gradient;
-    gradient.setColorAt(!value,QColor(220-value*50,220-value*50,220-value*50));
-    gradient.setColorAt(value,QColor(180-value*50,180-value*50,180-value*50));
+    gradient.setColorAt(!myValue,QColor(220-myValue*50,220-myValue*50,220-myValue*50));
+    gradient.setColorAt(myValue,QColor(180-myValue*50,180-myValue*50,180-myValue*50));
     gradient.setStart(rect.topLeft());
     gradient.setFinalStop(rect.bottomLeft());
     painter->setPen(Qt::NoPen);

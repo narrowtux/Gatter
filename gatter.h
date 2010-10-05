@@ -8,7 +8,7 @@ class Gatter : public Element
     Q_OBJECT
 public:
     explicit Gatter(QObject *parent = 0);
-    enum Type{AND,NOT,OR,XOR,DUPLICATOR};
+    enum Type{AND,NOT,OR,XOR,DUPLICATOR,ICON};
     QSize sizeHint() const;
     QRectF boundingRect() const;
     void setType(Type t);

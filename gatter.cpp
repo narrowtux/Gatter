@@ -40,6 +40,9 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     case DUPLICATOR:
 	text="";
 	break;
+    case ICON:
+	text="Gatter";
+	break;
     }
     QTextOption o;
     o.setAlignment(Qt::AlignCenter);
@@ -80,6 +83,11 @@ void Gatter::setType(Type t){
 	width=30;
 	setMinMaxInputsOutputs(1,1,1,-1);
 	setOutputs(4);
+	break;
+    case ICON:
+	setData(ElementName,"Icon");
+	setMinMaxInputsOutputs(2,2,1,1);
+	setScale(10);
 	break;
     }
     update(boundingRect());

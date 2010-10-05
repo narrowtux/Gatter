@@ -15,9 +15,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0, Scene*scene=0);
     ~MainWindow();
     QFormLayout* getFormLayout();
+    void setCurrentFile(const QString &fileName);
 	
 public slots:
     MainWindow* newFile();
@@ -47,11 +48,12 @@ private:
     bool maybeSave();
     void loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
     QString curFile;
     SettingsDialog* settingsDialog;
+    bool mySubScene, myShouldBeSaved;
 private slots:
+    void on_actionInsertSubscene_triggered();
     void on_actionLayoutMiddle_triggered();
     void on_actionLayoutCenter_triggered();
     void on_actionLayoutLeft_triggered();

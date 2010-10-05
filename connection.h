@@ -25,6 +25,8 @@ public:
     void setElement(Element* e);
     Connection* connectedTo();
     void connectWith(Connection* c);
+    void setPos(const QPointF &pos);
+    void setPos(qreal x, qreal y);
 signals:
     void changed(bool);
     void recalculate();

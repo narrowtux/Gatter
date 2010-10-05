@@ -106,6 +106,7 @@
     <addaction name="actionMultiplexer"/>
     <addaction name="menuInputs"/>
     <addaction name="menuOutputs"/>
+    <addaction name="actionInsertSubscene"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -517,6 +518,11 @@
   <action name="actionDistribute_Vertical">
    <property name="text">
     <string>Vertical</string>
+   </property>
+  </action>
+  <action name="actionInsertSubscene">
+   <property name="text">
+    <string>Subscene</string>
    </property>
   </action>
  </widget>

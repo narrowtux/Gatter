@@ -30,7 +30,12 @@ public:
     virtual void readPrivateXml(QXmlStreamReader *xml);
     void setPos(const QPointF &pos);
     void setPos(qreal x, qreal y);
+    virtual bool isInput();
+    virtual bool isOutput();
+    virtual void setInput(bool value);
+    bool value();
 signals:
+    void outputChanged(bool);
 protected slots:
     virtual void recalculate();
 private slots:
@@ -41,6 +46,7 @@ private slots:
     void updateOutputs(int);
 protected:
     QFormLayout*layout;
+    bool myValue;
     int minInputs,minOutputs,maxInputs,maxOutputs;
     bool pressed;
     QList<Connection*> myInputs;

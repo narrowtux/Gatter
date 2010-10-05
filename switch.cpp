@@ -4,7 +4,7 @@
 Switch::Switch(QObject *parent) :
     Element(parent)
 {
-    value=0;
+    myValue=0;
     height=50;
     width=50;
     addOutput(new Connection);
@@ -28,7 +28,7 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     QLinearGradient darkGradient;
     darkGradient.setColorAt(0, QColor(200,200,200));
     darkGradient.setColorAt(1, QColor(180,180,180));
-    if(!value){
+    if(!myValue){
 	darkGradient.setStart(lower.bottomLeft());
 	darkGradient.setFinalStop(lower.topLeft());
 	upperBrush=QBrush(QColor(240,240,240));
@@ -45,7 +45,7 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->setBrush(lowerBrush);
     painter->drawRect(lower);
     painter->setPen(QColor(240,240,240));
-    if(value){
+    if(myValue){
 	painter->drawLine(upper.topLeft()+QPointF(1,1),upper.topRight()+QPointF(-1,1));
 	painter->setPen(QColor(150,150,150));
 	painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
@@ -91,10 +91,10 @@ void Switch::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     Element::mouseReleaseEvent(event);
     if(event->scenePos()==mouseDownPos&&event->button()==Qt::LeftButton&&boundingRect().adjusted(15,10,-15,-10).contains(event->pos())){
-	value=!value;
+	myValue=!myValue;
 	foreach(Connection* c, myOutputs){
-	    if(value)c->setValue(High);
-	    if(!value)c->setValue(Low);
+	    if(myValue)c->setValue(High);
+	    if(!myValue)c->setValue(Low);
 	}
 
 	update();
@@ -107,12 +107,24 @@ QRectF Switch::boundingRect() const
 }
 
 void Switch::setPrivateXml(QCoreXmlStreamWriter *xml){
-    xml->writeAttribute("value",value?"true":"false");
+    xml->writeAttribute("value",myValue?"true":"false");
 }
 
 void Switch::readPrivateXml(QCoreXmlStreamReader *xml){
-    value=(xml->attributes().value("value").toString()=="true"?1:0);
+    myValue=(xml->attributes().value("value").toString()=="true"?1:0);
     foreach(Connection* c, myOutputs){
-	c->setValue(value);
+	c->setValue(myValue);
+    }
+}
+
+bool Switch::isInput(){
+    return true;
+}
+
+void Switch::setInput(bool svalue){
+    myValue=svalue;
+    update();
+    foreach(Connection* c, myOutputs){
+	c->setValue(myValue);
     }
 }

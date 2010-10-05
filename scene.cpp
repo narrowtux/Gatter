@@ -6,6 +6,7 @@
 #include "gatter.h"
 #include "lamp.h"
 #include "switch.h"
+#include "subscene.h"
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -14,6 +15,7 @@ Scene::Scene(QObject *parent) :
 	connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
 	QSettings settings;
 	highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
+	blank=true;
 }
 
 Scene::~Scene(){
@@ -106,6 +108,8 @@ void Scene::addElement(Element *e,int uniqueId){
 	e->uniqueId=uniqueId;
     }
     emit(modified());
+    emit(elementAddedOrRemoved());
+    blank=false;
 }
 
 void Scene::removeElement(Element *e){
@@ -122,6 +126,7 @@ void Scene::removeItem(QGraphicsItem *item){
 	QGraphicsScene::removeItem(item);
     }
     emit(modified());
+    emit(elementAddedOrRemoved());
 }
 
 bool Scene::isElement(QGraphicsItem *item){
@@ -138,21 +143,26 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName)
+void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 {
+    clear();
+    bool own=false;
     QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
-    QXmlStreamReader xml;
-    xml.setDevice(&file);
-    while(!xml.atEnd()){
-	xml.readNext();
-	qDebug()<<xml.name()<<xml.isStartElement();
-	if(xml.name()=="connections"){
-	    while(!(xml.name()=="connections"&&xml.isEndElement())){
-		xml.readNext();
-		qDebug()<<xml.name()<<xml.isStartElement();
-		if(xml.name()=="connect"&&xml.isStartElement()){
-		    QXmlStreamAttributes attr=xml.attributes();
+    if(xml==0){
+	file.open(QIODevice::ReadOnly);
+	xml=new QXmlStreamReader;
+	xml->setDevice(&file);
+	own=true;
+    }
+    while(!(xml->name()=="scene"&&xml->isEndElement())){
+	xml->readNext();
+	qDebug()<<xml->name()<<xml->isStartElement();
+	if(xml->name()=="connections"){
+	    while(!(xml->name()=="connections"&&xml->isEndElement())){
+		xml->readNext();
+		qDebug()<<xml->name()<<xml->isStartElement();
+		if(xml->name()=="connect"&&xml->isStartElement()){
+		    QXmlStreamAttributes attr=xml->attributes();
 		    int inElement, outElement, input, output;
 		    inElement=attr.value("inElement").toString().toInt();
 		    outElement=attr.value("outElement").toString().toInt();
@@ -162,8 +172,8 @@ void Scene::load(QString fileName)
 		}
 	    }
 	}
-	if(xml.name()=="element"){
-	    QXmlStreamAttributes attr=xml.attributes();
+	if(xml->name()=="element"){
+	    QXmlStreamAttributes attr=xml->attributes();
 	    QString elementType=attr.value("type").toString();
 	    Element* element=getElementFromTypeName(elementType);
 	    if(element!=0){
@@ -171,16 +181,16 @@ void Scene::load(QString fileName)
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
 		int count=0;
-		while(!(xml.name()=="inputs"&&xml.isEndElement()))
+		while(!(xml->name()=="inputs"&&xml->isEndElement()))
 		{
-		    xml.readNext();
-		    qDebug()<<xml.name()<<xml.isStartElement();
-		    if(xml.name()=="private"&&xml.isStartElement()){
-			element->readPrivateXml(&xml);
+		    xml->readNext();
+		    qDebug()<<xml->name()<<xml->isStartElement();
+		    if(xml->name()=="private"&&xml->isStartElement()){
+			element->readPrivateXml(xml);
 		    }
-		    if(xml.name()=="connection"&&xml.isStartElement()){
+		    if(xml->name()=="connection"&&xml->isStartElement()){
 			count++;
-			attr=xml.attributes();
+			attr=xml->attributes();
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
 			QString label=attr.value("name").toString();
@@ -197,11 +207,11 @@ void Scene::load(QString fileName)
 		}
 		element->setInputs(count);
 		count=0;
-		while(!(xml.name()=="outputs"&&xml.isEndElement())){
-		    xml.readNext();
-		    qDebug()<<xml.name()<<xml.isStartElement();
-		    if(xml.name()=="connection"&&xml.isStartElement()){
-			attr=xml.attributes();
+		while(!(xml->name()=="outputs"&&xml->isEndElement())){
+		    xml->readNext();
+		    qDebug()<<xml->name()<<xml->isStartElement();
+		    if(xml->name()=="connection"&&xml->isStartElement()){
+			attr=xml->attributes();
 			int id=attr.value("id").toString().toInt();
 			bool negated=(attr.value("negated").toString()=="true"?1:0);
 			QString label=attr.value("name").toString();
@@ -221,75 +231,79 @@ void Scene::load(QString fileName)
 	    }
 	}
     }
-    file.close();
+   if(own)file.close();
 }
 
-void Scene::save(QString fileName)
+void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 {
-    QXmlStreamWriter xml;
+    bool own=false;
     QFile file(fileName);
-    file.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate);
-    xml.setDevice(&file);
-    xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    xml.writeStartElement("scene");
+    if(xml==0){
+	xml=new QXmlStreamWriter;
+	file.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate);
+	xml->setDevice(&file);
+	xml->setAutoFormatting(true);
+	xml->writeStartDocument();
+	own=true;
+    }
+    xml->writeStartElement("scene");
     /*Elements*/{
-	xml.writeStartElement("elements");
+	xml->writeStartElement("elements");
 	foreach(Element* e,elements){
-	    xml.writeStartElement("element");
+	    xml->writeStartElement("element");
 	    QCoreXmlStreamAttributes elementAttributes;
 	    elementAttributes.append("x",QString().setNum(e->scenePos().x()));
 	    elementAttributes.append("y",QString().setNum(e->scenePos().y()));
 	    elementAttributes.append("id",QString().setNum(e->uniqueId));
 	    elementAttributes.append("type",e->myType);
-	    xml.writeAttributes(elementAttributes);
-	    xml.writeStartElement("private");
-	    e->setPrivateXml(&xml);
-	    xml.writeEndElement();
-	    xml.writeStartElement("inputs");
+	    xml->writeAttributes(elementAttributes);
+	    xml->writeStartElement("private");
+	    e->setPrivateXml(xml);
+	    xml->writeEndElement();
+	    xml->writeStartElement("inputs");
 	    
 	    int count=0;
 	    foreach(Connection*c,e->myInputs)
 	    {
-		xml.writeStartElement("connection");
+		xml->writeStartElement("connection");
 		QCoreXmlStreamAttributes connectionAttributes;
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
-		xml.writeAttributes(connectionAttributes);
-		xml.writeEndElement();
+		xml->writeAttributes(connectionAttributes);
+		xml->writeEndElement();
 		count++;
 	    }
 
-	    xml.writeEndElement();
-	    xml.writeStartElement("outputs");
+	    xml->writeEndElement();
+	    xml->writeStartElement("outputs");
 	    
 	    count=0;
 	    foreach(Connection*c,e->myOutputs)
 	    {
-		xml.writeStartElement("connection");
+		xml->writeStartElement("connection");
 		QCoreXmlStreamAttributes connectionAttributes;
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
-		xml.writeAttributes(connectionAttributes);
-		xml.writeEndElement();
+		xml->writeAttributes(connectionAttributes);
+		xml->writeEndElement();
 		count++;
 	    }
 	    
-	    xml.writeEndElement();
-	    xml.writeEndElement();
+	    xml->writeEndElement();
+	    xml->writeEndElement();
 	}
-	xml.writeEndElement();
+	xml->writeEndElement();
     }
     /*Connections*/{
-	xml.writeStartElement("connections");
+	xml->writeStartElement("connections");
 	foreach(Element*e,elements){
 	    foreach(Connection*c,e->myInputs)
 	    {
 		if(c->isConnected())
 		{
-		    xml.writeStartElement("connect");
+		    xml->writeStartElement("connect");
 		    QCoreXmlStreamAttributes connectionAttributes;
 		    connectionAttributes.append("inElement",QString().setNum(c->element()->uniqueId));
 		    connectionAttributes.append("outElement",QString().setNum(c->connectedTo()->element()->uniqueId));
@@ -298,16 +312,18 @@ void Scene::save(QString fileName)
 		    connectionAttributes.append("input",QString().setNum(id));
 		    id=c->connectedTo()->element()->myOutputs.indexOf(c->connectedTo());
 		    connectionAttributes.append("output",QString().setNum(id));
-		    xml.writeAttributes(connectionAttributes);
-		    xml.writeEndElement();
+		    xml->writeAttributes(connectionAttributes);
+		    xml->writeEndElement();
 		}
 	    }
 	}
-	xml.writeEndElement();
+	xml->writeEndElement();
     }
-    xml.writeEndElement();
-    xml.writeEndDocument();
-    file.close();
+    xml->writeEndElement();
+    if(own){
+	xml->writeEndDocument();
+	file.close();
+    }
 }
 
 Element* Scene::getElementFromTypeName(QString typeName){
@@ -321,6 +337,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 	return new Lamp;
     if(typeName=="switch")
 	return new Switch;
+    if(typeName=="subscene")
+	return new SubScene;
     return 0;
 }
 
@@ -332,4 +350,16 @@ void Scene::connectItems(int inElement, int outElement, int input, int output)
     Connection* outputC=out->myOutputs[output];
     inputC->connectWith(outputC);
     emit(modified());
+}
+
+bool Scene::isBlank(){
+    return blank;
+}
+
+void Scene::clear(){
+    foreach(Element* e, elements){
+	removeElement(e);
+    }
+    elements.clear();
+    QGraphicsScene::clear();
 }

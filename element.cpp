@@ -385,11 +385,11 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QPen pointPen;
     pointPen.setColor(QColor(100,100,100));
     painter->setPen(pointPen);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawPoint(boundingRect().topLeft()+QPointF(5,5));
-    painter->drawPoint(boundingRect().topRight()+QPointF(-5,5));
-    painter->drawPoint(boundingRect().bottomLeft()+QPointF(5,-5));
-    painter->drawPoint(boundingRect().bottomRight()+QPointF(-5,-5));
+    painter->setBrush(pointPen.color());
+    painter->drawEllipse(boundingRect().topLeft()+QPointF(5,5),1,1);
+    painter->drawEllipse(boundingRect().topRight()+QPointF(-5,5),1,1);
+    painter->drawEllipse(boundingRect().bottomLeft()+QPointF(5,-5),1,1);
+    painter->drawEllipse(boundingRect().bottomRight()+QPointF(-5,-5),1,1);
     painter->setPen(QColor("black"));
     painter->setBrush(Qt::NoBrush);
 }
@@ -402,4 +402,20 @@ void Element::setPos(const QPointF &pos){
 
 void Element::setPos(qreal x, qreal y){
     setPos(QPointF(x,y));
+}
+
+bool Element::isInput(){
+    return false;
+}
+
+bool Element::isOutput(){
+    return false;
+}
+
+void Element::setInput(bool value){
+    
+}
+
+bool Element::value(){
+    return myValue;
 }
