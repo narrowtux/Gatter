@@ -11,7 +11,6 @@ SubSceneChooseDialog::SubSceneChooseDialog(QWidget *parent) :
     if(!myDirectory.exists()){
 	qDebug()<<"Creating directory"<<myDirectory<<": "<<myDirectory.mkpath(myDirectory.absolutePath());
     }
-    updateExisting();
 }
 
 SubSceneChooseDialog::~SubSceneChooseDialog()
@@ -68,7 +67,7 @@ void SubSceneChooseDialog::updateExisting(){
 		information<<info;
 		QListWidgetItem* item=new QListWidgetItem;
 		item->setText(info->name());
-		//item->setIcon(*info->icon());
+		item->setIcon(*info->icon());
 		item->setData(QListWidgetItem::UserType+1,QVariant(info->fileName()));
 		ui->listExistingScenes->addItem(item);
 	    }
@@ -100,9 +99,9 @@ void SubSceneChooseDialog::on_toolAddSubScene_clicked()
 {
     QSettings settings;
     QString fn=QFileDialog::getOpenFileName(this, tr("Choose a File to import as Subscene"),settings.value("lastOpenDir").toString());
-    QString newFile=myDirectory.absolutePath()+"/"+QFileInfo(fn).fileName();
-    QFile::copy(fn, newFile);
     QString name= QInputDialog::getText(this, tr("Name of the Scene"), tr("Please enter a name for this scene"));
+    QString newFile=myDirectory.absolutePath()+"/"+name.toLower().simplified();
+    QFile::copy(fn, newFile);
     SubSceneInfo* info=new SubSceneInfo;
     info->setName(name);
     info->setFileName(newFile);
@@ -113,7 +112,8 @@ void SubSceneChooseDialog::on_toolAddSubScene_clicked()
 }
 
 void SubSceneChooseDialog::showEvent(QShowEvent *){
-    saveExisting();
+    if(information.count()!=0)
+	saveExisting();
     updateExisting();
 }
 

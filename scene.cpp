@@ -150,7 +150,7 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
+void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes)
 {
     loads=true;
     clear();
@@ -195,8 +195,10 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 		{
 		    xml->readNext();
 		    qDebug()<<xml->name()<<xml->isStartElement();
-		    if(xml->name()=="private"&&xml->isStartElement()){
-			element->readPrivateXml(xml);
+		    if(setAllAttributes){
+			if(xml->name()=="private"&&xml->isStartElement()){
+			    element->readPrivateXml(xml);
+			}
 		    }
 		    if(xml->name()=="connection"&&xml->isStartElement()){
 			count++;
@@ -212,8 +214,10 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			    element->addInput(1);
 			    c=element->myInputs.last();
 			}
-			c->setNegated(negated);
-			c->setValue(value);
+			if(setAllAttributes){
+			    c->setNegated(negated);
+			    c->setValue(value);
+			}
 			c->setName(label);
 		    }
 		}

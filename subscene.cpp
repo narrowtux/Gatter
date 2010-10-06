@@ -86,8 +86,10 @@ void SubScene::readPrivateXml(QCoreXmlStreamReader *xml){
     updateConnections();
 }
 
-void SubScene::loadFromFile(QString file){
-    myScene->load(file);
+void SubScene::loadFromFile(QString file, bool setAllAttributes){
+    qDebug()<<"Loading SubScene from file:"<<file;
+    if(QFile::exists(file))
+	myScene->load(file,0,setAllAttributes);
     fileName=file;
     if(myMainWindow!=0)
 	myMainWindow->setCurrentFile(fileName);

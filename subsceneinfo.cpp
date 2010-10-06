@@ -49,7 +49,7 @@ QIcon* SubSceneInfo::icon(){
 	painter.setFont(font);
 	if(myFileName!=""){
 	    SubScene* scene=new SubScene(0, false);
-	    scene->loadFromFile(myFileName);
+	    scene->loadFromFile(myFileName,false);
 	    int leftC=scene->sceneInputs.count(), rightC=scene->sceneOutputs.count();
 	    qreal spaceLeft=64/(leftC+1), spaceRight=64/(rightC+1);
 	    for(int i=1;i<=leftC;i++){

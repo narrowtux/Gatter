@@ -24,7 +24,7 @@ public:
     void setMainWindow(MainWindow* m);
     void setScale(qreal scale);
     void save(QString fileName, QCoreXmlStreamWriter* xml=0);
-    void load(QString fileName, QCoreXmlStreamReader* xml=0);
+    void load(QString fileName, QCoreXmlStreamReader* xml=0, bool setAllAttributes=true);
     Element* getElementFromTypeName(QString typeName);
     void connectItems(int inElement, int outElement, int input, int output);
     bool isBlank();
