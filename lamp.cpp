@@ -7,6 +7,7 @@ Lamp::Lamp(QObject *parent) :
     myValue=false;
     height=44;
     width=44;
+    minHeight=44;
     addInput(new Connection);
     setData(ElementName,"Lamp");
     setMinMaxInputsOutputs(1,1,0,0);

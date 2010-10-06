@@ -3,7 +3,7 @@
 Element::Element(QObject *parent, QGraphicsItem *gparent) :
     QObject(parent), QGraphicsItem(gparent)
 {
-    minHeight=height;
+    minHeight=50;
     setFlag(ItemIsSelectable,true);
     setFlag(ItemIsMovable,true);
     setData(ElementName,"Element");
