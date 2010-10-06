@@ -60,7 +60,7 @@ protected:
     void removeOutput(Connection* o=0);
     void removeOutput(int c);
     void setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOut);
-    qreal height, width;
+    qreal height, width, minHeight;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

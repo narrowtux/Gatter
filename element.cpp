@@ -3,6 +3,7 @@
 Element::Element(QObject *parent, QGraphicsItem *gparent) :
     QObject(parent), QGraphicsItem(gparent)
 {
+    minHeight=height;
     setFlag(ItemIsSelectable,true);
     setFlag(ItemIsMovable,true);
     setData(ElementName,"Element");
@@ -129,9 +130,20 @@ void Element::setOutputs(int c){
 
 void Element::relayoutConnections(){
     //Precalculate Optimal Height
-    if(myInputs.count()*20>height||myOutputs.count()*20>height){
-	height=qMax(myInputs.count()*10,myOutputs.count()*20);
+    qDebug()<<"height before"<<height;
+    qreal minimumHeight=qMax((myInputs.count())*20,(myOutputs.count())*20);
+    if(minimumHeight>height){
+	height=qMax(myInputs.count()*20,myOutputs.count()*20);
+    } else if(minimumHeight<=height){
+	if(minimumHeight>minHeight){
+	    height=minimumHeight;
+	} else {
+	    height=minHeight;
+	}
     }
+    qDebug()<<"Minimum needed Height:"<<minimumHeight;
+    qDebug()<<"minHeight"<<minHeight;
+    qDebug()<<"height after"<<height;
 
     //Inputs
     qreal leftSide=boundingRect().left();
@@ -147,6 +159,7 @@ void Element::relayoutConnections(){
     for(int i=0;i<count;i++){
 	myOutputs[i]->setPos(rightSide,(height/(qreal)(count+1))*(1+i)+topSide);
     }
+    update();
 
 }
 

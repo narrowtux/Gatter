@@ -5,6 +5,7 @@ Gatter::Gatter(QObject *parent) :
 {
     height=50;
     width=50;
+    minHeight=50;
     setMinMaxInputsOutputs(2,-1,1,1);
     setType(AND);
     setData(ElementName,"Gatter");
