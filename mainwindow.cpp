@@ -9,9 +9,11 @@
 #include <qxmlstream.h>
 #include <QSettings>
 #include "subscene.h"
+#include "subscenechoosedialog.h"
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
+
 
 MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     QMainWindow(parent),
@@ -27,10 +29,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	mySubScene=false;
 	myShouldBeSaved=true;
     }
-    
+    subSceneChooseDialog=new SubSceneChooseDialog;
     myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
-
     setCurrentFile("");
     mainWindows<<this;
     myAction=new QAction(windowTitle(),this);
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 
 MainWindow::~MainWindow()
 {
+    mainWindows.removeAll(this);
     delete ui;
 }
 
@@ -101,9 +103,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (maybeSave()) {
 	writeSettings();
 	event->accept();
-	windowActions.removeAll(myAction);
-	myAction->deleteLater();
-	updateActions();
+	if(!isVisible()){
+	    windowActions.removeAll(myAction);
+	    myAction->deleteLater();
+	    updateActions();
+	}
 	if(!mySubScene){
 	    mainWindows.removeAll(this);
 	    delete myScene;
@@ -390,5 +394,8 @@ void MainWindow::on_actionLayoutMiddle_triggered()
 
 void MainWindow::on_actionInsertSubscene_triggered()
 {
-    myScene->addElement(new SubScene);
+    SubScene* scene=subSceneChooseDialog->getSubScene();
+    if(scene!=0){
+	myScene->addElement(scene);
+    }
 }

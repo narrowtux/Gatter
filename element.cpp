@@ -432,3 +432,14 @@ void Element::setInput(bool value){
 bool Element::value(){
     return myValue;
 }
+
+QString Element::name(){
+    QString ret="";
+    foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
+	if(c->name()!=""){
+	    ret=c->name();
+	    break;
+	}
+    }
+    return ret;
+}

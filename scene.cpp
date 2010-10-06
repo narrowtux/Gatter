@@ -17,6 +17,7 @@ Scene::Scene(QObject *parent) :
 	highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
 	blank=true;
 	loads=false;
+	myMainWindow=0;
 }
 
 Scene::~Scene(){
@@ -98,7 +99,8 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 void Scene::addElement(Element *e,int uniqueId){
     addItem(e);
     e->setPos(QPointF(0.5,0.5));
-    e->setFormLayout(myMainWindow->getFormLayout());
+    if(myMainWindow!=0)
+	e->setFormLayout(myMainWindow->getFormLayout());
     if(uniqueId==-1){
 	int maxID=0;
 	foreach(int key, elements.keys()){
@@ -155,7 +157,9 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
     bool own=false;
     QFile file(fileName);
     if(xml==0){
-	file.open(QIODevice::ReadOnly);
+	if(!file.open(QIODevice::ReadOnly)){
+	    return;
+	}
 	xml=new QXmlStreamReader;
 	xml->setDevice(&file);
 	own=true;
@@ -208,8 +212,8 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml)
 			    element->addInput(1);
 			    c=element->myInputs.last();
 			}
-			c->setValue(value);
 			c->setNegated(negated);
+			c->setValue(value);
 			c->setName(label);
 		    }
 		}

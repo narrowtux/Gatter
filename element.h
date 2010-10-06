@@ -34,6 +34,7 @@ public:
     virtual bool isOutput();
     virtual void setInput(bool value);
     bool value();
+    QString name();
 signals:
     void outputChanged(bool);
 protected slots:

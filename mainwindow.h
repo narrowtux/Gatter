@@ -5,6 +5,7 @@
 #include "defines.h"
 #include <QFormLayout>
 #include "settingsdialog.h"
+class SubSceneChooseDialog;
 class Scene;
 namespace Ui {
     class MainWindow;
@@ -52,6 +53,7 @@ private:
     QString curFile;
     SettingsDialog* settingsDialog;
     bool mySubScene, myShouldBeSaved;
+    SubSceneChooseDialog* subSceneChooseDialog;
 private slots:
     void on_actionInsertSubscene_triggered();
     void on_actionLayoutMiddle_triggered();

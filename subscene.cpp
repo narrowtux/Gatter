@@ -1,11 +1,14 @@
 #include "subscene.h"
 #include <QtGui>
 
-SubScene::SubScene(QObject *parent) :
+SubScene::SubScene(QObject *parent, bool createMainWindow) :
     Element(parent)
 {
     myScene=new Scene;
-    myMainWindow=new MainWindow(0,myScene);
+    if(createMainWindow)
+	myMainWindow=new MainWindow(0,myScene);
+    else
+	myMainWindow=0;
     tr("SubScene");
     connect(myScene,SIGNAL(elementAddedOrRemoved()),this,SLOT(updateConnections()));
     height=50;
@@ -86,7 +89,8 @@ void SubScene::readPrivateXml(QCoreXmlStreamReader *xml){
 void SubScene::loadFromFile(QString file){
     myScene->load(file);
     fileName=file;
-    myMainWindow->setCurrentFile(fileName);
+    if(myMainWindow!=0)
+	myMainWindow->setCurrentFile(fileName);
 }
 
 void SubScene::selectFile(){
@@ -95,6 +99,14 @@ void SubScene::selectFile(){
 }
 
 SubScene::~SubScene(){
-    myMainWindow->close();
-    myMainWindow->deleteLater();
+    if(myMainWindow!=0){
+	myMainWindow->close();
+	myMainWindow->deleteLater();
+    }
+}
+
+void SubScene::setFileName(QString fn){
+    fileName=fn;
+    if(myMainWindow!=0)
+	myMainWindow->setCurrentFile(fileName);
 }

@@ -36,16 +36,17 @@ void Connection::setValue(bool v)
 	if(myNegated){
 	    endValue=!endValue;
 	}
-	if(!((Scene*)scene())->isLoading())
-	emit(changed(endValue));
-	if(myConnectedTo!=0&&myConnectionType==Output){
-	    qDebug()<<"Connection Value Changed to"<<endValue;
-	    if(endValue){
-		myConnectedTo->setValue(High);
-		line->setPen(Scene::highValueColor);
-	    } else {
-		myConnectedTo->setValue(Low);
-		line->setPen(QColor("black"));
+	if(!((Scene*)scene())->isLoading()){
+	    emit(changed(endValue));
+	    if(myConnectedTo!=0&&myConnectionType==Output){
+		qDebug()<<"Connection Value Changed to"<<endValue;
+		if(endValue){
+		    myConnectedTo->setValue(High);
+		    line->setPen(Scene::highValueColor);
+		} else {
+		    myConnectedTo->setValue(Low);
+		    line->setPen(QColor("black"));
+		}
 	    }
 	}
     }

@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     clock.cpp \
     subscene.cpp \
     colorbutton.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    subscenechoosedialog.cpp \
+    subsceneinfo.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -36,9 +38,12 @@ HEADERS  += mainwindow.h \
     clock.h \
     subscene.h \
     colorbutton.h \
-    settingsdialog.h
+    settingsdialog.h \
+    subscenechoosedialog.h \
+    subsceneinfo.h
 
 FORMS    += mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    subscenechoosedialog.ui
 TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns

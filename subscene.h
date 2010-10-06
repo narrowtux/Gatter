@@ -8,10 +8,12 @@ class SubScene : public Element
 {
     Q_OBJECT
 public:
-    explicit SubScene(QObject *parent = 0);
+    explicit SubScene(QObject *parent = 0, bool createMainWindow=true);
     QRectF boundingRect() const;
     void loadFromFile(QString file);
     ~SubScene();
+    friend class SubSceneInfo;
+    void setFileName(QString fileName);
 signals:
 private slots:
     void updateConnections();

@@ -167,21 +167,27 @@
    <addaction name="actionInsertNOT"/>
    <addaction name="actionMultiplexer"/>
    <addaction name="actionInsertSwitch"/>
+   <addaction name="actionInsertButton"/>
+   <addaction name="actionInsertClock"/>
    <addaction name="actionInsertLamp"/>
+   <addaction name="actionInsertSubscene"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockInspector">
    <property name="minimumSize">
     <size>
-     <width>220</width>
+     <width>226</width>
      <height>102</height>
     </size>
+   </property>
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Inspector</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -195,6 +201,70 @@
          <width>200</width>
          <height>0</height>
         </size>
+       </property>
+       <property name="palette">
+        <palette>
+         <active>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>213</red>
+             <green>221</green>
+             <blue>230</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </active>
+         <inactive>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>213</red>
+             <green>221</green>
+             <blue>230</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </inactive>
+         <disabled>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>213</red>
+             <green>221</green>
+             <blue>230</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>213</red>
+             <green>221</green>
+             <blue>230</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </disabled>
+        </palette>
        </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
@@ -216,7 +286,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>220</width>
+          <width>226</width>
           <height>279</height>
          </rect>
         </property>
