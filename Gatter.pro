@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     colorbutton.cpp \
     settingsdialog.cpp \
     subscenechoosedialog.cpp \
-    subsceneinfo.cpp
+    subsceneinfo.cpp \
+    delay.cpp \
+    loadthread.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -40,7 +42,9 @@ HEADERS  += mainwindow.h \
     colorbutton.h \
     settingsdialog.h \
     subscenechoosedialog.h \
-    subsceneinfo.h
+    subsceneinfo.h \
+    delay.h \
+    loadthread.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

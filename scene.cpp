@@ -7,6 +7,7 @@
 #include "lamp.h"
 #include "switch.h"
 #include "subscene.h"
+#include "delay.h"
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -360,6 +361,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 	return new Switch;
     if(typeName=="subscene")
 	return new SubScene;
+    if(typeName=="delay")
+	return new Delay;
     return 0;
 }
 
@@ -383,4 +386,8 @@ void Scene::clear(){
     }
     elements.clear();
     QGraphicsScene::clear();
+}
+
+MainWindow* Scene::mainWindow(){
+    return myMainWindow;
 }

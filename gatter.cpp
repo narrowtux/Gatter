@@ -104,6 +104,7 @@ QRectF Gatter::boundingRect() const{
 
 void Gatter::recalculate(){
     bool val;
+    int myDelay=0;
     switch(myGatterType){
     case AND:
 	val=1;
@@ -123,6 +124,7 @@ void Gatter::recalculate(){
 	break;
     case NOT:
 	val=myInputs[0]->value();
+	myDelay=10;
 	break;
     case XOR:
 	int co;
@@ -143,7 +145,7 @@ void Gatter::recalculate(){
     }
     beforeUndefined=false;
     beforeValue=val;
-    delay->start(delayMS);
+    delay->start(delayMS+myDelay);
 }
 
 void Gatter::sendChanges(){

@@ -10,6 +10,7 @@
 #include <QSettings>
 #include "subscene.h"
 #include "subscenechoosedialog.h"
+#include "delay.h"
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -398,4 +399,9 @@ void MainWindow::on_actionInsertSubscene_triggered()
     if(scene!=0){
 	myScene->addElement(scene);
     }
+}
+
+void MainWindow::on_actionInsertDelay_triggered()
+{
+    myScene->addElement(new Delay);
 }

@@ -39,7 +39,7 @@ void Connection::setValue(bool v)
 	if(!((Scene*)scene())->isLoading()){
 	    emit(changed(endValue));
 	    if(myConnectedTo!=0&&myConnectionType==Output){
-		qDebug()<<"Connection Value Changed to"<<endValue;
+		//qDebug()<<"Connection Value Changed to"<<endValue;
 		if(endValue){
 		    myConnectedTo->setValue(High);
 		    line->setPen(Scene::highValueColor);

@@ -107,6 +107,7 @@
     <addaction name="menuInputs"/>
     <addaction name="menuOutputs"/>
     <addaction name="actionInsertSubscene"/>
+    <addaction name="actionInsertDelay"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -181,7 +182,7 @@
     </size>
    </property>
    <property name="features">
-    <set>QDockWidget::NoDockWidgetFeatures</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Inspector</string>
@@ -201,70 +202,6 @@
          <width>200</width>
          <height>0</height>
         </size>
-       </property>
-       <property name="palette">
-        <palette>
-         <active>
-          <colorrole role="Base">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>255</red>
-             <green>255</green>
-             <blue>255</blue>
-            </color>
-           </brush>
-          </colorrole>
-          <colorrole role="Window">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>213</red>
-             <green>221</green>
-             <blue>230</blue>
-            </color>
-           </brush>
-          </colorrole>
-         </active>
-         <inactive>
-          <colorrole role="Base">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>255</red>
-             <green>255</green>
-             <blue>255</blue>
-            </color>
-           </brush>
-          </colorrole>
-          <colorrole role="Window">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>213</red>
-             <green>221</green>
-             <blue>230</blue>
-            </color>
-           </brush>
-          </colorrole>
-         </inactive>
-         <disabled>
-          <colorrole role="Base">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>213</red>
-             <green>221</green>
-             <blue>230</blue>
-            </color>
-           </brush>
-          </colorrole>
-          <colorrole role="Window">
-           <brush brushstyle="SolidPattern">
-            <color alpha="255">
-             <red>213</red>
-             <green>221</green>
-             <blue>230</blue>
-            </color>
-           </brush>
-          </colorrole>
-         </disabled>
-        </palette>
        </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
@@ -593,6 +530,11 @@
   <action name="actionInsertSubscene">
    <property name="text">
     <string>Subscene</string>
+   </property>
+  </action>
+  <action name="actionInsertDelay">
+   <property name="text">
+    <string>Delay</string>
    </property>
   </action>
  </widget>

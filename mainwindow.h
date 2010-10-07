@@ -55,6 +55,7 @@ private:
     bool mySubScene, myShouldBeSaved;
     SubSceneChooseDialog* subSceneChooseDialog;
 private slots:
+    void on_actionInsertDelay_triggered();
     void on_actionInsertSubscene_triggered();
     void on_actionLayoutMiddle_triggered();
     void on_actionLayoutCenter_triggered();

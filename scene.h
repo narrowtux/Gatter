@@ -29,6 +29,7 @@ public:
     void connectItems(int inElement, int outElement, int input, int output);
     bool isBlank();
     bool isLoading();
+    MainWindow* mainWindow();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
