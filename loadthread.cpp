@@ -20,7 +20,7 @@ void LoadThread::setScene(Scene *scene){
     myMainWindow=scene->mainWindow();
 }
 
-void LoadThread::setXML(QCoreXmlStreamReader *xml){
+void LoadThread::setXML(QXmlStreamReader *xml){
     myXml=xml;
 }
 

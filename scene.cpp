@@ -151,7 +151,7 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes)
+void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes)
 {
     loads=true;
     clear();
@@ -254,7 +254,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
    loads=false;
 }
 
-void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
+void Scene::save(QString fileName, QXmlStreamWriter *xml)
 {
     bool own=false;
     QFile file(fileName);
@@ -271,7 +271,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 	xml->writeStartElement("elements");
 	foreach(Element* e,elements){
 	    xml->writeStartElement("element");
-	    QCoreXmlStreamAttributes elementAttributes;
+	    QXmlStreamAttributes elementAttributes;
 	    elementAttributes.append("x",QString().setNum(e->scenePos().x()));
 	    elementAttributes.append("y",QString().setNum(e->scenePos().y()));
 	    elementAttributes.append("id",QString().setNum(e->uniqueId));
@@ -286,7 +286,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 	    foreach(Connection*c,e->myInputs)
 	    {
 		xml->writeStartElement("connection");
-		QCoreXmlStreamAttributes connectionAttributes;
+		QXmlStreamAttributes connectionAttributes;
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
@@ -303,7 +303,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 	    foreach(Connection*c,e->myOutputs)
 	    {
 		xml->writeStartElement("connection");
-		QCoreXmlStreamAttributes connectionAttributes;
+		QXmlStreamAttributes connectionAttributes;
 		connectionAttributes.append("id",QString().setNum(count));
 		connectionAttributes.append("name",c->name());
 		connectionAttributes.append("negated",c->isNegated()?"true":"false");
@@ -326,7 +326,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml)
 		if(c->isConnected())
 		{
 		    xml->writeStartElement("connect");
-		    QCoreXmlStreamAttributes connectionAttributes;
+		    QXmlStreamAttributes connectionAttributes;
 		    connectionAttributes.append("inElement",QString().setNum(c->element()->uniqueId));
 		    connectionAttributes.append("outElement",QString().setNum(c->connectedTo()->element()->uniqueId));
 		    int id;

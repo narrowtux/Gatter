@@ -9,8 +9,8 @@ class Switch : public Element
     Q_OBJECT
 public:
     explicit Switch(QObject *parent = 0);
-    void setPrivateXml(QCoreXmlStreamWriter *xml);
-    void readPrivateXml(QCoreXmlStreamReader *xml);
+    void setPrivateXml(QXmlStreamWriter *xml);
+    void readPrivateXml(QXmlStreamReader *xml);
     bool isInput();
     void setInput(bool value);
 protected:

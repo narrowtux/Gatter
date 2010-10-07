@@ -25,11 +25,12 @@ private:
     void recalculate();
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void setPrivateXml(QCoreXmlStreamWriter *xml);
-    void readPrivateXml(QCoreXmlStreamReader *xml);
+    void setPrivateXml(QXmlStreamWriter *xml);
+    void readPrivateXml(QXmlStreamReader *xml);
     QList<Element*> sceneInputs;
     QList<Element*> sceneOutputs;
     QString fileName;
+    QList<bool> inValues, outValues;
 };
 
 #endif // SUBSCENE_H

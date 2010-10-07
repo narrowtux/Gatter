@@ -15,8 +15,8 @@ public:
     Type type();
     void recalculate();
     static int delayMS;
-    void setPrivateXml(QCoreXmlStreamWriter *xml);
-    void readPrivateXml(QCoreXmlStreamReader *xml);
+    void setPrivateXml(QXmlStreamWriter *xml);
+    void readPrivateXml(QXmlStreamReader *xml);
 signals:
 
 public slots:

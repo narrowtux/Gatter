@@ -19,8 +19,8 @@ protected:
     QColor color;
     void recalculate();
     void createFormBefore();
-    void setPrivateXml(QCoreXmlStreamWriter *xml);
-    void readPrivateXml(QCoreXmlStreamReader *xml);
+    void setPrivateXml(QXmlStreamWriter *xml);
+    void readPrivateXml(QXmlStreamReader *xml);
 };
 
 #endif // LAMP_H

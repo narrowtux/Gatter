@@ -154,12 +154,12 @@ void Gatter::sendChanges(){
     }
 }
 
-void Gatter::setPrivateXml(QCoreXmlStreamWriter *xml)
+void Gatter::setPrivateXml(QXmlStreamWriter *xml)
 {
     xml->writeAttribute("gatterType",QString().setNum(myGatterType));
 }
 
-void Gatter::readPrivateXml(QCoreXmlStreamReader *xml)
+void Gatter::readPrivateXml(QXmlStreamReader *xml)
 {
     QXmlStreamAttributes attr=xml->attributes();
     Type t=static_cast<Type>(attr.value("gatterType").toString().toInt());

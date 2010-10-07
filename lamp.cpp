@@ -82,11 +82,11 @@ void Lamp::createFormBefore(){
     layout->addRow(l,c);
 }
 
-void Lamp::setPrivateXml(QCoreXmlStreamWriter *xml){
+void Lamp::setPrivateXml(QXmlStreamWriter *xml){
     xml->writeAttribute("color",QString("rgb(%0,%1,%2)").arg(color.red()).arg(color.green()).arg(color.blue()));
 }
 
-void Lamp::readPrivateXml(QCoreXmlStreamReader *xml){
+void Lamp::readPrivateXml(QXmlStreamReader *xml){
     QString colorString=xml->attributes().value("color").toString();
     QRegExp exp("rgb\\(([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3})\\)");
     exp.indexIn(colorString);

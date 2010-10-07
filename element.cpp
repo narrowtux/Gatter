@@ -368,7 +368,7 @@ void Element::setPrivateXml(QXmlStreamWriter *xml){
     Q_UNUSED(xml)
 }
 
-void Element::readPrivateXml(QCoreXmlStreamReader *xml){
+void Element::readPrivateXml(QXmlStreamReader *xml){
     Q_UNUSED(xml)
 }
 

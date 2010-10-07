@@ -27,29 +27,41 @@ void SubScene::createFormBefore(){
 void SubScene::updateConnections(){
     sceneInputs.clear();
     sceneOutputs.clear();
+    inValues.clear();
+    outValues.clear();
     foreach(Element* e, myScene->elements){
 	if(e->isInput()){
 	    sceneInputs<<e;
 	}
 	if(e->isOutput()){
 	    sceneOutputs<<e;
+	    outValues<<e->value();
 	    connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalculate()));
 	}
     }
     setInputs(sceneInputs.count());
     setOutputs(sceneOutputs.count());
     setMinMaxInputsOutputs(sceneInputs.count(),sceneInputs.count(),sceneOutputs.count(),sceneOutputs.count());
+    foreach(Connection*c, myInputs){
+	inValues<<c->value();
+    }
 }
 
 void SubScene::recalculate(){
     int i=0;
     foreach(Element*e, sceneInputs){
-	e->setInput(myInputs[i]->value());
+	if(myInputs[i]->value()!=inValues[i]){
+	    e->setInput(myInputs[i]->value());
+	    inValues[i]=myInputs[i]->value();
+	}
 	i++;
     }
     i=0;
     foreach(Element*e, sceneOutputs){
-	myOutputs[i]->setValue(e->value());
+	if(e->value()!=outValues[i]){
+	    myOutputs[i]->setValue(e->value());
+	    outValues[i]=e->value();
+	}
 	i++;
     }
 }
@@ -67,7 +79,7 @@ void SubScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(boundingRect(),tr("Subccene"));
 }
 
-void SubScene::setPrivateXml(QCoreXmlStreamWriter *xml){
+void SubScene::setPrivateXml(QXmlStreamWriter *xml){
     xml->writeAttribute("src",fileName);
     if(fileName==""){
 	myScene->save("",xml);
@@ -77,7 +89,7 @@ void SubScene::setPrivateXml(QCoreXmlStreamWriter *xml){
     }
 }
 
-void SubScene::readPrivateXml(QCoreXmlStreamReader *xml){
+void SubScene::readPrivateXml(QXmlStreamReader *xml){
     fileName=xml->attributes().value("src").toString();
     if(fileName=="")
 	myScene->load("",xml);

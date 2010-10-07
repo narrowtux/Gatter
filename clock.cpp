@@ -72,13 +72,13 @@ void Clock::setHighTime(int value){
     high->setInterval(value);
 }
 
-void Clock::setPrivateXml(QCoreXmlStreamWriter *xml)
+void Clock::setPrivateXml(QXmlStreamWriter *xml)
 {
     xml->writeAttribute("lowTime",QString().setNum(low->interval()));
     xml->writeAttribute("highTime",QString().setNum(high->interval()));
 }
 
-void Clock::readPrivateXml(QCoreXmlStreamReader *xml){
+void Clock::readPrivateXml(QXmlStreamReader *xml){
     low->setInterval(xml->attributes().value("lowTime").toString().toInt());
     high->setInterval(xml->attributes().value("highTime").toString().toInt());
 }
