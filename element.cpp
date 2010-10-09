@@ -10,7 +10,7 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
     
     setFlag(ItemSendsGeometryChanges,true);
     pressed=false;
-    qDebug()<<(QGraphicsItem*)this<<"flags:"<<flags();
+    //qDebug()<<(QGraphicsItem*)this<<"flags:"<<flags();
     minInputs=2;
     maxInputs=-1;
     minOutputs=1;
@@ -130,21 +130,25 @@ void Element::setOutputs(int c){
 
 void Element::relayoutConnections(){
     //Precalculate Optimal Height
-    qDebug()<<"height before"<<height;
+    //qDebug()<<"height before"<<height;
     qreal minimumHeight=qMax((myInputs.count())*20,(myOutputs.count())*20);
     if(minimumHeight>height){
+	prepareGeometryChange();
 	height=qMax(myInputs.count()*20,myOutputs.count()*20);
     } else if(minimumHeight<=height){
 	if(minimumHeight>minHeight){
+	    prepareGeometryChange();
 	    height=minimumHeight;
 	} else {
+	    prepareGeometryChange();
 	    height=minHeight;
 	}
     }
+    /*
     qDebug()<<"Minimum needed Height:"<<minimumHeight;
     qDebug()<<"minHeight"<<minHeight;
     qDebug()<<"height after"<<height;
-
+*/
     //Inputs
     qreal leftSide=boundingRect().left();
     qreal rightSide=boundingRect().right();
@@ -174,7 +178,7 @@ QPen Element::getSelectionPen(){
 }
 
 void Element::inputChanged(){
-    recalculate();
+    QtConcurrent::run(this,&Element::recalculate);
 }
 
 void Element::recalculate(){

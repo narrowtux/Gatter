@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtCore>
+#include <QIcon>
 
 class SubSceneInfo : public QObject
 {
@@ -11,10 +12,10 @@ public:
     explicit SubSceneInfo(QObject *parent = 0);
     void setName(QString name);
     void setFileName(QString fileName);
-    void setIcon(QIcon* icon);
+    void setIcon(QIcon icon);
     QString name();
     QString fileName();
-    QIcon* icon();
+    QIcon icon();
     bool isProtected();
     void setProtected(bool p);
 signals:
@@ -23,7 +24,7 @@ public slots:
 protected:
     QString myName;
     QString myFileName;
-    QIcon* myIcon;
+    QIcon myIcon;
     bool myProtected;
 };
 

@@ -4,7 +4,8 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include "defines.h"
-#include <qxmlstream.h>
+class QXmlStreamReader;
+class QXmlStreamWriter;
 class Element;
 class MainWindow;
 

@@ -5,10 +5,7 @@ SubScene::SubScene(QObject *parent, bool createMainWindow) :
     Element(parent)
 {
     myScene=new Scene;
-    if(createMainWindow)
-	myMainWindow=new MainWindow(0,myScene);
-    else
-	myMainWindow=0;
+    myMainWindow=0;
     tr("SubScene");
     connect(myScene,SIGNAL(elementAddedOrRemoved()),this,SLOT(updateConnections()));
     height=50;
@@ -50,7 +47,7 @@ void SubScene::updateConnections(){
 void SubScene::recalculate(){
     int i=0;
     foreach(Element*e, sceneInputs){
-	if(myInputs[i]->value()!=inValues[i]){
+	if(1||myInputs[i]->value()!=inValues[i]){
 	    e->setInput(myInputs[i]->value());
 	    inValues[i]=myInputs[i]->value();
 	}
@@ -58,7 +55,7 @@ void SubScene::recalculate(){
     }
     i=0;
     foreach(Element*e, sceneOutputs){
-	if(e->value()!=outValues[i]){
+	if(1||e->value()!=outValues[i]){
 	    myOutputs[i]->setValue(e->value());
 	    outValues[i]=e->value();
 	}
@@ -67,6 +64,10 @@ void SubScene::recalculate(){
 }
 
 void SubScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
+    if(myMainWindow==0){
+	myMainWindow=new MainWindow(0, myScene);
+	myMainWindow->setCurrentFile(fileName);
+    }
     myMainWindow->show();
 }
 

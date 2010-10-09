@@ -26,6 +26,7 @@ private:
     QDir myDirectory;
     QList<SubSceneInfo*> information;
     void showEvent(QShowEvent *);
+    QFutureWatcher<bool>* resultWatcher;
 private slots:
     void on_toolRemoveSubScene_clicked();
     void on_toolAddSubScene_clicked();

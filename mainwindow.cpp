@@ -11,6 +11,7 @@
 #include "subscene.h"
 #include "subscenechoosedialog.h"
 #include "delay.h"
+#include <qxmlstream.h>
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -38,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     myAction=new QAction(windowTitle(),this);
     myAction->setCheckable(true);
     ui->menuWindow->addAction(ui->dockInspector->toggleViewAction());
+    ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addAction(ui->dockInspector->toggleViewAction());
+    ui->dockInspector->close();
     ui->menuWindow->addAction(ui->dockUTDiagram->toggleViewAction());
     ui->menuWindow->addSeparator();
     windowActions<<myAction;
@@ -56,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     //loadFile("/Users/tux/test.gtr");
     ui->zoomSlider->hide();
     ui->dockUTDiagram->close();
+    ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 }
 
 MainWindow::~MainWindow()
@@ -295,6 +300,7 @@ bool MainWindow::maybeSave()
 
 void MainWindow::loadFile(const QString &fileName)
 {
+    //QtConcurrent::run(myScene,&Scene::load,QString(fileName),0,true);
     myScene->load(fileName);
     setCurrentFile(fileName);
 }

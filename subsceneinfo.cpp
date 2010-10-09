@@ -5,7 +5,6 @@
 SubSceneInfo::SubSceneInfo(QObject *parent) :
     QObject(parent)
 {
-    myIcon=0;
     myName=tr("untitled");
     myFileName="";
 }
@@ -18,10 +17,6 @@ void SubSceneInfo::setName(QString name){
     myName=name;
 }
 
-void SubSceneInfo::setIcon(QIcon *icon){
-    myIcon=icon;
-}
-
 QString SubSceneInfo::name(){
     return myName;
 }
@@ -30,14 +25,13 @@ QString SubSceneInfo::fileName(){
     return myFileName;
 }
 
-QIcon* SubSceneInfo::icon(){
-    if(myIcon!=0){
+QIcon SubSceneInfo::icon(){
+    if(!myIcon.isNull()){
 	return myIcon;
     } else {
 	// Create and draw the Icon
 	QPixmap icon(64,64);
 	QPainter painter(&icon);
-	myIcon=new QIcon;
 	painter.setBrush(QColor(255,255,255));
 	painter.setPen(QColor(255,255,255));
 	painter.drawRect(icon.rect());
@@ -80,7 +74,7 @@ QIcon* SubSceneInfo::icon(){
 	    }
 	    delete scene;
 	}
-	myIcon=new QIcon(icon);
+	myIcon=QIcon(icon);
 	return myIcon;
     }
 }
@@ -91,4 +85,8 @@ void SubSceneInfo::setProtected(bool p){
 
 bool SubSceneInfo::isProtected(){
     return myProtected;
+}
+
+void SubSceneInfo::setIcon(QIcon icon){
+    myIcon=icon;
 }

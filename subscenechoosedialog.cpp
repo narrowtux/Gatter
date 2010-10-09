@@ -2,6 +2,7 @@
 #include "ui_subscenechoosedialog.h"
 #include <QDesktopServices>
 #include <qxmlstream.h>
+#include <QtConcurrentRun>
 SubSceneChooseDialog::SubSceneChooseDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SubSceneChooseDialog)
@@ -11,6 +12,9 @@ SubSceneChooseDialog::SubSceneChooseDialog(QWidget *parent) :
     if(!myDirectory.exists()){
 	qDebug()<<"Creating directory"<<myDirectory<<": "<<myDirectory.mkpath(myDirectory.absolutePath());
     }
+    resultWatcher=new QFutureWatcher<bool>;
+    connect(resultWatcher,SIGNAL(finished()),this,SLOT(saveExisting()));
+    connect(resultWatcher,SIGNAL(finished()),this,SLOT(updateExisting()));
 }
 
 SubSceneChooseDialog::~SubSceneChooseDialog()
@@ -67,7 +71,7 @@ void SubSceneChooseDialog::updateExisting(){
 		information<<info;
 		QListWidgetItem* item=new QListWidgetItem;
 		item->setText(info->name());
-		item->setIcon(*info->icon());
+		item->setIcon(info->icon());
 		item->setData(QListWidgetItem::UserType+1,QVariant(info->fileName()));
 		ui->listExistingScenes->addItem(item);
 	    }
@@ -99,16 +103,22 @@ void SubSceneChooseDialog::on_toolAddSubScene_clicked()
 {
     QSettings settings;
     QString fn=QFileDialog::getOpenFileName(this, tr("Choose a File to import as Subscene"),settings.value("lastOpenDir").toString());
-    QString name= QInputDialog::getText(this, tr("Name of the Scene"), tr("Please enter a name for this scene"));
-    QString newFile=myDirectory.absolutePath()+"/"+name.toLower().simplified();
-    QFile::copy(fn, newFile);
+    if(fn==""){
+	return;
+    }
+    QString name=QFileInfo(fn).baseName();
+    name= QInputDialog::getText(this, tr("Name of the Scene"), tr("Please enter a name for this scene"),QLineEdit::Normal,name);
+    if(name=="")
+	return;
+    QString newFile=myDirectory.absolutePath()+"/"+name.toLower().simplified()+".gtr";
+    QFile file;
+    QFuture<bool> res=QtConcurrent::run(&QFile::copy,fn, newFile);
+    resultWatcher->setFuture(res);
     SubSceneInfo* info=new SubSceneInfo;
     info->setName(name);
     info->setFileName(newFile);
     info->setProtected(false);
     information<<info;
-    saveExisting();
-    updateExisting();
 }
 
 void SubSceneChooseDialog::showEvent(QShowEvent *){

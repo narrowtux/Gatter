@@ -5,8 +5,10 @@
 #include "defines.h"
 #include <QFormLayout>
 #include "settingsdialog.h"
+#include <QtConcurrentRun>
 class SubSceneChooseDialog;
 class Scene;
+class QXmlStreamReader;
 namespace Ui {
     class MainWindow;
 }

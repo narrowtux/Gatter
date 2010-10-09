@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <QSignalMapper>
 #include <qxmlstream.h>
+#include <QtConcurrentRun>
 
 class Element : public QObject, public QGraphicsItem
 {
