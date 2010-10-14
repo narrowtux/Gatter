@@ -27,15 +27,21 @@ SubScene* SubSceneChooseDialog::getSubScene(){
     exec();
     if(result()==Accepted){
 	SubScene* scene=new SubScene;
+	SubSceneInfo*info=0;
 	QString fileName;
 	if(ui->radioExisting->isChecked()){
 	    if(ui->listExistingScenes->selectedItems().count()!=0){
 		QListWidgetItem*item=ui->listExistingScenes->selectedItems().at(0);
 		fileName=item->data(QListWidgetItem::UserType+1).toString();
+		foreach(SubSceneInfo*s, information){
+		    if(s->fileName()==fileName){
+			info=s;
+		    }
+		}
 	    }
 	    scene->loadFromFile(fileName);
 	} else {
-	    SubSceneInfo*info=new SubSceneInfo;
+	    info=new SubSceneInfo;
 	    information<<info;
 	    info->setName(ui->lineNameOfScene->text());
 	    info->setProtected(false);
@@ -46,6 +52,7 @@ SubScene* SubSceneChooseDialog::getSubScene(){
 	    saveExisting();
 	    updateExisting();
 	}
+	scene->setInfo(info);
 	return scene;
     } else {
 	return 0;

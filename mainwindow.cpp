@@ -12,6 +12,7 @@
 #include "subscenechoosedialog.h"
 #include "delay.h"
 #include <qxmlstream.h>
+#include "flipflop.h"
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -410,4 +411,9 @@ void MainWindow::on_actionInsertSubscene_triggered()
 void MainWindow::on_actionInsertDelay_triggered()
 {
     myScene->addElement(new Delay);
+}
+
+void MainWindow::on_actionInsertFlipflop_triggered()
+{
+    myScene->addElement(new FlipFlop);
 }

@@ -392,3 +392,15 @@ void Scene::clear(){
 MainWindow* Scene::mainWindow(){
     return myMainWindow;
 }
+
+QGraphicsItem* Scene::itemAt(const QPointF &pos) const{
+    QGraphicsItem* item=QGraphicsScene::itemAt(pos), *realItem;
+    if(item->parentItem()->data(ElementRecognition).toString()=="Connection"){
+	QPointF itemPos=item->pos();
+	item->setPos(itemPos+QPointF(100,100));
+	realItem=QGraphicsScene::itemAt(pos);
+	item->setPos(itemPos);
+	return realItem;
+    }
+    return QGraphicsScene::itemAt(pos);
+}

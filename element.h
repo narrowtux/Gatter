@@ -38,6 +38,7 @@ public:
     QString name();
 signals:
     void outputChanged(bool);
+    void moved();
 protected slots:
     virtual void recalculate();
 private slots:
@@ -80,6 +81,7 @@ private:
     void relayoutConnections();
     void createForm();
     void deleteForm();
+    bool isMoving;
 };
 
 #endif // ELEMENT_H

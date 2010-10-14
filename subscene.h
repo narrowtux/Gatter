@@ -3,17 +3,19 @@
 #include "element.h"
 #include "scene.h"
 #include "mainwindow.h"
+class SubSceneInfo;
 
 class SubScene : public Element
 {
+friend class SubSceneInfo;
     Q_OBJECT
 public:
     explicit SubScene(QObject *parent = 0, bool createMainWindow=true);
     QRectF boundingRect() const;
     void loadFromFile(QString file, bool setAllAttributes=true);
     ~SubScene();
-    friend class SubSceneInfo;
     void setFileName(QString fileName);
+    void setInfo(SubSceneInfo* info);
 signals:
 private slots:
     void updateConnections();
@@ -21,6 +23,7 @@ private slots:
 private:
     Scene* myScene;
     MainWindow* myMainWindow;
+    SubSceneInfo* mySubSceneInfo;
     void createFormBefore();
     void recalculate();
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

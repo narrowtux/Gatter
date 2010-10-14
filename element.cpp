@@ -9,6 +9,7 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
     setData(ElementName,"Element");
     
     setFlag(ItemSendsGeometryChanges,true);
+    setFlags(flags()|ItemSendsScenePositionChanges);
     pressed=false;
     //qDebug()<<(QGraphicsItem*)this<<"flags:"<<flags();
     minInputs=2;
@@ -16,6 +17,9 @@ Element::Element(QObject *parent, QGraphicsItem *gparent) :
     minOutputs=1;
     maxOutputs=1;
     myType="generic";
+    recalculate();
+    layout=0;
+    isMoving=false;
 }
 
 Element::~Element()
@@ -196,6 +200,10 @@ void Element::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Element::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if(isMoving){
+	emit(moved());
+	isMoving=false;
+    }
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
@@ -217,10 +225,17 @@ void Element::setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOu
     if(maxOutputs<myOutputs.count()&&maxOutputs!=-1){
 	setOutputs(maxOutputs);
     }
+    foreach(Connection*c, QList<Connection*>()<<myInputs<<myOutputs){
+	c->setClock(false);
+	c->setName("");
+    }
 }
 
 void Element::createForm()
 {
+    if(layout==0){
+	return;
+    }
     QFrame* frame=new QFrame;
     frame->setFrameStyle(QFrame::HLine|QFrame::Sunken);
     additionalWidgets<<frame;
@@ -307,6 +322,9 @@ void Element::createForm()
 
 void Element::deleteForm()
 {
+    if(layout==0){
+	return;
+    }
     foreach(Connection*c, lineEdits.keys()){
 	delete lineEdits.value(c);
 	lineEdits.remove(c);
@@ -364,6 +382,9 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 	} else {
 	    deleteForm();
 	}
+    }
+    if(change==ItemScenePositionHasChanged){
+	isMoving=true;
     }
     return value;
 }

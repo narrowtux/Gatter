@@ -1,5 +1,6 @@
 #include "subscene.h"
 #include <QtGui>
+#include "subsceneinfo.h"
 
 SubScene::SubScene(QObject *parent, bool createMainWindow) :
     Element(parent)
@@ -12,6 +13,7 @@ SubScene::SubScene(QObject *parent, bool createMainWindow) :
     width=50;
     myType="subscene";
     fileName="";
+    mySubSceneInfo=0;
 }
 
 void SubScene::createFormBefore(){
@@ -26,22 +28,47 @@ void SubScene::updateConnections(){
     sceneOutputs.clear();
     inValues.clear();
     outValues.clear();
+    QMultiMap<qreal,Element*> inputs, outputs;
+    QList<qreal> inputP, outputP;
     foreach(Element* e, myScene->elements){
 	if(e->isInput()){
-	    sceneInputs<<e;
+	    inputs.insert(e->scenePos().y(),e);
+	    inputP<<e->scenePos().y();
 	}
 	if(e->isOutput()){
-	    sceneOutputs<<e;
-	    outValues<<e->value();
+	    outputs.insert(e->scenePos().y(),e);
 	    connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalculate()));
+	    outputP<<e->scenePos().y();
+	}
+	if(e->isInput()||e->isOutput()){
+	    connect(e,SIGNAL(moved()),this,SLOT(updateConnections()),Qt::UniqueConnection);
 	}
     }
+    qSort(inputP);
+    qSort(outputP);
+    foreach(qreal v, inputP){
+	sceneInputs<<inputs.value(v);
+    }
+    
+    foreach(qreal v, outputP){
+	sceneOutputs<<outputs.value(v);
+	outValues<<outputs.value(v)->value();
+    }
+
     setInputs(sceneInputs.count());
     setOutputs(sceneOutputs.count());
     setMinMaxInputsOutputs(sceneInputs.count(),sceneInputs.count(),sceneOutputs.count(),sceneOutputs.count());
     foreach(Connection*c, myInputs){
 	inValues<<c->value();
     }
+    for(int i=0;i<sceneInputs.count();i++){
+	myInputs[i]->setName(sceneInputs[i]->name());
+    }
+    for(int i=0;i<sceneOutputs.count();i++){
+	myOutputs[i]->setName(sceneOutputs[i]->name());
+    }
+
+    recalculate();
 }
 
 void SubScene::recalculate(){
@@ -77,11 +104,29 @@ QRectF SubScene::boundingRect() const{
 
 void SubScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Element::paint(painter,option,widget);
-    painter->drawText(boundingRect(),tr("Subccene"));
+    QString text=tr("Subscene");
+    if(mySubSceneInfo!=0){
+	text=mySubSceneInfo->name();
+    }
+    QFont font=painter->font();
+    int fontsize=12;
+    QRectF needs=painter->boundingRect(boundingRect().adjusted(3,3,-3,-3), text, QTextOption(Qt::AlignCenter));
+    while (!boundingRect().adjusted(3,3,-3,-3).contains(needs)){
+	fontsize--;
+	font.setPixelSize(fontsize);
+	painter->setFont(font);
+	needs=painter->boundingRect(boundingRect().adjusted(3,3,-3,-3),text,QTextOption(Qt::AlignCenter));
+	if(fontsize==8)break;
+    }
+    painter->drawText(boundingRect().adjusted(3,3,-3,-3),text,QTextOption(Qt::AlignCenter));
 }
 
 void SubScene::setPrivateXml(QXmlStreamWriter *xml){
     xml->writeAttribute("src",fileName);
+    QString name;
+    if(mySubSceneInfo!=0){
+	xml->writeAttribute("name",name);
+    }
     if(fileName==""){
 	myScene->save("",xml);
     }
@@ -91,11 +136,18 @@ void SubScene::setPrivateXml(QXmlStreamWriter *xml){
 }
 
 void SubScene::readPrivateXml(QXmlStreamReader *xml){
+    mySubSceneInfo=new SubSceneInfo;
+    mySubSceneInfo->setFileName(fileName);
     fileName=xml->attributes().value("src").toString();
+    QString name=xml->attributes().value("name").toString();
+    if(name==""){
+	name=tr("Subscene");
+    }
     if(fileName=="")
 	myScene->load("",xml);
     else
 	loadFromFile(fileName);
+    mySubSceneInfo->setName(name);
     updateConnections();
 }
 
@@ -124,4 +176,9 @@ void SubScene::setFileName(QString fn){
     fileName=fn;
     if(myMainWindow!=0)
 	myMainWindow->setCurrentFile(fileName);
+}
+
+void SubScene::setInfo(SubSceneInfo *info){
+    mySubSceneInfo=info;
+    update();
 }

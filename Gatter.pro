@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     subscenechoosedialog.cpp \
     subsceneinfo.cpp \
     delay.cpp \
-    loadthread.cpp
+    loadthread.cpp \
+    flipflop.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -44,7 +45,8 @@ HEADERS  += mainwindow.h \
     subscenechoosedialog.h \
     subsceneinfo.h \
     delay.h \
-    loadthread.h
+    loadthread.h \
+    flipflop.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

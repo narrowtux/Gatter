@@ -27,6 +27,7 @@ public:
     void connectWith(Connection* c);
     void setPos(const QPointF &pos);
     void setPos(qreal x, qreal y);
+    void setClock(bool clock);
 signals:
     void changed(bool);
     void recalculate();
@@ -34,6 +35,7 @@ protected:
     bool myValue;
     bool myNegated;
     bool lastValue;
+    bool myClock;
     QString myName;
     QGraphicsTextItem* label;
     Element* myElement;

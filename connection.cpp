@@ -21,6 +21,13 @@ Connection::Connection(QObject *parent) :
     poked=false;
     setAcceptHoverEvents(true);
     label=new QGraphicsTextItem(this);
+    label->setAcceptHoverEvents(false);
+    myClock=false;
+}
+
+void Connection::setClock(bool clock)
+{
+    myClock=clock;
 }
 
 bool Connection::isConnected()
@@ -49,9 +56,9 @@ void Connection::setValue(bool v)
 		}
 	    }
 	}
+	update();
     }
     lastValue=myValue;
-    update();
 }
 
 void Connection::setNegated(bool n)
@@ -113,7 +120,7 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	    painter->setPen(Qt::NoPen);
 	    painter->drawEllipse(QPointF(3,0),3,3);
 	}
-	label->setPos(20,-10);
+	label->setPos(0,-20);
 	break;
     case Output:
 	if(isNegated()){
@@ -127,7 +134,7 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	    painter->setPen(Qt::NoPen);
 	    painter->drawEllipse(QPointF(17,0),3,3);
 	}
-	label->setPos(-10,-10);
+	label->setPos(-20,-10);
 	break;
     }
 }

@@ -31,6 +31,7 @@ public:
     bool isBlank();
     bool isLoading();
     MainWindow* mainWindow();
+    QGraphicsItem *itemAt(const QPointF &pos) const;
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
