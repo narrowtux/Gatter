@@ -5,7 +5,7 @@ class Delay : public Element
 {
     Q_OBJECT
 public:
-    explicit Delay(QObject *parent = 0);
+    explicit Delay(QGraphicsObject *parent = 0);
     QRectF boundingRect() const;
 signals:
 

@@ -1,6 +1,6 @@
 #include "delay.h"
 
-Delay::Delay(QObject *parent) :
+Delay::Delay(QGraphicsObject *parent) :
     Element(parent)
 {
     height=30;

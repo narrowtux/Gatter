@@ -39,9 +39,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     mainWindows<<this;
     myAction=new QAction(windowTitle(),this);
     myAction->setCheckable(true);
-    ui->menuWindow->addAction(ui->dockInspector->toggleViewAction());
+    QAction* action=ui->dockInspector->toggleViewAction();
+    action->setShortcut(QKeySequence("Ctrl+Alt+I"));
+    ui->menuWindow->addAction(action);
     ui->mainToolBar->addSeparator();
-    ui->mainToolBar->addAction(ui->dockInspector->toggleViewAction());
+    ui->mainToolBar->addAction(action);
     ui->dockInspector->close();
     ui->menuWindow->addAction(ui->dockUTDiagram->toggleViewAction());
     ui->menuWindow->addSeparator();
@@ -126,35 +128,35 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_actionInsertAND_triggered()
 {
-    Gatter*g=new Gatter(this);
+    Gatter*g=new Gatter;
     g->setType(Gatter::AND);
     myScene->addElement(g);
 }
 
 void MainWindow::on_actionInsertOR_triggered()
 {
-    Gatter*g=new Gatter(this);
+    Gatter*g=new Gatter;
     g->setType(Gatter::OR);
     myScene->addElement(g);
 }
 
 void MainWindow::on_actionInsertXOR_triggered()
 {
-    Gatter*g=new Gatter(this);
+    Gatter*g=new Gatter;
     g->setType(Gatter::XOR);
     myScene->addElement(g);
 }
 
 void MainWindow::on_actionInsertNOT_triggered()
 {
-    Gatter*g=new Gatter(this);
+    Gatter*g=new Gatter;
     g->setType(Gatter::NOT);
     myScene->addElement(g);
 }
 
 void MainWindow::on_actionMultiplexer_triggered()
 {
-    Gatter*g=new Gatter(this);
+    Gatter*g=new Gatter;
     g->setType(Gatter::DUPLICATOR);
     myScene->addElement(g);
 }
@@ -415,5 +417,5 @@ void MainWindow::on_actionInsertDelay_triggered()
 
 void MainWindow::on_actionInsertFlipflop_triggered()
 {
-    myScene->addElement(new FlipFlop);
+    myScene->addElement(new FlipFlop(0));
 }

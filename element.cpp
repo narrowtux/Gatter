@@ -1,7 +1,7 @@
 #include "element.h"
 
-Element::Element(QObject *parent, QGraphicsItem *gparent) :
-    QObject(parent), QGraphicsItem(gparent)
+Element::Element(QGraphicsObject* parent) :
+    QGraphicsObject(parent)
 {
     minHeight=50;
     setFlag(ItemIsSelectable,true);

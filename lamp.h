@@ -7,7 +7,7 @@ class Lamp : public Element
 {
     Q_OBJECT
 public:
-    explicit Lamp(QObject *parent = 0);
+    explicit Lamp(QGraphicsObject *parent = 0);
     bool isOutput();
     
 signals:

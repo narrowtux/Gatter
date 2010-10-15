@@ -8,7 +8,7 @@ class Switch : public Element
 {
     Q_OBJECT
 public:
-    explicit Switch(QObject *parent = 0);
+    explicit Switch(QGraphicsObject *parent = 0);
     void setPrivateXml(QXmlStreamWriter *xml);
     void readPrivateXml(QXmlStreamReader *xml);
     bool isInput();

@@ -2,7 +2,7 @@
 #include <QtGui>
 #include "subsceneinfo.h"
 
-SubScene::SubScene(QObject *parent, bool createMainWindow) :
+SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
     Element(parent)
 {
     myScene=new Scene;
@@ -37,7 +37,7 @@ void SubScene::updateConnections(){
 	}
 	if(e->isOutput()){
 	    outputs.insert(e->scenePos().y(),e);
-	    connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalculate()));
+	    connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalculate()),Qt::UniqueConnection);
 	    outputP<<e->scenePos().y();
 	}
 	if(e->isInput()||e->isOutput()){
@@ -158,6 +158,7 @@ void SubScene::loadFromFile(QString file, bool setAllAttributes){
     fileName=file;
     if(myMainWindow!=0)
 	myMainWindow->setCurrentFile(fileName);
+    updateConnections();
 }
 
 void SubScene::selectFile(){

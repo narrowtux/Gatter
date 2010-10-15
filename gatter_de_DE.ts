@@ -32,19 +32,19 @@
     <message>
         <location filename="delay.cpp" line="20"/>
         <source>Delay</source>
-        <translation type="unfinished">Verzögerung</translation>
+        <translation>Verzögerung</translation>
     </message>
 </context>
 <context>
     <name>Element</name>
     <message>
-        <location filename="element.cpp" line="235"/>
+        <location filename="element.cpp" line="250"/>
         <source>&lt;b&gt;Inputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Eingänge&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="element.cpp" line="256"/>
-        <location filename="element.cpp" line="288"/>
+        <location filename="element.cpp" line="271"/>
+        <location filename="element.cpp" line="303"/>
         <source>Negated</source>
         <translation>Negiert</translation>
     </message>
@@ -53,70 +53,9 @@
         <translation type="obsolete">Anzahl</translation>
     </message>
     <message>
-        <location filename="element.cpp" line="268"/>
+        <location filename="element.cpp" line="283"/>
         <source>&lt;b&gt;Outputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Ausgänge&lt;/b&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>FlipFlopDialog</name>
-    <message>
-        <location filename="flipflopdialog.cpp" line="19"/>
-        <location filename="flipflopdialog.cpp" line="39"/>
-        <source>SR-Flipflop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="20"/>
-        <location filename="flipflopdialog.cpp" line="55"/>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="20"/>
-        <location filename="flipflopdialog.cpp" line="23"/>
-        <location filename="flipflopdialog.cpp" line="58"/>
-        <source>Phase-Triggered</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="20"/>
-        <location filename="flipflopdialog.cpp" line="23"/>
-        <location filename="flipflopdialog.cpp" line="26"/>
-        <location filename="flipflopdialog.cpp" line="29"/>
-        <location filename="flipflopdialog.cpp" line="32"/>
-        <location filename="flipflopdialog.cpp" line="61"/>
-        <source>Phase-Changing-Triggered</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="22"/>
-        <location filename="flipflopdialog.cpp" line="42"/>
-        <source>JK-Flipflop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="25"/>
-        <location filename="flipflopdialog.cpp" line="45"/>
-        <source>Master-Slave Flipflop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="28"/>
-        <location filename="flipflopdialog.cpp" line="48"/>
-        <source>Delay Flipflop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.cpp" line="31"/>
-        <location filename="flipflopdialog.cpp" line="51"/>
-        <source>Toggle Flipflop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="flipflopdialog.ui" line="13"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -143,44 +82,44 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="227"/>
+        <location filename="mainwindow.cpp" line="228"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="251"/>
+        <location filename="mainwindow.cpp" line="252"/>
         <source>Save File As</source>
         <translation>Datei Speichern unter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="260"/>
+        <location filename="mainwindow.cpp" line="261"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="261"/>
+        <location filename="mainwindow.cpp" line="262"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="289"/>
-        <location filename="mainwindow.cpp" line="327"/>
-        <location filename="mainwindow.cpp" line="329"/>
-        <location filename="mainwindow.cpp" line="332"/>
+        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="328"/>
+        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.cpp" line="333"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="84"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="291"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="323"/>
+        <location filename="mainwindow.cpp" line="324"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
@@ -200,39 +139,39 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation>Einfügen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="93"/>
+        <location filename="mainwindow.ui" line="94"/>
         <source>Inputs</source>
         <translation>Eingänge</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="101"/>
+        <location filename="mainwindow.ui" line="102"/>
         <source>Outputs</source>
         <translation>Ausgänge</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="114"/>
+        <location filename="mainwindow.ui" line="115"/>
         <source>Window</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="119"/>
-        <location filename="mainwindow.ui" line="424"/>
+        <location filename="mainwindow.ui" line="120"/>
+        <location filename="mainwindow.ui" line="429"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="126"/>
-        <location filename="mainwindow.ui" line="130"/>
+        <location filename="mainwindow.ui" line="127"/>
+        <location filename="mainwindow.ui" line="131"/>
         <source>Layout</source>
         <translation>Anordnen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="142"/>
+        <location filename="mainwindow.ui" line="143"/>
         <source>Distribute</source>
         <translation>Verteilen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="188"/>
+        <location filename="mainwindow.ui" line="193"/>
         <source>Inspector</source>
         <translation>Inspektor</translation>
     </message>
@@ -241,8 +180,8 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Global</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="239"/>
-        <location filename="mainwindow.ui" line="537"/>
+        <location filename="mainwindow.ui" line="244"/>
+        <location filename="mainwindow.ui" line="542"/>
         <source>Delay</source>
         <translation>Verzögerung</translation>
     </message>
@@ -251,255 +190,260 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Auswahl</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="311"/>
         <source>U/t-Diagram</source>
         <translation>U/t-Diagramm</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="315"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="318"/>
+        <location filename="mainwindow.ui" line="323"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="323"/>
+        <location filename="mainwindow.ui" line="328"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="326"/>
+        <location filename="mainwindow.ui" line="331"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="331"/>
+        <location filename="mainwindow.ui" line="336"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="334"/>
+        <location filename="mainwindow.ui" line="339"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="339"/>
+        <location filename="mainwindow.ui" line="344"/>
         <source>Save As</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="342"/>
+        <location filename="mainwindow.ui" line="347"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="347"/>
+        <location filename="mainwindow.ui" line="352"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="350"/>
+        <location filename="mainwindow.ui" line="355"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="355"/>
+        <location filename="mainwindow.ui" line="360"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="358"/>
+        <location filename="mainwindow.ui" line="363"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="363"/>
+        <location filename="mainwindow.ui" line="368"/>
         <source>Cut</source>
         <translation>Ausschneiden</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="371"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="371"/>
+        <location filename="mainwindow.ui" line="376"/>
         <source>Paste</source>
         <translation>Einfügen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="374"/>
+        <location filename="mainwindow.ui" line="379"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="379"/>
+        <location filename="mainwindow.ui" line="384"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="382"/>
+        <location filename="mainwindow.ui" line="387"/>
         <source>Backspace</source>
         <translation>Backspace</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="387"/>
+        <location filename="mainwindow.ui" line="392"/>
         <source>Undo</source>
         <translation>Rückgängig machen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="390"/>
+        <location filename="mainwindow.ui" line="395"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="395"/>
+        <location filename="mainwindow.ui" line="400"/>
         <source>Redo</source>
         <translation>Wiederholen</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="398"/>
+        <location filename="mainwindow.ui" line="403"/>
         <source>Ctrl+Y</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="403"/>
+        <location filename="mainwindow.ui" line="408"/>
         <source>Recent Files</source>
         <translation>Zuletzt geöffnet</translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="408"/>
+        <location filename="mainwindow.ui" line="413"/>
         <source>Preferences …</source>
         <translation>Einstellungen …</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="411"/>
+        <location filename="mainwindow.ui" line="416"/>
         <source>Ctrl+,</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="419"/>
+        <location filename="mainwindow.ui" line="424"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="434"/>
         <source>AND</source>
         <translation>AND</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="432"/>
+        <location filename="mainwindow.ui" line="437"/>
         <source>Ctrl+Shift+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="437"/>
+        <location filename="mainwindow.ui" line="442"/>
         <source>OR</source>
         <translation>OR</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="440"/>
+        <location filename="mainwindow.ui" line="445"/>
         <source>Ctrl+Shift+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="445"/>
+        <location filename="mainwindow.ui" line="450"/>
         <source>XOR</source>
         <translation>XOR</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="448"/>
+        <location filename="mainwindow.ui" line="453"/>
         <source>Ctrl+Shift+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="453"/>
+        <location filename="mainwindow.ui" line="458"/>
         <source>NOT</source>
         <translation>NOT</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="456"/>
+        <location filename="mainwindow.ui" line="461"/>
         <source>Ctrl+Shift+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="461"/>
-        <location filename="mainwindow.ui" line="464"/>
+        <location filename="mainwindow.ui" line="466"/>
+        <location filename="mainwindow.ui" line="469"/>
         <source>Duplicator</source>
         <translation>Verteiler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="467"/>
+        <location filename="mainwindow.ui" line="472"/>
         <source>Ctrl+Shift+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="472"/>
+        <location filename="mainwindow.ui" line="477"/>
         <source>Normal Switch</source>
         <translation>Schalter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="477"/>
+        <location filename="mainwindow.ui" line="482"/>
         <source>Lamp</source>
         <translation>Lampe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="482"/>
+        <location filename="mainwindow.ui" line="487"/>
         <source>Button</source>
         <translation>Taster</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="487"/>
+        <location filename="mainwindow.ui" line="492"/>
         <source>Clock</source>
         <translation>Taktgeber</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="492"/>
+        <location filename="mainwindow.ui" line="497"/>
         <source>Left</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="497"/>
+        <location filename="mainwindow.ui" line="502"/>
         <source>Center</source>
         <translation>Zentriert</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="502"/>
+        <location filename="mainwindow.ui" line="507"/>
         <source>Right</source>
         <translation>Rechts</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="507"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Top</source>
         <translation>Oben</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="512"/>
+        <location filename="mainwindow.ui" line="517"/>
         <source>Middle</source>
         <translation>Mittig</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="517"/>
+        <location filename="mainwindow.ui" line="522"/>
         <source>Bottom</source>
         <translation>Unten</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="522"/>
+        <location filename="mainwindow.ui" line="527"/>
         <source>Horizontal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="527"/>
+        <location filename="mainwindow.ui" line="532"/>
         <source>Vertical</source>
         <translation>Vertikal</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="327"/>
-        <location filename="mainwindow.cpp" line="329"/>
-        <location filename="mainwindow.ui" line="532"/>
+        <location filename="mainwindow.ui" line="547"/>
+        <source>Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="328"/>
+        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.ui" line="537"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
     </message>
@@ -524,20 +468,25 @@ Möchten Sie die Änderungen speichern?</translation>
 <context>
     <name>SubScene</name>
     <message>
-        <location filename="subscene.cpp" line="9"/>
+        <location filename="subscene.cpp" line="10"/>
         <source>SubScene</source>
         <translation>Unterschaltung</translation>
     </message>
     <message>
-        <location filename="subscene.cpp" line="18"/>
-        <location filename="subscene.cpp" line="113"/>
+        <location filename="subscene.cpp" line="20"/>
+        <location filename="subscene.cpp" line="165"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="subscene.cpp" line="80"/>
-        <source>Subccene</source>
+        <location filename="subscene.cpp" line="107"/>
+        <location filename="subscene.cpp" line="144"/>
+        <source>Subscene</source>
         <translation>Unterszene</translation>
+    </message>
+    <message>
+        <source>Subccene</source>
+        <translation type="obsolete">Unterszene</translation>
     </message>
 </context>
 <context>
@@ -578,18 +527,18 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation>Erstellen Sie eine neue Unterszene</translation>
     </message>
     <message>
-        <location filename="subscenechoosedialog.cpp" line="105"/>
+        <location filename="subscenechoosedialog.cpp" line="112"/>
         <source>Choose a File to import as Subscene</source>
         <translation>Wählen Sie eine Datei zum Import</translation>
     </message>
     <message>
-        <location filename="subscenechoosedialog.cpp" line="110"/>
+        <location filename="subscenechoosedialog.cpp" line="117"/>
         <location filename="subscenechoosedialog.ui" line="156"/>
         <source>Name of the Scene</source>
         <translation>Name der Szene</translation>
     </message>
     <message>
-        <location filename="subscenechoosedialog.cpp" line="110"/>
+        <location filename="subscenechoosedialog.cpp" line="117"/>
         <source>Please enter a name for this scene</source>
         <translation>Bitte geben Sie einen Namen für diese Szene an</translation>
     </message>

@@ -1,6 +1,6 @@
 #include "gatter.h"
 
-Gatter::Gatter(QObject *parent) :
+Gatter::Gatter(QGraphicsObject *parent) :
     Element(parent)
 {
     height=50;

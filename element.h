@@ -1,6 +1,6 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QObject>
 #include "scene.h"
 #include "defines.h"
@@ -13,13 +13,13 @@
 #include <qxmlstream.h>
 #include <QtConcurrentRun>
 
-class Element : public QObject, public QGraphicsItem
+class Element : public QGraphicsObject
 {
     Q_OBJECT
     friend class Scene;
     friend class Connection;
 public:
-    explicit Element(QObject *parent = 0, QGraphicsItem *gparent=0);
+    explicit Element(QGraphicsObject *parent = 0);
     ~Element();
     static QPen getSelectionPen();
     QMap<QString,QVariant> settings();

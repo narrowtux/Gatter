@@ -9,7 +9,7 @@ class FlipFlop : public Element
 public:
     enum FlipFlopType  {SetReset, JumpKill, MasterSlave, Delay, Toggle};
     enum FlipFlopTrigger {NotApplicable, None, OnValue, OnSwitching};
-    explicit FlipFlop(QObject *parent = 0);
+    explicit FlipFlop(QGraphicsObject *parent = 0);
     FlipFlop(const FlipFlop &copy);
     ~FlipFlop();
 signals:

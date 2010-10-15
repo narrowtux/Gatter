@@ -1,7 +1,7 @@
 #include "switch.h"
 #include <QRadialGradient>
 
-Switch::Switch(QObject *parent) :
+Switch::Switch(QGraphicsObject *parent) :
     Element(parent)
 {
     myValue=0;

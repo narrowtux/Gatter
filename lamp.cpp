@@ -1,7 +1,7 @@
 #include "lamp.h"
 #include "colorbutton.h"
 #include <QRegExp>
-Lamp::Lamp(QObject *parent) :
+Lamp::Lamp(QGraphicsObject *parent) :
     Element(parent)
 {
     myValue=false;

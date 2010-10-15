@@ -1,6 +1,6 @@
 #include "button.h"
 #include "gatter.h"
-Button::Button(QObject *parent) :
+Button::Button(QGraphicsObject *parent) :
     Switch(parent)
 {
     setData(ElementName,"Button");

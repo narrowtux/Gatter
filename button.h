@@ -5,7 +5,7 @@ class Button : public Switch
 {
     Q_OBJECT
 public:
-    explicit Button(QObject *parent = 0);
+    explicit Button(QGraphicsObject *parent = 0);
 
 signals:
 

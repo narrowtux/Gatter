@@ -1,6 +1,6 @@
 #include "clock.h"
 
-Clock::Clock(QObject *parent) :
+Clock::Clock(QGraphicsObject *parent) :
     Element(parent)
 {
     height=50;

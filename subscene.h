@@ -10,7 +10,7 @@ class SubScene : public Element
 friend class SubSceneInfo;
     Q_OBJECT
 public:
-    explicit SubScene(QObject *parent = 0, bool createMainWindow=true);
+    explicit SubScene(QGraphicsObject *parent = 0, bool createMainWindow=true);
     QRectF boundingRect() const;
     void loadFromFile(QString file, bool setAllAttributes=true);
     ~SubScene();

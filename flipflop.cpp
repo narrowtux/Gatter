@@ -1,6 +1,6 @@
 #include "flipflop.h"
 #include <QInputDialog>
-FlipFlop::FlipFlop(QObject *parent) :
+FlipFlop::FlipFlop(QGraphicsObject *parent) :
     Element(parent)
 {
     height=50;
@@ -14,7 +14,7 @@ FlipFlop::FlipFlop(QObject *parent) :
 }
 
 FlipFlop::FlipFlop(const FlipFlop &copy){
-    FlipFlop(copy.parent());
+    FlipFlop(copy.parentObject());
     setOnWhichValue(copy.myOnWhichValue);
     setFlipFlopType(copy.myFlipFlopType);
     setFlipFlopTrigger(copy.myFlipFlopTrigger);
