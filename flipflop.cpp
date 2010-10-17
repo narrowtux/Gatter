@@ -227,7 +227,20 @@ void FlipFlop::clock(bool v){
 	}
 	break;
     case MasterSlave:
-	
+	if(v==myOnWhichValue){
+	    if(myInputs[0]->value()){
+		myBetweenValue=1;
+	    }
+	    if(myInputs[2]->value()){
+		myBetweenValue=0;
+	    }
+	    if(myInputs[0]->value()&&myInputs[2]->value()){
+		myBetweenValue=!myValue;
+	    }
+	} else {
+	    myValue=myBetweenValue;
+	    recalculate();
+	}
 	break;
     case Delay:
 	
