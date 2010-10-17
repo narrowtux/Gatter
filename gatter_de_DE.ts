@@ -59,6 +59,69 @@
     </message>
 </context>
 <context>
+    <name>FlipFlop</name>
+    <message>
+        <location filename="flipflop.cpp" line="291"/>
+        <source>SR-Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="292"/>
+        <source>JK-Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="293"/>
+        <source>Master-Slave-Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="294"/>
+        <source>Toggle Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="295"/>
+        <source>Delay Flipflop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="298"/>
+        <source>None</source>
+        <translation>Kein</translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="299"/>
+        <source>On Value</source>
+        <translation>Auf Takt</translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="300"/>
+        <source>On Switching</source>
+        <translation>Auf Taktflanke</translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="305"/>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="305"/>
+        <source>Trigger</source>
+        <translation>Auslösen</translation>
+    </message>
+    <message>
+        <location filename="flipflop.cpp" line="305"/>
+        <source>Negate Clock</source>
+        <translation>Takt negieren</translation>
+    </message>
+    <message>
+        <source>Triggered on</source>
+        <translatorcomment>Braucht man eigentlich garnicht</translatorcomment>
+        <translation type="obsolete">Negieren</translation>
+    </message>
+</context>
+<context>
     <name>Gatter</name>
     <message>
         <location filename="gatter.cpp" line="19"/>
@@ -119,39 +182,39 @@
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="271"/>
+        <location filename="mainwindow.cpp" line="276"/>
         <source>Save File As</source>
         <translation>Datei Speichern unter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="283"/>
+        <location filename="mainwindow.cpp" line="288"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="284"/>
+        <location filename="mainwindow.cpp" line="289"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="312"/>
-        <location filename="mainwindow.cpp" line="350"/>
-        <location filename="mainwindow.cpp" line="352"/>
+        <location filename="mainwindow.cpp" line="317"/>
         <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="357"/>
+        <location filename="mainwindow.cpp" line="360"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="84"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="313"/>
+        <location filename="mainwindow.cpp" line="318"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="346"/>
+        <location filename="mainwindow.cpp" line="351"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
@@ -474,8 +537,8 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
-        <location filename="mainwindow.cpp" line="352"/>
+        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="357"/>
         <location filename="mainwindow.ui" line="537"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
@@ -507,13 +570,13 @@ Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
         <location filename="subscene.cpp" line="20"/>
-        <location filename="subscene.cpp" line="166"/>
+        <location filename="subscene.cpp" line="167"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="subscene.cpp" line="107"/>
-        <location filename="subscene.cpp" line="144"/>
+        <location filename="subscene.cpp" line="108"/>
+        <location filename="subscene.cpp" line="145"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
     </message>

@@ -8,6 +8,7 @@
 #include "switch.h"
 #include "subscene.h"
 #include "delay.h"
+#include "flipflop.h"
 #include <qxmlstream.h>
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
@@ -364,16 +365,27 @@ Element* Scene::getElementFromTypeName(QString typeName){
 	return new SubScene;
     if(typeName=="delay")
 	return new Delay;
+    if(typeName=="flipflop")
+	return new FlipFlop;
     return 0;
 }
 
 void Scene::connectItems(int inElement, int outElement, int input, int output)
 {
-    Element* in=elements[inElement];
-    Element* out=elements[outElement];
-    Connection* inputC=in->myInputs[input];
-    Connection* outputC=out->myOutputs[output];
-    inputC->connectWith(outputC);
+    Element *in, *out;
+    if(elements.contains(inElement)&&elements.contains(outElement)){
+	in=elements[inElement];
+	out=elements[outElement];
+    } else {
+	return;
+    }
+    if(in->myInputs.count()>input&&out->myOutputs.count()>output){
+	Connection* inputC=in->myInputs[input];
+	Connection* outputC=out->myOutputs[output];
+	inputC->connectWith(outputC);
+    } else {
+	return;
+    }
     emit(modified());
 }
 

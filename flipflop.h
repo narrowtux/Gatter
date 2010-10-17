@@ -18,7 +18,7 @@ public:
     void setPrivateXml(QXmlStreamWriter *xml);
     void readPrivateXml(QXmlStreamReader *xml);
 public slots:
-    void setOnWhichValue(bool v);
+    void setClockNegated(bool v);
 signals:
 
 private slots:
@@ -40,6 +40,7 @@ private:
     bool createFormBefore();
     EnumComboBox *typeBox;
     EnumComboBox *triggerBox;
+    QCheckBox *negateBox;
 };
 
 #endif // FLIPFLOP_H

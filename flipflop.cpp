@@ -8,16 +8,19 @@ FlipFlop::FlipFlop(QGraphicsObject *parent) :
     minHeight=50;
     width=50;
     qRegisterMetaType<FlipFlop>("FlipFlop");
-    setOnWhichValue(true);
+    myOnWhichValue=true;
     setFlipFlopType(SetReset);
     setFlipFlopTrigger(None);
+    setClockNegated(false);
     myValue=false;
     recalculate();
+    myType="flipflop";
+    setProperty("toggles",0);
 }
 
 FlipFlop::FlipFlop(const FlipFlop &copy){
     FlipFlop(copy.parentObject());
-    setOnWhichValue(copy.myOnWhichValue);
+    setClockNegated(copy.myOnWhichValue);
     setFlipFlopType(copy.myFlipFlopType);
     setFlipFlopTrigger(copy.myFlipFlopTrigger);
     myValue=copy.myValue;
@@ -32,8 +35,11 @@ void FlipFlop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Element::paint(painter, option, widget);
 }
 
-void FlipFlop::setOnWhichValue(bool owv){
-    myOnWhichValue=owv;
+void FlipFlop::setClockNegated(bool owv){
+    //myOnWhichValue=owv;
+    if(myFlipFlopTrigger!=None){
+	myInputs[1]->setNegated(owv);
+    }
     update();
 }
 
@@ -136,8 +142,10 @@ void FlipFlop::setFlipFlopTrigger(FlipFlopTrigger clock, bool spontaneous){
 	if(myFlipFlopType==MasterSlave||myFlipFlopType==Delay||myFlipFlopType==Toggle){
 	    myFlipFlopTrigger=OnSwitching;
 	}
+	setClockNegated(false);
 	break;
     case OnSwitching:
+	setClockNegated(false);
 	break;
     }
     if(spontaneous) setFlipFlopType(myFlipFlopType);
@@ -225,7 +233,14 @@ void FlipFlop::clock(bool v){
 	
 	break;
     case Toggle:
-	
+	if(v==myOnWhichValue){
+	    if(myInputs[0]->value()){
+		qDebug()<<"Toggled"<<property("toggles").toInt();
+		setProperty("toggles",property("toggles").toInt()+1);
+		myValue=!myValue;
+		recalculate();
+	    }
+	}
 	break;
     }
 }
@@ -287,15 +302,20 @@ bool FlipFlop::createFormBefore(){
     triggerBox->setCurrentIndex(myFlipFlopTrigger);
     connect(typeBox,SIGNAL(currentEnumIndexChanged(int)),this,SLOT(onTypeBoxChanged(int)));
     connect(triggerBox,SIGNAL(currentEnumIndexChanged(int)),this,SLOT(onTriggerBoxChanged(int)));
-    QLabel *typeLabel=new QLabel(tr("Type")), *triggerLabel=new QLabel(tr("Trigger")), *onWhichValueLabel=new QLabel(tr("Triggered on"));
-    QCheckBox* onWhichValue=new QCheckBox;
-    onWhichValue->setChecked(myOnWhichValue);
-    connect(onWhichValue,SIGNAL(clicked(bool)),this,SLOT(setOnWhichValue(bool)));
-    additionalWidgets<<typeBox<<triggerBox<<typeLabel<<triggerLabel<<onWhichValueLabel<<onWhichValue;
+    QLabel *typeLabel=new QLabel(tr("Type")), *triggerLabel=new QLabel(tr("Trigger")), *onWhichValueLabel=new QLabel(tr("Negate Clock"));
+    negateBox=new QCheckBox;
+    if(myFlipFlopTrigger!=None){
+	negateBox->setChecked(myInputs[1]->isNegated());
+    } else {
+	negateBox->setDisabled(true);
+	negateBox->setChecked(false);
+    }
+    connect(negateBox,SIGNAL(clicked(bool)),this,SLOT(setClockNegated(bool)));
+    additionalWidgets<<typeBox<<triggerBox<<typeLabel<<triggerLabel<<onWhichValueLabel<<negateBox;
     
     layout->addRow(typeLabel,typeBox);
     layout->addRow(triggerLabel,triggerBox);
-    layout->addRow(onWhichValueLabel,onWhichValue);
+    layout->addRow(onWhichValueLabel,negateBox);
     return false;
 }
 
@@ -308,6 +328,11 @@ void FlipFlop::onTypeBoxChanged(int t){
 void FlipFlop::onTriggerBoxChanged(int t){
     setFlipFlopTrigger(static_cast<FlipFlopTrigger>(t));
     triggerBox->setCurrentIndex(myFlipFlopTrigger);
+    if(myFlipFlopTrigger==None){
+	negateBox->setDisabled(true);
+    } else {
+	negateBox->setEnabled(true);
+    }
 }
 
 void FlipFlop::setPrivateXml(QXmlStreamWriter *xml){
@@ -319,5 +344,5 @@ void FlipFlop::setPrivateXml(QXmlStreamWriter *xml){
 void FlipFlop::readPrivateXml(QXmlStreamReader *xml){
     setFlipFlopType(static_cast<FlipFlopType>(xml->attributes().value("flipfloptype").toString().toInt()));
     setFlipFlopTrigger(static_cast<FlipFlopTrigger>(xml->attributes().value("flipfloptrigger").toString().toInt()));
-    setOnWhichValue(xml->attributes().value("onwhichvalue")=="true"?1:0);
+    setClockNegated(xml->attributes().value("onwhichvalue")=="true"?1:0);
 }
