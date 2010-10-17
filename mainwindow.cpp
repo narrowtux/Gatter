@@ -227,15 +227,32 @@ void MainWindow::loadFileFrom(QString fileName){
 void MainWindow::open()
 {
     QSettings settings;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Select File"),settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
-    if (!fileName.isEmpty()){
-	settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
-	MainWindow*m;
-	if(!myScene->isBlank())
-	    m=newFile();
-	else
-	    m=this;
-	m->loadFile(fileName);
+    QString lastOpenDir=settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString();
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setWindowTitle(tr("Select File"));
+    dialog.setDirectory(lastOpenDir);
+    QStringList filters;
+    filters<<tr("Gatter Files(*.gtr)")
+           <<tr("All Files(*)");
+    dialog.setFilters(filters);
+    dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
+    dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
+    dialog.setLabelText(QFileDialog::FileType, tr("Files of Type"));
+    dialog.setLabelText(QFileDialog::Accept, tr("Open"));
+    dialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
+    dialog.exec();
+    
+    if (!dialog.selectedFiles().count()==0){
+	foreach(QString fileName, dialog.selectedFiles()){
+	    settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
+	    MainWindow*m;
+	    if(!myScene->isBlank())
+		m=newFile();
+	    else
+		m=this;
+	    m->loadFile(fileName);
+	}
     }
 }
 
@@ -251,9 +268,17 @@ bool MainWindow::save()
 bool MainWindow::saveAs()
 {
     QSettings settings;
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Save File As"),settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
-    if (fileName.isEmpty())
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDefaultSuffix("gtr");
+    dialog.setDirectory(settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
+    dialog.setWindowTitle(tr("Save File As"));
+    dialog.exec();
+    QString fileName;
+    if (dialog.selectedFiles().count()==0)
 	return false;
+    fileName=dialog.selectedFiles().at(0);
     settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
     return saveFile(fileName);
 }

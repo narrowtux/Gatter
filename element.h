@@ -27,7 +27,7 @@ public:
     void setInputs(int c);
     void setOutputs(int c);
     void setFormLayout(QFormLayout* layout);
-    virtual void setPrivateXml(QXmlStreamWriter* xml);
+    virtual void setPrivateXml(QXmlStreamWriter *xml);
     virtual void readPrivateXml(QXmlStreamReader *xml);
     void setPos(const QPointF &pos);
     void setPos(qreal x, qreal y);
@@ -41,12 +41,6 @@ signals:
     void moved();
 protected slots:
     virtual void recalculate();
-private slots:
-    void inputChanged();
-    void updateName(QWidget* lineEdit);
-    void updateNegation(QWidget* checkBox);
-    void updateInputs(int);
-    void updateOutputs(int);
 protected:
     QFormLayout*layout;
     bool myValue;
@@ -73,7 +67,7 @@ protected:
     QSignalMapper lineMapper, checkMapper;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     QString myType;
-    virtual void createFormBefore();
+    virtual bool createFormBefore();
     virtual void createFormAfter();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
@@ -82,6 +76,12 @@ private:
     void createForm();
     void deleteForm();
     bool isMoving;
+private slots:
+    void inputChanged();
+    void updateName(QWidget* lineEdit);
+    void updateNegation(QWidget* checkBox);
+    void updateInputs(int);
+    void updateOutputs(int);
 };
 
 #endif // ELEMENT_H

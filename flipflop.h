@@ -1,6 +1,7 @@
 #ifndef FLIPFLOP_H
 #define FLIPFLOP_H
 #include "element.h"
+#include "enumcombobox.h"
 
 class FlipFlop : public Element
 {
@@ -12,9 +13,23 @@ public:
     explicit FlipFlop(QGraphicsObject *parent = 0);
     FlipFlop(const FlipFlop &copy);
     ~FlipFlop();
+    void setFlipFlopType(FlipFlopType type);
+    void setFlipFlopTrigger(FlipFlopTrigger clock, bool spontaneous=true);
+    void setPrivateXml(QXmlStreamWriter *xml);
+    void readPrivateXml(QXmlStreamReader *xml);
+public slots:
+    void setOnWhichValue(bool v);
 signals:
 
-public slots:
+private slots:
+    void set(bool v);
+    void reset(bool v);
+    void clock(bool v);
+    void jump(bool v);
+    void kill(bool v);
+    void other(bool v);
+    void onTypeBoxChanged(int t);
+    void onTriggerBoxChanged(int t);
 private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
@@ -22,9 +37,9 @@ private:
     FlipFlopType myFlipFlopType;
     FlipFlopTrigger myFlipFlopTrigger;
     bool myOnWhichValue;
-    void setFlipFlopType(FlipFlopType type);
-    void setFlipFlopTrigger(FlipFlopTrigger clock);
-    void setOnWhichValue(bool owv);
+    bool createFormBefore();
+    EnumComboBox *typeBox;
+    EnumComboBox *triggerBox;
 };
 
 #endif // FLIPFLOP_H

@@ -395,6 +395,9 @@ MainWindow* Scene::mainWindow(){
 
 QGraphicsItem* Scene::itemAt(const QPointF &pos) const{
     QGraphicsItem* item=QGraphicsScene::itemAt(pos), *realItem;
+    if(item==0){
+	return 0;
+    }
     if(item->parentItem()->data(ElementRecognition).toString()=="Connection"){
 	QPointF itemPos=item->pos();
 	item->setPos(itemPos+QPointF(100,100));

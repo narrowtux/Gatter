@@ -73,13 +73,14 @@ void Lamp::setColor(QColor c){
     update();
 }
 
-void Lamp::createFormBefore(){
+bool Lamp::createFormBefore(){
     ColorButton* c=new ColorButton;
     c->setColor(color);
     connect(c,SIGNAL(colorChanged(QColor)),this,SLOT(setColor(QColor)));
     QLabel*l=new QLabel(tr("Color"));
     additionalWidgets<<c<<l;
     layout->addRow(l,c);
+    return true;
 }
 
 void Lamp::setPrivateXml(QXmlStreamWriter *xml){

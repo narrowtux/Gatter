@@ -45,7 +45,7 @@ void Clock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     }
 }
 
-void Clock::createFormBefore()
+bool Clock::createFormBefore()
 {
     QLabel* l=new QLabel(tr("Low-Time"));
     QSpinBox* s=new QSpinBox();
@@ -61,6 +61,7 @@ void Clock::createFormBefore()
     additionalWidgets<<l<<s;
     layout->addRow(l,s);
     connect(s,SIGNAL(valueChanged(int)),this,SLOT(setHighTime(int)));
+    return true;
 }
 
 

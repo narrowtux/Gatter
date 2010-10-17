@@ -18,7 +18,7 @@ public:
     void setPrivateXml(QXmlStreamWriter *xml);
     void readPrivateXml(QXmlStreamReader *xml);
 signals:
-
+    void changed();
 public slots:
     void sendChanges();
 protected:

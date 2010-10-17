@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     subsceneinfo.cpp \
     delay.cpp \
     loadthread.cpp \
-    flipflop.cpp
+    flipflop.cpp \
+    enumcombobox.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -46,7 +47,8 @@ HEADERS  += mainwindow.h \
     subsceneinfo.h \
     delay.h \
     loadthread.h \
-    flipflop.h
+    flipflop.h \
+    enumcombobox.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

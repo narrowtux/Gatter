@@ -18,7 +18,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QColor color;
     void recalculate();
-    void createFormBefore();
+    bool createFormBefore();
     void setPrivateXml(QXmlStreamWriter *xml);
     void readPrivateXml(QXmlStreamReader *xml);
 };

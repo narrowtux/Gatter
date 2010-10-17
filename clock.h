@@ -22,7 +22,7 @@ protected:
     QRectF boundingRect() const;
     QTimer* low;
     QTimer* high;
-    void createFormBefore();
+    bool createFormBefore();
 };
 
 #endif // CLOCK_H

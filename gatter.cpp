@@ -13,6 +13,7 @@ Gatter::Gatter(QGraphicsObject *parent) :
     beforeValue=false;
     delay=new QTimer;
     connect(delay,SIGNAL(timeout()),this,SLOT(sendChanges()));
+    connect(this,SIGNAL(changed()),this,SLOT(sendChanges()),Qt::QueuedConnection);
     delay->setSingleShot(true);
     myType="gatter";
     tr("Gatter");
@@ -143,9 +144,12 @@ void Gatter::recalculate(){
 	val=myInputs[0]->value();
 	break;
     }
+    if(val!=beforeValue||beforeUndefined){
+	emit(changed());
+    }
     beforeUndefined=false;
     beforeValue=val;
-    delay->start(delayMS+myDelay);
+//    delay->start(delayMS+myDelay);
 }
 
 void Gatter::sendChanges(){
@@ -165,3 +169,4 @@ void Gatter::readPrivateXml(QXmlStreamReader *xml)
     Type t=static_cast<Type>(attr.value("gatterType").toString().toInt());
     setType(t);
 }
+

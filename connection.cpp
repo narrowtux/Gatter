@@ -43,7 +43,8 @@ void Connection::setValue(bool v)
 	if(myNegated){
 	    endValue=!endValue;
 	}
-	if(!((Scene*)scene())->isLoading()){
+	Scene* s=(Scene*)scene();
+	if(s!=0&&!s->isLoading()){
 	    emit(changed(endValue));
 	    if(myConnectedTo!=0&&myConnectionType==Output){
 		//qDebug()<<"Connection Value Changed to"<<endValue;
@@ -163,7 +164,7 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 	qreal ln=l.length()-1;
 	l.setLength(ln);
 	line->setLine(l);
-	QGraphicsItem* i=scene()->itemAt(event->scenePos());
+	QGraphicsItem* i=((Scene*)scene())->itemAt(event->scenePos());
 	if(i!=0&&i->data(ElementRecognition).toString()=="Connection"){
 	    ((Connection*)i)->poke(true);
 	    lastI=(Connection*)i;
@@ -176,7 +177,7 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if(event->button()==Qt::LeftButton){
-	QGraphicsItem* i=scene()->itemAt(event->scenePos());
+	QGraphicsItem* i=((Scene*)scene())->itemAt(event->scenePos());
 	line->setLine(QLineF(startPos,event->scenePos()));
 	qDebug()<<event->scenePos();
 	if(i->data(ElementRecognition).toString()=="Connection"&&i!=this){

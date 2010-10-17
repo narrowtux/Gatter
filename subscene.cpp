@@ -16,11 +16,12 @@ SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
     mySubSceneInfo=0;
 }
 
-void SubScene::createFormBefore(){
+bool SubScene::createFormBefore(){
     QPushButton* push=new QPushButton(tr("Select File"));
     additionalWidgets<<push;
     layout->addRow(push);
     connect(push,SIGNAL(clicked()),this,SLOT(selectFile()));
+    return false;
 }
 
 void SubScene::updateConnections(){

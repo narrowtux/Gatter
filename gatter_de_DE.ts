@@ -61,7 +61,7 @@
 <context>
     <name>Gatter</name>
     <message>
-        <location filename="gatter.cpp" line="18"/>
+        <location filename="gatter.cpp" line="19"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
@@ -82,44 +82,76 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="228"/>
+        <location filename="mainwindow.cpp" line="233"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="252"/>
+        <location filename="mainwindow.cpp" line="236"/>
+        <source>Gatter Files(*.gtr)</source>
+        <oldsource>Gatter Files(*.gtr</oldsource>
+        <translation>Gatter Dateien(*.gtr)</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="237"/>
+        <source>All Files(*)</source>
+        <translation>Alle Dateien(*)</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="239"/>
+        <source>Look In</source>
+        <translation>Ordner öffnen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="240"/>
+        <source>Name of File</source>
+        <translation>Name der Datei</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="241"/>
+        <source>Files of Type</source>
+        <oldsource>Type of File</oldsource>
+        <translation>Dateien vom Typ</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="243"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="271"/>
         <source>Save File As</source>
         <translation>Datei Speichern unter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="261"/>
+        <location filename="mainwindow.cpp" line="283"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="262"/>
+        <location filename="mainwindow.cpp" line="284"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
-        <location filename="mainwindow.cpp" line="328"/>
-        <location filename="mainwindow.cpp" line="330"/>
-        <location filename="mainwindow.cpp" line="333"/>
+        <location filename="mainwindow.cpp" line="312"/>
+        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="352"/>
+        <location filename="mainwindow.cpp" line="355"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="84"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="291"/>
+        <location filename="mainwindow.cpp" line="313"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="324"/>
+        <location filename="mainwindow.cpp" line="346"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
@@ -235,6 +267,7 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="242"/>
         <location filename="mainwindow.ui" line="352"/>
         <source>Open</source>
         <translation>Öffnen</translation>
@@ -441,8 +474,8 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="328"/>
-        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="352"/>
         <location filename="mainwindow.ui" line="537"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
@@ -474,7 +507,7 @@ Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
         <location filename="subscene.cpp" line="20"/>
-        <location filename="subscene.cpp" line="165"/>
+        <location filename="subscene.cpp" line="166"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>

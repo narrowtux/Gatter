@@ -24,7 +24,7 @@ private:
     Scene* myScene;
     MainWindow* myMainWindow;
     SubSceneInfo* mySubSceneInfo;
-    void createFormBefore();
+    bool createFormBefore();
     void recalculate();
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
