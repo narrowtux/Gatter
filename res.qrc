@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/icons/toolbar">
         <file alias="inspector.png">icons/stb_info.png</file>
+        <file alias="lamp.png">icons/lamp.png</file>
+        <file alias="switch.png">icons/switch.png</file>
+        <file alias="button.png">icons/button.png</file>
     </qresource>
 </RCC>

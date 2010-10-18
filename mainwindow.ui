@@ -188,8 +188,8 @@
    <addaction name="actionMultiplexer"/>
    <addaction name="actionInsertSwitch"/>
    <addaction name="actionInsertButton"/>
-   <addaction name="actionInsertClock"/>
    <addaction name="actionInsertLamp"/>
+   <addaction name="actionInsertClock"/>
    <addaction name="actionInsertFlipflop"/>
    <addaction name="actionInsertSubscene"/>
   </widget>
@@ -241,7 +241,7 @@
           <x>0</x>
           <y>0</y>
           <width>226</width>
-          <height>279</height>
+          <height>260</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -460,16 +460,28 @@
    </property>
   </action>
   <action name="actionInsertSwitch">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/toolbar/switch.png</normaloff>:/icons/toolbar/switch.png</iconset>
+   </property>
    <property name="text">
     <string>Normal Switch</string>
    </property>
   </action>
   <action name="actionInsertLamp">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/toolbar/lamp.png</normaloff>:/icons/toolbar/lamp.png</iconset>
+   </property>
    <property name="text">
     <string>Lamp</string>
    </property>
   </action>
   <action name="actionInsertButton">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/toolbar/button.png</normaloff>:/icons/toolbar/button.png</iconset>
+   </property>
    <property name="text">
     <string>Button</string>
    </property>
@@ -536,6 +548,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>
