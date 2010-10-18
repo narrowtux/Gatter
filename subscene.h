@@ -16,6 +16,7 @@ public:
     ~SubScene();
     void setFileName(QString fileName);
     void setInfo(SubSceneInfo* info);
+    void setMainWindow(MainWindow*m);
 signals:
 private slots:
     void updateConnections();

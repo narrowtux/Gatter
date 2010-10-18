@@ -117,6 +117,7 @@
       <string>Outputs</string>
      </property>
      <addaction name="actionInsertLamp"/>
+     <addaction name="actionInsertHexOutput"/>
     </widget>
     <addaction name="menuGatter"/>
     <addaction name="actionMultiplexer"/>
@@ -544,6 +545,11 @@
   <action name="actionInsertFlipflop">
    <property name="text">
     <string>Flipflop</string>
+   </property>
+  </action>
+  <action name="actionInsertHexOutput">
+   <property name="text">
+    <string>Hex Output</string>
    </property>
   </action>
  </widget>

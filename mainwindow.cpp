@@ -13,6 +13,7 @@
 #include "delay.h"
 #include <qxmlstream.h>
 #include "flipflop.h"
+#include "hexoutput.h"
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -480,4 +481,9 @@ void MainWindow::zoomTo(int v){
     QTransform tr;
     tr.scale(scale,scale);
     ui->graphicsView->setTransform(tr);
+}
+
+void MainWindow::on_actionInsertHexOutput_triggered()
+{
+    myScene->addElement(new HexOutput);
 }

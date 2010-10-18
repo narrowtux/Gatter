@@ -95,6 +95,7 @@ void SubScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
     if(myMainWindow==0){
 	myMainWindow=new MainWindow(0, myScene);
 	myMainWindow->setCurrentFile(fileName);
+	myScene->setMainWindow(myMainWindow);
     }
     myMainWindow->show();
 }
@@ -183,4 +184,8 @@ void SubScene::setFileName(QString fn){
 void SubScene::setInfo(SubSceneInfo *info){
     mySubSceneInfo=info;
     update();
+}
+
+void SubScene::setMainWindow(MainWindow *m){
+    myMainWindow=m;
 }

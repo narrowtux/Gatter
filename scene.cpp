@@ -9,6 +9,7 @@
 #include "subscene.h"
 #include "delay.h"
 #include "flipflop.h"
+#include "hexoutput.h"
 #include <qxmlstream.h>
 
 bool Scene::debugMethods=false;
@@ -54,57 +55,20 @@ QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mousePressEvent(event);
-//	bool check=true;
-//	QGraphicsItem* item=itemAt(event->scenePos());
-//	if(item!=0){
-//		if(item->flags()|QGraphicsItem::ItemIsMovable) check=false;
-//		if(item->flags()|QGraphicsItem::ItemIsFocusable) check=false;
-//		if(item->flags()|QGraphicsItem::ItemIsSelectable) check=false;
-//	}
-//	if(event->button()==Qt::LeftButton&&check){
-//		pressed=true;
-//		startPos=event->scenePos();
-//	}
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseMoveEvent(event);
-//	if(pressed){
-//		if(rect==0){
-//			rect=addRect(rectFromPoints(startPos,event->scenePos()));
-//			QColor hi=QApplication::palette().highlight().color();
-//			hi.setAlpha(128);
-//			rect->setBrush(hi);
-//			rect->setPen(Qt::NoPen);
-//		} else {
-//			rect->setRect(rectFromPoints(startPos,event->scenePos()));
-//		}
-//		QPainterPath selection;
-//		selection.addRect(rect->rect());
-//		setSelectionArea(selection);
-//		foreach(QGraphicsView* view, views()){
-//			view->ensureVisible(event->scenePos().x(),event->scenePos().y(),0,0);
-//		}
-//	}
+    lastMousePos=event->scenePos();
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseReleaseEvent(event);
-//	if(pressed){
-//		QPainterPath selection;
-//		selection.addRect(rectFromPoints(startPos,event->scenePos()));
-//		if(rect!=0){
-//			removeItem(rect);
-//			delete rect;
-//		}
-//		rect=0;
-//		pressed=false;
-//	}
 }
 
 void Scene::addElement(Element *e,int uniqueId){
     addItem(e);
-    e->setPos(QPointF(0.5,0.5));
+    e->setPos(lastMousePos);
     if(myMainWindow!=0)
 	e->setFormLayout(myMainWindow->getFormLayout());
     if(uniqueId==-1){
@@ -148,6 +112,9 @@ bool Scene::isElement(QGraphicsItem *item){
 
 void Scene::setMainWindow(MainWindow *m){
     myMainWindow=m;
+    foreach(Element*e, elements){
+	e->setFormLayout(m->getFormLayout());
+    }
 }
 
 void Scene::setScale(qreal scale){
@@ -370,6 +337,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 	return new Delay;
     if(typeName=="flipflop")
 	return new FlipFlop;
+    if(typeName=="hexoutput")
+	return new HexOutput;
     return 0;
 }
 

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     delay.cpp \
     loadthread.cpp \
     flipflop.cpp \
-    enumcombobox.cpp
+    enumcombobox.cpp \
+    hexoutput.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -48,7 +49,8 @@ HEADERS  += mainwindow.h \
     delay.h \
     loadthread.h \
     flipflop.h \
-    enumcombobox.h
+    enumcombobox.h \
+    hexoutput.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

@@ -61,7 +61,7 @@ void Connection::setValue(bool v)
 		}
 	    }
 	}
-	//update();
+	update();
     }
     lastValue=myValue;
 }

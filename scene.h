@@ -44,6 +44,7 @@ protected:
     MainWindow* myMainWindow;
     bool blank;
     bool loads;
+    QPointF lastMousePos;
 signals:
     void modified();
     void elementAddedOrRemoved();
