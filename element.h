@@ -36,6 +36,7 @@ public:
     virtual void setInput(bool value);
     bool value();
     QString name();
+    int count(const char* propName);
 signals:
     void outputChanged(bool);
     void moved();

@@ -18,6 +18,7 @@ public:
     ~Scene();
     QRectF rectFromPoints(QPointF p1, QPointF p2);
     static QColor highValueColor;
+    static bool debugMethods;
     void addElement(Element* e, int uniqueId=-1);
     void removeElement(Element* e);
     void removeItem(QGraphicsItem *item);

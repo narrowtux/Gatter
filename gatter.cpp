@@ -104,6 +104,7 @@ QRectF Gatter::boundingRect() const{
 }
 
 void Gatter::recalculate(){
+    if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", Gatter::recalculate()";
     bool val;
     int myDelay=0;
     switch(myGatterType){
@@ -153,6 +154,7 @@ void Gatter::recalculate(){
 }
 
 void Gatter::sendChanges(){
+    if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("sendChanges")<<", Gatter::sendChanges()";
     foreach(Connection*c, myOutputs){
 	c->setValue(beforeValue);
     }

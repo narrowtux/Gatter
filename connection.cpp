@@ -37,6 +37,10 @@ bool Connection::isConnected()
 
 void Connection::setValue(bool v)
 {
+    if(Scene::debugMethods){
+	qDebug()<<(void*)this<<","<<property("setValue").toInt()<<", Connection::setValue";
+	setProperty("setValue",property("setValue").toInt()+1);
+    }
     myValue=v;
     if(myValue!=lastValue){
 	bool endValue=myValue;
@@ -50,14 +54,14 @@ void Connection::setValue(bool v)
 		//qDebug()<<"Connection Value Changed to"<<endValue;
 		if(endValue){
 		    myConnectedTo->setValue(High);
-		    line->setPen(Scene::highValueColor);
+		    //line->setPen(Scene::highValueColor);
 		} else {
 		    myConnectedTo->setValue(Low);
-		    line->setPen(QColor("black"));
+		    //line->setPen(QColor("black"));
 		}
 	    }
 	}
-	update();
+	//update();
     }
     lastValue=myValue;
 }

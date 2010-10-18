@@ -186,6 +186,7 @@ void Element::inputChanged(){
 }
 
 void Element::recalculate(){
+    if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", Element::recalculate()";
     //DUMMY-Method
 }
 
@@ -466,5 +467,11 @@ QString Element::name(){
 	    break;
 	}
     }
+    return ret;
+}
+
+int Element::count(const char *propName){
+    int ret=property(propName).toInt()+1;
+    setProperty(propName,ret);
     return ret;
 }

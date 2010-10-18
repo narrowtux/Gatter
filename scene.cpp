@@ -10,6 +10,9 @@
 #include "delay.h"
 #include "flipflop.h"
 #include <qxmlstream.h>
+
+bool Scene::debugMethods=false;
+
 Scene::Scene(QObject *parent) :
     QGraphicsScene(parent)
 {

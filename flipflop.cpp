@@ -15,7 +15,7 @@ FlipFlop::FlipFlop(QGraphicsObject *parent) :
     myValue=false;
     recalculate();
     myType="flipflop";
-    setProperty("toggles",0);
+    setProperty("recalcs",0);
 }
 
 FlipFlop::FlipFlop(const FlipFlop &copy){
@@ -157,6 +157,7 @@ QRectF FlipFlop::boundingRect() const {
 }
 
 void FlipFlop::recalculate(){
+    if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", FlipFlop::recalculate()";
     myOutputs.at(0)->setValue(myValue);
     myOutputs.at(1)->setValue(!myValue);
 }
