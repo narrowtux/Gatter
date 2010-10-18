@@ -14,7 +14,7 @@
    <string>Gatter</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -34,6 +34,21 @@
       </property>
       <property name="renderHints">
        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
+      </property>
+      <property name="cacheMode">
+       <set>QGraphicsView::CacheBackground</set>
+      </property>
+      <property name="transformationAnchor">
+       <enum>QGraphicsView::AnchorUnderMouse</enum>
+      </property>
+      <property name="resizeAnchor">
+       <enum>QGraphicsView::AnchorUnderMouse</enum>
+      </property>
+      <property name="viewportUpdateMode">
+       <enum>QGraphicsView::SmartViewportUpdate</enum>
+      </property>
+      <property name="optimizationFlags">
+       <set>QGraphicsView::IndirectPainting</set>
       </property>
      </widget>
     </item>
@@ -246,31 +261,6 @@
             <widget class="QSpinBox" name="spinDelay">
              <property name="maximum">
               <number>2000</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QSlider" name="zoomSlider">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimum">
-              <number>25</number>
-             </property>
-             <property name="maximum">
-              <number>400</number>
-             </property>
-             <property name="value">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::TicksBelow</enum>
-             </property>
-             <property name="tickInterval">
-              <number>25</number>
              </property>
             </widget>
            </item>

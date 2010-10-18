@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons/toolbar">
+        <file alias="inspector.png">icons/stb_info.png</file>
+    </qresource>
+</RCC>

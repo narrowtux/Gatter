@@ -55,3 +55,6 @@ FORMS    += mainwindow.ui \
     subscenechoosedialog.ui
 TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns
+
+RESOURCES += \
+    res.qrc

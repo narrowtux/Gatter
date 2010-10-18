@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     myAction=new QAction(windowTitle(),this);
     myAction->setCheckable(true);
     QAction* action=ui->dockInspector->toggleViewAction();
+    action->setIcon(QIcon(":/icons/toolbar/inspector.png"));
     action->setShortcut(QKeySequence("Ctrl+Alt+I"));
     ui->menuWindow->addAction(action);
     ui->mainToolBar->addSeparator();
@@ -53,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     foreach(MainWindow* m, mainWindows){
 	m->updateActions();
     }
-    ui->spinDelay->setValue(Gatter::delayMS);
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
     connect(ui->actionSave_As,SIGNAL(triggered()),this,SLOT(saveAs()));
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
@@ -61,9 +61,31 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
     //loadFile("/Users/tux/test.gtr");
-    ui->zoomSlider->hide();
     ui->dockUTDiagram->close();
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
+    
+    myZoomOut=new QToolButton;
+    myZoomOut->setText("-");
+    myZoomOut->setToolTip(tr("Zoom Out"));
+    ui->statusBar->addPermanentWidget(myZoomOut);
+    connect(myZoomOut,SIGNAL(clicked()),this,SLOT(zoomOut()));
+    
+    myZoomSlider=new QSlider;
+    myZoomSlider->setRange(0,100);
+    myZoomSlider->setTickInterval(50);
+    myZoomSlider->setValue(50);
+    myZoomSlider->setOrientation(Qt::Horizontal);
+    myZoomSlider->setTickPosition(QSlider::TicksBelow);
+    ui->statusBar->addPermanentWidget(myZoomSlider);
+    connect(myZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(zoomTo(int)));
+    
+    myZoomIn=new QToolButton;
+    myZoomIn->setText("+");
+    myZoomIn->setToolTip(tr("Zoom In"));
+    ui->statusBar->addPermanentWidget(myZoomIn);
+    connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
+    
+    scale=1.0;
 }
 
 MainWindow::~MainWindow()
@@ -184,10 +206,6 @@ void MainWindow::on_actionInsertButton_triggered()
     myScene->addElement(new Button);
 }
 
-void MainWindow::on_spinDelay_valueChanged(int val)
-{
-    Gatter::delayMS=val;
-}
 
 QFormLayout* MainWindow::getFormLayout(){
     return ui->selectionOptions;
@@ -204,11 +222,6 @@ void MainWindow::updateSceneRect()
     if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
 	//myScene->setSceneRect(ui->graphicsView->rect());
     }
-}
-
-void MainWindow::on_zoomSlider_valueChanged(int value)
-{
-   myScene->setScale(value/100.0);
 }
 
 void MainWindow::on_actionInsertClock_triggered()
@@ -443,4 +456,28 @@ void MainWindow::on_actionInsertDelay_triggered()
 void MainWindow::on_actionInsertFlipflop_triggered()
 {
     myScene->addElement(new FlipFlop(0));
+}
+
+void MainWindow::zoomIn()
+{
+    int v=myZoomSlider->value()/10*10+10;
+    myZoomSlider->setValue(v);
+}
+
+void MainWindow::zoomOut()
+{
+    int v=myZoomSlider->value()/10*10-10;
+    myZoomSlider->setValue(v);
+}
+
+void MainWindow::zoomTo(int v){
+    qreal value=v/100.0;
+    if(value>0.45&&value<0.55&&value!=0.5){
+	myZoomSlider->setValue(50);
+	return;
+    }
+    scale=0.25*qPow(16.0,value);
+    QTransform tr;
+    tr.scale(scale,scale);
+    ui->graphicsView->setTransform(tr);
 }

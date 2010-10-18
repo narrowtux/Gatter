@@ -6,6 +6,7 @@
 #include <QFormLayout>
 #include "settingsdialog.h"
 #include <QtConcurrentRun>
+#include <QtGui>
 class SubSceneChooseDialog;
 class Scene;
 class QXmlStreamReader;
@@ -30,12 +31,20 @@ public slots:
     bool saveAs();
     void about();
     void documentWasModified();
+    void zoomIn();
+    void zoomOut();
+    void zoomTo(int v);
 
 protected:
     void changeEvent(QEvent *e);
     QString fileName;
     static int unnamedIndex;
 private:
+    QToolButton *myZoomIn, *myZoomOut;
+    qreal scale;
+    QSlider *myZoomSlider;
+    
+    
     Ui::MainWindow *ui;
     static QList<MainWindow*> mainWindows;
     static QList<QAction*> windowActions;
@@ -65,8 +74,6 @@ private slots:
     void on_actionLayoutLeft_triggered();
     void on_actionPreferences_triggered();
     void on_actionInsertClock_triggered();
-    void on_zoomSlider_valueChanged(int value);
-    void on_spinDelay_valueChanged(int );
     void on_actionInsertButton_triggered();
     void on_actionDelete_triggered();
     void on_actionInsertLamp_triggered();
