@@ -24,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    
+#ifndef QT_ARCH_MACOSX
+	ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
+#endif
+    
     if(scene!=0){
 	myScene=scene;
 	mySubScene=true;
@@ -486,4 +491,11 @@ void MainWindow::zoomTo(int v){
 void MainWindow::on_actionInsertHexOutput_triggered()
 {
     myScene->addElement(new HexOutput);
+}
+
+void MainWindow::on_actionSelectAll_triggered()
+{
+    QPainterPath all;
+    all.addRect(myScene->itemsBoundingRect());
+    myScene->setSelectionArea(all);
 }
