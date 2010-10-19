@@ -128,6 +128,8 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
     loads=true;
     if(!paste)
 	clear();
+    else
+	clearSelection();
     bool own=false;
     QFile file(fileName);
     if(xml==0){
@@ -140,7 +142,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
     }
     QMap<int, int> elementIdMapping;
     QList<Element*> pastedElements;
-    while(!(xml->name()=="scene"&&xml->isEndElement())){
+    while(!(xml->name()=="scene"&&xml->isEndElement())&&!xml->hasError()){
 	xml->readNext();
 	qDebug()<<xml->name()<<xml->isStartElement();
 	if(xml->name()=="element"){
@@ -158,7 +160,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
 		int count=0;
-		while(!(xml->name()=="inputs"&&xml->isEndElement()))
+		while(!(xml->name()=="inputs"&&xml->isEndElement())&&!xml->hasError())
 		{
 		    xml->readNext();
 		    qDebug()<<xml->name()<<xml->isStartElement();
@@ -190,7 +192,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 		}
 		element->setInputs(count);
 		count=0;
-		while(!(xml->name()=="outputs"&&xml->isEndElement())){
+		while(!(xml->name()=="outputs"&&xml->isEndElement())&&!xml->hasError()){
 		    xml->readNext();
 		    qDebug()<<xml->name()<<xml->isStartElement();
 		    if(xml->name()=="connection"&&xml->isStartElement()){
@@ -216,7 +218,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	    }
 	}
 	if(xml->name()=="connections"){
-	    while(!(xml->name()=="connections"&&xml->isEndElement())){
+	    while(!(xml->name()=="connections"&&xml->isEndElement())&&!xml->hasError()){
 		xml->readNext();
 		qDebug()<<xml->name()<<xml->isStartElement();
 		if(xml->name()=="connect"&&xml->isStartElement()){
@@ -235,18 +237,24 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	    }
 	}
     }
-    QVector<QPointF> points;
-    foreach(Element* e, pastedElements){
-	e->setSelected(true);
-	points.append(e->scenePos());
+    bool errors=xml->hasError();
+    if(xml->hasError()){
+	qDebug()<<"XML load error:"<<xml->error()<<xml->errorString();
     }
-    QPolygonF p(points);
-    QRectF rect=p.boundingRect();
-    QPointF before=rect.topLeft();
-    p.translate(lastMousePos-before);
-    points=p.toList().toVector();
-    for(int i=0;i<points.count();i++){
-	pastedElements.at(i)->setPos(points.at(i));
+    if(!errors){
+	QVector<QPointF> points;
+	foreach(Element* e, pastedElements){
+	    e->setSelected(true);
+	    points.append(e->scenePos());
+	}
+	QPolygonF p(points);
+	QRectF rect=p.boundingRect();
+	QPointF before=rect.topLeft();
+	p.translate(lastMousePos-before);
+	points=p.toList().toVector();
+	for(int i=0;i<points.count();i++){
+	    pastedElements.at(i)->setPos(points.at(i));
+	}
     }
     if(own)file.close();
     loads=false;

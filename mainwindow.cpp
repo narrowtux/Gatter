@@ -95,9 +95,10 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     QAction* seperatorAction=new QAction(this);
     seperatorAction->setSeparator(true);
     QList<QAction*> actions;
-    actions<<ui->actionCopy
-	    <<ui->actionCut
+    actions<<ui->actionCut
+	    <<ui->actionCopy
 	    <<ui->actionPaste
+	    <<ui->actionDelete
 	    <<seperatorAction
 	    <<ui->actionSelectAll;
     ui->graphicsView->addActions(actions);
