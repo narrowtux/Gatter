@@ -23,6 +23,7 @@ public:
     ~MainWindow();
     QFormLayout* getFormLayout();
     void setCurrentFile(const QString &fileName);
+    static QList<MainWindow*> mainWindows;
 	
 public slots:
     MainWindow* newFile();
@@ -34,11 +35,14 @@ public slots:
     void zoomIn();
     void zoomOut();
     void zoomTo(int v);
+    void loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
 
 protected:
     void changeEvent(QEvent *e);
     QString fileName;
     static int unnamedIndex;
+    static bool argvFileAlreadyOpened;
 private:
     QToolButton *myZoomIn, *myZoomOut;
     qreal scale;
@@ -46,7 +50,6 @@ private:
     
     
     Ui::MainWindow *ui;
-    static QList<MainWindow*> mainWindows;
     static QList<QAction*> windowActions;
     QAction* myAction;
     Scene* myScene;
@@ -58,8 +61,6 @@ private:
     void readSettings();
     void writeSettings();
     bool maybeSave();
-    void loadFile(const QString &fileName);
-    bool saveFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
     QString curFile;
     SettingsDialog* settingsDialog;

@@ -3,9 +3,10 @@
 #include <QLocale>
 #include <QDebug>
 #include "subscenechoosedialog.h"
+#include "application.h"
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);	
+    Application a(argc, argv);	
 	
     QString locale = QLocale::system().name();
     QTranslator translator;

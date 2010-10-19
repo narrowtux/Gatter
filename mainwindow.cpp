@@ -17,18 +17,18 @@
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
+bool MainWindow::argvFileAlreadyOpened=false;
 
 
 MainWindow::MainWindow(QWidget *parent, Scene *scene) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+	QMainWindow(parent),
+	ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     
 #ifndef QT_ARCH_MACOSX
-	ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
+    ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
 #endif
-    
     if(scene!=0){
 	myScene=scene;
 	mySubScene=true;
@@ -102,6 +102,18 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	    <<seperatorAction
 	    <<ui->actionSelectAll;
     ui->graphicsView->addActions(actions);
+    
+    
+    if(!argvFileAlreadyOpened){
+	QStringList arguments=QApplication::arguments();
+	if(arguments.count()>=2){
+	    QString file=arguments.at(1);
+	    if(QFileInfo(file).exists()){
+		loadFile(file);
+	    }
+	}
+	argvFileAlreadyOpened=true;
+    }
 }
 
 MainWindow::~MainWindow()
@@ -117,6 +129,10 @@ void MainWindow::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
+    case QEvent::FileOpen:
+	QFileOpenEvent*event=(QFileOpenEvent*)e;
+	qDebug()<<event->file();
+	break;
     default:
         break;
     }
@@ -263,7 +279,7 @@ void MainWindow::open()
     dialog.setDirectory(lastOpenDir);
     QStringList filters;
     filters<<tr("Gatter Files(*.gtr)")
-           <<tr("All Files(*)");
+	    <<tr("All Files(*)");
     dialog.setFilters(filters);
     dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
     dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
@@ -314,8 +330,8 @@ bool MainWindow::saveAs()
 
 void MainWindow::about()
 {
-   QMessageBox::about(this, tr("About Gatter"),
-	    tr("Gatter is a simulation for digital circuits."));
+    QMessageBox::about(this, tr("About Gatter"),
+		       tr("Gatter is a simulation for digital circuits."));
 }
 
 void MainWindow::documentWasModified()
@@ -344,9 +360,9 @@ bool MainWindow::maybeSave()
     if (isWindowModified()&&myShouldBeSaved) {
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(this, tr("Gatter"),
-		     tr("The document has been modified.\n"
-			"Do you want to save your changes?"),
-		     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+				   tr("The document has been modified.\n"
+				      "Do you want to save your changes?"),
+				   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 	if (ret == QMessageBox::Save)
 	    return save();
 	else if (ret == QMessageBox::Cancel)
@@ -402,7 +418,7 @@ void MainWindow::on_actionPreferences_triggered()
 }
 
 /*
-
+ 
 void MainWindow::on_actionDistribute_Horizontally_triggered()
 {
     if(myScene->selectedItems().count()>1){
