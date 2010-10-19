@@ -123,15 +123,16 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes)
+QMap<int, Element*> Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool dontAddToScene)
 {
     loads=true;
     clear();
     bool own=false;
+    QMap<int,Element*> retElements;
     QFile file(fileName);
     if(xml==0){
 	if(!file.open(QIODevice::ReadOnly)){
-	    return;
+	    return retElements;
 	}
 	xml=new QXmlStreamReader;
 	xml->setDevice(&file);
@@ -160,7 +161,10 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes)
 	    QString elementType=attr.value("type").toString();
 	    Element* element=getElementFromTypeName(elementType);
 	    if(element!=0){
-		addElement(element,attr.value("id").toString().toInt());
+		retElements.insert(attr.value("id").toString().toInt(),element);
+		if(!dontAddToScene){
+		    addElement(element, attr.value("id").toString().toInt());
+		}
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
 		int count=0;
@@ -221,14 +225,18 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes)
 		element->setOutputs(count);
 	    }
 	}
-    }
+   }
    if(own)file.close();
    loads=false;
+   return retElements;
 }
 
-void Scene::save(QString fileName, QXmlStreamWriter *xml)
+void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> selectionElements)
 {
     bool own=false;
+    if(selectionElements.isEmpty()){
+	selectionElements=elements.values();
+    }
     QFile file(fileName);
     if(xml==0){
 	xml=new QXmlStreamWriter;
@@ -241,7 +249,7 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml)
     xml->writeStartElement("scene");
     /*Elements*/{
 	xml->writeStartElement("elements");
-	foreach(Element* e,elements){
+	foreach(Element* e,selectionElements){
 	    xml->writeStartElement("element");
 	    QXmlStreamAttributes elementAttributes;
 	    elementAttributes.append("x",QString().setNum(e->scenePos().x()));
@@ -292,7 +300,7 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml)
     }
     /*Connections*/{
 	xml->writeStartElement("connections");
-	foreach(Element*e,elements){
+	foreach(Element*e,selectionElements){
 	    foreach(Connection*c,e->myInputs)
 	    {
 		if(c->isConnected())

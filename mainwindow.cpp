@@ -92,6 +92,15 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
     
     scale=1.0;
+    QAction* seperatorAction=new QAction(this);
+    seperatorAction->setSeparator(true);
+    QList<QAction*> actions;
+    actions<<ui->actionCopy
+	    <<ui->actionCut
+	    <<ui->actionPaste
+	    <<seperatorAction
+	    <<ui->actionSelectAll;
+    ui->graphicsView->addActions(actions);
 }
 
 MainWindow::~MainWindow()
