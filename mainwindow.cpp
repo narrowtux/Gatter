@@ -508,3 +508,25 @@ void MainWindow::on_actionSelectAll_triggered()
     all.addRect(myScene->itemsBoundingRect());
     myScene->setSelectionArea(all);
 }
+
+void MainWindow::on_actionCopy_triggered()
+{
+    QClipboard* clipboard=QApplication::clipboard();
+    QXmlStreamWriter* xml=new QXmlStreamWriter;
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+    xml->setDevice(&buffer);
+    xml->writeStartDocument();
+    QList<Element*> selectedItems;
+    foreach(QGraphicsItem* i, myScene->selectedItems()){
+	if(myScene->isElement(i)){
+	    selectedItems<<(Element*)i;
+	}
+    }
+
+    myScene->save("",xml,selectedItems);
+    xml->writeEndDocument();
+    buffer.close();
+    clipboard->setText(array);
+}
