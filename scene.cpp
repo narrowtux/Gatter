@@ -15,16 +15,16 @@
 bool Scene::debugMethods=false;
 
 Scene::Scene(QObject *parent) :
-    QGraphicsScene(parent)
+	QGraphicsScene(parent)
 {
-	rect=0;
-	pressed=false;
-	connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
-	QSettings settings;
-	highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
-	blank=true;
-	loads=false;
-	myMainWindow=0;
+    rect=0;
+    pressed=false;
+    connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
+    QSettings settings;
+    highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
+    blank=true;
+    loads=false;
+    myMainWindow=0;
 }
 
 Scene::~Scene(){
@@ -40,17 +40,17 @@ bool Scene::isLoading(){
 QColor Scene::highValueColor=QColor("red");
 
 QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
-	qreal x1, x2, y1, y2;
-	x1=p1.x();
-	y1=p1.y();
-	x2=p2.x();
-	y2=p2.y();
-	QRectF ret;
-	ret.setTop(qMin(y1,y2));
-	ret.setLeft(qMin(x1,x2));
-	ret.setBottom(qMax(y1,y2));
-	ret.setRight(qMax(x1,x2));
-	return ret;
+    qreal x1, x2, y1, y2;
+    x1=p1.x();
+    y1=p1.y();
+    x2=p2.x();
+    y2=p2.y();
+    QRectF ret;
+    ret.setTop(qMin(y1,y2));
+    ret.setLeft(qMin(x1,x2));
+    ret.setBottom(qMax(y1,y2));
+    ret.setRight(qMax(x1,x2));
+    return ret;
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -126,7 +126,8 @@ void Scene::setScale(qreal scale){
 void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
 {
     loads=true;
-    clear();
+    if(!paste)
+	clear();
     bool own=false;
     QFile file(fileName);
     if(xml==0){
@@ -137,24 +138,11 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	xml->setDevice(&file);
 	own=true;
     }
+    QMap<int, int> elementIdMapping;
+    QList<Element*> pastedElements;
     while(!(xml->name()=="scene"&&xml->isEndElement())){
 	xml->readNext();
 	qDebug()<<xml->name()<<xml->isStartElement();
-	if(xml->name()=="connections"){
-	    while(!(xml->name()=="connections"&&xml->isEndElement())){
-		xml->readNext();
-		qDebug()<<xml->name()<<xml->isStartElement();
-		if(xml->name()=="connect"&&xml->isStartElement()){
-		    QXmlStreamAttributes attr=xml->attributes();
-		    int inElement, outElement, input, output;
-		    inElement=attr.value("inElement").toString().toInt();
-		    outElement=attr.value("outElement").toString().toInt();
-		    input=attr.value("input").toString().toInt();
-		    output=attr.value("output").toString().toInt();
-		    connectItems(inElement,outElement,input,output);
-		}
-	    }
-	}
 	if(xml->name()=="element"){
 	    QXmlStreamAttributes attr=xml->attributes();
 	    QString elementType=attr.value("type").toString();
@@ -162,6 +150,10 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	    if(element!=0){
 		if(!paste){
 		    addElement(element, attr.value("id").toString().toInt());
+		} else {
+		    addElement(element, -1);
+		    elementIdMapping.insert(attr.value("id").toString().toInt(),element->uniqueId);
+		    pastedElements<<element;
 		}
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
@@ -223,9 +215,31 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 		element->setOutputs(count);
 	    }
 	}
-   }
-   if(own)file.close();
-   loads=false;
+	if(xml->name()=="connections"){
+	    while(!(xml->name()=="connections"&&xml->isEndElement())){
+		xml->readNext();
+		qDebug()<<xml->name()<<xml->isStartElement();
+		if(xml->name()=="connect"&&xml->isStartElement()){
+		    QXmlStreamAttributes attr=xml->attributes();
+		    int inElement, outElement, input, output;
+		    inElement=attr.value("inElement").toString().toInt();
+		    outElement=attr.value("outElement").toString().toInt();
+		    if(paste){
+			inElement=elementIdMapping.value(inElement);
+			outElement=elementIdMapping.value(outElement);
+		    }
+		    input=attr.value("input").toString().toInt();
+		    output=attr.value("output").toString().toInt();
+		    connectItems(inElement,outElement,input,output);
+		}
+	    }
+	}
+    }
+    foreach(Element* e, pastedElements){
+	e->setSelected(true);
+    }
+    if(own)file.close();
+    loads=false;
 }
 
 void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> selectionElements)
@@ -272,7 +286,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> s
 		xml->writeEndElement();
 		count++;
 	    }
-
+	    
 	    xml->writeEndElement();
 	    xml->writeStartElement("outputs");
 	    

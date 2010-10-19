@@ -531,4 +531,17 @@ void MainWindow::on_actionCopy_triggered()
     xml->writeEndDocument();
     buffer.close();
     clipboard->setText(array);
+    delete xml;
+}
+
+void MainWindow::on_actionPaste_triggered()
+{
+    QClipboard* clipboard=QApplication::clipboard();
+    if(!clipboard->mimeData()->hasText()){
+	return;
+    }
+    QXmlStreamReader*xml=new QXmlStreamReader;
+    xml->addData(clipboard->mimeData()->text());
+    myScene->load("",xml,true,true);
+    delete xml;
 }
