@@ -511,6 +511,15 @@ void MainWindow::on_actionSelectAll_triggered()
 
 void MainWindow::on_actionCopy_triggered()
 {
+    QList<Element*> selectedItems;
+    foreach(QGraphicsItem* i, myScene->selectedItems()){
+	if(myScene->isElement(i)){
+	    selectedItems<<(Element*)i;
+	}
+    }
+    if(selectedItems.isEmpty()){
+	return;
+    }
     QClipboard* clipboard=QApplication::clipboard();
     QXmlStreamWriter* xml=new QXmlStreamWriter;
     QByteArray array;
@@ -518,13 +527,6 @@ void MainWindow::on_actionCopy_triggered()
     buffer.open(QIODevice::WriteOnly);
     xml->setDevice(&buffer);
     xml->writeStartDocument();
-    QList<Element*> selectedItems;
-    foreach(QGraphicsItem* i, myScene->selectedItems()){
-	if(myScene->isElement(i)){
-	    selectedItems<<(Element*)i;
-	}
-    }
-
     myScene->save("",xml,selectedItems);
     xml->writeEndDocument();
     buffer.close();

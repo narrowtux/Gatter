@@ -123,16 +123,15 @@ void Scene::setScale(qreal scale){
     }
 }
 
-QMap<int, Element*> Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool dontAddToScene)
+void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
 {
     loads=true;
     clear();
     bool own=false;
-    QMap<int,Element*> retElements;
     QFile file(fileName);
     if(xml==0){
 	if(!file.open(QIODevice::ReadOnly)){
-	    return retElements;
+	    return;
 	}
 	xml=new QXmlStreamReader;
 	xml->setDevice(&file);
@@ -161,8 +160,7 @@ QMap<int, Element*> Scene::load(QString fileName, QCoreXmlStreamReader *xml, boo
 	    QString elementType=attr.value("type").toString();
 	    Element* element=getElementFromTypeName(elementType);
 	    if(element!=0){
-		retElements.insert(attr.value("id").toString().toInt(),element);
-		if(!dontAddToScene){
+		if(!paste){
 		    addElement(element, attr.value("id").toString().toInt());
 		}
 		element->setX(attr.value("x").toString().toDouble());
@@ -228,7 +226,6 @@ QMap<int, Element*> Scene::load(QString fileName, QCoreXmlStreamReader *xml, boo
    }
    if(own)file.close();
    loads=false;
-   return retElements;
 }
 
 void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> selectionElements)
