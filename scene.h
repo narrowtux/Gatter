@@ -26,7 +26,7 @@ public:
     void setMainWindow(MainWindow* m);
     void setScale(qreal scale);
     void save(QString fileName, QXmlStreamWriter* xml=0, QList<Element*> selectionElements=QList<Element*>());
-    void load(QString fileName, QXmlStreamReader* xml=0, bool setAllAttributes=true, bool paste=false, QPointF pasteTo=QPointF());
+    void load(QString fileName, QXmlStreamReader* xml=0, bool setAllAttributes=true, bool paste=false);
     Element* getElementFromTypeName(QString typeName);
     void connectItems(int inElement, int outElement, int input, int output);
     bool isBlank();

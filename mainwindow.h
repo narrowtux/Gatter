@@ -66,6 +66,7 @@ private:
     bool mySubScene, myShouldBeSaved;
     SubSceneChooseDialog* subSceneChooseDialog;
 private slots:
+    void on_actionCut_triggered();
     void on_actionPaste_triggered();
     void on_actionCopy_triggered();
     void on_actionSelectAll_triggered();

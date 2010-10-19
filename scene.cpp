@@ -123,7 +123,7 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
+void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste)
 {
     loads=true;
     if(!paste)
@@ -235,8 +235,18 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	    }
 	}
     }
+    QVector<QPointF> points;
     foreach(Element* e, pastedElements){
 	e->setSelected(true);
+	points.append(e->scenePos());
+    }
+    QPolygonF p(points);
+    QRectF rect=p.boundingRect();
+    QPointF before=rect.topLeft();
+    p.translate(lastMousePos-before);
+    points=p.toList().toVector();
+    for(int i=0;i<points.count();i++){
+	pastedElements.at(i)->setPos(points.at(i));
     }
     if(own)file.close();
     loads=false;

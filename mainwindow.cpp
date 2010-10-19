@@ -541,7 +541,13 @@ void MainWindow::on_actionPaste_triggered()
 	return;
     }
     QXmlStreamReader*xml=new QXmlStreamReader;
-    xml->addData(clipboard->mimeData()->text());
+    xml->addData(clipboard->mimeData()->text().toLatin1());
     myScene->load("",xml,true,true);
     delete xml;
+}
+
+void MainWindow::on_actionCut_triggered()
+{
+    on_actionCopy_triggered();
+    on_actionDelete_triggered();
 }
