@@ -20,6 +20,7 @@ Element::Element(QGraphicsObject* parent) :
     recalculate();
     layout=0;
     isMoving=false;
+    myElementColor=QColor(255,255,255);
 }
 
 Element::~Element()
@@ -245,6 +246,12 @@ void Element::createForm()
     label=new QLabel("<h2>"+tr(metaObject()->className())+"</h2>");
     additionalWidgets<<label;
     layout->addRow(label);
+    ColorButton*cb=new ColorButton;
+    cb->setColor(myElementColor);
+    connect(cb,SIGNAL(colorChanged(QColor)),this,SLOT(setElementColor(QColor)));
+    QLabel *cl=new QLabel(tr("Element Color"));
+    additionalWidgets<<cb<<cl;
+    layout->addRow(cl,cb);
     if(createFormBefore()){
 	QSpinBox* widget;
 	if(myInputs.count()!=0){
@@ -415,8 +422,13 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	painter->setPen(getSelectionPen());
     }
     QLinearGradient gradient;
-    gradient.setColorAt(0,QColor(220,220,220));
-    gradient.setColorAt(1,QColor(255,255,255));
+    int h,s,v;
+    myElementColor.getHsv(&h,&s,&v);
+    QColor gradientLight, gradientDark;
+    gradientLight.setHsv(h,qMin(s,50),255);
+    gradientDark.setHsv(h,qMin(s,50),220);
+    gradient.setColorAt(0,gradientDark);
+    gradient.setColorAt(1,gradientLight);
     gradient.setStart(boundingRect().topLeft());
     gradient.setFinalStop(boundingRect().bottomLeft());
     painter->setBrush(QBrush(gradient));
@@ -474,4 +486,20 @@ int Element::count(const char *propName){
     int ret=property(propName).toInt()+1;
     setProperty(propName,ret);
     return ret;
+}
+
+void Element::setElementColor(QColor c){
+    myElementColor=c;
+    update();
+}
+
+QColor Element::elementColor(){
+    return myElementColor;
+}
+
+void Element::releaseConnections()
+{
+    foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
+	c->connectWith(0);
+    }
 }

@@ -12,6 +12,7 @@
 #include <QSignalMapper>
 #include <qxmlstream.h>
 #include <QtConcurrentRun>
+#include "colorbutton.h"
 
 class Element : public QGraphicsObject
 {
@@ -37,6 +38,10 @@ public:
     bool value();
     QString name();
     int count(const char* propName);
+    QColor elementColor();
+    void releaseConnections();
+public slots:
+    void setElementColor(QColor c);
 signals:
     void outputChanged(bool);
     void moved();
@@ -45,6 +50,7 @@ protected slots:
 protected:
     QFormLayout*layout;
     bool myValue;
+    QColor myElementColor;
     int minInputs,minOutputs,maxInputs,maxOutputs;
     bool pressed;
     QList<Connection*> myInputs;

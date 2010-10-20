@@ -33,21 +33,22 @@ public:
     bool isLoading();
     MainWindow* mainWindow();
     QGraphicsItem *itemAt(const QPointF &pos) const;
+    QPointF lastMousePos;
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     bool pressed;
     QPointF startPos;
-    QGraphicsRectItem* rect;
+    QGraphicsItem* movingItem;
     QMap<int, Element*> elements;
     MainWindow* myMainWindow;
     bool blank;
     bool loads;
-    QPointF lastMousePos;
 signals:
     void modified();
     void elementAddedOrRemoved();
+    void elementMoved(Element* element, QPointF oldPos);
 public slots:
     void clear();
 };

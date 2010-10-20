@@ -7,9 +7,11 @@
 #include "settingsdialog.h"
 #include <QtConcurrentRun>
 #include <QtGui>
+#include <QUndoStack>
 class SubSceneChooseDialog;
 class Scene;
 class QXmlStreamReader;
+class Element;
 namespace Ui {
     class MainWindow;
 }
@@ -24,6 +26,7 @@ public:
     QFormLayout* getFormLayout();
     void setCurrentFile(const QString &fileName);
     static QList<MainWindow*> mainWindows;
+    Scene* scene();
 	
 public slots:
     MainWindow* newFile();
@@ -48,6 +51,7 @@ private:
     qreal scale;
     QSlider *myZoomSlider;
     
+    QUndoStack* myUndoStack;
     
     Ui::MainWindow *ui;
     static QList<QAction*> windowActions;
@@ -67,6 +71,8 @@ private:
     bool mySubScene, myShouldBeSaved;
     SubSceneChooseDialog* subSceneChooseDialog;
 private slots:
+    void elementMoved(Element* e, QPointF oldPos);
+    void on_actionRotate_triggered();
     void on_actionCut_triggered();
     void on_actionPaste_triggered();
     void on_actionCopy_triggered();

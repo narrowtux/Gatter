@@ -14,6 +14,8 @@
 #include <qxmlstream.h>
 #include "flipflop.h"
 #include "hexoutput.h"
+#include "undoactions.h"
+
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
@@ -66,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
+    connect(myScene,SIGNAL(elementMoved(Element*,QPointF)),this,SLOT(elementMoved(Element*,QPointF)));
     //loadFile("/Users/tux/test.gtr");
     ui->dockUTDiagram->close();
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
@@ -92,14 +95,14 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
     
     scale=1.0;
-    QAction* seperatorAction=new QAction(this);
-    seperatorAction->setSeparator(true);
+    QAction* separatorAction=new QAction(this);
+    separatorAction->setSeparator(true);
     QList<QAction*> actions;
     actions<<ui->actionCut
 	    <<ui->actionCopy
 	    <<ui->actionPaste
 	    <<ui->actionDelete
-	    <<seperatorAction
+	    <<separatorAction
 	    <<ui->actionSelectAll;
     ui->graphicsView->addActions(actions);
     
@@ -114,6 +117,20 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	}
 	argvFileAlreadyOpened=true;
     }
+    
+    myUndoStack=new QUndoStack;
+    separatorAction=new QAction(this);
+    separatorAction->setSeparator(true);
+    QAction *undo, *redo;
+    undo=myUndoStack->createUndoAction(this,tr("Undo"));
+    undo->setShortcut(QKeySequence("Ctrl+Z"));
+    redo=myUndoStack->createRedoAction(this,tr("Redo"));
+    redo->setShortcut(QKeySequence("Ctrl+Y"));
+    ui->menuEdit->insertAction(ui->actionCut,undo);
+    ui->menuEdit->insertAction(ui->actionCut,redo);
+    ui->menuEdit->insertAction(ui->actionCut,separatorAction);
+    
+    readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -184,58 +201,61 @@ void MainWindow::on_actionInsertAND_triggered()
 {
     Gatter*g=new Gatter;
     g->setType(Gatter::AND);
-    myScene->addElement(g);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertOR_triggered()
 {
     Gatter*g=new Gatter;
     g->setType(Gatter::OR);
-    myScene->addElement(g);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertXOR_triggered()
 {
     Gatter*g=new Gatter;
     g->setType(Gatter::XOR);
-    myScene->addElement(g);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertNOT_triggered()
 {
     Gatter*g=new Gatter;
     g->setType(Gatter::NOT);
-    myScene->addElement(g);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionMultiplexer_triggered()
 {
     Gatter*g=new Gatter;
     g->setType(Gatter::DUPLICATOR);
-    myScene->addElement(g);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertSwitch_triggered()
 {
-    myScene->addElement(new Switch);
+    myUndoStack->push(new AddElement(new Switch,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertLamp_triggered()
 {
-    myScene->addElement(new Lamp);
+    myUndoStack->push(new AddElement(new Lamp,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionDelete_triggered()
 {
     foreach(QGraphicsItem*i,myScene->selectedItems()){
-	myScene->removeItem(i);
-	delete i;
+	if(myScene->isElement(i)){
+	    myUndoStack->push(new RemoveElement((Element*)i,this));
+	} else {
+	    myScene->removeItem(i);
+	}
     }
 }
 
 void MainWindow::on_actionInsertButton_triggered()
 {
-    myScene->addElement(new Button);
+    myUndoStack->push(new AddElement(new Button,myScene->lastMousePos,this));
 }
 
 
@@ -258,7 +278,7 @@ void MainWindow::updateSceneRect()
 
 void MainWindow::on_actionInsertClock_triggered()
 {
-    myScene->addElement(new Clock);
+    myUndoStack->push(new AddElement(new Clock,myScene->lastMousePos,this));
 }
 
 void MainWindow::saveFileTo(QString fileName){
@@ -342,17 +362,15 @@ void MainWindow::documentWasModified()
 void MainWindow::readSettings()
 {
     QSettings settings;
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(800, 600)).toSize();
-    resize(size);
-    move(pos);
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
 }
 
 void MainWindow::writeSettings()
 {
     QSettings settings;
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
+    settings.setValue("state",saveState());
+    settings.setValue("geometry",saveGeometry());
 }
 
 bool MainWindow::maybeSave()
@@ -476,18 +494,18 @@ void MainWindow::on_actionInsertSubscene_triggered()
 {
     SubScene* scene=subSceneChooseDialog->getSubScene();
     if(scene!=0){
-	myScene->addElement(scene);
+	myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
     }
 }
 
 void MainWindow::on_actionInsertDelay_triggered()
 {
-    myScene->addElement(new Delay);
+    myUndoStack->push(new AddElement(new Delay,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertFlipflop_triggered()
 {
-    myScene->addElement(new FlipFlop(0));
+    myUndoStack->push(new AddElement(new FlipFlop,myScene->lastMousePos,this));
 }
 
 void MainWindow::zoomIn()
@@ -516,7 +534,7 @@ void MainWindow::zoomTo(int v){
 
 void MainWindow::on_actionInsertHexOutput_triggered()
 {
-    myScene->addElement(new HexOutput);
+    myUndoStack->push(new AddElement(new HexOutput,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionSelectAll_triggered()
@@ -567,4 +585,19 @@ void MainWindow::on_actionCut_triggered()
 {
     on_actionCopy_triggered();
     on_actionDelete_triggered();
+}
+
+void MainWindow::on_actionRotate_triggered()
+{
+    foreach(QGraphicsItem* i, myScene->selectedItems()){
+	i->rotate(90);
+    }
+}
+
+Scene* MainWindow::scene(){
+    return myScene;
+}
+
+void MainWindow::elementMoved(Element *e, QPointF oldPos){
+    myUndoStack->push(new MoveElement(e,oldPos,this));
 }

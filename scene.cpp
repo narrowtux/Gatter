@@ -17,7 +17,6 @@ bool Scene::debugMethods=false;
 Scene::Scene(QObject *parent) :
 	QGraphicsScene(parent)
 {
-    rect=0;
     pressed=false;
     connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
     QSettings settings;
@@ -54,6 +53,12 @@ QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+    QPointF mousePos(event->buttonDownScenePos(Qt::LeftButton).x(),
+                     event->buttonDownScenePos(Qt::LeftButton).y());
+    movingItem=itemAt(mousePos);
+    if(movingItem!=0&&isElement(movingItem)){
+	startPos=movingItem->pos();
+    }
     QGraphicsScene::mousePressEvent(event);
 }
 
@@ -63,6 +68,19 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+    if(movingItem!=0){
+	if(selectedItems().count()>1){
+	    QPointF distance=movingItem->pos()-startPos;
+	    foreach(QGraphicsItem*i, selectedItems()){
+		if(isElement(i)){
+		    emit(elementMoved((Element*)i, i->pos()-distance));
+		}
+	    }
+	} else {
+	    if(isElement(movingItem))
+		emit(elementMoved((Element*)movingItem,startPos));
+	}
+    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
@@ -94,6 +112,7 @@ void Scene::removeElement(Element *e){
     e->deleteForm();
     QGraphicsScene::removeItem(e);
     elements.remove(e->uniqueId);
+    e->releaseConnections();
 }
 
 void Scene::removeItem(QGraphicsItem *item){
@@ -159,6 +178,15 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 		}
 		element->setX(attr.value("x").toString().toDouble());
 		element->setY(attr.value("y").toString().toDouble());
+		QString colorString=xml->attributes().value("elementColor").toString();
+		QRegExp exp("rgb\\(([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3})\\)");
+		exp.indexIn(colorString);
+		QColor elementColor;
+		elementColor.setRed(exp.cap(1).toInt());
+		qDebug()<<exp.capturedTexts();
+		elementColor.setGreen(exp.cap(2).toInt());
+		elementColor.setBlue(exp.cap(3).toInt());
+		element->setElementColor(elementColor);
 		int count=0;
 		while(!(xml->name()=="inputs"&&xml->isEndElement())&&!xml->hasError())
 		{
@@ -198,9 +226,9 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 		    if(xml->name()=="connection"&&xml->isStartElement()){
 			attr=xml->attributes();
 			int id=attr.value("id").toString().toInt();
-			bool negated=(attr.value("negated").toString()=="true"?1:0);
+			bool negated=attr.value("negated").toString()=="true"?1:0;
 			QString label=attr.value("name").toString();
-			bool value=(attr.value("value").toString()=="true"?1:0);
+			bool value=attr.value("value").toString()=="true"?1:0;
 			Connection*c;
 			if(element->myOutputs.count()>=id+1){
 			    c=element->myOutputs.value(id);
@@ -285,6 +313,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> s
 	    elementAttributes.append("y",QString().setNum(e->scenePos().y()));
 	    elementAttributes.append("id",QString().setNum(e->uniqueId));
 	    elementAttributes.append("type",e->myType);
+	    elementAttributes.append("elementColor",QString("rgb(%0,%1,%2)").arg(e->elementColor().red()).arg(e->elementColor().green()).arg(e->elementColor().blue()));
 	    xml->writeAttributes(elementAttributes);
 	    xml->writeStartElement("private");
 	    e->setPrivateXml(xml);

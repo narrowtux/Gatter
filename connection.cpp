@@ -84,10 +84,7 @@ bool Connection::isNegated()
 
 bool Connection::value()
 {
-    if(myNegated)
-	return !myValue;
-    else
-	return myValue;
+    return myValue!=myNegated;
 }
 
 QRectF Connection::boundingRect() const{
@@ -254,6 +251,7 @@ void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
 void Connection::updateLine(){
     if(myConnectedTo!=0){
 	QPointF p1,p2;
+	qDebug()<<"Rotation"<<parentItem()->rotation();
 	switch(myConnectionType){
 	case Input:
 	    p1=scenePos();
@@ -305,9 +303,13 @@ Connection* Connection::connectedTo(){
 }
 
 void Connection::connectWith(Connection *c){
-    line=new QGraphicsLineItem(0,scene());
-    c->setOther(this);
-    updateLine();
+    if(c!=0){
+	line=new QGraphicsLineItem(0,scene());
+	c->setOther(this);
+	updateLine();
+    } else {
+	setOther(0);
+    }
 }
 
 

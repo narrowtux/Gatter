@@ -52,7 +52,8 @@ HEADERS  += mainwindow.h \
     flipflop.h \
     enumcombobox.h \
     hexoutput.h \
-    application.h
+    application.h \
+    undoactions.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
