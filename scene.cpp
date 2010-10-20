@@ -69,17 +69,16 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if(movingItem!=0){
-	if(selectedItems().count()>1){
-	    QPointF distance=movingItem->pos()-startPos;
-	    foreach(QGraphicsItem*i, selectedItems()){
-		if(isElement(i)){
-		    emit(elementMoved((Element*)i, i->pos()-distance));
-		}
+	QPointF distance=movingItem->pos()-startPos;
+	QList<Element*> els;
+	QList<QPointF> startPoss;
+	foreach(QGraphicsItem*i, selectedItems()){
+	    if(isElement(i)){
+		els<<(Element*)i;
+		startPoss<<i->pos()-distance;
 	    }
-	} else {
-	    if(isElement(movingItem))
-		emit(elementMoved((Element*)movingItem,startPos));
 	}
+	emit(elementMoved(els,startPoss));
     }
     QGraphicsScene::mouseReleaseEvent(event);
 }

@@ -48,7 +48,7 @@ protected:
 signals:
     void modified();
     void elementAddedOrRemoved();
-    void elementMoved(Element* element, QPointF oldPos);
+    void elementMoved(QList<Element*> element, QList<QPointF> oldPos);
 public slots:
     void clear();
 };

@@ -71,7 +71,7 @@ private:
     bool mySubScene, myShouldBeSaved;
     SubSceneChooseDialog* subSceneChooseDialog;
 private slots:
-    void elementMoved(Element* e, QPointF oldPos);
+    void elementMoved(QList<Element*> e, QList<QPointF> oldPos);
     void on_actionRotate_triggered();
     void on_actionCut_triggered();
     void on_actionPaste_triggered();

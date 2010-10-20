@@ -66,25 +66,31 @@ private:
 class MoveElement : public QUndoCommand
 {
 public:
-    MoveElement(Element*e, QPointF old, MainWindow* m){
+    MoveElement(QList<Element*>e, QList<QPointF> old, MainWindow* m){
 	myGenericElement=e;
 	myMainWindow=m;
 	oldPos=old;
-	newPos=e->pos();
-	setText(QApplication::tr("Move Element"));
+	foreach(Element* el, e){
+	    newPos<<el->pos();
+	}
+	setText(QApplication::tr("Move %0 Element(s)").arg(e.count()));
     }
     
     virtual void undo(){
-	myGenericElement->setPos(oldPos);
+	for (int i=0;i<myGenericElement.count();i++){
+	    myGenericElement[i]->setPos(oldPos[i]);
+	}
     }
     
     virtual void redo(){
-	myGenericElement->setPos(newPos);
+	for (int i=0;i<myGenericElement.count();i++){
+	    myGenericElement[i]->setPos(newPos[i]);
+	}
     }
     
 protected:
-    QPointF oldPos, newPos;
-    Element* myGenericElement;
+    QList<QPointF> oldPos, newPos;
+    QList<Element*> myGenericElement;
     MainWindow* myMainWindow;
 };
 

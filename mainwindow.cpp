@@ -1,3 +1,7 @@
+
+
+//INCLUDES
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scene.h"
@@ -16,11 +20,16 @@
 #include "hexoutput.h"
 #include "undoactions.h"
 
+
+//DEFINES
+
 QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
 bool MainWindow::argvFileAlreadyOpened=false;
 
+
+//CONSTRUCTORS
 
 MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	QMainWindow(parent),
@@ -68,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
-    connect(myScene,SIGNAL(elementMoved(Element*,QPointF)),this,SLOT(elementMoved(Element*,QPointF)));
+    connect(myScene,SIGNAL(elementMoved(QList<Element*>,QList<QPointF>)),this,SLOT(elementMoved(QList<Element*>,QList<QPointF>)));
     //loadFile("/Users/tux/test.gtr");
     ui->dockUTDiagram->close();
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
@@ -139,6 +148,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+//EVENTS
+
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -153,29 +165,6 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-
-MainWindow* MainWindow::newFile()
-{
-    MainWindow* m=new MainWindow(0);
-    m->show();
-    return m;
-}
-
-void MainWindow::on_actionClose_triggered()
-{
-    close();
-}
-
-void MainWindow::updateActions()
-{
-    foreach(QAction* a,windowActions){
-	ui->menuWindow->removeAction(a);
-	if(hasFocus()){
-	    myAction->setChecked(true);
-	}
-    }
-    ui->menuWindow->addActions(windowActions);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -197,88 +186,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-void MainWindow::on_actionInsertAND_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::AND);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertOR_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::OR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertXOR_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::XOR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertNOT_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::NOT);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionMultiplexer_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::DUPLICATOR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertSwitch_triggered()
-{
-    myUndoStack->push(new AddElement(new Switch,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertLamp_triggered()
-{
-    myUndoStack->push(new AddElement(new Lamp,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionDelete_triggered()
-{
-    foreach(QGraphicsItem*i,myScene->selectedItems()){
-	if(myScene->isElement(i)){
-	    myUndoStack->push(new RemoveElement((Element*)i,this));
-	} else {
-	    myScene->removeItem(i);
-	}
-    }
-}
-
-void MainWindow::on_actionInsertButton_triggered()
-{
-    myUndoStack->push(new AddElement(new Button,myScene->lastMousePos,this));
-}
-
-
-QFormLayout* MainWindow::getFormLayout(){
-    return ui->selectionOptions;
-}
-
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     updateSceneRect();
 }
 
-void MainWindow::updateSceneRect()
-{
-    if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
-	//myScene->setSceneRect(ui->graphicsView->rect());
-    }
-}
 
-void MainWindow::on_actionInsertClock_triggered()
+//APPLICATION METHODS
+
+MainWindow* MainWindow::newFile()
 {
-    myUndoStack->push(new AddElement(new Clock,myScene->lastMousePos,this));
+    MainWindow* m=new MainWindow(0);
+    m->show();
+    return m;
 }
 
 void MainWindow::saveFileTo(QString fileName){
@@ -429,84 +350,40 @@ QString MainWindow::strippedName(const QString &fullFileName)
     return QFileInfo(fullFileName).fileName();
 }
 
-void MainWindow::on_actionPreferences_triggered()
-{
-    settingsDialog=new SettingsDialog(this);
-    settingsDialog->show();
-}
 
-/*
- 
-void MainWindow::on_actionDistribute_Horizontally_triggered()
+//UPDATE METHODS
+
+void MainWindow::updateActions()
 {
-    if(myScene->selectedItems().count()>1){
-	int left=INT_MAX, right=INT_MIN, totalWidth=0;
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    left=qMin(left,(int)i->x());
-	    right=qMax(right,(int)(i->x()+i->boundingRect().width()));
-	    totalWidth+=i->boundingRect().width();
-	}
-	int space=abs(right-left-totalWidth)/myScene->selectedItems().count();
-	qDebug()<<"Left:"<<left<<"Right:"<<right<<"Space:"<<space;
-	int pos=left;
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setX(pos+0.5);
-	    pos+=i->boundingRect().width()+space;
+    foreach(QAction* a,windowActions){
+	ui->menuWindow->removeAction(a);
+	if(hasFocus()){
+	    myAction->setChecked(true);
 	}
     }
-}
-*/
-
-void MainWindow::on_actionLayoutLeft_triggered()
-{
-    
+    ui->menuWindow->addActions(windowActions);
 }
 
-void MainWindow::on_actionLayoutCenter_triggered()
+void MainWindow::updateSceneRect()
 {
-    if(myScene->selectedItems().count()>1){
-	int center=0;
-	foreach(QGraphicsItem* i, myScene->selectedItems()){
-	    center+=i->x();
-	}
-	center/=myScene->selectedItems().count();
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setX(center+0.5);
-	}
+    if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
+	//myScene->setSceneRect(ui->graphicsView->rect());
     }
 }
 
-void MainWindow::on_actionLayoutMiddle_triggered()
-{
-    if(myScene->selectedItems().count()>1){
-	int center=0;
-	foreach(QGraphicsItem* i, myScene->selectedItems()){
-	    center+=i->y();
-	}
-	center/=myScene->selectedItems().count();
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setY(center+0.5);
-	}
-    }
+
+//GETTERS
+
+QFormLayout* MainWindow::getFormLayout(){
+    return ui->selectionOptions;
 }
 
-void MainWindow::on_actionInsertSubscene_triggered()
-{
-    SubScene* scene=subSceneChooseDialog->getSubScene();
-    if(scene!=0){
-	myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
-    }
+Scene* MainWindow::scene(){
+    return myScene;
 }
 
-void MainWindow::on_actionInsertDelay_triggered()
-{
-    myUndoStack->push(new AddElement(new Delay,myScene->lastMousePos,this));
-}
 
-void MainWindow::on_actionInsertFlipflop_triggered()
-{
-    myUndoStack->push(new AddElement(new FlipFlop,myScene->lastMousePos,this));
-}
+//SLOTS
 
 void MainWindow::zoomIn()
 {
@@ -532,9 +409,110 @@ void MainWindow::zoomTo(int v){
     ui->graphicsView->setTransform(tr);
 }
 
+void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
+    myUndoStack->push(new MoveElement(e,oldPos,this));
+}
+
+
+//Qt Designer SLOTS
+
+ // Insert Actions
+
+void MainWindow::on_actionInsertAND_triggered()
+{
+    Gatter*g=new Gatter;
+    g->setType(Gatter::AND);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertOR_triggered()
+{
+    Gatter*g=new Gatter;
+    g->setType(Gatter::OR);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertXOR_triggered()
+{
+    Gatter*g=new Gatter;
+    g->setType(Gatter::XOR);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertNOT_triggered()
+{
+    Gatter*g=new Gatter;
+    g->setType(Gatter::NOT);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionMultiplexer_triggered()
+{
+    Gatter*g=new Gatter;
+    g->setType(Gatter::DUPLICATOR);
+    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertSwitch_triggered()
+{
+    myUndoStack->push(new AddElement(new Switch,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertLamp_triggered()
+{
+    myUndoStack->push(new AddElement(new Lamp,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertButton_triggered()
+{
+    myUndoStack->push(new AddElement(new Button,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertClock_triggered()
+{
+    myUndoStack->push(new AddElement(new Clock,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertSubscene_triggered()
+{
+    SubScene* scene=subSceneChooseDialog->getSubScene();
+    if(scene!=0){
+	myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
+    }
+}
+
+void MainWindow::on_actionInsertDelay_triggered()
+{
+    myUndoStack->push(new AddElement(new Delay,myScene->lastMousePos,this));
+}
+
+void MainWindow::on_actionInsertFlipflop_triggered()
+{
+    myUndoStack->push(new AddElement(new FlipFlop,myScene->lastMousePos,this));
+}
+
 void MainWindow::on_actionInsertHexOutput_triggered()
 {
     myUndoStack->push(new AddElement(new HexOutput,myScene->lastMousePos,this));
+}
+
+
+//Other Actions
+
+void MainWindow::on_actionDelete_triggered()
+{
+    foreach(QGraphicsItem*i,myScene->selectedItems()){
+	if(myScene->isElement(i)){
+	    myUndoStack->push(new RemoveElement((Element*)i,this));
+	} else {
+	    myScene->removeItem(i);
+	}
+    }
+}
+
+void MainWindow::on_actionClose_triggered()
+{
+    close();
 }
 
 void MainWindow::on_actionSelectAll_triggered()
@@ -594,10 +572,63 @@ void MainWindow::on_actionRotate_triggered()
     }
 }
 
-Scene* MainWindow::scene(){
-    return myScene;
+void MainWindow::on_actionPreferences_triggered()
+{
+    settingsDialog=new SettingsDialog(this);
+    settingsDialog->show();
 }
 
-void MainWindow::elementMoved(Element *e, QPointF oldPos){
-    myUndoStack->push(new MoveElement(e,oldPos,this));
+/*
+ 
+void MainWindow::on_actionDistribute_Horizontally_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int left=INT_MAX, right=INT_MIN, totalWidth=0;
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    left=qMin(left,(int)i->x());
+	    right=qMax(right,(int)(i->x()+i->boundingRect().width()));
+	    totalWidth+=i->boundingRect().width();
+	}
+	int space=abs(right-left-totalWidth)/myScene->selectedItems().count();
+	qDebug()<<"Left:"<<left<<"Right:"<<right<<"Space:"<<space;
+	int pos=left;
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setX(pos+0.5);
+	    pos+=i->boundingRect().width()+space;
+	}
+    }
+}
+*/
+
+void MainWindow::on_actionLayoutLeft_triggered()
+{
+    
+}
+
+void MainWindow::on_actionLayoutCenter_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int center=0;
+	foreach(QGraphicsItem* i, myScene->selectedItems()){
+	    center+=i->x();
+	}
+	center/=myScene->selectedItems().count();
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setX(center+0.5);
+	}
+    }
+}
+
+void MainWindow::on_actionLayoutMiddle_triggered()
+{
+    if(myScene->selectedItems().count()>1){
+	int center=0;
+	foreach(QGraphicsItem* i, myScene->selectedItems()){
+	    center+=i->y();
+	}
+	center/=myScene->selectedItems().count();
+	foreach(QGraphicsItem*i, myScene->selectedItems()){
+	    i->setY(center+0.5);
+	}
+    }
 }
