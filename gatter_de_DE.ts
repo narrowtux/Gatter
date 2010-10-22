@@ -150,86 +150,86 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="77"/>
+        <location filename="mainwindow.cpp" line="87"/>
         <source>Zoom Out</source>
         <translation>Rauszoomen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="92"/>
+        <location filename="mainwindow.cpp" line="102"/>
         <source>Zoom In</source>
         <translation>Reinzoomen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="294"/>
+        <location filename="mainwindow.cpp" line="219"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="297"/>
+        <location filename="mainwindow.cpp" line="222"/>
         <source>Gatter Files(*.gtr)</source>
         <oldsource>Gatter Files(*.gtr</oldsource>
         <translation>Gatter Dateien(*.gtr)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="298"/>
+        <location filename="mainwindow.cpp" line="223"/>
         <source>All Files(*)</source>
         <translation>Alle Dateien(*)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="300"/>
+        <location filename="mainwindow.cpp" line="225"/>
         <source>Look In</source>
         <translation>Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="301"/>
+        <location filename="mainwindow.cpp" line="226"/>
         <source>Name of File</source>
         <translation>Name der Datei</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="302"/>
+        <location filename="mainwindow.cpp" line="227"/>
         <source>Files of Type</source>
         <oldsource>Type of File</oldsource>
         <translation>Dateien vom Typ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="304"/>
+        <location filename="mainwindow.cpp" line="229"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="337"/>
+        <location filename="mainwindow.cpp" line="262"/>
         <source>Save File As</source>
         <translation>Datei Speichern unter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="274"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="275"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="376"/>
-        <location filename="mainwindow.cpp" line="414"/>
-        <location filename="mainwindow.cpp" line="416"/>
-        <location filename="mainwindow.cpp" line="419"/>
+        <location filename="mainwindow.cpp" line="301"/>
+        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="341"/>
+        <location filename="mainwindow.cpp" line="344"/>
         <location filename="mainwindow.ui" line="14"/>
         <location filename="mainwindow.ui" line="108"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="377"/>
+        <location filename="mainwindow.cpp" line="302"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="410"/>
+        <location filename="mainwindow.cpp" line="335"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
@@ -345,7 +345,7 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="303"/>
+        <location filename="mainwindow.cpp" line="228"/>
         <location filename="mainwindow.ui" line="349"/>
         <source>Open</source>
         <translation>Öffnen</translation>
@@ -396,7 +396,7 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation>Backspace</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="124"/>
+        <location filename="mainwindow.cpp" line="134"/>
         <location filename="mainwindow.ui" line="389"/>
         <source>Undo</source>
         <translation>Rückgängig</translation>
@@ -407,7 +407,7 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="126"/>
+        <location filename="mainwindow.cpp" line="136"/>
         <location filename="mainwindow.ui" line="397"/>
         <source>Redo</source>
         <translation>Wiederholen</translation>
@@ -579,8 +579,8 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="414"/>
-        <location filename="mainwindow.cpp" line="416"/>
+        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="341"/>
         <location filename="mainwindow.ui" line="546"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
@@ -596,6 +596,19 @@ Möchten Sie die Änderungen speichern?</translation>
         <location filename="undoactions.h" line="21"/>
         <source>Add Element</source>
         <translation>Element hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="undoactions.h" line="48"/>
+        <source>Remove Element</source>
+        <translation>Element löschen</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="undoactions.h" line="76"/>
+        <source>Move %n Element(s)</source>
+        <translation>
+            <numerusform>%n Element verschieben</numerusform>
+            <numerusform>%n Elemente verschieben</numerusform>
+        </translation>
     </message>
 </context>
 <context>

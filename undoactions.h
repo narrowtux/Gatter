@@ -73,7 +73,7 @@ public:
 	foreach(Element* el, e){
 	    newPos<<el->pos();
 	}
-	setText(QApplication::tr("Move %0 Element(s)").arg(e.count()));
+	setText(QObject::tr("Move %n Element(s)","",e.count()));
     }
     
     virtual void undo(){

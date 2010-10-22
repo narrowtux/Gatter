@@ -8,6 +8,9 @@
 #include <QtConcurrentRun>
 #include <QtGui>
 #include <QUndoStack>
+#include <QUndoView>
+
+#include "dropdownbutton.h"
 class SubSceneChooseDialog;
 class Scene;
 class QXmlStreamReader;
@@ -52,6 +55,9 @@ private:
     QSlider *myZoomSlider;
     
     QUndoStack* myUndoStack;
+    QUndoView* myUndoView;
+    
+    DropDownButton* ddB;
     
     Ui::MainWindow *ui;
     static QList<QAction*> windowActions;

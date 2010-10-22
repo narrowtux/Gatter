@@ -255,10 +255,10 @@ void Connection::updateLine(){
 	switch(myConnectionType){
 	case Input:
 	    p1=scenePos();
-	    p2=myConnectedTo->scenePos()+QPointF(20,0);
+	    p2=myConnectedTo->mapToScene(QPointF(20,0));
 	    break;
 	case Output:
-	    p1=scenePos()+QPointF(20,0);
+	    p1=mapToScene(QPointF(20,0));
 	    p2=myConnectedTo->scenePos();
 	    break;
 	}

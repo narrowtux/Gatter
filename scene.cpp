@@ -57,7 +57,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                      event->buttonDownScenePos(Qt::LeftButton).y());
     movingItem=itemAt(mousePos);
     if(movingItem!=0&&isElement(movingItem)){
-	startPos=movingItem->pos();
+	startPos=movingItem->scenePos();
     }
     QGraphicsScene::mousePressEvent(event);
 }
@@ -68,7 +68,8 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-    if(movingItem!=0){
+    QGraphicsItem*item=itemAt(event->scenePos());
+    if(movingItem!=0&&movingItem==item&&item!=0&&item->flags()|QGraphicsItem::ItemIsMovable){
 	QPointF distance=movingItem->pos()-startPos;
 	QList<Element*> els;
 	QList<QPointF> startPoss;
@@ -78,7 +79,8 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 		startPoss<<i->pos()-distance;
 	    }
 	}
-	emit(elementMoved(els,startPoss));
+	if(els.count()!=0)
+	    emit(elementMoved(els,startPoss));
     }
     QGraphicsScene::mouseReleaseEvent(event);
 }

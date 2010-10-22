@@ -49,6 +49,25 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	mySubScene=false;
 	myShouldBeSaved=true;
     }
+    QAction *separatorAction;
+    myUndoStack=new QUndoStack;
+    separatorAction=new QAction(this);
+    separatorAction->setSeparator(true);
+    QAction *undo, *redo;
+    undo=myUndoStack->createUndoAction(this,tr("Undo"));
+    undo->setShortcut(QKeySequence("Ctrl+Z"));
+    redo=myUndoStack->createRedoAction(this,tr("Redo"));
+    redo->setShortcut(QKeySequence("Ctrl+Y"));
+    ui->menuEdit->insertAction(ui->actionCut,undo);
+    ui->menuEdit->insertAction(ui->actionCut,redo);
+    ui->menuEdit->insertAction(ui->actionCut,separatorAction);
+    
+    myUndoView=new QUndoView(myUndoStack);
+    ui->dockUndoView->widget()->setLayout(new QHBoxLayout);
+    ui->dockUndoView->widget()->layout()->addWidget(myUndoView);
+    
+    ui->menuWindow->addAction( ui->dockUndoView->toggleViewAction());
+    
     subSceneChooseDialog=new SubSceneChooseDialog;
     myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
@@ -104,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
     
     scale=1.0;
-    QAction* separatorAction=new QAction(this);
+    separatorAction=new QAction(this);
     separatorAction->setSeparator(true);
     QList<QAction*> actions;
     actions<<ui->actionCut
@@ -126,18 +145,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	}
 	argvFileAlreadyOpened=true;
     }
-    
-    myUndoStack=new QUndoStack;
-    separatorAction=new QAction(this);
-    separatorAction->setSeparator(true);
-    QAction *undo, *redo;
-    undo=myUndoStack->createUndoAction(this,tr("Undo"));
-    undo->setShortcut(QKeySequence("Ctrl+Z"));
-    redo=myUndoStack->createRedoAction(this,tr("Redo"));
-    redo->setShortcut(QKeySequence("Ctrl+Y"));
-    ui->menuEdit->insertAction(ui->actionCut,undo);
-    ui->menuEdit->insertAction(ui->actionCut,redo);
-    ui->menuEdit->insertAction(ui->actionCut,separatorAction);
     
     readSettings();
 }
