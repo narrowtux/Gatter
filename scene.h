@@ -4,15 +4,17 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include "defines.h"
+#include <QGestureEvent>
 class QXmlStreamReader;
 class QXmlStreamWriter;
 class Element;
 class MainWindow;
-
+class GraphicsView;
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
 public:
+    friend class GraphicsView;
     friend class SubScene;
     explicit Scene(QObject *parent = 0);
     ~Scene();
@@ -45,6 +47,8 @@ protected:
     MainWindow* myMainWindow;
     bool blank;
     bool loads;
+    bool event(QEvent *event);
+    bool gestureEvent(QGestureEvent* event);
 signals:
     void modified();
     void elementAddedOrRemoved();

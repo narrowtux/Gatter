@@ -20,6 +20,7 @@ private:
     QMap<int,QString> myEnumString;
     QList<int> myIntEnum;
     QStringList myIntString;
+    
 private slots:
     void onIndexChanged(int index);
 };

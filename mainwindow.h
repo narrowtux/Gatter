@@ -29,7 +29,6 @@ public:
     void setCurrentFile(const QString &fileName);
     static QList<MainWindow*> mainWindows;
     Scene* scene();
-	
 public slots:
     MainWindow* newFile();
     void open();

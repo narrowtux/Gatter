@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     flipflop.cpp \
     enumcombobox.cpp \
     hexoutput.cpp \
-    application.cpp
+    application.cpp \
+    graphicsview.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     enumcombobox.h \
     hexoutput.h \
     application.h \
-    undoactions.h
+    undoactions.h \
+    graphicsview.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

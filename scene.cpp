@@ -11,6 +11,7 @@
 #include "flipflop.h"
 #include "hexoutput.h"
 #include <qxmlstream.h>
+#include <QGestureRecognizer>
 
 bool Scene::debugMethods=false;
 
@@ -457,4 +458,13 @@ QGraphicsItem* Scene::itemAt(const QPointF &pos) const{
 	return realItem;
     }
     return QGraphicsScene::itemAt(pos);
+}
+
+bool Scene::event(QEvent *event){
+    //qDebug()<<event->type();
+    return QGraphicsScene::event(event);
+}
+
+bool Scene::gestureEvent(QGestureEvent *event){
+    return true;
 }

@@ -15,6 +15,7 @@ void EnumComboBox::addItems(QMap<int, QString> enumStrings){
     }
     QComboBox::addItems(myIntString);
     setCurrentIndex(0);
+    grabGesture(Qt::PinchGesture);
 }
 
 void EnumComboBox::onIndexChanged(int index){
