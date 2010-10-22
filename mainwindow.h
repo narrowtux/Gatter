@@ -10,7 +10,6 @@
 #include <QUndoStack>
 #include <QUndoView>
 
-#include "dropdownbutton.h"
 class SubSceneChooseDialog;
 class Scene;
 class QXmlStreamReader;
@@ -56,8 +55,6 @@ private:
     
     QUndoStack* myUndoStack;
     QUndoView* myUndoView;
-    
-    DropDownButton* ddB;
     
     Ui::MainWindow *ui;
     static QList<QAction*> windowActions;
