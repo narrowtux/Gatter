@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    readSettings();
     
 #ifndef QT_ARCH_MACOSX
     ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
@@ -146,7 +147,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	argvFileAlreadyOpened=true;
     }
     
-    readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -290,8 +290,8 @@ void MainWindow::documentWasModified()
 void MainWindow::readSettings()
 {
     QSettings settings;
-    restoreState(settings.value("state").toByteArray());
     restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
 }
 
 void MainWindow::writeSettings()
@@ -411,9 +411,7 @@ void MainWindow::zoomTo(int v){
 	return;
     }
     scale=0.25*qPow(16.0,value);
-    QTransform tr;
-    tr.scale(scale,scale);
-    ui->graphicsView->setTransform(tr);
+    ui->graphicsView->setScale(scale);
 }
 
 void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){

@@ -10,7 +10,7 @@ class GraphicsView : public QGraphicsView
     Q_OBJECT
 public:
     explicit GraphicsView(QWidget *parent = 0);
-
+    void setScale(qreal scale);
 signals:
 
 public slots:

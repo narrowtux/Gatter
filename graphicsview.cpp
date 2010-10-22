@@ -33,7 +33,14 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 	    scaleFactor *= currentStepScaleFactor;
 	    currentStepScaleFactor = 1;
 	}
-	scale(currentStepScaleFactor * scaleFactor, currentStepScaleFactor * scaleFactor);
+	setScale(scaleFactor);
     }
     return true;
+}
+
+void GraphicsView::setScale(qreal scale){
+    scaleFactor=scale;
+    QTransform tr;
+    tr.scale(currentStepScaleFactor * scaleFactor,currentStepScaleFactor * scaleFactor);
+    setTransform(tr);
 }
