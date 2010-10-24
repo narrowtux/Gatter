@@ -155,8 +155,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	timer->setSingleShot(true);
 	timer->start(0);
 	connect(timer,SIGNAL(timeout()),this,SLOT(readSettings()));
-	
-	setWindowModified(false);
+	readSettings();
 }
 
 MainWindow::~MainWindow()
