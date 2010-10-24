@@ -4,8 +4,15 @@
 #include <QDebug>
 #include "subscenechoosedialog.h"
 #include "application.h"
+
+#ifdef QT_ARCH_MACOSX
+extern void qt_mac_set_native_menubar(bool);
+#endif // O_MAC
+
+
 int main(int argc, char *argv[])
 {
+    qt_mac_set_native_menubar(true);    
     Application a(argc, argv);	
 	
     QString locale = QLocale::system().name();
@@ -18,6 +25,7 @@ int main(int argc, char *argv[])
     a.setOrganizationName("MoritzSchmale");
 #include "mainwindow.h"
     MainWindow w;
+    w.initElementCatalog();
     w.show();
 
     return a.exec();

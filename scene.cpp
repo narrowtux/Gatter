@@ -19,7 +19,7 @@ Scene::Scene(QObject *parent) :
 	QGraphicsScene(parent)
 {
     pressed=false;
-    connect(this,SIGNAL(changed()),this,SIGNAL(modified()));
+    connect(this,SIGNAL(changed(QList<QRectF>)),this,SIGNAL(modified()));
     QSettings settings;
     highValueColor=settings.value("highValueColor",QColor("red")).value<QColor>();
     blank=true;

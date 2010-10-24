@@ -27,6 +27,7 @@ QList<MainWindow*> MainWindow::mainWindows;
 int MainWindow::unnamedIndex=0;
 QList<QAction*> MainWindow::windowActions;
 bool MainWindow::argvFileAlreadyOpened=false;
+ElementCatalog* MainWindow::elementCatalog=0;
 
 
 //CONSTRUCTORS
@@ -50,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	mySubScene=false;
 	myShouldBeSaved=true;
     }
+    
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
     separatorAction=new QAction(this);
@@ -68,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     ui->dockUndoView->widget()->layout()->addWidget(myUndoView);
     
     ui->menuWindow->addAction( ui->dockUndoView->toggleViewAction());
+    ui->menuWindow->addAction(ui->dockElementCatalog->toggleViewAction());
     
     subSceneChooseDialog=new SubSceneChooseDialog;
     myScene->setMainWindow(this);
@@ -205,6 +208,8 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 MainWindow* MainWindow::newFile()
 {
     MainWindow* m=new MainWindow(0);
+    m->ui->elementCatalog->setModel(elementCatalog);
+    elementCatalog->addData("Test","hakllo");
     m->show();
     return m;
 }
@@ -418,6 +423,11 @@ void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
     myUndoStack->push(new MoveElement(e,oldPos,this));
 }
 
+void MainWindow::initElementCatalog(){
+    elementCatalog=new ElementCatalog(0);
+    elementCatalog->addData("Test","<xml><hallo></hallo>");
+    ui->elementCatalog->setModel(elementCatalog);
+}
 
 //Qt Designer SLOTS
 

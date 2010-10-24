@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     enumcombobox.cpp \
     hexoutput.cpp \
     application.cpp \
-    graphicsview.cpp
+    graphicsview.cpp \
+    elementcatalog.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     hexoutput.h \
     application.h \
     undoactions.h \
-    graphicsview.h
+    graphicsview.h \
+    elementcatalog.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

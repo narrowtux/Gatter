@@ -57,7 +57,9 @@ void Element::addOutput(Connection *o){
 
 void Element::removeInput(Connection *i){
     if(i==0){
-	foreach(Connection*c, myInputs){
+	Connection*c=0;
+	for(int x=myInputs.count()-1;x>=0;x--){
+	    c=myInputs[x];
 	    i=c;
 	    if(!c->isConnected()){
 		break;
@@ -72,7 +74,9 @@ void Element::removeInput(Connection *i){
 
 void Element::removeOutput(Connection *o){
     if(o==0){
-	foreach(Connection*c, myOutputs){
+	Connection*c=0;
+	for(int x=myOutputs.count()-1;x>=0;x--){
+	    c=myOutputs[x];
 	    o=c;
 	    if(!c->isConnected()){
 		break;

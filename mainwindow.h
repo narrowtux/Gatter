@@ -9,6 +9,7 @@
 #include <QtGui>
 #include <QUndoStack>
 #include <QUndoView>
+#include "elementcatalog.h"
 
 class SubSceneChooseDialog;
 class Scene;
@@ -29,6 +30,7 @@ public:
     void setCurrentFile(const QString &fileName);
     static QList<MainWindow*> mainWindows;
     Scene* scene();
+    void initElementCatalog();
 public slots:
     MainWindow* newFile();
     void open();
@@ -72,6 +74,8 @@ private:
     SettingsDialog* settingsDialog;
     bool mySubScene, myShouldBeSaved;
     SubSceneChooseDialog* subSceneChooseDialog;
+    
+    static ElementCatalog* elementCatalog;
 private slots:
     void elementMoved(QList<Element*> e, QList<QPointF> oldPos);
     void on_actionRotate_triggered();
