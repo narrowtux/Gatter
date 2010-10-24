@@ -26,6 +26,7 @@ Scene::Scene(QObject *parent) :
     blank=true;
     loads=false;
     myMainWindow=0;
+    wantsToDrag=false;
 }
 
 Scene::~Scene(){
@@ -61,17 +62,41 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(movingItem!=0&&isElement(movingItem)){
 	startPos=movingItem->scenePos();
     }
+    if(event->modifiers()&Qt::AltModifier){
+	wantsToDrag=true;
+    }
     QGraphicsScene::mousePressEvent(event);
+    
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    QGraphicsScene::mouseMoveEvent(event);
+    
     lastMousePos=event->scenePos();
+    if(wantsToDrag&&(startPos-event->scenePos()).manhattanLength()>=QApplication::startDragDistance()){
+	if(selectedItems().count()>0){
+	    QList<Element*> selElements;
+	    foreach(QGraphicsItem* i, selectedItems()){
+		if(isElement(i)){
+		    selElements<<(Element*)i;
+		}
+	    }
+	    QString xml=copy(selElements);
+	    QDrag*drag=new QDrag(views().at(0));
+	    QMimeData* data=new QMimeData;
+	    data->setData("text/gatterxml",xml.toLocal8Bit());
+	    drag->setMimeData(data);
+	    drag->exec(Qt::CopyAction,Qt::CopyAction);
+	}
+	wantsToDrag=false;
+    } else {
+	QGraphicsScene::mouseMoveEvent(event);
+    }
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+    wantsToDrag=false;
     QGraphicsItem*item=itemAt(event->scenePos());
-    if(movingItem!=0&&movingItem==item&&item!=0&&item->flags()|QGraphicsItem::ItemIsMovable){
+    if(movingItem!=0&&movingItem==item&&item!=0&&item->flags()&QGraphicsItem::ItemIsMovable){
 	QPointF distance=movingItem->pos()-startPos;
 	QList<Element*> els;
 	QList<QPointF> startPoss;
@@ -81,7 +106,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 		startPoss<<i->pos()-distance;
 	    }
 	}
-	if(els.count()!=0)
+	if(els.count()!=0&&distance.manhattanLength()>=QApplication::startDragDistance())
 	    emit(elementMoved(els,startPoss));
     }
     QGraphicsScene::mouseReleaseEvent(event);
@@ -145,8 +170,11 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste)
+void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
 {
+    if(pasteTo.isNull()){
+	pasteTo=lastMousePos;
+    }
     loads=true;
     if(!paste)
 	clear();
@@ -281,7 +309,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 	QPolygonF p(points);
 	QRectF rect=p.boundingRect();
 	QPointF before=rect.topLeft();
-	p.translate(lastMousePos-before);
+	p.translate(pasteTo-before);
 	points=p.toList().toVector();
 	for(int i=0;i<points.count();i++){
 	    pastedElements.at(i)->setPos(points.at(i));
@@ -501,6 +529,19 @@ void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
 void Scene::paste(const QMimeData *mimeData, QPointF pos){
     QXmlStreamReader*xml=new QXmlStreamReader;
     xml->addData(QString(mimeData->data("text/gatterxml")).toLatin1());
-    load("",xml,true,true);
+    load("",xml,true,true,pos);
     delete xml;
+}
+
+QString Scene::copy(QList<Element *> elements){
+    QXmlStreamWriter* xml=new QXmlStreamWriter;
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+    xml->setDevice(&buffer);
+    xml->writeStartDocument();
+    save("",xml,elements);
+    xml->writeEndDocument();
+    buffer.close();
+    return QString(array).toLatin1();
 }

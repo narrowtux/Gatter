@@ -28,7 +28,7 @@ public:
     void setMainWindow(MainWindow* m);
     void setScale(qreal scale);
     void save(QString fileName, QXmlStreamWriter* xml=0, QList<Element*> selectionElements=QList<Element*>());
-    void load(QString fileName, QXmlStreamReader* xml=0, bool setAllAttributes=true, bool paste=false);
+    void load(QString fileName, QXmlStreamReader* xml=0, bool setAllAttributes=true, bool paste=false, QPointF pasteTo=QPointF());
     Element* getElementFromTypeName(QString typeName);
     void connectItems(int inElement, int outElement, int input, int output);
     bool isBlank();
@@ -37,6 +37,7 @@ public:
     QGraphicsItem *itemAt(const QPointF &pos) const;
     QPointF lastMousePos;
     void paste(const QMimeData* mimeData, QPointF pos);
+    QString copy(QList<Element*> elements);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -46,6 +47,7 @@ protected:
     QGraphicsItem* movingItem;
     QMap<int, Element*> elements;
     MainWindow* myMainWindow;
+    bool wantsToDrag;
     bool blank;
     bool loads;
     bool event(QEvent *event);

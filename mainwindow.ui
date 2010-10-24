@@ -56,9 +56,6 @@
       <property name="rubberBandSelectionMode">
        <enum>Qt::ContainsItemShape</enum>
       </property>
-      <property name="optimizationFlags">
-       <set>QGraphicsView::DontAdjustForAntialiasing</set>
-      </property>
      </widget>
     </item>
    </layout>
