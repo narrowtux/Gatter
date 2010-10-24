@@ -12,6 +12,7 @@
 #include "hexoutput.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
+#include <QMimeData>
 
 bool Scene::debugMethods=false;
 
@@ -467,4 +468,39 @@ bool Scene::event(QEvent *event){
 
 bool Scene::gestureEvent(QGestureEvent *event){
     return true;
+}
+
+void Scene::dropEvent(QGraphicsSceneDragDropEvent *event){
+    const QMimeData*data=event->mimeData();
+    if(data->hasFormat("text/gatterxml")){
+	event->accept();
+	paste(data,event->scenePos());
+    }else{
+	event->ignore();
+    }
+}
+
+void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
+    QGraphicsScene::dragEnterEvent(event);
+    if(event->mimeData()->hasFormat("text/gatterxml")){
+	event->accept();
+    } else {
+	event->ignore();
+    }
+}
+
+void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
+    if(event->mimeData()->hasFormat("text/gatterxml")){
+	event->accept();
+    } else {
+	event->ignore();
+    }
+    
+}
+
+void Scene::paste(const QMimeData *mimeData, QPointF pos){
+    QXmlStreamReader*xml=new QXmlStreamReader;
+    xml->addData(QString(mimeData->data("text/gatterxml")).toLatin1());
+    load("",xml,true,true);
+    delete xml;
 }

@@ -558,20 +558,19 @@ void MainWindow::on_actionCopy_triggered()
     myScene->save("",xml,selectedItems);
     xml->writeEndDocument();
     buffer.close();
-    clipboard->setText(array);
+    QMimeData* data=new QMimeData;
+    data->setData("text/gatterxml",array);
+    clipboard->setMimeData(data);
     delete xml;
 }
 
 void MainWindow::on_actionPaste_triggered()
 {
     QClipboard* clipboard=QApplication::clipboard();
-    if(!clipboard->mimeData()->hasText()){
+    if(!clipboard->mimeData()->hasFormat("text/gatterxml")){
 	return;
     }
-    QXmlStreamReader*xml=new QXmlStreamReader;
-    xml->addData(clipboard->mimeData()->text().toLatin1());
-    myScene->load("",xml,true,true);
-    delete xml;
+    myScene->paste(clipboard->mimeData(),myScene->lastMousePos);
 }
 
 void MainWindow::on_actionCut_triggered()

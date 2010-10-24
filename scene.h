@@ -36,6 +36,7 @@ public:
     MainWindow* mainWindow();
     QGraphicsItem *itemAt(const QPointF &pos) const;
     QPointF lastMousePos;
+    void paste(const QMimeData* mimeData, QPointF pos);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -49,6 +50,9 @@ protected:
     bool loads;
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent* event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
 signals:
     void modified();
     void elementAddedOrRemoved();
