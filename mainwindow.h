@@ -66,7 +66,6 @@ private:
     void resizeEvent(QResizeEvent *);
     void saveFileTo(QString fileName);
     void loadFileFrom(QString fileName);
-    void readSettings();
     void writeSettings();
     bool maybeSave();
     QString strippedName(const QString &fullFileName);
@@ -77,6 +76,7 @@ private:
     
     static ElementCatalog* elementCatalog;
 private slots:
+    void readSettings();
     void elementMoved(QList<Element*> e, QList<QPointF> oldPos);
     void on_actionRotate_triggered();
     void on_actionCut_triggered();

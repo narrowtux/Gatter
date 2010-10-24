@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     a.setOrganizationName("MoritzSchmale");
 #include "mainwindow.h"
     MainWindow w;
-    w.initElementCatalog();
+	w.initElementCatalog();
     w.show();
 
     return a.exec();

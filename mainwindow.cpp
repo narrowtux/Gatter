@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    readSettings();
     
 #ifndef QT_ARCH_MACOSX
     ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
@@ -152,7 +151,12 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		}
 		argvFileAlreadyOpened=true;
     }
-    
+    QTimer* timer=new QTimer;
+	timer->setSingleShot(true);
+	timer->start(0);
+	connect(timer,SIGNAL(timeout()),this,SLOT(readSettings()));
+	
+	setWindowModified(false);
 }
 
 MainWindow::~MainWindow()
@@ -297,8 +301,8 @@ void MainWindow::documentWasModified()
 void MainWindow::readSettings()
 {
     QSettings settings;
-    restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
 }
 
 void MainWindow::writeSettings()
@@ -426,7 +430,7 @@ void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
 }
 
 void MainWindow::initElementCatalog(){
-    elementCatalog=new ElementCatalog(0);
+    elementCatalog=new ElementCatalog(QApplication::instance());
     ui->elementCatalog->setModel(elementCatalog);
 }
 

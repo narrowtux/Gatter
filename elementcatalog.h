@@ -9,6 +9,7 @@ class ElementCatalog : public QAbstractListModel
     Q_OBJECT
 public:
     explicit ElementCatalog(QObject *parent = 0);
+	~ElementCatalog();
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     void addData(QString name, QString value, int row = -1);
@@ -22,7 +23,8 @@ signals:
 public slots:
 private:
     QList< QPair<QString,QString> > myData;
-
+	void load();
+	void save();
 };
 
 #endif // ELEMENTCATALOG_H
