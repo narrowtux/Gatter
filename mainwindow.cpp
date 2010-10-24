@@ -33,8 +33,8 @@ ElementCatalog* MainWindow::elementCatalog=0;
 //CONSTRUCTORS
 
 MainWindow::MainWindow(QWidget *parent, Scene *scene) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+		QMainWindow(parent),
+		ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     readSettings();
@@ -43,13 +43,13 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
 #endif
     if(scene!=0){
-	myScene=scene;
-	mySubScene=true;
-	myShouldBeSaved=false;
+		myScene=scene;
+		mySubScene=true;
+		myShouldBeSaved=false;
     }else{
-	myScene=new Scene(this);
-	mySubScene=false;
-	myShouldBeSaved=true;
+		myScene=new Scene(this);
+		mySubScene=false;
+		myShouldBeSaved=true;
     }
     
     QAction *separatorAction;
@@ -72,6 +72,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     ui->menuWindow->addAction( ui->dockUndoView->toggleViewAction());
     ui->menuWindow->addAction(ui->dockElementCatalog->toggleViewAction());
     
+    
+    ui->elementCatalog->setAcceptDrops(true);
+    
     subSceneChooseDialog=new SubSceneChooseDialog;
     myScene->setMainWindow(this);
     ui->graphicsView->setScene(myScene);
@@ -92,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(myAction,SIGNAL(triggered()),this,SLOT(raise()));
     connect(myAction,SIGNAL(triggered()),this,SLOT(setFocus()));
     foreach(MainWindow* m, mainWindows){
-	m->updateActions();
+		m->updateActions();
     }
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
     connect(ui->actionSave_As,SIGNAL(triggered()),this,SLOT(saveAs()));
@@ -131,23 +134,23 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     separatorAction->setSeparator(true);
     QList<QAction*> actions;
     actions<<ui->actionCut
-	    <<ui->actionCopy
-	    <<ui->actionPaste
-	    <<ui->actionDelete
-	    <<separatorAction
-	    <<ui->actionSelectAll;
+			<<ui->actionCopy
+			<<ui->actionPaste
+			<<ui->actionDelete
+			<<separatorAction
+			<<ui->actionSelectAll;
     ui->graphicsView->addActions(actions);
     
     
     if(!argvFileAlreadyOpened){
-	QStringList arguments=QApplication::arguments();
-	if(arguments.count()>=2){
-	    QString file=arguments.at(1);
-	    if(QFileInfo(file).exists()){
-		loadFile(file);
-	    }
-	}
-	argvFileAlreadyOpened=true;
+		QStringList arguments=QApplication::arguments();
+		if(arguments.count()>=2){
+			QString file=arguments.at(1);
+			if(QFileInfo(file).exists()){
+				loadFile(file);
+			}
+		}
+		argvFileAlreadyOpened=true;
     }
     
 }
@@ -169,9 +172,9 @@ void MainWindow::changeEvent(QEvent *e)
         ui->retranslateUi(this);
         break;
     case QEvent::FileOpen:
-	QFileOpenEvent*event=(QFileOpenEvent*)e;
-	qDebug()<<event->file();
-	break;
+		QFileOpenEvent*event=(QFileOpenEvent*)e;
+		qDebug()<<event->file();
+		break;
     default:
         break;
     }
@@ -180,19 +183,19 @@ void MainWindow::changeEvent(QEvent *e)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (maybeSave()) {
-	writeSettings();
-	event->accept();
-	if(!isVisible()){
-	    windowActions.removeAll(myAction);
-	    myAction->deleteLater();
-	    updateActions();
-	}
-	if(!mySubScene){
-	    mainWindows.removeAll(this);
-	    delete myScene;
-	}
+		writeSettings();
+		event->accept();
+		if(!isVisible()){
+			windowActions.removeAll(myAction);
+			myAction->deleteLater();
+			updateActions();
+		}
+		if(!mySubScene){
+			mainWindows.removeAll(this);
+			delete myScene;
+		}
     } else {
-	event->ignore();
+		event->ignore();
     }
 }
 
@@ -209,7 +212,6 @@ MainWindow* MainWindow::newFile()
 {
     MainWindow* m=new MainWindow(0);
     m->ui->elementCatalog->setModel(elementCatalog);
-    elementCatalog->addData("Test","hakllo");
     m->show();
     return m;
 }
@@ -232,7 +234,7 @@ void MainWindow::open()
     dialog.setDirectory(lastOpenDir);
     QStringList filters;
     filters<<tr("Gatter Files(*.gtr)")
-	    <<tr("All Files(*)");
+			<<tr("All Files(*)");
     dialog.setFilters(filters);
     dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
     dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
@@ -242,24 +244,24 @@ void MainWindow::open()
     dialog.exec();
     
     if (!dialog.selectedFiles().count()==0){
-	foreach(QString fileName, dialog.selectedFiles()){
-	    settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
-	    MainWindow*m;
-	    if(!myScene->isBlank())
-		m=newFile();
-	    else
-		m=this;
-	    m->loadFile(fileName);
-	}
+		foreach(QString fileName, dialog.selectedFiles()){
+			settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
+			MainWindow*m;
+			if(!myScene->isBlank())
+				m=newFile();
+			else
+				m=this;
+			m->loadFile(fileName);
+		}
     }
 }
 
 bool MainWindow::save()
 {
     if (curFile.isEmpty()) {
-	return saveAs();
+		return saveAs();
     } else {
-	return saveFile(curFile);
+		return saveFile(curFile);
     }
 }
 
@@ -275,7 +277,7 @@ bool MainWindow::saveAs()
     dialog.exec();
     QString fileName;
     if (dialog.selectedFiles().count()==0)
-	return false;
+		return false;
     fileName=dialog.selectedFiles().at(0);
     settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
     return saveFile(fileName);
@@ -284,7 +286,7 @@ bool MainWindow::saveAs()
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("About Gatter"),
-		       tr("Gatter is a simulation for digital circuits."));
+					   tr("Gatter is a simulation for digital circuits."));
 }
 
 void MainWindow::documentWasModified()
@@ -309,15 +311,15 @@ void MainWindow::writeSettings()
 bool MainWindow::maybeSave()
 {
     if (isWindowModified()&&myShouldBeSaved) {
-	QMessageBox::StandardButton ret;
-	ret = QMessageBox::warning(this, tr("Gatter"),
-				   tr("The document has been modified.\n"
-				      "Do you want to save your changes?"),
-				   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-	if (ret == QMessageBox::Save)
-	    return save();
-	else if (ret == QMessageBox::Cancel)
-	    return false;
+		QMessageBox::StandardButton ret;
+		ret = QMessageBox::warning(this, tr("Gatter"),
+								   tr("The document has been modified.\n"
+									  "Do you want to save your changes?"),
+								   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		if (ret == QMessageBox::Save)
+			return save();
+		else if (ret == QMessageBox::Cancel)
+			return false;
     }
     return true;
 }
@@ -341,19 +343,19 @@ void MainWindow::setCurrentFile(const QString &fileName)
     curFile = fileName;
     setWindowModified(false);
     if(fileName!="")
-	myShouldBeSaved=true;
+		myShouldBeSaved=true;
     QString shownName = curFile;
     if (curFile.isEmpty())
-	shownName = tr("untitled")+ QString().setNum(++unnamedIndex) +".gtr";
+		shownName = tr("untitled")+ QString().setNum(++unnamedIndex) +".gtr";
     setWindowFilePath(shownName);
     if(mySubScene){
-	if(myShouldBeSaved){
-	    setWindowTitle(strippedName(shownName)+" "+tr("Subscene")+" - "+tr("Gatter"));
-	} else {
-	    setWindowTitle(tr("Subscene")+" - "+tr("Gatter"));
-	}
+		if(myShouldBeSaved){
+			setWindowTitle(strippedName(shownName)+" "+tr("Subscene")+" - "+tr("Gatter"));
+		} else {
+			setWindowTitle(tr("Subscene")+" - "+tr("Gatter"));
+		}
     } else {
-	setWindowTitle(strippedName(shownName)+" - "+tr("Gatter"));
+		setWindowTitle(strippedName(shownName)+" - "+tr("Gatter"));
     }
 }
 
@@ -368,10 +370,10 @@ QString MainWindow::strippedName(const QString &fullFileName)
 void MainWindow::updateActions()
 {
     foreach(QAction* a,windowActions){
-	ui->menuWindow->removeAction(a);
-	if(hasFocus()){
-	    myAction->setChecked(true);
-	}
+		ui->menuWindow->removeAction(a);
+		if(hasFocus()){
+			myAction->setChecked(true);
+		}
     }
     ui->menuWindow->addActions(windowActions);
 }
@@ -379,7 +381,7 @@ void MainWindow::updateActions()
 void MainWindow::updateSceneRect()
 {
     if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
-	//myScene->setSceneRect(ui->graphicsView->rect());
+		//myScene->setSceneRect(ui->graphicsView->rect());
     }
 }
 
@@ -412,8 +414,8 @@ void MainWindow::zoomOut()
 void MainWindow::zoomTo(int v){
     qreal value=v/100.0;
     if(value>0.45&&value<0.55&&value!=0.5){
-	myZoomSlider->setValue(50);
-	return;
+		myZoomSlider->setValue(50);
+		return;
     }
     scale=0.25*qPow(16.0,value);
     ui->graphicsView->setScale(scale);
@@ -425,13 +427,12 @@ void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
 
 void MainWindow::initElementCatalog(){
     elementCatalog=new ElementCatalog(0);
-    elementCatalog->addData("Test","<xml><hallo></hallo>");
     ui->elementCatalog->setModel(elementCatalog);
 }
 
 //Qt Designer SLOTS
 
- // Insert Actions
+// Insert Actions
 
 void MainWindow::on_actionInsertAND_triggered()
 {
@@ -492,7 +493,7 @@ void MainWindow::on_actionInsertSubscene_triggered()
 {
     SubScene* scene=subSceneChooseDialog->getSubScene();
     if(scene!=0){
-	myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
+		myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
     }
 }
 
@@ -517,11 +518,11 @@ void MainWindow::on_actionInsertHexOutput_triggered()
 void MainWindow::on_actionDelete_triggered()
 {
     foreach(QGraphicsItem*i,myScene->selectedItems()){
-	if(myScene->isElement(i)){
-	    myUndoStack->push(new RemoveElement((Element*)i,this));
-	} else {
-	    myScene->removeItem(i);
-	}
+		if(myScene->isElement(i)){
+			myUndoStack->push(new RemoveElement((Element*)i,this));
+		} else {
+			myScene->removeItem(i);
+		}
     }
 }
 
@@ -541,12 +542,12 @@ void MainWindow::on_actionCopy_triggered()
 {
     QList<Element*> selectedItems;
     foreach(QGraphicsItem* i, myScene->selectedItems()){
-	if(myScene->isElement(i)){
-	    selectedItems<<(Element*)i;
-	}
+		if(myScene->isElement(i)){
+			selectedItems<<(Element*)i;
+		}
     }
     if(selectedItems.isEmpty()){
-	return;
+		return;
     }
     QClipboard* clipboard=QApplication::clipboard();
     QXmlStreamWriter* xml=new QXmlStreamWriter;
@@ -568,7 +569,7 @@ void MainWindow::on_actionPaste_triggered()
 {
     QClipboard* clipboard=QApplication::clipboard();
     if(!clipboard->mimeData()->hasFormat("text/gatterxml")){
-	return;
+		return;
     }
     myScene->paste(clipboard->mimeData(),myScene->lastMousePos);
 }
@@ -582,7 +583,7 @@ void MainWindow::on_actionCut_triggered()
 void MainWindow::on_actionRotate_triggered()
 {
     foreach(QGraphicsItem* i, myScene->selectedItems()){
-	i->rotate(90);
+		i->rotate(90);
     }
 }
 
@@ -622,27 +623,27 @@ void MainWindow::on_actionLayoutLeft_triggered()
 void MainWindow::on_actionLayoutCenter_triggered()
 {
     if(myScene->selectedItems().count()>1){
-	int center=0;
-	foreach(QGraphicsItem* i, myScene->selectedItems()){
-	    center+=i->x();
-	}
-	center/=myScene->selectedItems().count();
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setX(center+0.5);
-	}
+		int center=0;
+		foreach(QGraphicsItem* i, myScene->selectedItems()){
+			center+=i->x();
+		}
+		center/=myScene->selectedItems().count();
+		foreach(QGraphicsItem*i, myScene->selectedItems()){
+			i->setX(center+0.5);
+		}
     }
 }
 
 void MainWindow::on_actionLayoutMiddle_triggered()
 {
     if(myScene->selectedItems().count()>1){
-	int center=0;
-	foreach(QGraphicsItem* i, myScene->selectedItems()){
-	    center+=i->y();
-	}
-	center/=myScene->selectedItems().count();
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setY(center+0.5);
-	}
+		int center=0;
+		foreach(QGraphicsItem* i, myScene->selectedItems()){
+			center+=i->y();
+		}
+		center/=myScene->selectedItems().count();
+		foreach(QGraphicsItem*i, myScene->selectedItems()){
+			i->setY(center+0.5);
+		}
     }
 }

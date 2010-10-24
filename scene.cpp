@@ -81,6 +81,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 		}
 	    }
 	    QString xml=copy(selElements);
+	    qDebug()<<xml;
 	    QDrag*drag=new QDrag(views().at(0));
 	    QMimeData* data=new QMimeData;
 	    data->setData("text/gatterxml",xml.toLocal8Bit());
@@ -543,5 +544,6 @@ QString Scene::copy(QList<Element *> elements){
     save("",xml,elements);
     xml->writeEndDocument();
     buffer.close();
+    qDebug()<<QString(array);
     return QString(array).toLatin1();
 }
