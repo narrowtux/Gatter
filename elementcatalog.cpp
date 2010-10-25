@@ -3,7 +3,7 @@
 ElementCatalog::ElementCatalog(QObject *parent) :
 		QAbstractListModel(parent)
 {
-    setSupportedDragActions(Qt::CopyAction|Qt::MoveAction);
+    setSupportedDragActions(Qt::CopyAction);
 	load();
 }
 
@@ -58,33 +58,28 @@ bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		return true;
     }
     if(data->hasFormat("text/gatterxml")){
-		if(action==Qt::MoveAction){
-			if(data->hasText()&&data->hasFormat("text/gatterxml")){
-				QString name=data->text();
-				QString xml=QString(data->data("text/gatterxml")).toLatin1();
-				int index=0;
-				QPair<QString,QString> pair;
-				foreach(pair, myData){
-					if(pair.first==name){
-						break;
-					}
-					index++;
+		if(data->hasText()&&data->hasFormat("text/gatterxml")){
+			QString name=data->text();
+			QString xml=QString(data->data("text/gatterxml")).toLatin1();
+			int index=0;
+			QPair<QString,QString> pair;
+			foreach(pair, myData){
+				if(pair.first==name){
+					break;
 				}
-				beginRemoveRows(QModelIndex(),index,index);
-				myData.removeAt(index);
-				endRemoveRows();
-				if(index<row){
-					row--;
-				}
-				beginInsertRows(QModelIndex(),row,row);
-				addData(name, xml, row);
-				endInsertRows();
-				return true;
-			} else {
-				return false;
+				index++;
 			}
-		}
-		if(action==Qt::CopyAction){
+			beginRemoveRows(QModelIndex(),index,index);
+			myData.removeAt(index);
+			endRemoveRows();
+			if(index<row){
+				row--;
+			}
+			beginInsertRows(QModelIndex(),row,row);
+			addData(name, xml, row);
+			endInsertRows();
+			return true;
+		} else {
 			QString name=QInputDialog::getText(0,tr("Name"), tr("Please enter a name for this template"));
 			if(name=="")
 				return false;
