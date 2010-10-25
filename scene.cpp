@@ -170,7 +170,7 @@ void Scene::setScale(qreal scale){
     }
 }
 
-void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
+void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
 {
     if(pasteTo.isNull()){
 		pasteTo=lastMousePos;
@@ -320,7 +320,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
     loads=false;
 }
 
-void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> selectionElements)
+void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selectionElements)
 {
     bool own=false;
     if(selectionElements.isEmpty()){
