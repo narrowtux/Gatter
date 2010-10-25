@@ -15,6 +15,14 @@ void ElementCatalog::addData(QString name, QString value, int row){
     if(row==-1){
 		row=myData.size();
     }
+	
+	QPair<QString, QString> pair;
+	foreach(pair, myData){
+		if(pair.first==name&&pair.second==value){
+			return;
+		}
+	}
+	
     beginInsertRows(QModelIndex(),myData.count()-1,myData.count()-1);
     myData.insert(row,QPair<QString,QString>(name, value));
     endInsertRows();
@@ -99,14 +107,16 @@ QStringList ElementCatalog::mimeTypes() const{
     return QStringList()<<"text/gatterxml";
 }
 
-void ElementCatalog::load(){
-	QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-	QDir dir(myDirName);
-	if(!dir.exists()){
-		if(!dir.mkpath(myDirName))
-			return;
+void ElementCatalog::load(QString fileName){
+	if(fileName==""){
+		QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+		QDir dir(myDirName);
+		if(!dir.exists()){
+			if(!dir.mkpath(myDirName))
+				return;
+		}
+		fileName=myDirName+"/elementCatalog.bin";
 	}
-	QString fileName=myDirName+"/elementCatalog.bin";
 	QFile file(fileName);
 	file.open(QIODevice::ReadOnly);
 	QVariant vars;
@@ -115,24 +125,22 @@ void ElementCatalog::load(){
 	file.close();
 	
 	QList<QVariant> list=vars.toList();
-	QList<QPair<QString, QString> > pairs;
 	foreach(QVariant pair, list){
 		QList<QString> stringList=pair.toStringList();
-		pairs<<QPair<QString,QString>(stringList[0],stringList[1]);
+		addData(stringList[0],stringList[1]);
 	}
-	beginInsertRows(QModelIndex(),0,pairs.count()-1);
-	myData=pairs;
-	endInsertRows();
 }
 
-void ElementCatalog::save(){
-	QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-	QDir dir(myDirName);
-	if(!dir.exists()){
-		if(!dir.mkpath(myDirName))
-			return;
+void ElementCatalog::save(QString fileName){
+	if(fileName==""){
+		QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+		QDir dir(myDirName);
+		if(!dir.exists()){
+			if(!dir.mkpath(myDirName))
+				return;
+		}
+		fileName=myDirName+"/elementCatalog.bin";
 	}
-	QString fileName=myDirName+"/elementCatalog.bin";
 	QFile file(fileName);
 	file.open(QIODevice::WriteOnly);
 	QVariant vars;

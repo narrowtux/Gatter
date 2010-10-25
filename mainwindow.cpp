@@ -430,6 +430,7 @@ void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
 
 void MainWindow::initElementCatalog(){
     elementCatalog=new ElementCatalog(QApplication::instance());
+	elementCatalog->load(":/data/standartCatalog.bin");
     ui->elementCatalog->setModel(elementCatalog);
 }
 

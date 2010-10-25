@@ -21,13 +21,13 @@ public:
     Qt::DropActions supportedDropActions() const;
     QStringList mimeTypes() const;
 	bool removeRows(int row, int count, const QModelIndex &parent);
+	void load(QString file="");
+	void save(QString file="");
 signals:
 
 public slots:
 private:
     QList< QPair<QString,QString> > myData;
-	void load();
-	void save();
 };
 
 //class ElementDelegate : public QAbstractItemDelegate
