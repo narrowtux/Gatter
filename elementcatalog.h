@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QPair>
+#include <QAbstractItemDelegate>
 
 class ElementCatalog : public QAbstractListModel
 {
@@ -12,6 +13,7 @@ public:
 	~ElementCatalog();
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
+	bool setData(const QModelIndex &index, const QVariant &value, int role);
     void addData(QString name, QString value, int row = -1);
     QMimeData* mimeData(const QModelIndexList &indexes) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -26,5 +28,13 @@ private:
 	void load();
 	void save();
 };
+
+//class ElementDelegate : public QAbstractItemDelegate
+//{
+//	Q_OBJECT
+//public:
+//	explicit ElementDelegate(QObject*parent=0);
+//	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+//};
 
 #endif // ELEMENTCATALOG_H

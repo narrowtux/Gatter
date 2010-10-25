@@ -339,7 +339,7 @@
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
+        <set>QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
        </property>
        <property name="dragEnabled">
         <bool>true</bool>
@@ -348,7 +348,7 @@
         <enum>QAbstractItemView::DragDrop</enum>
        </property>
        <property name="defaultDropAction">
-        <enum>Qt::ActionMask</enum>
+        <enum>Qt::MoveAction</enum>
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
@@ -358,6 +358,9 @@
        </property>
        <property name="horizontalScrollMode">
         <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="movement">
+        <enum>QListView::Snap</enum>
        </property>
        <property name="uniformItemSizes">
         <bool>true</bool>

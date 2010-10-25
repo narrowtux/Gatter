@@ -3,7 +3,7 @@
 ElementCatalog::ElementCatalog(QObject *parent) :
 		QAbstractListModel(parent)
 {
-    setSupportedDragActions(Qt::CopyAction);
+    setSupportedDragActions(Qt::CopyAction|Qt::MoveAction);
 	load();
 }
 
@@ -45,7 +45,7 @@ QMimeData* ElementCatalog::mimeData(const QModelIndexList &indexes) const{
 Qt::ItemFlags ElementCatalog::flags(const QModelIndex &index) const{
     Qt::ItemFlags def=QAbstractItemModel::flags(index);
     if(index.isValid()){
-		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | def;
+		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | def;
     } else {
 		return Qt::ItemIsDropEnabled | def;
     }
@@ -61,6 +61,7 @@ bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if(action==Qt::MoveAction){
 			if(data->hasText()&&data->hasFormat("text/gatterxml")){
 				QString name=data->text();
+				QString xml=QString(data->data("text/gatterxml")).toLatin1();
 				int index=0;
 				QPair<QString,QString> pair;
 				foreach(pair, myData){
@@ -72,6 +73,12 @@ bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				beginRemoveRows(QModelIndex(),index,index);
 				myData.removeAt(index);
 				endRemoveRows();
+				if(index<row){
+					row--;
+				}
+				beginInsertRows(QModelIndex(),row,row);
+				addData(name, xml, row);
+				endInsertRows();
 				return true;
 			} else {
 				return false;
@@ -143,4 +150,12 @@ void ElementCatalog::save(){
 	QDataStream ds(&file);
 	ds<<vars;
 	file.close();
+}
+
+bool ElementCatalog::setData(const QModelIndex &index, const QVariant &value, int role){
+	if(role==Qt::EditRole&&index.row()<myData.count()&&value.toString()!=""){
+		myData[index.row()].first=value.toString();
+		return true;
+	}
+	return false;
 }
