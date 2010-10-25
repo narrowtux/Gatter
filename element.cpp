@@ -1,7 +1,7 @@
 #include "element.h"
 
 Element::Element(QGraphicsObject* parent) :
-    QGraphicsObject(parent)
+		QGraphicsObject(parent)
 {
     minHeight=50;
     setFlag(ItemIsSelectable,true);
@@ -32,7 +32,7 @@ Element::~Element()
 
 void Element::addInput(Connection *i){
     if(i==0){
-	i=new Connection;
+		i=new Connection;
     }
     i->setElement(this);
     connect(i,SIGNAL(recalculate()),this,SLOT(recalculate()));
@@ -45,7 +45,7 @@ void Element::addInput(Connection *i){
 
 void Element::addOutput(Connection *o){
     if(o==0){
-	o=new Connection;
+		o=new Connection;
     }
     o->setElement(this);
     connect(o,SIGNAL(recalculate()),this,SLOT(recalculate()));
@@ -57,14 +57,14 @@ void Element::addOutput(Connection *o){
 
 void Element::removeInput(Connection *i){
     if(i==0){
-	Connection*c=0;
-	for(int x=myInputs.count()-1;x>=0;x--){
-	    c=myInputs[x];
-	    i=c;
-	    if(!c->isConnected()){
-		break;
-	    }
-	}
+		Connection*c=0;
+		for(int x=myInputs.count()-1;x>=0;x--){
+			c=myInputs[x];
+			i=c;
+			if(!c->isConnected()){
+				break;
+			}
+		}
     }
     i->setParentItem(0);
     myInputs.removeAll(i);
@@ -74,14 +74,14 @@ void Element::removeInput(Connection *i){
 
 void Element::removeOutput(Connection *o){
     if(o==0){
-	Connection*c=0;
-	for(int x=myOutputs.count()-1;x>=0;x--){
-	    c=myOutputs[x];
-	    o=c;
-	    if(!c->isConnected()){
-		break;
-	    }
-	}
+		Connection*c=0;
+		for(int x=myOutputs.count()-1;x>=0;x--){
+			c=myOutputs[x];
+			o=c;
+			if(!c->isConnected()){
+				break;
+			}
+		}
     }
     o->setParentItem(0);
     myOutputs.removeAll(o);
@@ -91,49 +91,49 @@ void Element::removeOutput(Connection *o){
 
 void Element::addInput(int c){
     for(int i=0;i<c;i++){
-	addInput();
+		addInput();
     }
 }
 
 void Element::addOutput(int c){
     for(int i=0;i<c;i++){
-	addOutput();
+		addOutput();
     }
 }
 
 void Element::removeInput(int c){
     for(int i=0;i<c;i++){
-	removeInput();
+		removeInput();
     }
 }
 
 void Element::removeOutput(int c){
     for(int i=0;i<c;i++){
-	removeOutput();
+		removeOutput();
     }
 }
 
 void Element::setInputs(int c){
     if(c==myInputs.count()){
-	return;
+		return;
     }
     if(c<myInputs.count()){
-	removeInput(myInputs.count()-c);
+		removeInput(myInputs.count()-c);
     }
     if(c>myInputs.count()){
-	addInput(c-myInputs.count());
+		addInput(c-myInputs.count());
     }
 }
 
 void Element::setOutputs(int c){
     if(c==myOutputs.count()){
-	return;
+		return;
     }
     if(c<myOutputs.count()){
-	removeOutput(myOutputs.count()-c);
+		removeOutput(myOutputs.count()-c);
     }
     if(c>myOutputs.count()){
-	addOutput(c-myOutputs.count());
+		addOutput(c-myOutputs.count());
     }
 }
 
@@ -142,16 +142,16 @@ void Element::relayoutConnections(){
     //qDebug()<<"height before"<<height;
     qreal minimumHeight=qMax((myInputs.count())*20,(myOutputs.count())*20);
     if(minimumHeight>height){
-	prepareGeometryChange();
-	height=qMax(myInputs.count()*20,myOutputs.count()*20);
+		prepareGeometryChange();
+		height=qMax(myInputs.count()*20,myOutputs.count()*20);
     } else if(minimumHeight<=height){
-	if(minimumHeight>minHeight){
-	    prepareGeometryChange();
-	    height=minimumHeight;
-	} else {
-	    prepareGeometryChange();
-	    height=minHeight;
-	}
+		if(minimumHeight>minHeight){
+			prepareGeometryChange();
+			height=minimumHeight;
+		} else {
+			prepareGeometryChange();
+			height=minHeight;
+		}
     }
     /*
     qDebug()<<"Minimum needed Height:"<<minimumHeight;
@@ -164,16 +164,16 @@ void Element::relayoutConnections(){
     qreal topSide=boundingRect().top();
     int count=myInputs.count();
     for(int i=0;i<count;i++){
-	myInputs[i]->setPos(leftSide-20,(height/(qreal)(count+1))*(1+i)+topSide);
+		myInputs[i]->setPos(leftSide-20,(height/(qreal)(count+1))*(1+i)+topSide);
     }
-
+	
     //Outputs
     count=myOutputs.count();
     for(int i=0;i<count;i++){
-	myOutputs[i]->setPos(rightSide,(height/(qreal)(count+1))*(1+i)+topSide);
+		myOutputs[i]->setPos(rightSide,(height/(qreal)(count+1))*(1+i)+topSide);
     }
     update();
-
+	
 }
 
 QPen Element::getSelectionPen(){
@@ -207,8 +207,8 @@ void Element::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Element::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if(isMoving){
-	emit(moved());
-	isMoving=false;
+		emit(moved());
+		isMoving=false;
     }
     QGraphicsItem::mouseReleaseEvent(event);
 }
@@ -220,27 +220,27 @@ void Element::setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOu
     minOutputs=minOut;
     maxOutputs=maxOut;
     if(minInputs>myInputs.count()){
-	setInputs(minInputs);
+		setInputs(minInputs);
     }
     if(minOutputs>myOutputs.count()){
-	setOutputs(minOutputs);
+		setOutputs(minOutputs);
     }
     if(maxInputs<myInputs.count()&&maxInputs!=-1){
-	setInputs(maxInputs);
+		setInputs(maxInputs);
     }
     if(maxOutputs<myOutputs.count()&&maxOutputs!=-1){
-	setOutputs(maxOutputs);
+		setOutputs(maxOutputs);
     }
     foreach(Connection*c, QList<Connection*>()<<myInputs<<myOutputs){
-	c->setClock(false);
-	c->setName("");
+		c->setClock(false);
+		c->setName("");
     }
 }
 
 void Element::createForm()
 {
     if(layout==0){
-	return;
+		return;
     }
     QFrame* frame=new QFrame;
     frame->setFrameStyle(QFrame::HLine|QFrame::Sunken);
@@ -257,77 +257,78 @@ void Element::createForm()
     additionalWidgets<<cb<<cl;
     layout->addRow(cl,cb);
     if(createFormBefore()){
-	QSpinBox* widget;
-	if(myInputs.count()!=0){
-	    label=new QLabel(tr("<b>Inputs</b>"));
-	    additionalWidgets<<label;
-	    if(minInputs!=maxInputs){
-		widget=new QSpinBox;
-		layout->addRow(label,widget);
-		widget->setMinimum(minInputs);
-		if(maxInputs==-1)
-		    widget->setMaximum(100);
-		else
-		    widget->setMaximum(maxInputs);
-		widget->setValue(myInputs.count());
-		connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateInputs(int)));
-		additionalWidgets<<widget;
-	    }else{
-		layout->addRow(label);
-	    }
-	    foreach(Connection* c, myInputs)
-	    {
-		QLineEdit*l=new QLineEdit(c->myName);
-		QCheckBox*ch=new QCheckBox("");
-		ch->setChecked(c->isNegated());
-		ch->setToolTip(tr("Negated"));
-		layout->addRow(l,ch);
-		lineEdits.insert(c,l);
-		lineMapper.setMapping(l,l);
-		checkBoxes.insert(c,ch);
-		checkMapper.setMapping(ch,ch);
-		connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
-		connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
-		
-	    }
-	}
-	if(myOutputs.count()!=0){
-	    label= new QLabel(tr("<b>Outputs</b>"));
-	    additionalWidgets<<label;
-		if(minOutputs!=maxOutputs){
-		widget=new QSpinBox;
-		layout->addRow(label,widget);
-		widget->setMinimum(minOutputs);
-		if(maxOutputs==-1)
-		    widget->setMaximum(100);
-		else
-		    widget->setMaximum(maxOutputs);
-		widget->setValue(myOutputs.count());
-		connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateOutputs(int)));
-		additionalWidgets<<widget;
-	    }else{
-		layout->addRow(label);
-	    }
-	    foreach(Connection* c, myOutputs)
-	    {
-		QLineEdit*l=new QLineEdit(c->myName);
-		QCheckBox*ch=new QCheckBox("");
-		ch->setToolTip(tr("Negated"));
-		layout->addRow(l,ch);
-		lineEdits.insert(c,l);
-		lineMapper.setMapping(l,l);
-		checkBoxes.insert(c,ch);
-		checkMapper.setMapping(ch,ch);
-		connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
-		connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
-	    }
-	}
-	connect(&checkMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateNegation(QWidget*)));
-	connect(&lineMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateName(QWidget*)));
-	foreach(QLineEdit*l,lineEdits){
-	    l->setMinimumWidth(50);
-	    l->setMaximumWidth(50);
-	}
+		QSpinBox* widget;
+		if(myInputs.count()!=0){
+			label=new QLabel(tr("<b>Inputs</b>"));
+			additionalWidgets<<label;
+			if(minInputs!=maxInputs){
+				widget=new QSpinBox;
+				layout->addRow(label,widget);
+				widget->setMinimum(minInputs);
+				if(maxInputs==-1)
+					widget->setMaximum(100);
+				else
+					widget->setMaximum(maxInputs);
+				widget->setValue(myInputs.count());
+				connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateInputs(int)));
+				additionalWidgets<<widget;
+			}else{
+				layout->addRow(label);
+			}
+			foreach(Connection* c, myInputs)
+			{
+				QLineEdit*l=new QLineEdit(c->myName);
+				QCheckBox*ch=new QCheckBox("");
+				ch->setChecked(c->isNegated());
+				ch->setToolTip(tr("Negated"));
+				layout->addRow(l,ch);
+				lineEdits.insert(c,l);
+				lineMapper.setMapping(l,l);
+				checkBoxes.insert(c,ch);
+				checkMapper.setMapping(ch,ch);
+				connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
+				connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
+				
+			}
+		}
+		if(myOutputs.count()!=0){
+			label= new QLabel(tr("<b>Outputs</b>"));
+			additionalWidgets<<label;
+			if(minOutputs!=maxOutputs){
+				widget=new QSpinBox;
+				layout->addRow(label,widget);
+				widget->setMinimum(minOutputs);
+				if(maxOutputs==-1)
+					widget->setMaximum(100);
+				else
+					widget->setMaximum(maxOutputs);
+				widget->setValue(myOutputs.count());
+				connect(widget,SIGNAL(valueChanged(int)),this,SLOT(updateOutputs(int)));
+				additionalWidgets<<widget;
+			}else{
+				layout->addRow(label);
+			}
+			foreach(Connection* c, myOutputs)
+			{
+				QLineEdit*l=new QLineEdit(c->myName);
+				QCheckBox*ch=new QCheckBox("");
+				ch->setToolTip(tr("Negated"));
+				ch->setChecked(c->isNegated());
+				layout->addRow(l,ch);
+				lineEdits.insert(c,l);
+				lineMapper.setMapping(l,l);
+				checkBoxes.insert(c,ch);
+				checkMapper.setMapping(ch,ch);
+				connect(l,SIGNAL(textChanged(QString)),&lineMapper,SLOT(map()));
+				connect(ch,SIGNAL(clicked()),&checkMapper,SLOT(map()));
+			}
+		}
+		connect(&checkMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateNegation(QWidget*)));
+		connect(&lineMapper,SIGNAL(mapped(QWidget*)),this,SLOT(updateName(QWidget*)));
+		foreach(QLineEdit*l,lineEdits){
+			l->setMinimumWidth(50);
+			l->setMaximumWidth(50);
+		}
     }
     createFormAfter();
 }
@@ -335,19 +336,19 @@ void Element::createForm()
 void Element::deleteForm()
 {
     if(layout==0){
-	return;
+		return;
     }
     foreach(Connection*c, lineEdits.keys()){
-	delete lineEdits.value(c);
-	lineEdits.remove(c);
+		delete lineEdits.value(c);
+		lineEdits.remove(c);
     }
     foreach(Connection*c, checkBoxes.keys()){
         delete checkBoxes.value(c);
-	checkBoxes.remove(c);
+		checkBoxes.remove(c);
     }
     foreach(QWidget*w, additionalWidgets){
-	additionalWidgets.removeAll(w);
-	w->deleteLater();
+		additionalWidgets.removeAll(w);
+		w->deleteLater();
     }
 }
 
@@ -388,15 +389,15 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if(change==ItemSelectedHasChanged)
     {
-	if(value.toBool())
-	{
-	    createForm();
-	} else {
-	    deleteForm();
-	}
+		if(value.toBool())
+		{
+			createForm();
+		} else {
+			deleteForm();
+		}
     }
     if(change==ItemScenePositionHasChanged){
-	isMoving=true;
+		isMoving=true;
     }
     return value;
 }
@@ -425,7 +426,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->setRenderHint(QPainter::HighQualityAntialiasing,true);
     painter->setPen(QColor("gray"));
     if(isSelected()){
-	painter->setPen(getSelectionPen());
+		painter->setPen(getSelectionPen());
     }
     QLinearGradient gradient;
     int h,s,v;
@@ -480,10 +481,10 @@ bool Element::value(){
 QString Element::name(){
     QString ret="";
     foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
-	if(c->name()!=""){
-	    ret=c->name();
-	    break;
-	}
+		if(c->name()!=""){
+			ret=c->name();
+			break;
+		}
     }
     return ret;
 }
@@ -506,6 +507,6 @@ QColor Element::elementColor(){
 void Element::releaseConnections()
 {
     foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
-	c->connectWith(0);
+		c->connectWith(0);
     }
 }
