@@ -657,3 +657,8 @@ void MainWindow::on_actionLayoutMiddle_triggered()
 		}
     }
 }
+
+void MainWindow::on_toolRemoveTemplate_clicked()
+{
+    elementCatalog->removeRows(ui->elementCatalog->selectionModel()->currentIndex().row(),1,QModelIndex());
+}

@@ -159,3 +159,11 @@ bool ElementCatalog::setData(const QModelIndex &index, const QVariant &value, in
 	}
 	return false;
 }
+
+bool ElementCatalog::removeRows(int row, int count, const QModelIndex &parent){
+	beginRemoveRows(parent, row, row+count-1);
+	for(int index=row;index<row+count;index++){
+		myData.removeAt(index);
+	}
+	endRemoveRows();
+}
