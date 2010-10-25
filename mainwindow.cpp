@@ -586,7 +586,14 @@ void MainWindow::on_actionCut_triggered()
 void MainWindow::on_actionRotate_triggered()
 {
     foreach(QGraphicsItem* i, myScene->selectedItems()){
-		i->rotate(90);
+		qreal rotation=i->data(ElementRotation).toReal();
+		rotation+=90;
+		if(rotation>=360){
+			rotation-=360;
+		}
+		i->setRotation(rotation);
+		qDebug()<<i->rotation();
+		i->setData(ElementRotation,rotation);
     }
 }
 

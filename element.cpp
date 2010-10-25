@@ -402,11 +402,13 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 }
 
 void Element::setPrivateXml(QXmlStreamWriter *xml){
-    Q_UNUSED(xml)
+    xml->writeAttribute("rotation",QString().setNum(rotation()));
 }
 
 void Element::readPrivateXml(QXmlStreamReader *xml){
-    Q_UNUSED(xml)
+    qreal rot=xml->attributes().value("rotation").toString().toDouble();
+	setRotation(rot);
+	setData(UserType+1411,rot);
 }
 
 bool Element::createFormBefore(){

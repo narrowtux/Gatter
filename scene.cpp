@@ -218,6 +218,7 @@ void Scene::load(QString fileName, QCoreXmlStreamReader *xml, bool setAllAttribu
 				elementColor.setGreen(exp.cap(2).toInt());
 				elementColor.setBlue(exp.cap(3).toInt());
 				element->setElementColor(elementColor);
+				element->setRotation(xml->attributes().value("rotation").toString().toDouble());
 				int count=0;
 				while(!(xml->name()=="inputs"&&xml->isEndElement())&&!xml->hasError())
 				{
@@ -345,6 +346,7 @@ void Scene::save(QString fileName, QCoreXmlStreamWriter *xml, QList<Element *> s
 			elementAttributes.append("id",QString().setNum(e->uniqueId));
 			elementAttributes.append("type",e->myType);
 			elementAttributes.append("elementColor",QString("rgb(%0,%1,%2)").arg(e->elementColor().red()).arg(e->elementColor().green()).arg(e->elementColor().blue()));
+			elementAttributes.append("rotation",QString().setNum(e->data(ElementRotation).toReal()));
 			xml->writeAttributes(elementAttributes);
 			xml->writeStartElement("private");
 			e->setPrivateXml(xml);
