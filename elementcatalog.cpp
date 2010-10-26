@@ -7,6 +7,7 @@ ElementCatalog::ElementCatalog(QObject *parent)
     : QAbstractItemModel(parent)
 {
 	load();
+	setSupportedDragActions(Qt::CopyAction|Qt::MoveAction);
 }
 
 ElementCatalog::~ElementCatalog()

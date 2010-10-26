@@ -503,6 +503,7 @@ bool Scene::gestureEvent(QGestureEvent *event){
 void Scene::dropEvent(QGraphicsSceneDragDropEvent *event){
     const QMimeData*data=event->mimeData();
     if(data->hasFormat("text/gatterxml")){
+		event->setDropAction(Qt::CopyAction);
 		event->accept();
 		paste(data,event->scenePos());
     }else{
@@ -513,8 +514,10 @@ void Scene::dropEvent(QGraphicsSceneDragDropEvent *event){
 void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
     QGraphicsScene::dragEnterEvent(event);
     if(event->mimeData()->hasFormat("text/gatterxml")){
-		event->accept();
 		event->setDropAction(Qt::CopyAction);
+		event->setProposedAction(Qt::CopyAction);
+		event->setPossibleActions(Qt::CopyAction);
+		event->accept();
     } else {
 		event->ignore();
     }
@@ -522,6 +525,7 @@ void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
 
 void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
     if(event->mimeData()->hasFormat("text/gatterxml")){
+		event->setDropAction(Qt::CopyAction);
 		event->accept();
     } else {
 		event->ignore();

@@ -63,6 +63,8 @@ int CatalogItem::columnCount() const
 
 QVariant CatalogItem::data(int column) const
 {
+	if(column==0)
+		return itemName;
     return itemData.value(column);
 }
 
