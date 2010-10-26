@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     hexoutput.cpp \
     application.cpp \
     graphicsview.cpp \
-    elementcatalog.cpp
+    elementcatalog.cpp \
+    catalogitem.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     application.h \
     undoactions.h \
     graphicsview.h \
-    elementcatalog.h
+    elementcatalog.h \
+    catalogitem.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

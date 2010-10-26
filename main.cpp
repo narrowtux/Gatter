@@ -1,3 +1,8 @@
+
+#define USE_OLD_ELEMENTCATALOG
+
+
+
 #include <QtGui/QApplication>
 #include <QTranslator>
 #include <QLocale>
@@ -8,7 +13,6 @@
 #ifdef QT_ARCH_MACOSX
 extern void qt_mac_set_native_menubar(bool);
 #endif // O_MAC
-
 
 int main(int argc, char *argv[])
 {

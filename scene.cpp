@@ -514,6 +514,7 @@ void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
     QGraphicsScene::dragEnterEvent(event);
     if(event->mimeData()->hasFormat("text/gatterxml")){
 		event->accept();
+		event->setDropAction(Qt::CopyAction);
     } else {
 		event->ignore();
     }
