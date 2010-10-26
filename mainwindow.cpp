@@ -151,6 +151,13 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		}
 		argvFileAlreadyOpened=true;
     }
+	action=new QAction(tr("Add label"),this);
+	connect(action,SIGNAL(triggered()),this,SLOT(addLabel()));
+	ui->toolAddTemplateFromFile->addAction(action);
+	action=new QAction(tr("Add from file"),this);
+	connect(action,SIGNAL(triggered()), this,SLOT(addFromFile()));
+	ui->toolAddTemplateFromFile->addAction(action);
+	
     QTimer* timer=new QTimer;
 	timer->setSingleShot(true);
 	timer->start(0);
@@ -432,6 +439,47 @@ void MainWindow::initElementCatalog(){
     elementCatalog=new ElementCatalog(QApplication::instance());
 	elementCatalog->load(":/data/standartCatalog.bin");
     ui->elementCatalog->setModel(elementCatalog);
+}
+
+void MainWindow::addLabel(){
+	QString name=QInputDialog::getText(this, tr("Name of Label"), tr("Name of Label"));
+	if(name=="")
+		return;
+	elementCatalog->addItem(name, "");
+}
+
+void MainWindow::addFromFile(){
+    QSettings settings;
+    QString lastOpenDir=settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString();
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setWindowTitle(tr("Select File"));
+    dialog.setDirectory(lastOpenDir);
+    QStringList filters;
+    filters<<tr("Gatter Files(*.gtr)")
+			<<tr("All Files(*)");
+    dialog.setFilters(filters);
+    dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
+    dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
+    dialog.setLabelText(QFileDialog::FileType, tr("Files of Type"));
+    dialog.setLabelText(QFileDialog::Accept, tr("Open"));
+    dialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
+    dialog.exec();
+    
+    if (!dialog.selectedFiles().count()==0){
+		foreach(QString fileName, dialog.selectedFiles()){
+			settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
+			QFile file(fileName);
+			QString xml;
+			QString name=QInputDialog::getText(this,tr("Name for File"),tr("Name for File"),QLineEdit::Normal,QFileInfo(fileName).baseName());
+			if(name!=""){
+				file.open(QIODevice::ReadOnly);
+				xml=file.readAll();
+				file.close();
+				elementCatalog->addItem(name, xml);
+			}
+		}
+    }
 }
 
 //Qt Designer SLOTS

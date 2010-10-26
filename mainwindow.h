@@ -76,6 +76,8 @@ private:
     
     static ElementCatalog* elementCatalog;
 private slots:
+	void addLabel();
+	void addFromFile();
     void on_toolRemoveTemplate_clicked();
     void readSettings();
     void elementMoved(QList<Element*> e, QList<QPointF> oldPos);

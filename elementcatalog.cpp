@@ -228,6 +228,12 @@ bool ElementCatalog::removeRows(int row, int count, const QModelIndex &parent){
 	return true;
 }
 
+void ElementCatalog::addItem(QString name, QString xml){
+	beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
+	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<name<<xml<<false,rootItem));
+	endInsertRows();
+}
+
 #else
 
 ElementCatalog::ElementCatalog(QObject *parent) :

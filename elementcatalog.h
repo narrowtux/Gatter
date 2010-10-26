@@ -31,6 +31,8 @@ public:
 	void load(QString fileName="");
 	bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 	
+	void addItem(QString name, QString xml);
+	
 	bool removeRows(int row, int count, const QModelIndex &parent);
 private:
     void setupModelData(const QStringList &lines, CatalogItem *parent);
