@@ -163,19 +163,19 @@ QMimeData* ElementCatalog::mimeData(const QModelIndexList &indexes) const{
 	if(indexes.count()>0){
 		const QModelIndex index=indexes.first();
 		CatalogItem *item = static_cast<CatalogItem*>(index.internalPointer());
-		if(item->isLabel())
-			return 0;
 		QMimeData* mimeData=new QMimeData;
 		mimeData->setText(item->name());
-		mimeData->setData("text/gatterxml",item->xml().toLocal8Bit());
-		mimeData->setData("int/internalId",QString().setNum(index.internalId()).toLocal8Bit());
+		if(!item->isLabel())
+			mimeData->setData("text/gatterxml",item->xml().toLocal8Bit());
+		else
+			mimeData->setData("bool/islabel", "");
 		return mimeData;
 	}
 	return 0;
 }
 
 bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent){
-	if(!data->hasFormat("text/gatterxml")){
+	if(!(data->hasFormat("text/gatterxml")||data->hasFormat("bool/islabel"))){
 		return false;
 	}
 	CatalogItem*parentItem;
@@ -211,7 +211,7 @@ Qt::DropActions ElementCatalog::supportedDropActions() const{
 }
 
 QStringList ElementCatalog::mimeTypes() const{
-    return QStringList()<<"text/gatterxml";
+    return QStringList()<<"text/gatterxml"<<"bool/islabel";
 }
 
 bool ElementCatalog::removeRows(int row, int count, const QModelIndex &parent){
