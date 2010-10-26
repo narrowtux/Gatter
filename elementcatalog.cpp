@@ -29,7 +29,7 @@ QVariant ElementCatalog::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
+    if (role != Qt::DisplayRole && role != Qt::EditRole)
         return QVariant();
 
     CatalogItem *item = static_cast<CatalogItem*>(index.internalPointer());
@@ -42,7 +42,7 @@ Qt::ItemFlags ElementCatalog::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::ItemIsDropEnabled;
 
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | QAbstractItemModel::flags(index);
 }
 
 QVariant ElementCatalog::headerData(int section, Qt::Orientation orientation,
@@ -262,6 +262,23 @@ void ElementCatalog::save(QString fileName){
 	QDataStream ds(&file);
 	ds<<vars;
 	file.close();
+}
+
+bool ElementCatalog::setData(const QModelIndex &index, const QVariant &value, int role){
+	if(index.isValid()){
+		CatalogItem*item=static_cast<CatalogItem*>(index.internalPointer());
+		if(role==Qt::EditRole){
+			QString name=value.toString();
+			if(name!=""){
+				item->setName(name);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}else{
+		return false;
+	}
 }
 
 #else

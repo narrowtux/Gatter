@@ -23,6 +23,7 @@ public:
 	bool isLabel();
 	bool isPredefined();
 	QVariant saveData();
+	void setName(QString name);
 private:
     QList<CatalogItem*> childItems;
     QList<QVariant> itemData;

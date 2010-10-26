@@ -123,3 +123,7 @@ QVariant CatalogItem::saveData()
 	ret.setValue(list);
 	return ret;
 }
+
+void CatalogItem::setName(QString name){
+	itemName=name;
+}
