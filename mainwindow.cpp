@@ -38,9 +38,17 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 {
     ui->setupUi(this);
     
+	if(mainWindows.count()>0){
+		ui->elementCatalog->setModel(elementCatalog);
+		ui->elementCatalog->expandAll();
+	}
+	
+	
 #ifndef QT_ARCH_MACOSX
     ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
 #endif
+	
+	
     if(scene!=0){
 		myScene=scene;
 		mySubScene=true;
@@ -177,12 +185,13 @@ MainWindow::~MainWindow()
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
+	QFileOpenEvent*event;
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
     case QEvent::FileOpen:
-		QFileOpenEvent*event=(QFileOpenEvent*)e;
+		event=(QFileOpenEvent*)e;
 		qDebug()<<event->file();
 		break;
     default:
@@ -439,6 +448,7 @@ void MainWindow::initElementCatalog(){
     elementCatalog=new ElementCatalog(QApplication::instance());
 	//elementCatalog->load(":/data/standartCatalog.bin");
     ui->elementCatalog->setModel(elementCatalog);
+	ui->elementCatalog->expandAll();
 }
 
 void MainWindow::addLabel(){

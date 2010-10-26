@@ -201,6 +201,8 @@ void Element::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 void Element::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+	if(event->button()==Qt::RightButton)
+		setSelected(true);
     QGraphicsItem::mousePressEvent(event);
 }
 
@@ -339,11 +341,11 @@ void Element::deleteForm()
 		return;
     }
     foreach(Connection*c, lineEdits.keys()){
-		delete lineEdits.value(c);
+		lineEdits.value(c)->deleteLater();
 		lineEdits.remove(c);
     }
     foreach(Connection*c, checkBoxes.keys()){
-        delete checkBoxes.value(c);
+		checkBoxes.value(c)->deleteLater();
 		checkBoxes.remove(c);
     }
     foreach(QWidget*w, additionalWidgets){
@@ -471,7 +473,7 @@ bool Element::isOutput(){
 }
 
 void Element::setInput(bool value){
-    
+    myValue=value;
 }
 
 bool Element::value(){
