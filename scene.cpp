@@ -62,7 +62,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		startPos=movingItem->scenePos();
     }
 	Qt::KeyboardModifier dragMod;
-#ifdef Q_OS_MACX
+#if Q_OS_MACX == 1
 	dragMod=Qt::AltModifier;
 #else
 	dragMod=Qt::ControlModifier;
