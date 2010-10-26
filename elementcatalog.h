@@ -29,6 +29,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QMimeData* mimeData(const QModelIndexList &indexes) const;
 	void load(QString fileName="");
+	void save(QString fileName="");
 	bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 	
 	void addItem(QString name, QString xml);

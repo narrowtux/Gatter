@@ -6,21 +6,12 @@
 ElementCatalog::ElementCatalog(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    QList<QVariant> rootData;
-    rootData << tr("Title") << "";
-    rootItem = new CatalogItem(rootData);
-    //setupModelData(data.split(QString("\n")), rootItem);
-	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<tr("Gatter")<<""<<true,rootItem));
-	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<tr("Inputs")<<""<<true,rootItem));
-	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<tr("Outputs")<<""<<true,rootItem));
-	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<tr("Other")<<""<<true,rootItem));
-	rootItem->child(0)->appendChild(new CatalogItem(QList<QVariant>()<<tr("AND")<<"<?xml version='1.0' encoding='UTF-8'?><scene><elements><element x='-369.5' y='-315.5' id='1' type='gatter' elementColor='rgb(255,255,255)' rotation='0'><private gatterType='0'/><inputs><connection id='0' name='' negated='false' value='false'/><connection id='1' name='' negated='false' value='false'/></inputs><outputs><connection id='0' name='' negated='false' value='false'/></outputs></element></elements><connections/></scene>"<<true,rootItem->child(0)));
-	rootItem->child(0)->appendChild(new CatalogItem(QList<QVariant>()<<tr("OR")<<"<?xml version='1.0' encoding='UTF-8'?><scene><elements><element x='-369.5' y='-315.5' id='1' type='gatter' elementColor='rgb(255,255,255)' rotation='0'><private gatterType='1'/><inputs><connection id='0' name='' negated='false' value='false'/><connection id='1' name='' negated='false' value='false'/></inputs><outputs><connection id='0' name='' negated='false' value='false'/></outputs></element></elements><connections/></scene>"<<true,rootItem->child(0)));
-	setSupportedDragActions(Qt::CopyAction|Qt::MoveAction);
+	load();
 }
 
 ElementCatalog::~ElementCatalog()
 {
+	save();
     delete rootItem;
 }
 
@@ -202,10 +193,6 @@ bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	}
 }
 
-void ElementCatalog::load(QString fileName){
-	
-}
-
 Qt::DropActions ElementCatalog::supportedDropActions() const{
     return Qt::CopyAction | Qt::MoveAction;
 }
@@ -232,6 +219,48 @@ void ElementCatalog::addItem(QString name, QString xml){
 	beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 	rootItem->appendChild(new CatalogItem(QList<QVariant>()<<name<<xml<<false,rootItem));
 	endInsertRows();
+}
+
+void ElementCatalog::load(QString fileName){
+	if(fileName==""){
+		QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+		QDir dir(myDirName);
+		if(!dir.exists()){
+			if(!dir.mkpath(myDirName))
+				return;
+		}
+		fileName=myDirName+"/elementCatalogNew.bin";
+	}
+	QFile file(fileName);
+	file.open(QIODevice::ReadOnly);
+	QVariant vars;
+	QDataStream ds(&file);
+	ds>>vars;
+	file.close();
+	
+	//Process Data
+	QMap<QString,QVariant> map=vars.toMap();
+	rootItem=new CatalogItem(map);
+}
+
+void ElementCatalog::save(QString fileName){
+	if(fileName==""){
+		QString myDirName=QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+		QDir dir(myDirName);
+		if(!dir.exists()){
+			if(!dir.mkpath(myDirName))
+				return;
+		}
+		fileName=myDirName+"/elementCatalogNew.bin";
+	}
+	QFile file(fileName);
+	file.open(QIODevice::WriteOnly);
+	QVariant vars;
+	vars=rootItem->saveData();
+	qDebug()<<vars;
+	QDataStream ds(&file);
+	ds<<vars;
+	file.close();
 }
 
 #else
