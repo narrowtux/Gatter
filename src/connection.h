@@ -57,7 +57,7 @@ protected:
     Connection* lastI;
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void updateLine();
+    void updateLine(QPointF to=QPointF(), Connection*c=0);
 };
 
 #endif // CONNECTION_H

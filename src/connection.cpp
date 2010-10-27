@@ -97,7 +97,7 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->setBrush(QColor("white"));
-    if(myValue&&!myNegated||!myValue&&myNegated){
+    if((myValue&&!myNegated)||(!myValue&&myNegated)){
 		painter->setPen(Scene::highValueColor);
 		//	if(line!=0){
 		//	    line->setPen(QColor("red"));
@@ -108,6 +108,13 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		//	    line->setPen(QColor("black"));
 		//	}
     }
+	if(poked){
+		if(painter->pen().color()==QColor("red")){
+			painter->setPen(QColor("darkred"));
+		} else {
+			painter->setPen(QColor("lightgray"));
+		}
+	}
 	
     QRectF text;
     switch(myConnectionType){
@@ -118,11 +125,6 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		}else {
 			painter->drawLine(QPointF(0,0),QPointF(20,0));
 		}
-		if(poked){
-			painter->setBrush(QColor("gray"));
-			painter->setPen(Qt::NoPen);
-			painter->drawEllipse(QPointF(3,0),3,3);
-		}
 		label->setPos(0,-20);
 		break;
     case Output:
@@ -131,11 +133,6 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 			painter->drawLine(QPointF(10,0),QPointF(20,0));
 		}else {
 			painter->drawLine(QPointF(0,0),QPointF(20,0));
-		}
-		if(poked){
-			painter->setBrush(QColor("gray"));
-			painter->setPen(Qt::NoPen);
-			painter->drawEllipse(QPointF(17,0),3,3);
 		}
 		label->setPos(-20,-10);
 		break;
@@ -153,6 +150,7 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
 			update();
 		}
 		line=scene()->addLine(QLineF(event->scenePos(),event->scenePos()));
+		updateLine(event->scenePos());
 		startPos=event->scenePos();
 		qDebug()<<event->scenePos();
 		pressed=1;
@@ -162,14 +160,16 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     if(pressed){
-		QLineF l(startPos,event->scenePos());
-		qreal ln=l.length()-1;
-		l.setLength(ln);
-		line->setLine(l);
+		updateLine(event->scenePos());
 		QGraphicsItem* i=((Scene*)scene())->itemAt(event->scenePos());
 		if(i!=0&&i->data(ElementRecognition).toString()=="Connection"){
 			((Connection*)i)->poke(true);
+			if(i!=lastI&&lastI!=0){
+				lastI->poke(false);
+			}
 			lastI=(Connection*)i;
+			if(lastI->connectionType()!=myConnectionType)
+				updateLine(QPointF(), lastI);
 		}else if(lastI!=0){
 			lastI->poke(false);
 			lastI=0;
@@ -249,23 +249,30 @@ void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
     poke(false);
 }
 
-void Connection::updateLine(){
-    if(myConnectedTo!=0){
+void Connection::updateLine(QPointF toPoint, Connection*c){
+	if(c==0&&myConnectedTo!=0)
+		c=myConnectedTo;
+    if(line!=0){
 		QPointF p1,p2;
-		qDebug()<<"Rotation"<<parentItem()->rotation();
 		switch(myConnectionType){
 		case Input:
 			p1=scenePos();
-			p2=myConnectedTo->mapToScene(QPointF(20,0));
+			if(c!=0)p2=c->mapToScene(QPointF(20,0));
 			break;
 		case Output:
 			p1=mapToScene(QPointF(20,0));
-			p2=myConnectedTo->scenePos();
+			if(c!=0)p2=c->scenePos();
 			break;
 		}
-		
-		line->setLine(QLineF(p1,p2));
-    }
+		if(!toPoint.isNull()){
+			p2=toPoint;
+		}
+		QLineF l(p1,p2);
+		if(!toPoint.isNull()){
+			l.setLength(l.length()-2);
+		}
+		line->setLine(l);
+	}
 }
 
 Connection::~Connection()
