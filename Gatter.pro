@@ -10,62 +10,62 @@ TARGET = Gatter
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    scene.cpp \
-    element.cpp \
-    gatter.cpp \
-    connection.cpp \
-    switch.cpp \
-    lamp.cpp \
-    button.cpp \
-    clock.cpp \
-    subscene.cpp \
-    colorbutton.cpp \
-    settingsdialog.cpp \
-    subscenechoosedialog.cpp \
-    subsceneinfo.cpp \
-    delay.cpp \
-    loadthread.cpp \
-    flipflop.cpp \
-    enumcombobox.cpp \
-    hexoutput.cpp \
-    application.cpp \
-    graphicsview.cpp \
-    elementcatalog.cpp \
-    catalogitem.cpp
+SOURCES += src/main.cpp\
+        src/mainwindow.cpp \
+    src/scene/scene.cpp \
+    src/connection.cpp \
+    src/colorbutton.cpp \
+    src/settingsdialog.cpp \
+    src/subscenechoosedialog.cpp \
+    src/subsceneinfo.cpp \
+    src/loadthread.cpp \
+    src/enumcombobox.cpp \
+    src/elements/hexoutput.cpp \
+    src/application.cpp \
+    src/scene/graphicsview.cpp \
+    src/catalog/elementcatalog.cpp \
+    src/catalog/catalogitem.cpp \
+    src/elements/element.cpp \
+    src/elements/gatter.cpp \
+    src/elements/switch.cpp \
+    src/elements/lamp.cpp \
+    src/elements/button.cpp \
+    src/elements/clock.cpp \
+    src/elements/subscene.cpp \
+    src/elements/delay.cpp \
+    src/elements/flipflop.cpp
 
-HEADERS  += mainwindow.h \
-    scene.h \
-    element.h \
-    gatter.h \
-    connection.h \
-    defines.h \
-    switch.h \
-    lamp.h \
-    button.h \
-    clock.h \
-    subscene.h \
-    colorbutton.h \
-    settingsdialog.h \
-    subscenechoosedialog.h \
-    subsceneinfo.h \
-    delay.h \
-    loadthread.h \
-    flipflop.h \
-    enumcombobox.h \
-    hexoutput.h \
-    application.h \
-    undoactions.h \
-    graphicsview.h \
-    elementcatalog.h \
-    catalogitem.h
+HEADERS  += src/mainwindow.h \
+    src/scene/scene.h \
+    src/elements/element.h \
+    src/elements/gatter.h \
+    src/connection.h \
+    src/defines.h \
+    src/elements/switch.h \
+    src/elements/lamp.h \
+    src/elements/button.h \
+    src/elements/clock.h \
+    src/elements/subscene.h \
+    src/colorbutton.h \
+    src/settingsdialog.h \
+    src/subscenechoosedialog.h \
+    src/subsceneinfo.h \
+    src/elements/delay.h \
+    src/loadthread.h \
+    src/elements/flipflop.h \
+    src/enumcombobox.h \
+    src/elements/hexoutput.h \
+    src/application.h \
+    src/undoactions.h \
+    src/scene/graphicsview.h \
+    src/catalog/elementcatalog.h \
+    src/catalog/catalogitem.h
 
-FORMS    += mainwindow.ui \
-    settingsdialog.ui \
-    subscenechoosedialog.ui
+FORMS    += src/mainwindow.ui \
+    src/settingsdialog.ui \
+    src/subscenechoosedialog.ui
 TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns
 
 RESOURCES += \
-    res.qrc
+    src/res.qrc
