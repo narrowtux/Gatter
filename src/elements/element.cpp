@@ -462,8 +462,8 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 }
 
 void Element::setPos(const QPointF &pos){
-    qreal x=(int)pos.x()+0.5;
-    qreal y=(int)pos.y()+0.5;
+    qreal x=qRound(pos.x())+0.5;
+    qreal y=qRound(pos.y())+0.5;
     QGraphicsItem::setPos(x,y);
 }
 
