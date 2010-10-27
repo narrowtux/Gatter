@@ -3,6 +3,7 @@
 
 #include "src/scene/scene.h"
 #include "src/defines.h"
+#include "src/elements/element.h"
 GraphicsView::GraphicsView(QWidget *parent) :
 		QGraphicsView(parent)
 {
@@ -42,8 +43,8 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 			currentStepScaleFactor = 1;
 			foreach(QGraphicsItem*i, scene()->selectedItems()){
 				qreal rotation=i->rotation();
-				qreal r=round(rotation/90);
-				r*=90;
+				qreal r=round(rotation/Element::rotationSteps);
+				r*=Element::rotationSteps;
 				qDebug()<<"rotation"<<rotation<<"final rotation"<<r;
 				i->setRotation(r);
 				i->setData(ElementRotation,r);

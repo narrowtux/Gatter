@@ -20,6 +20,8 @@ class Element : public QGraphicsObject
     friend class Scene;
     friend class Connection;
 public:
+	static qreal rotationSteps;
+	
     explicit Element(QGraphicsObject *parent = 0);
     ~Element();
     static QPen getSelectionPen();

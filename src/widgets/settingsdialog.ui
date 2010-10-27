@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>402</width>
-    <height>92</height>
+    <height>187</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,29 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Rotate in steps</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="rotationSteps">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::PlusMinus</enum>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>180</number>
+       </property>
+       <property name="value">
+        <number>90</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -57,7 +80,7 @@
   <customwidget>
    <class>ColorButton</class>
    <extends>QToolButton</extends>
-   <header>colorbutton.h</header>
+   <header>src/widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

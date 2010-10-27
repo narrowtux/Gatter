@@ -5,6 +5,7 @@
 
 #include "src/widgets/mainwindow.h"
 #include "ui_mainwindow.h"
+#include "src/elements/element.h"
 #include "src/scene/scene.h"
 #include "src/elements/gatter.h"
 #include "src/elements/switch.h"
@@ -60,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		mySubScene=false;
 		myShouldBeSaved=true;
     }
+	
+	QSettings settings;
+	Element::rotationSteps=settings.value("rotationSteps",90).toReal();
     
 	sceneFitRect=new QGraphicsRectItem;
 	myScene->addItem(sceneFitRect);
@@ -655,7 +659,7 @@ void MainWindow::on_actionRotate_triggered()
 {
     foreach(QGraphicsItem* i, myScene->selectedItems()){
 		qreal rotation=i->data(ElementRotation).toReal();
-		rotation+=90;
+		rotation+=Element::rotationSteps;
 		if(rotation>=360){
 			rotation-=360;
 		}

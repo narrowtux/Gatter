@@ -1,5 +1,7 @@
 #include "src/elements/element.h"
 
+qreal Element::rotationSteps=90;
+
 Element::Element(QGraphicsObject* parent) :
 		QGraphicsObject(parent)
 {
@@ -401,6 +403,11 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
     if(change==ItemScenePositionHasChanged){
 		isMoving=true;
     }
+	if(change==ItemRotationHasChanged){
+		foreach(Connection*c, myInputs+myOutputs){
+			c->itemChange(change,value);
+		}
+	}
     return value;
 }
 
