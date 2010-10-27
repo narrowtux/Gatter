@@ -59,6 +59,13 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		myShouldBeSaved=true;
     }
     
+	sceneFitRect=new QGraphicsRectItem;
+	myScene->addItem(sceneFitRect);
+	int width=ui->graphicsView->rect().width(), height=ui->graphicsView->rect().height();
+	sceneFitRect->setRect(-width/2,-height/2,width,height);
+	sceneFitRect->setBrush(Qt::NoBrush);
+	sceneFitRect->setPen(Qt::NoPen);
+	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
     separatorAction=new QAction(this);
@@ -399,9 +406,8 @@ void MainWindow::updateActions()
 
 void MainWindow::updateSceneRect()
 {
-    if(ui->graphicsView->rect().contains(myScene->sceneRect().toRect())){
-		//myScene->setSceneRect(ui->graphicsView->rect());
-    }
+	int width=ui->graphicsView->rect().width(), height=ui->graphicsView->rect().height();
+	sceneFitRect->setRect(-width/2,-height/2,width,height);
 }
 
 

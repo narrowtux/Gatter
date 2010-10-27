@@ -53,6 +53,7 @@ private:
     QToolButton *myZoomIn, *myZoomOut;
     qreal scale;
     QSlider *myZoomSlider;
+	QGraphicsRectItem *sceneFitRect;
     
     QUndoStack* myUndoStack;
     QUndoView* myUndoView;
