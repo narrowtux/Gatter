@@ -28,6 +28,7 @@ public:
     void setPos(const QPointF &pos);
     void setPos(qreal x, qreal y);
     void setClock(bool clock);
+	ConnectionType connectionType();
 signals:
     void changed(bool);
     void recalculate();

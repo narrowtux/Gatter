@@ -323,3 +323,7 @@ void Connection::setPos(const QPointF &pos){
 void Connection::setPos(qreal x, qreal y){
     setPos(QPointF(x,y));
 }
+
+ConnectionType Connection::connectionType(){
+	return myConnectionType;
+}

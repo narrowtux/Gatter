@@ -5,21 +5,24 @@ Distributor::Distributor(QGraphicsObject *parent) :
 {
 	width=10;
 	height=10;
-	setMinMaxInputsOutputs(1,1,3,3);
+	setMinMaxInputsOutputs(1,1,1,8);
+	setInputs(3);
 	myType="distributor";
 }
 
 void Distributor::relayoutConnections(){
-	if(myInputs.count()==1&&myOutputs.count()==3){
-		myOutputs.at(0)->setRotation(-90);
-		myOutputs.at(1)->setRotation(0);
-		myOutputs.at(2)->setRotation(90);
-		myInputs.at(0)->setPos(-25,0);
-		myOutputs.at(0)->setPos(0,-5);
-		myOutputs.at(1)->setPos(5,0);
-		myOutputs.at(2)->setPos(0,5);
-	} else {
-		Element::relayoutConnections();
+	QList<Connection*> allConnections=myInputs+myOutputs;
+	qreal angle=360/allConnections.count();
+	for(int i=0;i<allConnections.count();i++){
+		Connection*c=allConnections.at(i);
+		c->setRotation(180+angle*i);
+		c->setTransformOriginPoint(-4,0);
+		if(c->connectionType()==Input){
+			c->setRotation(0);
+			c->setPos(-24,0);
+		} else {
+			c->setPos(4,0);
+		}
 	}
 }
 
