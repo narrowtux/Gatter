@@ -578,7 +578,7 @@
   </action>
   <action name="actionInsertSwitch">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/toolbar/switch.png</normaloff>:/icons/toolbar/switch.png</iconset>
    </property>
    <property name="text">
@@ -587,7 +587,7 @@
   </action>
   <action name="actionInsertLamp">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/toolbar/lamp.png</normaloff>:/icons/toolbar/lamp.png</iconset>
    </property>
    <property name="text">
@@ -596,7 +596,7 @@
   </action>
   <action name="actionInsertButton">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/toolbar/button.png</normaloff>:/icons/toolbar/button.png</iconset>
    </property>
    <property name="text">
@@ -690,11 +690,11 @@
   <customwidget>
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>graphicsview.h</header>
+   <header>src/scene/graphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../res.qrc"/>
  </resources>
  <connections/>
 </ui>
