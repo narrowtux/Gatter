@@ -179,6 +179,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="windowTitle">
+    <string>Main Toolbar</string>
+   </property>
    <property name="floatable">
     <bool>true</bool>
    </property>

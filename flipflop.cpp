@@ -16,6 +16,7 @@ FlipFlop::FlipFlop(QGraphicsObject *parent) :
     recalculate();
     myType="flipflop";
     setProperty("recalcs",0);
+	setTransformOriginPoint(QPointF(25,25));
 }
 
 FlipFlop::FlipFlop(const FlipFlop &copy){

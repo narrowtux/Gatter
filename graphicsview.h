@@ -11,6 +11,7 @@ class GraphicsView : public QGraphicsView
 public:
     explicit GraphicsView(QWidget *parent = 0);
     void setScale(qreal scale);
+	qreal scaleFactor();
 signals:
 
 public slots:
@@ -18,7 +19,7 @@ private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent* event);
     
-    qreal scaleFactor;
+    qreal myScaleFactor;
     qreal currentStepScaleFactor;
 };
 

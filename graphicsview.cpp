@@ -5,7 +5,7 @@ GraphicsView::GraphicsView(QWidget *parent) :
 		QGraphicsView(parent)
 {
     grabGesture(Qt::PinchGesture);
-    scaleFactor=1;
+    myScaleFactor=1;
     currentStepScaleFactor=1;
 }
 
@@ -36,7 +36,7 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 			}
 		}
 		if (gesture->state() == Qt::GestureFinished) {
-			scaleFactor *= currentStepScaleFactor;
+			myScaleFactor *= currentStepScaleFactor;
 			currentStepScaleFactor = 1;
 			foreach(QGraphicsItem*i, scene()->selectedItems()){
 				qreal rotation=i->rotation();
@@ -47,14 +47,18 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 				i->setData(ElementRotation,r);
 			}
 		}
-		setScale(scaleFactor);
+		setScale(myScaleFactor);
     }
     return true;
 }
 
 void GraphicsView::setScale(qreal scale){
-    scaleFactor=scale;
+    myScaleFactor=scale;
     QTransform tr;
-    tr.scale(currentStepScaleFactor * scaleFactor,currentStepScaleFactor * scaleFactor);
+    tr.scale(currentStepScaleFactor * myScaleFactor,currentStepScaleFactor * myScaleFactor);
     setTransform(tr);
+}
+
+qreal GraphicsView::scaleFactor(){
+	return myScaleFactor;
 }

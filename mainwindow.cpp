@@ -61,10 +61,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     
 	sceneFitRect=new QGraphicsRectItem;
 	myScene->addItem(sceneFitRect);
-	int width=ui->graphicsView->rect().width(), height=ui->graphicsView->rect().height();
-	sceneFitRect->setRect(-width/2,-height/2,width,height);
 	sceneFitRect->setBrush(Qt::NoBrush);
 	sceneFitRect->setPen(Qt::NoPen);
+	updateSceneRect();
 	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
@@ -407,6 +406,9 @@ void MainWindow::updateActions()
 void MainWindow::updateSceneRect()
 {
 	int width=ui->graphicsView->rect().width(), height=ui->graphicsView->rect().height();
+//	qreal scale=ui->graphicsView->scaleFactor();
+//	width/=scale;
+//	height/=scale;
 	sceneFitRect->setRect(-width/2,-height/2,width,height);
 }
 
@@ -444,6 +446,7 @@ void MainWindow::zoomTo(int v){
     }
     scale=0.25*qPow(16.0,value);
     ui->graphicsView->setScale(scale);
+	updateSceneRect();
 }
 
 void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
@@ -725,5 +728,5 @@ void MainWindow::on_actionLayoutMiddle_triggered()
 
 void MainWindow::on_toolRemoveTemplate_clicked()
 {
-    elementCatalog->removeRows(ui->elementCatalog->selectionModel()->currentIndex().row(),1,QModelIndex());
+    elementCatalog->removeRows(ui->elementCatalog->selectionModel()->currentIndex().row(),1,ui->elementCatalog->selectionModel()->currentIndex().parent());
 }
