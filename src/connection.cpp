@@ -24,6 +24,8 @@ Connection::Connection(QObject *parent) :
     label=new QGraphicsTextItem(this);
     label->setAcceptHoverEvents(false);
     myClock=false;
+	lastV=false;
+	lastVInit=false;
 }
 
 void Connection::setClock(bool clock)
@@ -162,16 +164,24 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     if(pressed){
 		updateLine(event->scenePos());
 		QGraphicsItem* i=((Scene*)scene())->itemAt(event->scenePos());
-		if(i!=0&&i->data(ElementRecognition).toString()=="Connection"){
-			((Connection*)i)->poke(true);
+		if(i!=0&&i->data(ElementRecognition).toString()=="Connection"&&i!=this){
 			if(i!=lastI&&lastI!=0){
 				lastI->poke(false);
+				lastI->setValue(lastV);
 			}
-			lastI=(Connection*)i;
+			((Connection*)i)->poke(true);
+			if(lastI!=i){
+				lastI=(Connection*)i;
+				if(lastI->myConnectionType==Input&&myConnectionType==Output){
+					lastV=lastI->myValue;
+					lastI->setValue(value());
+				}
+			}
 			if(lastI->connectionType()!=myConnectionType)
 				updateLine(QPointF(), lastI);
 		}else if(lastI!=0){
 			lastI->poke(false);
+			lastI->setValue(lastV);
 			lastI=0;
 		}
     }

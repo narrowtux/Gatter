@@ -55,6 +55,8 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void poke(bool in);
     Connection* lastI;
+	bool lastV;
+	bool lastVInit;
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void updateLine(QPointF to=QPointF(), Connection*c=0);
