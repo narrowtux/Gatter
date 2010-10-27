@@ -4,8 +4,9 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QDebug>
-#include "scene.h"
-#include "element.h"
+
+#include "src/scene/scene.h"
+#include "src/elements/element.h"
 Connection::Connection(QObject *parent) :
     QObject(parent)
 {

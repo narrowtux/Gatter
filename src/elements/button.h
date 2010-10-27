@@ -1,6 +1,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
-#include "switch.h"
+#include "src/elements/switch.h"
 class Button : public Switch
 {
     Q_OBJECT

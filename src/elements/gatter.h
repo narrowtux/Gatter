@@ -1,7 +1,7 @@
 #ifndef GATTER_H
 #define GATTER_H
-#include "element.h"
-#include "defines.h"
+#include "src/elements/element.h"
+#include "src/defines.h"
 #include <QTimer>
 class Gatter : public Element
 {

@@ -1,7 +1,8 @@
 #include "application.h"
 #include <QFileOpenEvent>
 #include <QDebug>
-#include "mainwindow.h"
+
+#include "src/widgets/mainwindow.h"
 
 Application::Application(int &argc, char **argv) :
 	QApplication(argc,argv)

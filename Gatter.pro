@@ -33,7 +33,8 @@ SOURCES += src/main.cpp\
     src/elements/clock.cpp \
     src/elements/subscene.cpp \
     src/elements/delay.cpp \
-    src/elements/flipflop.cpp
+    src/elements/flipflop.cpp \
+    src/elements/distributor.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -59,7 +60,8 @@ HEADERS  += src/widgets/mainwindow.h \
     src/undoactions.h \
     src/scene/graphicsview.h \
     src/catalog/elementcatalog.h \
-    src/catalog/catalogitem.h
+    src/catalog/catalogitem.h \
+    src/elements/distributor.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \

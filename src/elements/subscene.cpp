@@ -1,6 +1,6 @@
-#include "subscene.h"
+#include "src/elements/subscene.h"
 #include <QtGui>
-#include "subsceneinfo.h"
+#include "src/subsceneinfo.h"
 
 SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
 		Element(parent)

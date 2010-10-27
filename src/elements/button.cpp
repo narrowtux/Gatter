@@ -1,5 +1,6 @@
-#include "button.h"
-#include "gatter.h"
+#include "src/elements/button.h"
+
+#include "src/elements/gatter.h"
 Button::Button(QGraphicsObject *parent) :
     Switch(parent)
 {

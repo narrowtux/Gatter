@@ -7,8 +7,10 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QDebug>
-#include "subscenechoosedialog.h"
-#include "application.h"
+#include "src/widgets/subscenechoosedialog.h"
+#include "src/application.h"
+
+#include "src/widgets/mainwindow.h"
 
 #ifdef QT_ARCH_MACOSX
 extern void qt_mac_set_native_menubar(bool);
@@ -29,7 +31,6 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("de.moritz-schmale");
     a.setApplicationName("Gatter");
     a.setOrganizationName("MoritzSchmale");
-#include "mainwindow.h"
     MainWindow w;
 	w.initElementCatalog();
     w.show();

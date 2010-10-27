@@ -1,6 +1,8 @@
 #include "loadthread.h"
-#include "scene.h"
-#include "mainwindow.h"
+
+#include "src/scene/scene.h"
+
+#include "src/widgets/mainwindow.h"
 
 LoadThread::LoadThread(QObject *parent) :
     QThread(parent)

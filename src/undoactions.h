@@ -1,17 +1,20 @@
 #ifndef UNDOACTIONS_H
 #define UNDOACTIONS_H
 #include <QUndoCommand>
-#include "scene.h"
-#include "gatter.h"
-#include "switch.h"
-#include "lamp.h"
-#include "button.h"
-#include "clock.h"
-#include "subscene.h"
-#include "delay.h"
-#include "flipflop.h"
-#include "hexoutput.h"
-#include "mainwindow.h"
+
+#include "src/scene/scene.h"
+
+#include "src/elements/gatter.h"
+#include "src/elements/switch.h"
+#include "src/elements/lamp.h"
+#include "src/elements/button.h"
+#include "src/elements/clock.h"
+#include "src/elements/subscene.h"
+#include "src/elements/delay.h"
+#include "src/elements/flipflop.h"
+#include "src/elements/hexoutput.h"
+
+#include "src/widgets/mainwindow.h"
 
 
 class AddElement : public QUndoCommand

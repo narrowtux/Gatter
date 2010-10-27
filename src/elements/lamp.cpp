@@ -1,5 +1,5 @@
-#include "lamp.h"
-#include "colorbutton.h"
+#include "src/elements/lamp.h"
+#include "src/widgets/colorbutton.h"
 #include <QRegExp>
 Lamp::Lamp(QGraphicsObject *parent) :
     Element(parent)

@@ -2,23 +2,25 @@
 
 //INCLUDES
 
-#include "mainwindow.h"
+
+#include "src/widgets/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "scene.h"
-#include "gatter.h"
-#include "switch.h"
-#include "lamp.h"
-#include "button.h"
-#include "clock.h"
+#include "src/scene/scene.h"
+#include "src/elements/gatter.h"
+#include "src/elements/switch.h"
+#include "src/elements/lamp.h"
+#include "src/elements/button.h"
+#include "src/elements/clock.h"
 #include <qxmlstream.h>
 #include <QSettings>
-#include "subscene.h"
-#include "subscenechoosedialog.h"
-#include "delay.h"
+#include "src/elements/subscene.h"
+#include "src/widgets/subscenechoosedialog.h"
+#include "src/elements/delay.h"
 #include <qxmlstream.h>
-#include "flipflop.h"
-#include "hexoutput.h"
-#include "undoactions.h"
+#include "src/elements/flipflop.h"
+#include "src/elements/hexoutput.h"
+#include "src/undoactions.h"
+#include "src/elements/distributor.h"
 
 
 //DEFINES
@@ -535,9 +537,7 @@ void MainWindow::on_actionInsertNOT_triggered()
 
 void MainWindow::on_actionMultiplexer_triggered()
 {
-    Gatter*g=new Gatter;
-    g->setType(Gatter::DUPLICATOR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
+    myUndoStack->push(new AddElement(new Distributor,myScene->lastMousePos,this));
 }
 
 void MainWindow::on_actionInsertSwitch_triggered()

@@ -2,9 +2,9 @@
 #define ELEMENT_H
 #include <QGraphicsObject>
 #include <QObject>
-#include "scene.h"
-#include "defines.h"
-#include "connection.h"
+#include "src/scene/scene.h"
+#include "src/defines.h"
+#include "src/connection.h"
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QCheckBox>
@@ -12,7 +12,7 @@
 #include <QSignalMapper>
 #include <qxmlstream.h>
 #include <QtConcurrentRun>
-#include "colorbutton.h"
+#include "src/widgets/colorbutton.h"
 
 class Element : public QGraphicsObject
 {
@@ -77,9 +77,9 @@ protected:
     virtual bool createFormBefore();
     virtual void createFormAfter();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual void relayoutConnections();
 private:
     int uniqueId;
-    void relayoutConnections();
     void createForm();
     void deleteForm();
     bool isMoving;

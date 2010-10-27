@@ -2,14 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "defines.h"
+#include "src/defines.h"
 #include <QFormLayout>
 #include "settingsdialog.h"
 #include <QtConcurrentRun>
 #include <QtGui>
 #include <QUndoStack>
 #include <QUndoView>
-#include "elementcatalog.h"
+#include "src/catalog/elementcatalog.h"
 
 class SubSceneChooseDialog;
 class Scene;

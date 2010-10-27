@@ -1,6 +1,6 @@
 #ifndef DELAY_H
 #define DELAY_H
-#include "element.h"
+#include "src/elements/element.h"
 class Delay : public Element
 {
     Q_OBJECT

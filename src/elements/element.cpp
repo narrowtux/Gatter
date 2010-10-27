@@ -1,4 +1,4 @@
-#include "element.h"
+#include "src/elements/element.h"
 
 Element::Element(QGraphicsObject* parent) :
 		QGraphicsObject(parent)

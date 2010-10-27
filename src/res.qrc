@@ -5,7 +5,5 @@
         <file alias="switch.png">icons/switch.png</file>
         <file alias="button.png">icons/button.png</file>
     </qresource>
-    <qresource prefix="/data">
-        <file>standartCatalog.bin</file>
-    </qresource>
+    <qresource prefix="/data"/>
 </RCC>

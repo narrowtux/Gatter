@@ -1,7 +1,7 @@
 #ifndef LAMP_H
 #define LAMP_H
-#include "defines.h"
-#include "element.h"
+#include "src/defines.h"
+#include "src/elements/element.h"
 
 class Lamp : public Element
 {

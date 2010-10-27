@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsItem>
-#include "defines.h"
+#include "src/defines.h"
 class Element;
 
 class Connection : public QObject, public QGraphicsItem

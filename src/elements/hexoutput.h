@@ -1,6 +1,6 @@
 #ifndef HEXOUTPUT_H
 #define HEXOUTPUT_H
-#include "element.h"
+#include "src/elements/element.h"
 
 class HexOutput : public Element
 {

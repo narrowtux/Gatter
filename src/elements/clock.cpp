@@ -1,4 +1,4 @@
-#include "clock.h"
+#include "src/elements/clock.h"
 
 Clock::Clock(QGraphicsObject *parent) :
     Element(parent)

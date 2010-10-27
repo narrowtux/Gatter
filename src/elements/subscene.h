@@ -1,8 +1,8 @@
 #ifndef SUBSCENE_H
 #define SUBSCENE_H
-#include "element.h"
-#include "scene.h"
-#include "mainwindow.h"
+#include "src/elements/element.h"
+#include "src/scene/scene.h"
+#include "src/widgets/mainwindow.h"
 class SubSceneInfo;
 
 class SubScene : public Element

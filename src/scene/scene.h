@@ -3,7 +3,6 @@
 
 #include <QGraphicsScene>
 #include <QtGui>
-#include "defines.h"
 #include <QGestureEvent>
 class QXmlStreamReader;
 class QXmlStreamWriter;

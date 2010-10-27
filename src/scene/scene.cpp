@@ -1,15 +1,19 @@
-#include "scene.h"
-#include "element.h"
-#include "mainwindow.h"
-#include "button.h"
-#include "clock.h"
-#include "gatter.h"
-#include "lamp.h"
-#include "switch.h"
-#include "subscene.h"
-#include "delay.h"
-#include "flipflop.h"
-#include "hexoutput.h"
+
+#include "src/scene/scene.h"
+#include "src/elements/element.h"
+
+#include "src/widgets/mainwindow.h"
+#include "src/elements/button.h"
+#include "src/elements/clock.h"
+
+#include "src/elements/gatter.h"
+#include "src/elements/lamp.h"
+#include "src/elements/switch.h"
+#include "src/elements/subscene.h"
+#include "src/elements/delay.h"
+#include "src/elements/flipflop.h"
+#include "src/elements/hexoutput.h"
+#include "src/elements/distributor.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
 #include <QMimeData>
@@ -443,6 +447,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 		return new FlipFlop;
     if(typeName=="hexoutput")
 		return new HexOutput;
+	if(typeName=="distributor")
+		return new Distributor;
     return 0;
 }
 

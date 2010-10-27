@@ -1,8 +1,8 @@
 #ifndef SWITCH_H
 #define SWITCH_H
 
-#include "defines.h"
-#include "element.h"
+#include "src/defines.h"
+#include "src/elements/element.h"
 
 class Switch : public Element
 {

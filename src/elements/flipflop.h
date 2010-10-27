@@ -1,7 +1,7 @@
 #ifndef FLIPFLOP_H
 #define FLIPFLOP_H
-#include "element.h"
-#include "enumcombobox.h"
+#include "src/elements/element.h"
+#include "src/widgets/enumcombobox.h"
 
 class FlipFlop : public Element
 {

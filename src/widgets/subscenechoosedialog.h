@@ -3,8 +3,8 @@
 
 #include <QDialog>
 #include <QtCore>
-#include "subscene.h"
-#include "subsceneinfo.h"
+#include "src/elements/subscene.h"
+#include "src/subsceneinfo.h"
 
 namespace Ui {
     class SubSceneChooseDialog;

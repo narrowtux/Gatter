@@ -1,4 +1,4 @@
-#include "subscenechoosedialog.h"
+#include "src/widgets/subscenechoosedialog.h"
 #include "ui_subscenechoosedialog.h"
 #include <QDesktopServices>
 #include <qxmlstream.h>

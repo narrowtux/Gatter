@@ -1,6 +1,7 @@
 #include "subsceneinfo.h"
-#include "scene.h"
-#include "subscene.h"
+
+#include "src/scene/scene.h"
+#include "src/elements/subscene.h"
 
 SubSceneInfo::SubSceneInfo(QObject *parent) :
     QObject(parent)

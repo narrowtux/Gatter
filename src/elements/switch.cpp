@@ -1,4 +1,4 @@
-#include "switch.h"
+#include "src/elements/switch.h"
 #include <QRadialGradient>
 
 Switch::Switch(QGraphicsObject *parent) :

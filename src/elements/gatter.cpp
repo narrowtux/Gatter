@@ -1,4 +1,5 @@
-#include "gatter.h"
+
+#include "src/elements/gatter.h"
 
 Gatter::Gatter(QGraphicsObject *parent) :
     Element(parent)

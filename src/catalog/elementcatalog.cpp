@@ -1,4 +1,4 @@
-#include "elementcatalog.h"
+#include "src/catalog/elementcatalog.h"
 #include <QtGui>
 ElementCatalog::ElementCatalog(QObject *parent)
     : QAbstractItemModel(parent)
