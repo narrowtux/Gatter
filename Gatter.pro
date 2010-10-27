@@ -11,15 +11,15 @@ TEMPLATE = app
 
 
 SOURCES += src/main.cpp\
-        src/mainwindow.cpp \
+        src/widgets/mainwindow.cpp \
     src/scene/scene.cpp \
     src/connection.cpp \
-    src/colorbutton.cpp \
-    src/settingsdialog.cpp \
-    src/subscenechoosedialog.cpp \
+    src/widgets/colorbutton.cpp \
+    src/widgets/settingsdialog.cpp \
+    src/widgets/subscenechoosedialog.cpp \
     src/subsceneinfo.cpp \
     src/loadthread.cpp \
-    src/enumcombobox.cpp \
+    src/widgets/enumcombobox.cpp \
     src/elements/hexoutput.cpp \
     src/application.cpp \
     src/scene/graphicsview.cpp \
@@ -35,7 +35,7 @@ SOURCES += src/main.cpp\
     src/elements/delay.cpp \
     src/elements/flipflop.cpp
 
-HEADERS  += src/mainwindow.h \
+HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
     src/elements/element.h \
     src/elements/gatter.h \
@@ -46,14 +46,14 @@ HEADERS  += src/mainwindow.h \
     src/elements/button.h \
     src/elements/clock.h \
     src/elements/subscene.h \
-    src/colorbutton.h \
-    src/settingsdialog.h \
-    src/subscenechoosedialog.h \
+    src/widgets/colorbutton.h \
+    src/widgets/settingsdialog.h \
+    src/widgets/subscenechoosedialog.h \
     src/subsceneinfo.h \
     src/elements/delay.h \
     src/loadthread.h \
     src/elements/flipflop.h \
-    src/enumcombobox.h \
+    src/widgets/enumcombobox.h \
     src/elements/hexoutput.h \
     src/application.h \
     src/undoactions.h \
@@ -61,9 +61,9 @@ HEADERS  += src/mainwindow.h \
     src/catalog/elementcatalog.h \
     src/catalog/catalogitem.h
 
-FORMS    += src/mainwindow.ui \
-    src/settingsdialog.ui \
-    src/subscenechoosedialog.ui
+FORMS    += src/widgets/mainwindow.ui \
+    src/widgets/settingsdialog.ui \
+    src/widgets/subscenechoosedialog.ui
 TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns
 
