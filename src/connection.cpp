@@ -191,7 +191,8 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 			lastI=0;
 		}
 		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"){
-			
+			ConnectionLine*l=static_cast<ConnectionLine*>(i);
+			l->setPen(QColor("gray"));
 		}
     } else {
 		if(line!=0){

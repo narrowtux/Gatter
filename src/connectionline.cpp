@@ -5,12 +5,13 @@
 ConnectionLine::ConnectionLine(QGraphicsItem *parent) :
     QGraphicsLineItem(parent)
 {
-	setData(ElementRecognition, "connectionline");
+	setData(ElementRecognition, QVariant("connectionline"));
 }
 
 void ConnectionLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
+	painter->setPen(pen());
 	QList<QLineF> lines=getLines();
 	foreach(QLineF l, lines){
 		painter->drawLine(l);
@@ -29,6 +30,7 @@ void ConnectionLine::setConnectionTypes(ConnectionType p1, ConnectionType p2){
 
 QPainterPath ConnectionLine::shape() const{
 	QPainterPath ret;
+//	ret.addRect(boundingRect());
 	QList<QLineF> lines=const_cast<ConnectionLine*>(this)->getLines();
 	foreach(QLineF l, lines){
 		ret.addPolygon(const_cast<ConnectionLine*>(this)->polygonFromLine(l));
@@ -54,6 +56,16 @@ QList<QLineF> ConnectionLine::getLines(){
 
 QPolygonF ConnectionLine::polygonFromLine(QLineF l, qreal radius){
 	QPolygonF ret;
-	ret<<l.p1()<<l.p2();
+	QLineF top, left, right;
+	top=QLineF::fromPolar(radius/2,l.angle()-90);
+	//top.setP1(line().p1());
+	qDebug()<<top<<l.angle();
+	right.setP1(top.p2()+l.p1());
+	right.setAngle(l.angle());
+	right.setLength(l.length());
+	left.setP1(l.p2()-top.p2());
+	left.setAngle(l.angle()+180);
+	left.setLength(l.length());
+	ret<<right.p1()<<right.p2()<<left.p1()<<left.p2();
 	return ret;
 }

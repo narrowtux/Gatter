@@ -10,7 +10,7 @@ public:
     explicit ConnectionLine(QGraphicsItem *parent = 0);
 	QRectF boundingRect() const;
 	void setConnectionTypes(ConnectionType p1, ConnectionType p2);
-	QPainterPath shape() const;
+	virtual QPainterPath shape() const;
 signals:
 
 public slots:
