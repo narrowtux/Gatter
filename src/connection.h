@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGraphicsItem>
 #include "src/defines.h"
+#include "src/connectionline.h"
 class Element;
 
 class Connection : public QObject, public QGraphicsItem
@@ -49,7 +50,7 @@ protected:
     bool poked;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     ConnectionType myConnectionType;
-    QGraphicsLineItem* line;
+    ConnectionLine* line;
     QPointF startPos;
     Connection* myConnectedTo;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

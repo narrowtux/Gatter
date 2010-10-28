@@ -148,10 +148,12 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
 			myConnectedTo->line=0;
 			myConnectedTo->update();
 			delete line;
+			line=0;
 			myConnectedTo=0;
 			update();
 		}
-		line=scene()->addLine(QLineF(event->scenePos(),event->scenePos()));
+		line=new ConnectionLine;
+		scene()->addItem(line);
 		updateLine(event->scenePos());
 		startPos=event->scenePos();
 		qDebug()<<event->scenePos();
@@ -165,7 +167,7 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 		updateLine(event->scenePos());
 		QGraphicsItem* i=((Scene*)scene())->itemAt(event->scenePos());
 		if(i!=0&&i->data(ElementRecognition).toString()=="Connection"&&i!=this){
-			if(i!=lastI&&lastI!=0){
+			if(i!=lastI&&lastI!=0&&lastI->myConnectedTo==0){
 				lastI->poke(false);
 				lastI->setValue(lastV);
 			}
@@ -201,10 +203,12 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 			} else {
 				scene()->removeItem(line);
 				delete line;
+				line=0;
 			}
 		} else {
 			scene()->removeItem(line);
 			delete line;
+			line=0;
 		}
 		poke(false);
 		pressed=0;
@@ -322,7 +326,8 @@ Connection* Connection::connectedTo(){
 
 void Connection::connectWith(Connection *c){
     if(c!=0){
-		line=new QGraphicsLineItem(0,scene());
+		line=new ConnectionLine;
+		scene()->addItem(line);
 		c->setOther(this);
 		updateLine();
     } else {

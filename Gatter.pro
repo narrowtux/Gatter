@@ -34,7 +34,8 @@ SOURCES += src/main.cpp\
     src/elements/subscene.cpp \
     src/elements/delay.cpp \
     src/elements/flipflop.cpp \
-    src/elements/distributor.cpp
+    src/elements/distributor.cpp \
+    src/connectionline.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -61,7 +62,8 @@ HEADERS  += src/widgets/mainwindow.h \
     src/scene/graphicsview.h \
     src/catalog/elementcatalog.h \
     src/catalog/catalogitem.h \
-    src/elements/distributor.h
+    src/elements/distributor.h \
+    src/connectionline.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \
