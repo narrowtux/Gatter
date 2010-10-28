@@ -87,7 +87,7 @@ public:
     
     virtual void redo(){
 	for (int i=0;i<myGenericElement.count();i++){
-	    myGenericElement[i]->setPos(newPos[i]);
+	    myGenericElement[i]->setPos(newPos[i]-QPointF(0.5,0.5));
 	}
     }
     

@@ -22,7 +22,7 @@ public slots:
 private:
 	Connection *c1, *c2;
 	QList<QLineF> getLines();
-	QPolygonF polygonFromLine(QLineF line, qreal radius=5);
+	QPolygonF polygonFromLine(QLineF line, qreal radius = 20);
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	ConnectionType t1,t2;
 };

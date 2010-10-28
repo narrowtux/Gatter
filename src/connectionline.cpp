@@ -13,15 +13,18 @@ ConnectionLine::ConnectionLine(QGraphicsItem *parent) :
 void ConnectionLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
-	painter->setPen(pen());
 	QList<QLineF> lines=getLines();
+	painter->setBrush(QColor("red"));
 	foreach(QLineF l, lines){
+		painter->setPen(pen());
 		painter->drawLine(l);
+		painter->setPen(Qt::NoPen);
+		//painter->drawPolygon(polygonFromLine(l));
 	}
 }
 
 QRectF ConnectionLine::boundingRect() const {
-	return QGraphicsLineItem::boundingRect();
+	return QGraphicsLineItem::boundingRect().adjusted(-10,-10,10,10);
 }
 
 void ConnectionLine::setConnectionTypes(ConnectionType p1, ConnectionType p2){

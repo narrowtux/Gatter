@@ -237,7 +237,7 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 					QPointF pos;
 					pos.setX(event->scenePos().x());
 					pos.setY(output->scenePos().y());
-					d->setPos(pos);
+					d->setPos(pos-QPointF(0.5,0.5));
 					d->setOutputs(2);
 					d->myInputs[0]->connectWith(output);
 					d->myOutputs[0]->connectWith(input);
