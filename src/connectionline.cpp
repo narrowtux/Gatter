@@ -29,8 +29,9 @@ void ConnectionLine::setConnectionTypes(ConnectionType p1, ConnectionType p2){
 
 QPainterPath ConnectionLine::shape() const{
 	QPainterPath ret;
-	foreach(QLineF l, getLines()){
-		ret.addPolygon(polygonFromLine(l));
+	QList<QLineF> lines=const_cast<ConnectionLine*>(this)->getLines();
+	foreach(QLineF l, lines){
+		ret.addPolygon(const_cast<ConnectionLine*>(this)->polygonFromLine(l));
 	}
 	return ret;
 }

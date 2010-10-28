@@ -191,11 +191,7 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 			lastI=0;
 		}
 		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"){
-			ConnectionLine* pointOverLine=static_cast<ConnectionLine*>(i);
-			qDebug()<<"Testing point on line";
-			if(pointOverLine->pointOnLine(event->scenePos())){
-				qDebug()<<event->scenePos()<<"is on line";
-			}
+			
 		}
     } else {
 		if(line!=0){
