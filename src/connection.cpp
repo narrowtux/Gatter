@@ -152,6 +152,10 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
 			myConnectedTo=0;
 			update();
 		}
+		if(line!=0){
+			delete line;
+			line=0;
+		}
 		line=new ConnectionLine;
 		scene()->addItem(line);
 		updateLine(event->scenePos());
@@ -186,7 +190,19 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 			lastI->setValue(lastV);
 			lastI=0;
 		}
-    }
+		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"){
+			ConnectionLine* pointOverLine=static_cast<ConnectionLine*>(i);
+			qDebug()<<"Testing point on line";
+			if(pointOverLine->pointOnLine(event->scenePos())){
+				qDebug()<<event->scenePos()<<"is on line";
+			}
+		}
+    } else {
+		if(line!=0){
+			delete line;
+			line=0;
+		}
+	}
 }
 
 void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
@@ -212,7 +228,12 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 		}
 		poke(false);
 		pressed=0;
-    }
+    }else{
+		if(line!=0){
+			delete line;
+			line=0;
+		}
+	}
 }
 
 void Connection::setOther(Connection *other){
@@ -278,6 +299,7 @@ void Connection::updateLine(QPointF toPoint, Connection*c){
 			if(c!=0)p2=c->scenePos();
 			break;
 		}
+		line->setConnectionTypes(myConnectionType,myConnectionType==Input?Output:Input);
 		if(!toPoint.isNull()){
 			p2=toPoint;
 		}
@@ -286,6 +308,10 @@ void Connection::updateLine(QPointF toPoint, Connection*c){
 			l.setLength(l.length()-2);
 		}
 		line->setLine(l);
+	}
+	if(line!=0&&myConnectedTo==0&&toPoint.isNull()&&c==0){
+		delete line;
+		line=0;
 	}
 }
 
