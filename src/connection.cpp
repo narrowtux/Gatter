@@ -7,6 +7,7 @@
 
 #include "src/scene/scene.h"
 #include "src/elements/element.h"
+#include "src/elements/distributor.h"
 Connection::Connection(QObject *parent) :
 		QObject(parent)
 {
@@ -190,10 +191,6 @@ void Connection::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 			lastI->setValue(lastV);
 			lastI=0;
 		}
-		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"){
-			ConnectionLine*l=static_cast<ConnectionLine*>(i);
-			l->setPen(QColor("gray"));
-		}
     } else {
 		if(line!=0){
 			delete line;
@@ -223,6 +220,26 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 			delete line;
 			line=0;
 		}
+		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"&&myConnectionType==Input){
+					//Connect lines
+					ConnectionLine* li=static_cast<ConnectionLine*>(i);
+					Scene* sc=static_cast<Scene*>(scene());
+					Distributor* d=new Distributor;
+					sc->addElement(d);
+					d->setPos(event->scenePos());
+					Connection *input, *output;
+					if(li->connection1()->myConnectionType==Input){
+						input=li->connection1();
+						output=li->connection2();
+					} else {
+						input=li->connection2();
+						output=li->connection1();
+					}
+					d->setOutputs(2);
+					d->myInputs[0]->connectWith(output);
+					d->myOutputs[0]->connectWith(input);
+					d->myOutputs[1]->connectWith(this);
+				} 
 		poke(false);
 		pressed=0;
     }else{
@@ -297,6 +314,7 @@ void Connection::updateLine(QPointF toPoint, Connection*c){
 			break;
 		}
 		line->setConnectionTypes(myConnectionType,myConnectionType==Input?Output:Input);
+		line->setConnections(this,c);
 		if(!toPoint.isNull()){
 			p2=toPoint;
 		}

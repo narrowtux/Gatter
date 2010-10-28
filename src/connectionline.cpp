@@ -2,10 +2,12 @@
 #include <QPainter>
 #include <QDebug>
 #include "src/defines.h"
+#include "src/connection.h"
 ConnectionLine::ConnectionLine(QGraphicsItem *parent) :
     QGraphicsLineItem(parent)
 {
 	setData(ElementRecognition, QVariant("connectionline"));
+	setConnections(0,0);
 }
 
 void ConnectionLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -69,3 +71,17 @@ QPolygonF ConnectionLine::polygonFromLine(QLineF l, qreal radius){
 	ret<<right.p1()<<right.p2()<<left.p1()<<left.p2();
 	return ret;
 }
+
+void ConnectionLine::setConnections(Connection *co1, Connection *co2){
+	c1=co1;
+	c2=co2;
+}
+
+Connection* ConnectionLine::connection1(){
+	return c1;
+}
+
+Connection* ConnectionLine::connection2(){
+	return c2;
+}
+

@@ -6,7 +6,7 @@ Distributor::Distributor(QGraphicsObject *parent) :
 	width=10;
 	height=10;
 	setMinMaxInputsOutputs(1,1,1,8);
-	setInputs(3);
+	setOutputs(3);
 	myType="distributor";
 }
 
