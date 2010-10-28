@@ -226,7 +226,6 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 					Scene* sc=static_cast<Scene*>(scene());
 					Distributor* d=new Distributor;
 					sc->addElement(d);
-					d->setPos(event->scenePos());
 					Connection *input, *output;
 					if(li->connection1()->myConnectionType==Input){
 						input=li->connection1();
@@ -235,6 +234,10 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 						input=li->connection2();
 						output=li->connection1();
 					}
+					QPointF pos;
+					pos.setX(event->scenePos().x());
+					pos.setY(output->scenePos().y());
+					d->setPos(pos);
 					d->setOutputs(2);
 					d->myInputs[0]->connectWith(output);
 					d->myOutputs[0]->connectWith(input);

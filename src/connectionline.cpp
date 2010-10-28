@@ -32,7 +32,6 @@ void ConnectionLine::setConnectionTypes(ConnectionType p1, ConnectionType p2){
 
 QPainterPath ConnectionLine::shape() const{
 	QPainterPath ret;
-//	ret.addRect(boundingRect());
 	QList<QLineF> lines=const_cast<ConnectionLine*>(this)->getLines();
 	foreach(QLineF l, lines){
 		ret.addPolygon(const_cast<ConnectionLine*>(this)->polygonFromLine(l));
@@ -61,7 +60,6 @@ QPolygonF ConnectionLine::polygonFromLine(QLineF l, qreal radius){
 	QLineF top, left, right;
 	top=QLineF::fromPolar(radius/2,l.angle()-90);
 	//top.setP1(line().p1());
-	qDebug()<<top<<l.angle();
 	right.setP1(top.p2()+l.p1());
 	right.setAngle(l.angle());
 	right.setLength(l.length());

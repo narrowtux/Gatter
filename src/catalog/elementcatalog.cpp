@@ -255,7 +255,6 @@ void ElementCatalog::save(QString fileName){
 	file.open(QIODevice::WriteOnly);
 	QVariant vars;
 	vars=rootItem->saveData();
-	qDebug()<<vars;
 	QDataStream ds(&file);
 	ds<<vars;
 	file.close();
