@@ -55,7 +55,7 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 		painter->setPen(QColor("black"));
 		painter->drawText(upper, "ON",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
 		painter->setPen(QColor("gray"));
-		painter->drawText(lower, "OFF",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
+		painter->drawText(lower.adjusted(0,0,-1,0), "OFF",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
 		
     } else {
 		painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
@@ -64,7 +64,7 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 		painter->setPen(QColor("black"));
 		painter->drawText(lower, "OFF", QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
 		painter->setPen(QColor("gray"));
-		painter->drawText(upper, "ON",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
+		painter->drawText(upper.adjusted(0,1,0,0), "ON",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
     }
 }
 
