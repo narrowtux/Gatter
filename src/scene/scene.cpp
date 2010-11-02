@@ -12,7 +12,7 @@
 #include "src/elements/subscene.h"
 #include "src/elements/delay.h"
 #include "src/elements/flipflop.h"
-#include "src/elements/hexoutput.h"
+#include "src/elements/sevensegmentoutput.h"
 #include "src/elements/distributor.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
@@ -446,7 +446,7 @@ Element* Scene::getElementFromTypeName(QString typeName){
     if(typeName=="flipflop")
 		return new FlipFlop;
     if(typeName=="hexoutput")
-		return new HexOutput;
+		return new SevenSegmentOutput;
 	if(typeName=="distributor")
 		return new Distributor;
     return 0;

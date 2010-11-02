@@ -1,6 +1,6 @@
-#include "hexoutput.h"
+#include "sevensegmentoutput.h"
 
-HexOutput::HexOutput(QGraphicsObject *parent) :
+SevenSegmentOutput::SevenSegmentOutput(QGraphicsObject *parent) :
     Element(parent)
 {
     width=50;
@@ -13,7 +13,7 @@ HexOutput::HexOutput(QGraphicsObject *parent) :
     myType="hexoutput";
 }
 
-void HexOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void SevenSegmentOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Element::paint(painter,option,widget);
     QPen onPen("red");
     onPen.setWidth(3);
@@ -46,11 +46,11 @@ void HexOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 }
 
-QRectF HexOutput::boundingRect() const{
+QRectF SevenSegmentOutput::boundingRect() const{
     return QRectF(-25,-25,width,height);
 }
 
-void HexOutput::recalculate(){
+void SevenSegmentOutput::recalculate(){
     for (int i=0;i<7;i++){
 	values[i]=myInputs[i]->value();
     }

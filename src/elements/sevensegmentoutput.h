@@ -2,11 +2,11 @@
 #define HEXOUTPUT_H
 #include "src/elements/element.h"
 
-class HexOutput : public Element
+class SevenSegmentOutput : public Element
 {
     Q_OBJECT
 public:
-    explicit HexOutput(QGraphicsObject *parent = 0);
+    explicit SevenSegmentOutput(QGraphicsObject *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:

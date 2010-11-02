@@ -19,7 +19,7 @@
 #include "src/elements/delay.h"
 #include <qxmlstream.h>
 #include "src/elements/flipflop.h"
-#include "src/elements/hexoutput.h"
+#include "src/elements/sevensegmentoutput.h"
 #include "src/undoactions.h"
 #include "src/elements/distributor.h"
 
@@ -584,7 +584,7 @@ void MainWindow::on_actionInsertFlipflop_triggered()
 
 void MainWindow::on_actionInsertHexOutput_triggered()
 {
-    myUndoStack->push(new AddElement(new HexOutput,myScene->lastMousePos,this));
+    myUndoStack->push(new AddElement(new SevenSegmentOutput,myScene->lastMousePos,this));
 }
 
 

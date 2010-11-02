@@ -12,7 +12,7 @@
 #include "src/elements/subscene.h"
 #include "src/elements/delay.h"
 #include "src/elements/flipflop.h"
-#include "src/elements/hexoutput.h"
+#include "src/elements/sevensegmentoutput.h"
 
 #include "src/widgets/mainwindow.h"
 

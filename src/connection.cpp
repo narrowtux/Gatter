@@ -20,10 +20,11 @@ Connection::Connection(QObject *parent) :
     myConnectedTo=0;
     lastI=0;
     line=0;
+	label=0;
     poked=false;
     setAcceptHoverEvents(true);
-    label=new QGraphicsTextItem(this);
-    label->setAcceptHoverEvents(false);
+    //label=new QGraphicsTextItem(this);
+    //label->setAcceptHoverEvents(false);
     myClock=false;
 	lastV=false;
 	lastVInit=false;
@@ -128,7 +129,8 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		}else {
 			painter->drawLine(QPointF(0,0),QPointF(20,0));
 		}
-		label->setPos(0,-20);
+		if(label!=0)
+			label->setPos(0,-20);
 		break;
     case Output:
 		if(isNegated()){
@@ -137,7 +139,8 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		}else {
 			painter->drawLine(QPointF(0,0),QPointF(20,0));
 		}
-		label->setPos(-20,-10);
+		if(label!=0)
+			label->setPos(-20,-10);
 		break;
     }
 }
@@ -342,14 +345,7 @@ Connection::~Connection()
 
 void Connection::setName(QString name){
     myName=name;
-    QFont f;
-    if(name.contains('*')){
-		f.setOverline(true);
-		name.replace('*',"");
-    }
-    label->setFont(f);
-    label->setPlainText(name);
-	
+    myElement->update();
 }
 
 QString Connection::name(){

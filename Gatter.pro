@@ -20,7 +20,7 @@ SOURCES += src/main.cpp\
     src/subsceneinfo.cpp \
     src/loadthread.cpp \
     src/widgets/enumcombobox.cpp \
-    src/elements/hexoutput.cpp \
+    src/elements/sevensegmentoutput.cpp \
     src/application.cpp \
     src/scene/graphicsview.cpp \
     src/catalog/elementcatalog.cpp \
@@ -56,7 +56,7 @@ HEADERS  += src/widgets/mainwindow.h \
     src/loadthread.h \
     src/elements/flipflop.h \
     src/widgets/enumcombobox.h \
-    src/elements/hexoutput.h \
+    src/elements/sevensegmentoutput.h \
     src/application.h \
     src/undoactions.h \
     src/scene/graphicsview.h \

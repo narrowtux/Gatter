@@ -459,6 +459,46 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawEllipse(boundingRect().bottomRight()+QPointF(-5,-5),1,1);
     painter->setPen(QColor("black"));
     painter->setBrush(Qt::NoBrush);
+	
+	//Draw labels
+	QFont font=painter->font();
+	
+	foreach(Connection*c, myInputs){
+		QString name=c->name();
+		QPointF pos=c->pos();
+		QRectF rect(boundingRect().left()+3,pos.y()-10,20,20);
+		if(name.contains("*")){
+			name.remove("*");
+			font.setOverline(true);
+		}else{
+			font.setOverline(false);
+		}
+		painter->setFont(font);
+		if(name!="C")
+			painter->drawText(rect, name, QTextOption(Qt::AlignLeft|Qt::AlignVCenter));
+		else {
+			rect.setLeft(boundingRect().left());
+			QPolygonF poly;
+			poly<<rect.topLeft()+QPointF(1,5)
+			    <<QPointF(rect.right()-10,(rect.top()+rect.bottom())/2)
+				<<rect.bottomLeft()-QPointF(-1,5);
+			painter->drawPolyline(poly);
+		}
+	}
+	
+	foreach(Connection*c, myOutputs){
+		QString name=c->name();
+		QPointF pos=c->pos();
+		QRectF rect(boundingRect().right()-23,pos.y()-10,20,20);
+		if(name.contains("*")){
+			name.remove("*");
+			font.setOverline(true);
+		}else{
+			font.setOverline(false);
+		}
+		painter->setFont(font);
+		painter->drawText(rect, name, QTextOption(Qt::AlignRight|Qt::AlignVCenter));
+	}
 }
 
 void Element::setPos(const QPointF &pos){
