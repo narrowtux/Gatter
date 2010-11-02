@@ -12,6 +12,7 @@ public:
 private:
     void recalculate();
     QList<bool> values;
+	QPolygonF segmentPolygon();
 signals:
 
 public slots:
