@@ -65,11 +65,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	QSettings settings;
 	Element::rotationSteps=settings.value("rotationSteps",90).toReal();
     
-	sceneFitRect=new QGraphicsRectItem;
-	myScene->addItem(sceneFitRect);
-	sceneFitRect->setBrush(Qt::NoBrush);
-	sceneFitRect->setPen(Qt::NoPen);
-	updateSceneRect();
+//	sceneFitRect=new QGraphicsRectItem;
+//	myScene->addItem(sceneFitRect);
+//	sceneFitRect->setBrush(Qt::NoBrush);
+//	sceneFitRect->setPen(Qt::NoPen);
+//	updateSceneRect();
 	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
@@ -233,7 +233,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
-    updateSceneRect();
+    //updateSceneRect();
 }
 
 
@@ -733,4 +733,13 @@ void MainWindow::on_actionLayoutMiddle_triggered()
 void MainWindow::on_toolRemoveTemplate_clicked()
 {
     elementCatalog->removeRows(ui->elementCatalog->selectionModel()->currentIndex().row(),1,ui->elementCatalog->selectionModel()->currentIndex().parent());
+}
+
+void MainWindow::on_actionNew_GraphicsView_triggered()
+{
+    GraphicsView*tmp=new GraphicsView;
+	tmp->setScene(scene());
+	delete ui->graphicsView;
+	ui->graphicsView=tmp;
+	ui->centralWidget->layout()->addWidget(tmp);
 }

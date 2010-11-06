@@ -487,30 +487,6 @@ MainWindow* Scene::mainWindow(){
     return myMainWindow;
 }
 
-QGraphicsItem* Scene::itemAt(const QPointF &pos) const{
-    QGraphicsItem* item=QGraphicsScene::itemAt(pos), *realItem;
-    if(item==0){
-		return 0;
-    }
-    if(item->parentItem()->data(ElementRecognition).toString()=="Connection"){
-		QPointF itemPos=item->pos();
-		item->setPos(itemPos+QPointF(100,100));
-		realItem=QGraphicsScene::itemAt(pos);
-		item->setPos(itemPos);
-		return realItem;
-    }
-    return QGraphicsScene::itemAt(pos);
-}
-
-bool Scene::event(QEvent *event){
-    //qDebug()<<event->type();
-    return QGraphicsScene::event(event);
-}
-
-bool Scene::gestureEvent(QGestureEvent *event){
-    return true;
-}
-
 void Scene::dropEvent(QGraphicsSceneDragDropEvent *event){
     const QMimeData*data=event->mimeData();
     if(data->hasFormat("text/gatterxml")){

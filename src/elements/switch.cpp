@@ -1,5 +1,6 @@
 #include "src/elements/switch.h"
 #include <QRadialGradient>
+#include "src/widgets/qkeysequencewidget/src/qkeysequencewidget.h"
 
 Switch::Switch(QGraphicsObject *parent) :
 		Element(parent)
@@ -12,6 +13,11 @@ Switch::Switch(QGraphicsObject *parent) :
     setMinMaxInputsOutputs(0,0,1,1);
     myType="switch";
     tr("Switch");
+	shortcut=0;
+}
+
+Switch::~Switch(){
+	delete shortcut;
 }
 
 void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -96,10 +102,14 @@ QRectF Switch::boundingRect() const
 
 void Switch::setPrivateXml(QXmlStreamWriter *xml){
     xml->writeAttribute("value",myValue?"true":"false");
+	xml->writeAttribute("shortcut", shortcut->key().toString());
 }
 
 void Switch::readPrivateXml(QXmlStreamReader *xml){
     myValue=(xml->attributes().value("value").toString()=="true"?1:0);
+	if(shortcut!=0){
+		shortcut->setKey(QKeySequence::fromString(xml->attributes().value("shortcut").toString()));
+	}
     foreach(Connection* c, myOutputs){
 		c->setValue(myValue);
     }
@@ -115,4 +125,37 @@ void Switch::setInput(bool svalue){
     foreach(Connection* c, myOutputs){
 		c->setValue(myValue);
     }
+}
+
+bool Switch::createFormBefore(){
+	QKeySequence seq;
+	if(shortcut!=0){
+		seq=shortcut->key();
+	}
+	QKeySequenceWidget *key=new QKeySequenceWidget(seq,tr("No Key"));
+	QLabel *lab=new QLabel(tr("Shortcut"));
+	layout->addRow(lab,key);
+	additionalWidgets<<key<<lab;
+	connect(key, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(changeKeySequence(QKeySequence)));
+	return true;
+}
+
+void Switch::changeKeySequence(const QKeySequence &seq){
+	if(shortcut!=0)
+		shortcut->setKey(seq);
+}
+
+void Switch::keyTriggered(){
+	setInput(!myValue);
+}
+
+QVariant Switch::itemChange(GraphicsItemChange change, const QVariant &value){
+	QVariant ret=Element::itemChange(change,value);
+	if(change==ItemSceneHasChanged){
+		if(!value.value<QGraphicsScene*>()==0){
+			shortcut=new QShortcut((QWidget*)(static_cast<Scene*>(scene()))->mainWindow());	
+			connect(shortcut, SIGNAL(activated()), this, SLOT(keyTriggered()));		
+		}
+	}
+	return ret;
 }

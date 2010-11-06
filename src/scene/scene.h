@@ -33,7 +33,6 @@ public:
     bool isBlank();
     bool isLoading();
     MainWindow* mainWindow();
-    QGraphicsItem *itemAt(const QPointF &pos) const;
     QPointF lastMousePos;
     void paste(const QMimeData* mimeData, QPointF pos);
     QString copy(QList<Element*> elements);
@@ -49,8 +48,6 @@ protected:
     bool wantsToDrag;
     bool blank;
     bool loads;
-    bool event(QEvent *event);
-    bool gestureEvent(QGestureEvent* event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);

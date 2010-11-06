@@ -77,7 +77,8 @@ private:
     
     static ElementCatalog* elementCatalog;
 private slots:
-	void addLabel();
+	void on_actionNew_GraphicsView_triggered();
+ void addLabel();
 	void addFromFile();
     void on_toolRemoveTemplate_clicked();
     void readSettings();

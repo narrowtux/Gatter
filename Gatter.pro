@@ -35,7 +35,8 @@ SOURCES += src/main.cpp\
     src/elements/delay.cpp \
     src/elements/flipflop.cpp \
     src/elements/distributor.cpp \
-    src/connectionline.cpp
+    src/connectionline.cpp \
+    src/widgets/qkeysequencewidget/src/qkeysequencewidget.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -63,7 +64,9 @@ HEADERS  += src/widgets/mainwindow.h \
     src/catalog/elementcatalog.h \
     src/catalog/catalogitem.h \
     src/elements/distributor.h \
-    src/connectionline.h
+    src/connectionline.h \
+    src/widgets/qkeysequencewidget/src/qkeysequencewidget.h \
+    src/widgets/qkeysequencewidget/src/qkeysequencewidget_p.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \
@@ -72,4 +75,7 @@ TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns
 
 RESOURCES += \
-    src/res.qrc
+    src/res.qrc \
+    src/widgets/qkeysequencewidget/qkeysequencewidget.qrc
+
+OTHER_FILES +=

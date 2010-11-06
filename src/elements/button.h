@@ -6,7 +6,8 @@ class Button : public Switch
     Q_OBJECT
 public:
     explicit Button(QGraphicsObject *parent = 0);
-
+public slots:
+	void keyTriggered();
 signals:
 
 private slots:

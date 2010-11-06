@@ -10,6 +10,8 @@ GraphicsView::GraphicsView(QWidget *parent) :
     grabGesture(Qt::PinchGesture);
     myScaleFactor=1;
     currentStepScaleFactor=1;
+	setRenderHint(QPainter::Antialiasing, true);
+	setFrameStyle(0);
 }
 
 bool GraphicsView::event(QEvent *event){

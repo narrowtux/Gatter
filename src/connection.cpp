@@ -66,6 +66,13 @@ void Connection::setValue(bool v)
 				}
 			}
 		}
+		if(myConnectionType==Input&&line!=0){
+			if(endValue){
+				//line->setPen(Scene::highValueColor);
+			} else {
+				//line->setPen(QColor(0,0,0));
+			}
+		}
 		update();
     }
     lastValue=myValue;
@@ -224,28 +231,28 @@ void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 			line=0;
 		}
 		if(i!=0&&i->data(ElementRecognition).toString()=="connectionline"&&myConnectionType==Input){
-					//Connect lines
-					ConnectionLine* li=static_cast<ConnectionLine*>(i);
-					Scene* sc=static_cast<Scene*>(scene());
-					Distributor* d=new Distributor;
-					sc->addElement(d);
-					Connection *input, *output;
-					if(li->connection1()->myConnectionType==Input){
-						input=li->connection1();
-						output=li->connection2();
-					} else {
-						input=li->connection2();
-						output=li->connection1();
-					}
-					QPointF pos;
-					pos.setX(event->scenePos().x());
-					pos.setY(output->scenePos().y());
-					d->setPos(pos-QPointF(0.5,0.5));
-					d->setOutputs(2);
-					d->myInputs[0]->connectWith(output);
-					d->myOutputs[0]->connectWith(input);
-					d->myOutputs[1]->connectWith(this);
-				} 
+			//Connect lines
+			ConnectionLine* li=static_cast<ConnectionLine*>(i);
+			Scene* sc=static_cast<Scene*>(scene());
+			Distributor* d=new Distributor;
+			sc->addElement(d);
+			Connection *input, *output;
+			if(li->connection1()->myConnectionType==Input){
+				input=li->connection1();
+				output=li->connection2();
+			} else {
+				input=li->connection2();
+				output=li->connection1();
+			}
+			QPointF pos;
+			pos.setX(event->scenePos().x());
+			pos.setY(output->scenePos().y());
+			d->setPos(pos-QPointF(0.5,0.5));
+			d->setOutputs(2);
+			d->myInputs[0]->connectWith(output);
+			d->myOutputs[0]->connectWith(input);
+			d->myOutputs[1]->connectWith(this);
+		} 
 		poke(false);
 		pressed=0;
     }else{
