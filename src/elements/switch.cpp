@@ -154,7 +154,8 @@ QVariant Switch::itemChange(GraphicsItemChange change, const QVariant &value){
 	if(change==ItemSceneHasChanged){
 		if(!value.value<QGraphicsScene*>()==0){
 			shortcut=new QShortcut((QWidget*)(static_cast<Scene*>(scene()))->mainWindow());	
-			connect(shortcut, SIGNAL(activated()), this, SLOT(keyTriggered()));		
+			connect(shortcut, SIGNAL(activated()), this, SLOT(keyTriggered()));
+			connect(shortcut, SIGNAL(activatedAmbiguously()), this, SLOT(keyTriggered()));
 		}
 	}
 	return ret;
