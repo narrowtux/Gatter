@@ -2,7 +2,7 @@
 #include <QInputDialog>
 #include <QtGui>
 FlipFlop::FlipFlop(QGraphicsObject *parent) :
-    Element(parent)
+		Element(parent)
 {
     height=50;
     minHeight=50;
@@ -39,94 +39,94 @@ void FlipFlop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 void FlipFlop::setClockNegated(bool owv){
     //myOnWhichValue=owv;
     if(myFlipFlopTrigger!=None){
-	myInputs[1]->setNegated(owv);
+		myInputs[1]->setNegated(owv);
     }
     update();
 }
 
 void FlipFlop::setFlipFlopType(FlipFlopType type){
     foreach(Connection*c, myInputs){
-	//Clear Slot connections
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(set(bool)));
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(reset(bool)));
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(jump(bool)));
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(kill(bool)));
-	disconnect(c,SIGNAL(changed(bool)),this,SLOT(other(bool)));
+		//Clear Slot connections
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(set(bool)));
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(reset(bool)));
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(jump(bool)));
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(kill(bool)));
+		disconnect(c,SIGNAL(changed(bool)),this,SLOT(other(bool)));
     }
-
+	
     myFlipFlopType=type;
     switch(type){
     case SetReset:
-	if(myFlipFlopTrigger==None){
-	    setMinMaxInputsOutputs(2,2,2,2);
-	    myInputs.at(0)->setName("S");
-	    connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(set(bool)));
-	    myInputs.at(1)->setName("R");
-	    connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(reset(bool)));
-	} else {
-	    setMinMaxInputsOutputs(3,3,2,2);
-	    myInputs.at(0)->setName("S");
-	    connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(set(bool)));
-	    myInputs.at(1)->setName("C");
-	    connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	    myInputs.at(1)->setClock(true);
-	    myInputs.at(2)->setName("R");
-	    connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(reset(bool)));
-	}
-	myOutputs.at(0)->setName("Q");
-	myOutputs.at(1)->setName("Q*");
-	break;
+		if(myFlipFlopTrigger==None){
+			setMinMaxInputsOutputs(2,2,2,2);
+			myInputs.at(0)->setName("S");
+			connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(set(bool)));
+			myInputs.at(1)->setName("R");
+			connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(reset(bool)));
+		} else {
+			setMinMaxInputsOutputs(3,3,2,2);
+			myInputs.at(0)->setName("S");
+			connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(set(bool)));
+			myInputs.at(1)->setName("C");
+			connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+			myInputs.at(1)->setClock(true);
+			myInputs.at(2)->setName("R");
+			connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(reset(bool)));
+		}
+		myOutputs.at(0)->setName("Q");
+		myOutputs.at(1)->setName("Q*");
+		break;
     case JumpKill:
-	if(myFlipFlopTrigger==None){
-	    setFlipFlopTrigger(OnSwitching,false);
-	}
-	setMinMaxInputsOutputs(3,3,2,2);
-	myInputs.at(0)->setName("J");
-	connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(jump(bool)));
-	myInputs.at(1)->setName("C");
-	connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	myInputs.at(1)->setClock(true);
-	myInputs.at(2)->setName("K");
-	connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(kill(bool)));
-	myOutputs.at(0)->setName("Q");
-	myOutputs.at(1)->setName("Q*");
-	break;
+		if(myFlipFlopTrigger==None){
+			setFlipFlopTrigger(OnSwitching,false);
+		}
+		setMinMaxInputsOutputs(3,3,2,2);
+		myInputs.at(0)->setName("J");
+		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(jump(bool)));
+		myInputs.at(1)->setName("C");
+		connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		myInputs.at(1)->setClock(true);
+		myInputs.at(2)->setName("K");
+		connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(kill(bool)));
+		myOutputs.at(0)->setName("Q");
+		myOutputs.at(1)->setName("Q*");
+		break;
     case MasterSlave:
-	setFlipFlopTrigger(OnSwitching, false);
-	setMinMaxInputsOutputs(3,3,2,2);
-	myInputs.at(0)->setName("J");
-	connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(jump(bool)));
-	myInputs.at(1)->setName("C");
-	connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	myInputs.at(1)->setClock(true);
-	myInputs.at(2)->setName("K");
-	connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(kill(bool)));
-	myOutputs.at(0)->setName("Q");
-	myOutputs.at(1)->setName("Q*");
-	break;
+		setFlipFlopTrigger(OnSwitching, false);
+		setMinMaxInputsOutputs(3,3,2,2);
+		myInputs.at(0)->setName("J");
+		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(jump(bool)));
+		myInputs.at(1)->setName("C");
+		connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		myInputs.at(1)->setClock(true);
+		myInputs.at(2)->setName("K");
+		connect(myInputs.at(2),SIGNAL(changed(bool)),this,SLOT(kill(bool)));
+		myOutputs.at(0)->setName("Q");
+		myOutputs.at(1)->setName("Q*");
+		break;
     case Delay:
-	setFlipFlopTrigger(OnSwitching, false);
-	setMinMaxInputsOutputs(2,2,2,2);
-	myInputs.at(0)->setName("D");
-	connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(other(bool)));
-	myInputs.at(1)->setName("C");
-	connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	myInputs.at(1)->setClock(true);
-	myOutputs.at(0)->setName("Q");
-	myOutputs.at(1)->setName("Q*");
-	break;
+		setFlipFlopTrigger(OnSwitching, false);
+		setMinMaxInputsOutputs(2,2,2,2);
+		myInputs.at(0)->setName("D");
+		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(other(bool)));
+		myInputs.at(1)->setName("C");
+		connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		myInputs.at(1)->setClock(true);
+		myOutputs.at(0)->setName("Q");
+		myOutputs.at(1)->setName("Q*");
+		break;
     case Toggle:
-	setFlipFlopTrigger(OnSwitching, false);
-	setMinMaxInputsOutputs(2,2,2,2);
-	myInputs.at(0)->setName("1");
-	connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(other(bool)));
-	myInputs.at(1)->setName("C");
-	connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-	myInputs.at(1)->setClock(true);
-	myOutputs.at(0)->setName("Q");
-	myOutputs.at(1)->setName("Q*");
-	break;
+		setFlipFlopTrigger(OnSwitching, false);
+		setMinMaxInputsOutputs(2,2,2,2);
+		myInputs.at(0)->setName("1");
+		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(other(bool)));
+		myInputs.at(1)->setName("C");
+		connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		myInputs.at(1)->setClock(true);
+		myOutputs.at(0)->setName("Q");
+		myOutputs.at(1)->setName("Q*");
+		break;
     }
     update();
 }
@@ -135,19 +135,19 @@ void FlipFlop::setFlipFlopTrigger(FlipFlopTrigger clock, bool spontaneous){
     myFlipFlopTrigger=clock;
     switch(clock){
     case None:
-	if(myFlipFlopType==MasterSlave||myFlipFlopType==Delay||myFlipFlopType==Toggle){
-	    myFlipFlopTrigger=OnSwitching;
-	}
-	break;
+		if(myFlipFlopType==MasterSlave||myFlipFlopType==Delay||myFlipFlopType==Toggle){
+			myFlipFlopTrigger=OnSwitching;
+		}
+		break;
     case OnValue:
-	if(myFlipFlopType==MasterSlave||myFlipFlopType==Delay||myFlipFlopType==Toggle){
-	    myFlipFlopTrigger=OnSwitching;
-	}
-	setClockNegated(false);
-	break;
+		if(myFlipFlopType==MasterSlave||myFlipFlopType==Delay||myFlipFlopType==Toggle){
+			myFlipFlopTrigger=OnSwitching;
+		}
+		setClockNegated(false);
+		break;
     case OnSwitching:
-	setClockNegated(false);
-	break;
+		setClockNegated(false);
+		break;
     }
     if(spontaneous) setFlipFlopType(myFlipFlopType);
     update();
@@ -165,132 +165,130 @@ void FlipFlop::recalculate(){
 
 void FlipFlop::set(bool v){
     if(v==1){
-	switch(myFlipFlopTrigger){
-	case None:
-	    myValue=1;
-	    recalculate();
-	    break;
-	case OnValue:
-	    if(myInputs[1]->value()==myOnWhichValue){
-		myValue=1;
-		recalculate();
-	    }
-	    break;
+		switch(myFlipFlopTrigger){
+		case None:
+			myValue=1;
+			recalculate();
+			break;
+		case OnValue:
+			if(myInputs[1]->value()==myOnWhichValue){
+				myValue=1;
+				recalculate();
+			}
+			break;
 	case OnSwitching:
-	    break;
-	}
+			break;
+		}
     }
 }
 
 void FlipFlop::reset(bool v){
     if(v==1){
-	switch(myFlipFlopTrigger){
-	case None:
-	    myValue=0;
-	    recalculate();
-	    break;
-	case OnValue:
-	    if(myInputs[1]->value()==myOnWhichValue){
-		myValue=0;
-		recalculate();
-	    }
-	    break;
+		switch(myFlipFlopTrigger){
+		case None:
+			myValue=0;
+			recalculate();
+			break;
+		case OnValue:
+			if(myInputs[1]->value()==myOnWhichValue){
+				myValue=0;
+				recalculate();
+			}
+			break;
 	case OnSwitching:
-	    break;
-	}
+			break;
+		}
     }
 }
 
 void FlipFlop::clock(bool v){
     switch(myFlipFlopType){
     case SetReset:
-	if(v==myOnWhichValue){
-	    if(myInputs[0]->value()){
-		myValue=1;
-	    }
-	    if(myInputs[2]->value()){
-		myValue=0;
-	    }
-	    recalculate();
-	}
-	break;
+		if(v==myOnWhichValue){
+			if(myInputs[0]->value()){
+				myValue=1;
+			}
+			if(myInputs[2]->value()){
+				myValue=0;
+			}
+			recalculate();
+		}
+		break;
     case JumpKill:
-	if(v==myOnWhichValue){
-	    if(myInputs[0]->value()){
-		myValue=1;
-	    }
-	    if(myInputs[2]->value()){
-		myValue=0;
-	    }
-	    if(myInputs[0]->value()&&myInputs[2]->value()){
-		myValue=!myValue;
-	    }
-	    recalculate();
-	}
-	break;
+		if(v==myOnWhichValue){
+			if(myInputs[0]->value()){
+				myValue=1;
+			}
+			if(myInputs[2]->value()){
+				myValue=0;
+			}
+			if(myInputs[0]->value()&&myInputs[2]->value()){
+				myValue=!myValue;
+			}
+			recalculate();
+		}
+		break;
     case MasterSlave:
-	if(v==myOnWhichValue){
-	    if(myInputs[0]->value()){
-		myBetweenValue=1;
-	    }
-	    if(myInputs[2]->value()){
-		myBetweenValue=0;
-	    }
-	    if(myInputs[0]->value()&&myInputs[2]->value()){
-		myBetweenValue=!myValue;
-	    }
-	} else {
-	    myValue=myBetweenValue;
-	    recalculate();
-	}
-	break;
+		if(v==myOnWhichValue){
+			if(myInputs[0]->value()){
+				myBetweenValue=1;
+			}
+			if(myInputs[2]->value()){
+				myBetweenValue=0;
+			}
+			if(myInputs[0]->value()&&myInputs[2]->value()){
+				myBetweenValue=!myValue;
+			}
+		} else {
+			myValue=myBetweenValue;
+			recalculate();
+		}
+		break;
     case Delay:
-	
-	break;
+		
+		break;
     case Toggle:
-	if(v==myOnWhichValue){
-	    if(myInputs[0]->value()){
-		qDebug()<<"Toggled"<<property("toggles").toInt();
-		setProperty("toggles",property("toggles").toInt()+1);
-		myValue=!myValue;
-		recalculate();
-	    }
-	}
-	break;
+		if(v==myOnWhichValue){
+			if(myInputs[0]->value()){
+				myValue=!myValue;
+				recalculate();
+			}
+		}
+		break;
     }
 }
 
 void FlipFlop::jump(bool v){
     switch(myFlipFlopType){
     default:
-	break;
+		break;
     case JumpKill:
-	if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
-	    if(myInputs[2]->value()){
-		myValue=!myValue;
-	    } else {
-		myValue=1;
-	    }
-	}
-	recalculate();
-	break;
+		if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
+			if(myInputs[2]->value()){
+				myValue=!myValue;
+			} else {
+				myValue=1;
+			}
+		}
+		recalculate();
+		break;
     }
 }
 
 void FlipFlop::kill(bool v){
     switch(myFlipFlopType){
     default:
-	break;
+		break;
     case JumpKill:
-	if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
-	    if(myInputs[0]->value()){
-		myValue=!myValue;
-	    } else {
-		myValue=0;
-	    }
-	}
-	recalculate();
-	break;
+		if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
+			if(myInputs[0]->value()){
+				myValue=!myValue;
+			} else {
+				myValue=0;
+			}
+		}
+		recalculate();
+		break;
     }
 }
 
@@ -320,10 +318,10 @@ bool FlipFlop::createFormBefore(){
     QLabel *typeLabel=new QLabel(tr("Type")), *triggerLabel=new QLabel(tr("Trigger")), *onWhichValueLabel=new QLabel(tr("Negate Clock"));
     negateBox=new QCheckBox;
     if(myFlipFlopTrigger!=None){
-	negateBox->setChecked(myInputs[1]->isNegated());
+		negateBox->setChecked(myInputs[1]->isNegated());
     } else {
-	negateBox->setDisabled(true);
-	negateBox->setChecked(false);
+		negateBox->setDisabled(true);
+		negateBox->setChecked(false);
     }
     connect(negateBox,SIGNAL(clicked(bool)),this,SLOT(setClockNegated(bool)));
     additionalWidgets<<typeBox<<triggerBox<<typeLabel<<triggerLabel<<onWhichValueLabel<<negateBox;
@@ -344,9 +342,9 @@ void FlipFlop::onTriggerBoxChanged(int t){
     setFlipFlopTrigger(static_cast<FlipFlopTrigger>(t));
     triggerBox->setCurrentIndex(myFlipFlopTrigger);
     if(myFlipFlopTrigger==None){
-	negateBox->setDisabled(true);
+		negateBox->setDisabled(true);
     } else {
-	negateBox->setEnabled(true);
+		negateBox->setEnabled(true);
     }
 }
 

@@ -9,6 +9,7 @@ public:
     explicit Distributor(QGraphicsObject *parent = 0);
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+	QPainterPath shape() const;
 signals:
 
 public slots:

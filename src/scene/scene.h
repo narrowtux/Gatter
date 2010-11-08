@@ -4,6 +4,8 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include <QGestureEvent>
+#include "highlighter.h"
+
 class QXmlStreamReader;
 class QXmlStreamWriter;
 class Element;
@@ -36,6 +38,7 @@ public:
     QPointF lastMousePos;
     void paste(const QMimeData* mimeData, QPointF pos);
     QString copy(QList<Element*> elements);
+	void highlight(Element *element);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -51,6 +54,7 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+	Highlighter *myHighlighter;
 signals:
     void modified();
     void elementAddedOrRemoved();

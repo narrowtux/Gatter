@@ -37,7 +37,8 @@ SOURCES += src/main.cpp\
     src/elements/distributor.cpp \
     src/connectionline.cpp \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget.cpp \
-    src/visualisation/visualisationmodel.cpp
+    src/visualisation/visualisationmodel.cpp \
+    src/scene/highlighter.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -68,7 +69,8 @@ HEADERS  += src/widgets/mainwindow.h \
     src/connectionline.h \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget.h \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget_p.h \
-    src/visualisation/visualisationmodel.h
+    src/visualisation/visualisationmodel.h \
+    src/scene/highlighter.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \

@@ -66,11 +66,11 @@ bool Clock::createFormBefore()
 
 
 void Clock::setLowTime(int value){
-    low->setInterval(value);
+    high->setInterval(value);
 }
 
 void Clock::setHighTime(int value){
-    high->setInterval(value);
+    low->setInterval(value);
 }
 
 void Clock::setPrivateXml(QXmlStreamWriter *xml)

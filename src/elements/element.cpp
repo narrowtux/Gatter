@@ -559,3 +559,9 @@ void Element::releaseConnections()
 		c->connectWith(0);
     }
 }
+
+QPainterPath Element::shape() const{
+	QPainterPath ret;
+	ret.addRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
+	return ret;
+}

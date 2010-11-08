@@ -65,11 +65,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	QSettings settings;
 	Element::rotationSteps=settings.value("rotationSteps",90).toReal();
     
-//	sceneFitRect=new QGraphicsRectItem;
-//	myScene->addItem(sceneFitRect);
-//	sceneFitRect->setBrush(Qt::NoBrush);
-//	sceneFitRect->setPen(Qt::NoPen);
-//	updateSceneRect();
+	sceneFitRect=new QGraphicsRectItem;
+	myScene->addItem(sceneFitRect);
+	sceneFitRect->setBrush(Qt::NoBrush);
+	sceneFitRect->setPen(Qt::NoPen);
+	updateSceneRect();
 	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
@@ -233,7 +233,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
-    //updateSceneRect();
+    updateSceneRect();
 }
 
 
@@ -412,9 +412,9 @@ void MainWindow::updateActions()
 void MainWindow::updateSceneRect()
 {
 	int width=ui->graphicsView->rect().width(), height=ui->graphicsView->rect().height();
-//	qreal scale=ui->graphicsView->scaleFactor();
-//	width/=scale;
-//	height/=scale;
+	qreal scale=ui->graphicsView->scaleFactor();
+	width/=scale;
+	height/=scale;
 	sceneFitRect->setRect(-width/2,-height/2,width,height);
 }
 

@@ -9,7 +9,7 @@ class Lamp : public Element
 public:
     explicit Lamp(QGraphicsObject *parent = 0);
     bool isOutput();
-    
+    QPainterPath shape() const;
 signals:
 private slots:
     void setColor(QColor c);

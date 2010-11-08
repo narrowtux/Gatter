@@ -2,7 +2,7 @@
 #include "src/widgets/colorbutton.h"
 #include <QRegExp>
 Lamp::Lamp(QGraphicsObject *parent) :
-    Element(parent)
+		Element(parent)
 {
     myValue=false;
     height=44;
@@ -17,7 +17,7 @@ Lamp::Lamp(QGraphicsObject *parent) :
 }
 
 QRectF Lamp::boundingRect() const {
-    return QRectF(-22,-22,width,height);
+    return QRectF(-width/2,-height/2,width,height);
 }
 
 void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -25,9 +25,9 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     Q_UNUSED(widget)
     // Draw border;
     if(!isSelected()){
-	painter->setPen(Qt::NoPen);
+		painter->setPen(Qt::NoPen);
     } else {
-	painter->setPen(getSelectionPen());
+		painter->setPen(getSelectionPen());
     }
     QRadialGradient g;
     g.setRadius(44);
@@ -39,9 +39,9 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(QPointF(0,0),22,22);
     painter->setPen(Qt::NoPen);
     if(myValue){
-	painter->setBrush(color);
+		painter->setBrush(color);
     }else{
-	painter->setBrush(QColor("black"));
+		painter->setBrush(QColor("black"));
     }
     painter->drawEllipse(QPointF(0,0),17,17);
     QRadialGradient g2;
@@ -99,4 +99,10 @@ void Lamp::readPrivateXml(QXmlStreamReader *xml){
 
 bool Lamp::isOutput(){
     return true;
+}
+
+QPainterPath Lamp::shape() const{
+	QPainterPath ret;
+	ret.addEllipse(QPointF(0,0),22,22);
+	return ret;
 }

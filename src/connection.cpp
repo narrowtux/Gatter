@@ -174,6 +174,7 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent *event){
 		qDebug()<<event->scenePos();
 		pressed=1;
 		poke(true);
+		static_cast<Scene*>(scene())->highlight(0);
     }
 }
 
@@ -304,11 +305,18 @@ void Connection::poke(bool in){
 }
 
 void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
+	Q_UNUSED(event)
     poke(true);
+	if(myConnectedTo!=0)
+		static_cast<Scene*>(scene())->highlight(myConnectedTo->element());
+	else
+		static_cast<Scene*>(scene())->highlight(0);
 }
 
 void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
+	Q_UNUSED(event)
     poke(false);
+	static_cast<Scene*>(scene())->highlight(0);
 }
 
 void Connection::updateLine(QPointF toPoint, Connection*c){

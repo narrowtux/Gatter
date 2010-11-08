@@ -42,6 +42,7 @@ public:
     int count(const char* propName);
     QColor elementColor();
     void releaseConnections();
+	QPainterPath shape() const;
 public slots:
     void setElementColor(QColor c);
 signals:

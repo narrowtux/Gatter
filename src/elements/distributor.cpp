@@ -49,3 +49,9 @@ void Distributor::recalculate(){
 		}
 	}
 }
+
+QPainterPath Distributor::shape() const{
+	QPainterPath ret;
+	ret.addEllipse(QPointF(0,0),6,6);
+	return ret;
+}

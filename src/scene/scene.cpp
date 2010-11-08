@@ -30,6 +30,10 @@ Scene::Scene(QObject *parent) :
     loads=false;
     myMainWindow=0;
     wantsToDrag=false;
+	myHighlighter=new Highlighter;
+	addItem(myHighlighter);
+	myHighlighter->setBoundingRect(QRectF(-100,-100,200,200));
+	highlight(0);
 }
 
 Scene::~Scene(){
@@ -481,6 +485,10 @@ void Scene::clear(){
     }
     elements.clear();
     QGraphicsScene::clear();
+	myHighlighter=new Highlighter;
+	addItem(myHighlighter);
+	myHighlighter->setBoundingRect(QRectF(-100,-100,200,200));
+	highlight(0);
 }
 
 MainWindow* Scene::mainWindow(){
@@ -539,4 +547,16 @@ QString Scene::copy(QList<Element *> elements){
     buffer.close();
     //qDebug()<<QString(array);
     return QString(array).toLatin1();
+}
+
+void Scene::highlight(Element *element){
+	if(element==0){
+		myHighlighter->setVisible(false);
+	}else{
+		myHighlighter->setVisible(true);
+		myHighlighter->setPos(0,0);
+		myHighlighter->setBoundingRect(itemsBoundingRect());
+		myHighlighter->highlight((QGraphicsItem*)element);
+		myHighlighter->setZValue(100);
+	}
 }
