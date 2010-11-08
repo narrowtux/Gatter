@@ -2,7 +2,7 @@
 #include "src/elements/gatter.h"
 
 Gatter::Gatter(QGraphicsObject *parent) :
-    Element(parent)
+		Element(parent)
 {
     height=50;
     width=50;
@@ -29,31 +29,31 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     QString text;
     switch(myGatterType){
     case AND:
-	text="&";
-	break;
+		text="&";
+		break;
     case OR:
-	text=QString::fromUtf8("≥1");
-	break;
+		text=QString::fromUtf8("≥1");
+		break;
     case NOT:
-	text="1";
-	break;
+		text="1";
+		break;
     case XOR:
-	text="=1";
-	break;
+		text="=1";
+		break;
     case DUPLICATOR:
-	text="";
-	break;
+		text="";
+		break;
     case ICON:
-	text="Gatter";
-	break;
+		text="Gatter";
+		break;
     }
     QTextOption o;
     o.setAlignment(Qt::AlignCenter);
     painter->drawText(boundingRect().adjusted(5,5,-5,-5),text,o);
     if(isSelected()){
-	painter->setPen(getSelectionPen());
-	painter->setBrush(Qt::NoBrush);
-	painter->drawRect(boundingRect().adjusted(1,1,-1,-1));
+		painter->setPen(getSelectionPen());
+		painter->setBrush(Qt::NoBrush);
+		painter->drawRect(boundingRect().adjusted(1,1,-1,-1));
     }
 }
 
@@ -65,35 +65,36 @@ void Gatter::setType(Type t){
     myGatterType=t;
     switch(t){
     case AND:
-	setData(ElementName,"And");
-	setMinMaxInputsOutputs(2,-1,1,1);
-	break;
+		setData(ElementName,"And");
+		setMinMaxInputsOutputs(2,-1,1,1);
+		break;
     case NOT:
-	setMinMaxInputsOutputs(1,1,1,1);
-	myOutputs[0]->setNegated(1);
-	setData(ElementName,"Not");
-	break;
+		setMinMaxInputsOutputs(1,1,1,1);
+		myOutputs[0]->setNegated(1);
+		setData(ElementName,"Not");
+		break;
     case OR:
-	setMinMaxInputsOutputs(2,-1,1,1);
-	setData(ElementName,"Or");
-	break;
+		setMinMaxInputsOutputs(2,-1,1,1);
+		setData(ElementName,"Or");
+		break;
     case XOR:
-	setMinMaxInputsOutputs(2,-1,1,1);
-	setData(ElementName,"XOr");
-	break;
+		setMinMaxInputsOutputs(2,-1,1,1);
+		setData(ElementName,"XOr");
+		break;
     case DUPLICATOR:
-	setData(ElementName,"Duplicator");
-	width=30;
-	setMinMaxInputsOutputs(1,1,1,-1);
-	setOutputs(4);
-	break;
+		setData(ElementName,"Duplicator");
+		width=30;
+		setMinMaxInputsOutputs(1,1,1,-1);
+		setOutputs(4);
+		break;
     case ICON:
-	setData(ElementName,"Icon");
-	setMinMaxInputsOutputs(2,2,1,1);
-	setScale(10);
-	break;
+		setData(ElementName,"Icon");
+		setMinMaxInputsOutputs(2,2,1,1);
+		setScale(10);
+		break;
     }
     update(boundingRect());
+	recalculate();
 }
 
 Gatter::Type Gatter::type(){
@@ -110,54 +111,54 @@ void Gatter::recalculate(){
     int myDelay=0;
     switch(myGatterType){
     case AND:
-	val=1;
-	foreach(Connection*c, myInputs){
-	    if(c->value()&&val){
 		val=1;
-	    } else {
-		val=0;
-	    }
-	}
-	break;
+		foreach(Connection*c, myInputs){
+			if(c->value()&&val){
+				val=1;
+			} else {
+				val=0;
+			}
+		}
+		break;
     case OR:
-	val=0;
-	foreach(Connection*c, myInputs){
-	    val=c->value()|val;
-	}
-	break;
+		val=0;
+		foreach(Connection*c, myInputs){
+			val=c->value()|val;
+		}
+		break;
     case NOT:
-	val=myInputs[0]->value();
-	myDelay=10;
-	break;
+		val=myInputs[0]->value();
+		myDelay=10;
+		break;
     case XOR:
-	int co;
-	foreach(Connection*c, myInputs){
-	    if(c->value()==High){
-		co++;
-	    }
-	}
-	if(co%2!=0){
-	    val=1;
-	} else {
-	    val=0;
-	}
-	break;
+		int co;
+		foreach(Connection*c, myInputs){
+			if(c->value()==High){
+				co++;
+			}
+		}
+		if(co%2!=0){
+			val=0;
+		} else {
+			val=1;
+		}
+		break;
     case DUPLICATOR:
-	val=myInputs[0]->value();
-	break;
+		val=myInputs[0]->value();
+		break;
     }
     if(val!=beforeValue||beforeUndefined){
-	emit(changed());
+		emit(changed());
     }
     beforeUndefined=false;
     beforeValue=val;
-//    delay->start(delayMS+myDelay);
+	//    delay->start(delayMS+myDelay);
 }
 
 void Gatter::sendChanges(){
     if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("sendChanges")<<", Gatter::sendChanges()";
     foreach(Connection*c, myOutputs){
-	c->setValue(beforeValue);
+		c->setValue(beforeValue);
     }
 }
 
