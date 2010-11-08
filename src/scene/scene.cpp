@@ -549,7 +549,7 @@ QString Scene::copy(QList<Element *> elements){
     return QString(array).toLatin1();
 }
 
-void Scene::highlight(Element *element){
+void Scene::highlight(QGraphicsItem *element){
 	if(element==0){
 		myHighlighter->setVisible(false);
 	}else{
@@ -557,6 +557,18 @@ void Scene::highlight(Element *element){
 		myHighlighter->setPos(0,0);
 		myHighlighter->setBoundingRect(itemsBoundingRect());
 		myHighlighter->highlight((QGraphicsItem*)element);
+		myHighlighter->setZValue(100);
+	}
+}
+
+void Scene::highlight(QList<QGraphicsItem *> elements){
+	if(elements.count()==0){
+		highlight(0);
+	}else{
+		myHighlighter->setVisible(true);
+		myHighlighter->setPos(0,0);
+		myHighlighter->setBoundingRect(itemsBoundingRect());
+		myHighlighter->highlight(elements);
 		myHighlighter->setZValue(100);
 	}
 }

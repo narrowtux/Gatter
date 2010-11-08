@@ -38,7 +38,8 @@ public:
     QPointF lastMousePos;
     void paste(const QMimeData* mimeData, QPointF pos);
     QString copy(QList<Element*> elements);
-	void highlight(Element *element);
+	void highlight(QGraphicsItem *element);
+	void highlight(QList<QGraphicsItem*> elements);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

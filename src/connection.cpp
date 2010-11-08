@@ -307,9 +307,9 @@ void Connection::poke(bool in){
 void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
 	Q_UNUSED(event)
     poke(true);
-	if(myConnectedTo!=0)
-		static_cast<Scene*>(scene())->highlight(myConnectedTo->element());
-	else
+	if(myConnectedTo!=0){
+		static_cast<Scene*>(scene())->highlight(connectedElements());
+	}else
 		static_cast<Scene*>(scene())->highlight(0);
 }
 
@@ -403,4 +403,32 @@ void Connection::setPos(qreal x, qreal y){
 
 ConnectionType Connection::connectionType(){
 	return myConnectionType;
+}
+
+QList<QGraphicsItem *> Connection::connectedElements(QList<QGraphicsItem *> before){
+	foreach(QGraphicsItem *item, before){
+		if(this==item)
+			return QList<QGraphicsItem*>();
+	}
+	before<<this;
+	Element *connectedToElement;
+	QList<QGraphicsItem *> ret;
+	if(myConnectedTo!=0){
+		connectedToElement=myConnectedTo->element();
+	}else{
+		return QList<QGraphicsItem*>();
+	}
+	ret<<connectedToElement;
+	if(connectedToElement->myType=="distributor"){
+		if(myConnectionType==Input){
+			ret<<connectedToElement->myInputs[0]->connectedElements(before);
+		} else {
+			foreach(Connection *c, connectedToElement->myOutputs){
+				ret<<c->connectedElements(before);	
+			}
+		}
+		return ret;
+	} else {
+		return QList<QGraphicsItem *>()<<connectedToElement;
+	}
 }

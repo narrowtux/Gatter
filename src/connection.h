@@ -30,6 +30,7 @@ public:
     void setPos(qreal x, qreal y);
     void setClock(bool clock);
 	ConnectionType connectionType();
+	QList<QGraphicsItem *> connectedElements(QList<QGraphicsItem *> before=QList<QGraphicsItem *>());
 signals:
     void changed(bool);
     void recalculate();
