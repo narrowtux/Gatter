@@ -1,8 +1,12 @@
 #include "highlighter.h"
 #include <QPainter>
+#include <QGraphicsBlurEffect>
 Highlighter::Highlighter(QGraphicsObject *parent) :
     QGraphicsObject(parent)
 {
+	QGraphicsBlurEffect *effect=new QGraphicsBlurEffect;
+	effect->setBlurRadius(10);
+	setGraphicsEffect(new QGraphicsBlurEffect());
 }
 
 QRectF Highlighter::boundingRect() const{
@@ -15,9 +19,12 @@ void Highlighter::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	painter->setBrush(b);
 	QPainterPath path;
 	path.addRect(myBoundingRect);
+	QPainterPath highlightElements;
+	highlightElements.setFillRule(Qt::WindingFill);
 	foreach(QGraphicsItem *item, myHighlightItems){
-		path.addPath(mapFromItem(item, item->shape()));
+		highlightElements.addPath(mapFromItem(item, item->shape()));
 	}
+	path.addPath(highlightElements.simplified());
 	path.setFillRule(Qt::OddEvenFill);
 	painter->drawPath(path);
 }
