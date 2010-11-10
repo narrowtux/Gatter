@@ -1,5 +1,6 @@
 #include "tunnel.h"
 #include "src/defines.h"
+#include "src/widgets/enumcombobox.h"
 Tunnel::Tunnel(QGraphicsObject *parent) :
     Element(parent)
 {
@@ -7,11 +8,11 @@ Tunnel::Tunnel(QGraphicsObject *parent) :
 	myType="tunnel";
 	myOppositeFinder=new OppositeFinder(this, TunnelID, this);
 	myOppositeFinder->setParentItem(this);
-	myOppositeFinder->setPos(boundingRect().left()+10, boundingRect().top()+10);
 	height=50;
 	width=50;
 	minHeight=30;
 	setEntranceType(Input);
+	myOppositeFinder->setPos(boundingRect().left()+10, boundingRect().top()+10);
 }
 
 QRectF Tunnel::boundingRect() const
@@ -46,4 +47,24 @@ void Tunnel::setEntranceType(ConnectionType t)
 	} else {
 		setMinMaxInputsOutputs(0,0,1,1);
 	}
+	myOppositeFinder->setEntrance(t);
+}
+
+bool Tunnel::createFormBefore()
+{
+	EnumComboBox *combo=new EnumComboBox;
+	QLabel* label=new QLabel(tr("Entrance Type"));
+	layout->addRow(label, combo);
+	additionalWidgets<<label<<combo;
+	QMap<int, QString> items;
+	items.insert(Input, tr("Input"));
+	items.insert(Output, tr("Output"));
+	combo->addItems(items);
+	connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(setEntranceTypeInt(int)));
+    return true;
+}
+
+void Tunnel::setEntranceTypeInt(int type)
+{
+	setEntranceType((ConnectionType)type);
 }

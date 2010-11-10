@@ -14,13 +14,15 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 signals:
 
-public slots:
+private slots:
+	void setEntranceTypeInt(int type);
 private:
 	ConnectionType myEntrance;
 	Tunnel *myOther;
 	OppositeFinder *myOppositeFinder;
 	void recalculate();
 	void setEntranceType(ConnectionType t);
+	bool createFormBefore();
 };
 
 #endif // TUNNEL_H
