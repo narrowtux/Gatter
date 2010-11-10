@@ -189,7 +189,7 @@ QPen Element::getSelectionPen(){
 }
 
 void Element::inputChanged(){
-    QtConcurrent::run(this,&Element::recalculate);
+    recalculate();
 }
 
 void Element::recalculate(){

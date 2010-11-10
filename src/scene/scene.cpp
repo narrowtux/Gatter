@@ -14,6 +14,7 @@
 #include "src/elements/flipflop.h"
 #include "src/elements/sevensegmentoutput.h"
 #include "src/elements/distributor.h"
+#include "src/elements/tunnel.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
 #include <QMimeData>
@@ -453,6 +454,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 		return new SevenSegmentOutput;
 	if(typeName=="distributor")
 		return new Distributor;
+	if(typeName == "tunnel")
+		return new Tunnel;
     return 0;
 }
 

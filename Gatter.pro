@@ -38,7 +38,9 @@ SOURCES += src/main.cpp\
     src/connectionline.cpp \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget.cpp \
     src/visualisation/visualisationmodel.cpp \
-    src/scene/highlighter.cpp
+    src/scene/highlighter.cpp \
+    src/elements/tunnel.cpp \
+    src/elements/oppositefinder.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -70,7 +72,9 @@ HEADERS  += src/widgets/mainwindow.h \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget.h \
     src/widgets/qkeysequencewidget/src/qkeysequencewidget_p.h \
     src/visualisation/visualisationmodel.h \
-    src/scene/highlighter.h
+    src/scene/highlighter.h \
+    src/elements/tunnel.h \
+    src/elements/oppositefinder.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \
