@@ -8,6 +8,7 @@
 #include "src/scene/scene.h"
 #include "src/elements/element.h"
 #include "src/elements/distributor.h"
+#include "src/elements/tunnel.h"
 Connection::Connection(QObject *parent) :
 		QObject(parent)
 {
@@ -428,6 +429,19 @@ QList<QGraphicsItem *> Connection::connectedElements(QList<QGraphicsItem *> befo
 			}
 		}
 		return ret;
+//	} else if(connectedToElement->myType=="tunnel") {
+//		Tunnel *tunnelIn, *tunnelOut;
+//		tunnelIn=static_cast<Tunnel*>(connectedToElement);
+//		if(tunnelIn->entranceType()==Output){
+//			tunnelOut=tunnelIn;
+//			tunnelIn=tunnelOut->tunnelExit();
+//		}
+//		ret<<tunnelIn<<tunnelOut;
+//		if(myConnectionType==Output){
+//			ret<<tunnelIn->myInputs[0]->connectedElements(before);
+//		} else {
+//			ret<<tunnelOut->myOutputs[0]->connectedElements(before);
+//		}
 	} else {
 		return QList<QGraphicsItem *>()<<connectedToElement;
 	}

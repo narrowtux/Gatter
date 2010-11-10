@@ -18,6 +18,7 @@ extern void qt_mac_set_native_menubar(bool);
 
 int main(int argc, char *argv[])
 {
+	srand(-QTime::currentTime().secsTo(QTime(0,0,0)));
 #ifdef QT_ARCH_MACOSX
     qt_mac_set_native_menubar(true);    
 #endif

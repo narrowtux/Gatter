@@ -1,6 +1,7 @@
 #include "tunnel.h"
 #include "src/defines.h"
 #include "src/widgets/enumcombobox.h"
+#include "src/scene/scene.h"
 Tunnel::Tunnel(QGraphicsObject *parent) :
     Element(parent)
 {
@@ -13,6 +14,7 @@ Tunnel::Tunnel(QGraphicsObject *parent) :
 	minHeight=30;
 	setEntranceType(Input);
 	myOppositeFinder->setPos(boundingRect().left()+10, boundingRect().top()+10);
+	setAcceptHoverEvents(true);
 }
 
 QRectF Tunnel::boundingRect() const
@@ -67,4 +69,41 @@ bool Tunnel::createFormBefore()
 void Tunnel::setEntranceTypeInt(int type)
 {
 	setEntranceType((ConnectionType)type);
+}
+
+ConnectionType Tunnel::entranceType()
+{
+	return myEntrance;
+}
+
+Tunnel * Tunnel::tunnelExit()
+{
+	Element *other=myOppositeFinder->otherElement();
+	if(other!=0){
+		return static_cast<Tunnel*>(other);
+	} else {
+		return 0;
+	}
+}
+
+void Tunnel::setPrivateXml(QXmlStreamWriter *xml)
+{
+	xml->writeAttribute("type", QString().setNum((int)myEntrance));
+}
+
+void Tunnel::readPrivateXml(QXmlStreamReader *xml)
+{
+	setEntranceType((ConnectionType)xml->attributes().value("type").toString().toInt());
+}
+
+void Tunnel::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+	if(myOppositeFinder->otherElement()!=0){
+		static_cast<Scene*>(scene())->highlight(myOppositeFinder->otherElement());
+	}
+}
+
+void Tunnel::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+	static_cast<Scene*>(scene())->highlight(0);
 }

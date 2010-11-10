@@ -12,6 +12,10 @@ public:
     explicit Tunnel(QGraphicsObject *parent = 0);
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+	ConnectionType entranceType();
+	Tunnel *tunnelExit();
+	void setPrivateXml(QXmlStreamWriter *xml);
+	void readPrivateXml(QXmlStreamReader *xml);
 signals:
 
 private slots:
@@ -23,6 +27,8 @@ private:
 	void recalculate();
 	void setEntranceType(ConnectionType t);
 	bool createFormBefore();
+	void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+	void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };
 
 #endif // TUNNEL_H
