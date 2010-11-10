@@ -248,10 +248,12 @@ MainWindow* MainWindow::newFile()
 }
 
 void MainWindow::saveFileTo(QString fileName){
+	Q_UNUSED(fileName);
     save();
 }
 
 void MainWindow::loadFileFrom(QString fileName){
+	Q_UNUSED(fileName);
     open();
 }
 

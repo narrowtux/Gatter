@@ -2,7 +2,7 @@
 #include <QInputDialog>
 #include <QtGui>
 FlipFlop::FlipFlop(QGraphicsObject *parent) :
-		Element(parent)
+    Element(parent)
 {
     height=50;
     minHeight=50;
@@ -148,6 +148,8 @@ void FlipFlop::setFlipFlopTrigger(FlipFlopTrigger clock, bool spontaneous){
     case OnSwitching:
 		setClockNegated(false);
 		break;
+	case NotApplicable:
+		break;
     }
     if(spontaneous) setFlipFlopType(myFlipFlopType);
     update();
@@ -176,7 +178,9 @@ void FlipFlop::set(bool v){
 				recalculate();
 			}
 			break;
-	case OnSwitching:
+		case OnSwitching:
+			break;
+		case NotApplicable:
 			break;
 		}
     }
@@ -195,7 +199,9 @@ void FlipFlop::reset(bool v){
 				recalculate();
 			}
 			break;
-	case OnSwitching:
+		case OnSwitching:
+			break;
+		case NotApplicable:
 			break;
 		}
     }
@@ -276,6 +282,7 @@ void FlipFlop::jump(bool v){
 }
 
 void FlipFlop::kill(bool v){
+	Q_UNUSED(v)
     switch(myFlipFlopType){
     default:
 		break;
@@ -293,7 +300,7 @@ void FlipFlop::kill(bool v){
 }
 
 void FlipFlop::other(bool v){
-    
+    Q_UNUSED(v)
 }
 
 bool FlipFlop::createFormBefore(){

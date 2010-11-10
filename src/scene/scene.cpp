@@ -63,6 +63,7 @@ QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+    QGraphicsScene::mousePressEvent(event);
     QPointF mousePos(event->buttonDownScenePos(Qt::LeftButton).x(),
                      event->buttonDownScenePos(Qt::LeftButton).y());
     movingItem=itemAt(mousePos);
@@ -78,7 +79,6 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(event->modifiers()&dragMod){
 		wantsToDrag=true;
     }
-    QGraphicsScene::mousePressEvent(event);
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){

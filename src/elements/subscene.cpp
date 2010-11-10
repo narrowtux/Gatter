@@ -5,6 +5,7 @@
 SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
 		Element(parent)
 {
+	Q_UNUSED(createMainWindow);
     myScene=new Scene;
     myMainWindow=0;
     tr("SubScene");
@@ -92,6 +93,7 @@ void SubScene::recalculate(){
 }
 
 void SubScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
+	Q_UNUSED(event)
     if(myMainWindow==0){
 		myMainWindow=new MainWindow(0, myScene);
 		myMainWindow->setCurrentFile(fileName);

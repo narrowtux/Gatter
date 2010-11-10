@@ -146,6 +146,9 @@ void Gatter::recalculate(){
     case DUPLICATOR:
 		val=myInputs[0]->value();
 		break;
+	case ICON:
+		val=0;
+		break;
     }
     if(val!=beforeValue||beforeUndefined){
 		emit(changed());
