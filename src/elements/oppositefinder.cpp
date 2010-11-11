@@ -1,5 +1,7 @@
 #include "oppositefinder.h"
 #include "src/defines.h"
+#include "src/scene/scene.h"
+#include "element.h"
 
 QList<QColor> OppositeFinder::colors=QList<QColor>();
 
@@ -18,6 +20,7 @@ OppositeFinder::OppositeFinder(Element *eparent, int elementType, QGraphicsObjec
 	linePen.setWidthF(2.5);
 	linePen.setCapStyle(Qt::RoundCap);
 	myLine->setPen(linePen);
+	setAcceptHoverEvents(true);
 }
 
 void OppositeFinder::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -36,6 +39,7 @@ QRectF OppositeFinder::boundingRect() const
 void OppositeFinder::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	if(event->button()==Qt::LeftButton){
+		static_cast<Scene*>(scene())->highlight(0);
 		scene()->addItem(myLine);
 		pressed=true;
 		myLine->setVisible(true);
@@ -82,7 +86,6 @@ void OppositeFinder::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 			makeConnection(0);
 		}
 	}
-	update();
 }
 
 OppositeFinder * OppositeFinder::otherOppositeFinder()
@@ -135,7 +138,9 @@ void OppositeFinder::makeConnection(OppositeFinder *other)
 	if(other==0&&myOther!=0){
 		myOther->myOther=0;
 		myOther->update();
-	} else {
+		myOther=0;
+		colors.removeAll(myColor);
+	} else if(other!=0) {
 		if(myOther!=0){
 			makeConnection(0);
 		}
@@ -145,4 +150,16 @@ void OppositeFinder::makeConnection(OppositeFinder *other)
 		myOther->myColor=myColor;
 	}
 	update();
+}
+
+void OppositeFinder::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+	if(otherElement()!=0){
+		static_cast<Scene*>(scene())->highlight(otherElement()->toGraphicsObject());
+	}
+}
+
+void OppositeFinder::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+	static_cast<Scene*>(scene())->highlight(0);
 }

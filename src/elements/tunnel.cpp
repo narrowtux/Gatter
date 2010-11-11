@@ -14,7 +14,6 @@ Tunnel::Tunnel(QGraphicsObject *parent) :
 	minHeight=30;
 	setEntranceType(Input);
 	myOppositeFinder->setPos(boundingRect().left()+10, boundingRect().top()+10);
-	setAcceptHoverEvents(true);
 }
 
 QRectF Tunnel::boundingRect() const
@@ -94,16 +93,4 @@ void Tunnel::setPrivateXml(QXmlStreamWriter *xml)
 void Tunnel::readPrivateXml(QXmlStreamReader *xml)
 {
 	setEntranceType((ConnectionType)xml->attributes().value("type").toString().toInt());
-}
-
-void Tunnel::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-	if(myOppositeFinder->otherElement()!=0){
-		static_cast<Scene*>(scene())->highlight(myOppositeFinder->otherElement());
-	}
-}
-
-void Tunnel::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-	static_cast<Scene*>(scene())->highlight(0);
 }

@@ -27,8 +27,6 @@ private:
 	void recalculate();
 	void setEntranceType(ConnectionType t);
 	bool createFormBefore();
-	void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-	void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };
 
 #endif // TUNNEL_H

@@ -94,7 +94,13 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 				}
 			}
 			QString xml=copy(selElements);
+			QPixmap dragPixmap(64,64);
+			dragPixmap.fill(QColor(0,0,0,0));
+			QPainter painter(&dragPixmap);
+			painter.setRenderHint(QPainter::Antialiasing);
+			render(&painter,QRectF(), selElements[0]->sceneBoundingRect());
 			QDrag*drag=new QDrag(views().at(0));
+			drag->setPixmap(dragPixmap);
 			QMimeData* data=new QMimeData;
 			data->setData("text/gatterxml",xml.toLocal8Bit());
 			drag->setMimeData(data);

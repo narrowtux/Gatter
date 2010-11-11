@@ -34,6 +34,8 @@ private:
 	QColor findNewColor();
 	static QList<QColor> colors;
 	void makeConnection(OppositeFinder * other);
+	void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+	void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };
 
 #endif // OPPOSITEFINDER_H
