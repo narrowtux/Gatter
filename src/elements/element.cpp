@@ -462,7 +462,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	
 	//Draw labels
 	QFont font=painter->font();
-	
+	font.setPixelSize(12);
 	foreach(Connection*c, myInputs){
 		QString name=c->name();
 		QPointF pos=c->pos();

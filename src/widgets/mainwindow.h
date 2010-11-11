@@ -76,9 +76,11 @@ private:
     SubSceneChooseDialog* subSceneChooseDialog;
     
     static ElementCatalog* elementCatalog;
+	QPrintDialog *printDialog;
 private slots:
+	void printDialogClosed();
 	void on_actionNew_GraphicsView_triggered();
- void addLabel();
+	void addLabel();
 	void addFromFile();
     void on_toolRemoveTemplate_clicked();
     void readSettings();
@@ -108,6 +110,7 @@ private slots:
     void on_actionInsertAND_triggered();
     void on_actionClose_triggered();
     void updateSceneRect();
+	void on_actionPrint_triggered();
 };
 
 #endif // MAINWINDOW_H

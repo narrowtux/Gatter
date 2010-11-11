@@ -48,6 +48,9 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 		break;
     }
     QTextOption o;
+	QFont f=painter->font();
+	f.setPixelSize(12);
+	painter->setFont(f);
     o.setAlignment(Qt::AlignCenter);
     painter->drawText(boundingRect().adjusted(5,5,-5,-5),text,o);
     if(isSelected()){

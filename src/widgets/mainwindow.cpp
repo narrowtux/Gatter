@@ -178,10 +178,13 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	connect(action,SIGNAL(triggered()), this,SLOT(addFromFile()));
 	ui->toolAddTemplateFromFile->addAction(action);
 	
+	printDialog=0;
+	
     QTimer* timer=new QTimer;
 	timer->setSingleShot(true);
 	timer->start(0);
 	connect(timer,SIGNAL(timeout()),this,SLOT(readSettings()));
+	
 	readSettings();
 }
 
@@ -744,4 +747,24 @@ void MainWindow::on_actionNew_GraphicsView_triggered()
 	delete ui->graphicsView;
 	ui->graphicsView=tmp;
 	ui->centralWidget->layout()->addWidget(tmp);
+}
+
+void MainWindow::on_actionPrint_triggered()
+{
+	if(printDialog!=0)
+		delete printDialog;
+	QPrinter* printer=new QPrinter(QPrinter::HighResolution);
+	printDialog=new QPrintDialog(printer,this);
+    printDialog->open();
+	connect(printDialog, SIGNAL(accepted()), this, SLOT(printDialogClosed()));
+}
+
+void MainWindow::printDialogClosed()
+{
+	QPrinter *printer=printDialog->printer();
+	printer->setResolution(300);
+	QPainter painter(printer);
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHint(QPainter::TextAntialiasing);
+	myScene->render(&painter);
 }
