@@ -32,6 +32,7 @@ Scene::Scene(QObject *parent) :
     myMainWindow=0;
     wantsToDrag=false;
 	myHighlighter=new Highlighter;
+	myHighlighter->setOpacity(0.0);
 	addItem(myHighlighter);
 	myHighlighter->setBoundingRect(QRectF(-100,-100,200,200));
 	highlight(0);
@@ -560,9 +561,17 @@ QString Scene::copy(QList<Element *> elements){
 
 void Scene::highlight(QGraphicsItem *element){
 	if(element==0){
-		myHighlighter->setVisible(false);
+		QPropertyAnimation*animation=new QPropertyAnimation(myHighlighter, "opacity");
+		animation->setStartValue(myHighlighter->opacity());
+		animation->setEndValue(0.0);
+		animation->setDuration(200);
+		animation->start();
 	}else{
-		myHighlighter->setVisible(true);
+		QPropertyAnimation*animation=new QPropertyAnimation(myHighlighter, "opacity");
+		animation->setStartValue(myHighlighter->opacity());
+		animation->setEndValue(1.0);
+		animation->setDuration(200);
+		animation->start();
 		myHighlighter->setPos(0,0);
 		myHighlighter->setBoundingRect(itemsBoundingRect());
 		myHighlighter->highlight((QGraphicsItem*)element);
@@ -574,7 +583,11 @@ void Scene::highlight(QList<QGraphicsItem *> elements){
 	if(elements.count()==0){
 		highlight(0);
 	}else{
-		myHighlighter->setVisible(true);
+		QPropertyAnimation*animation=new QPropertyAnimation(myHighlighter, "opacity");
+		animation->setStartValue(myHighlighter->opacity());
+		animation->setEndValue(1.0);
+		animation->setDuration(200);
+		animation->start();
 		myHighlighter->setPos(0,0);
 		myHighlighter->setBoundingRect(itemsBoundingRect());
 		myHighlighter->highlight(elements);
