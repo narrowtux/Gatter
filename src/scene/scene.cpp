@@ -84,7 +84,15 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    
+	Qt::KeyboardModifier dragMod;
+#ifdef QT_ARCH_MACOSX
+	dragMod=Qt::AltModifier;
+#else
+	dragMod=Qt::ControlModifier;
+#endif
+    if(event->modifiers()&dragMod){
+		wantsToDrag=true;
+    }
     lastMousePos=event->scenePos();
     if(wantsToDrag&&(startPos-event->scenePos()).manhattanLength()>=QApplication::startDragDistance()){
 		if(selectedItems().count()>0){
