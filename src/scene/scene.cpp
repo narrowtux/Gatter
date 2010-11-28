@@ -39,7 +39,7 @@ Scene::Scene(QObject *parent) :
 }
 
 Scene::~Scene(){
-    foreach(Element* e, elements){
+    foreach(Element* e, myElements){
 		delete e;
     }
 }
@@ -149,15 +149,15 @@ void Scene::addElement(Element *e,int uniqueId){
 		e->setFormLayout(myMainWindow->getFormLayout());
     if(uniqueId==-1){
 		int maxID=0;
-		foreach(int key, elements.keys()){
+		foreach(int key, myElements.keys()){
 			if(key>maxID){
 				maxID=key;
 			}
 		}
-		elements.insert(maxID+1,e);
+		myElements.insert(maxID+1,e);
 		e->uniqueId=maxID+1;
     } else {
-		elements.insert(uniqueId,e);
+		myElements.insert(uniqueId,e);
 		e->uniqueId=uniqueId;
     }
     emit(modified());
@@ -170,7 +170,7 @@ void Scene::removeElement(Element *e){
     //Warning: this does not delete the removed Element!
     e->deleteForm();
     QGraphicsScene::removeItem(e);
-    elements.remove(e->uniqueId);
+    myElements.remove(e->uniqueId);
     e->releaseConnections();
 }
 
@@ -185,18 +185,18 @@ void Scene::removeItem(QGraphicsItem *item){
 }
 
 bool Scene::isElement(QGraphicsItem *item){
-    return elements.contains(elements.key(static_cast<Element*>(item)));
+    return myElements.contains(myElements.key(static_cast<Element*>(item)));
 }
 
 void Scene::setMainWindow(MainWindow *m){
     myMainWindow=m;
-    foreach(Element*e, elements){
+    foreach(Element*e, myElements){
 		e->setFormLayout(m->getFormLayout());
     }
 }
 
 void Scene::setScale(qreal scale){
-    foreach(Element* e, elements){
+    foreach(Element* e, myElements){
 		e->setScale(scale);
     }
 }
@@ -355,7 +355,7 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
 {
     bool own=false;
     if(selectionElements.isEmpty()){
-		selectionElements=elements.values();
+		selectionElements=myElements.values();
     }
     QFile file(fileName);
     if(xml==0){
@@ -479,9 +479,9 @@ Element* Scene::getElementFromTypeName(QString typeName){
 void Scene::connectItems(int inElement, int outElement, int input, int output)
 {
     Element *in, *out;
-    if(elements.contains(inElement)&&elements.contains(outElement)){
-		in=elements[inElement];
-		out=elements[outElement];
+    if(myElements.contains(inElement)&&myElements.contains(outElement)){
+		in=myElements[inElement];
+		out=myElements[outElement];
     } else {
 		return;
     }
@@ -500,10 +500,10 @@ bool Scene::isBlank(){
 }
 
 void Scene::clear(){
-    foreach(Element* e, elements){
+    foreach(Element* e, myElements){
 		removeElement(e);
     }
-    elements.clear();
+    myElements.clear();
     QGraphicsScene::clear();
 	myHighlighter=new Highlighter;
 	addItem(myHighlighter);
@@ -603,4 +603,14 @@ void Scene::highlight(QList<QGraphicsItem *> elements){
 		myHighlighter->highlight(elements);
 		myHighlighter->setZValue(100);
 	}
+}
+
+QList<Element *> Scene::elementList()
+{
+	return myElements.values();
+}
+
+void Scene::clearHighlight()
+{
+	highlight(0);
 }

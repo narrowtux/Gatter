@@ -10,6 +10,7 @@
 #include <QUndoStack>
 #include <QUndoView>
 #include "src/catalog/elementcatalog.h"
+#include "src/grapher/utdiagram.h"
 
 class SubSceneChooseDialog;
 class Scene;
@@ -77,6 +78,8 @@ private:
     
     static ElementCatalog* elementCatalog;
 	QPrintDialog *printDialog;
+	
+	QList<UTDiagram*> myDiagrams;
 private slots:
 	void printDialogClosed();
 	void on_actionNew_GraphicsView_triggered();
@@ -111,6 +114,10 @@ private slots:
     void on_actionClose_triggered();
     void updateSceneRect();
 	void on_actionPrint_triggered();
+	void updateConnectionAddMenu();
+	void connectionAddMenuHover();
+	void on_recordUTButton_toggled(bool checked);
+	void addUTConnectionRecording();
 };
 
 #endif // MAINWINDOW_H

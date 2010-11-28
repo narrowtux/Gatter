@@ -32,7 +32,7 @@ void SubScene::updateConnections(){
     outValues.clear();
     QMultiMap<qreal,Element*> inputs, outputs;
     QList<qreal> inputP, outputP;
-    foreach(Element* e, myScene->elements){
+    foreach(Element* e, myScene->myElements){
 		if(e->isInput()){
 			inputs.insert(e->scenePos().y(),e);
 			inputP<<e->scenePos().y();

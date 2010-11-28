@@ -9,6 +9,7 @@
 #include <QDebug>
 #include "src/widgets/subscenechoosedialog.h"
 #include "src/application.h"
+#include "src/elements/element.h"
 
 #include "src/widgets/mainwindow.h"
 

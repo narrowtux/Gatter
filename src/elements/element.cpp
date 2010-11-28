@@ -565,3 +565,13 @@ QPainterPath Element::shape() const{
 	ret.addRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
 	return ret;
 }
+
+QList<Connection *> Element::inputs()
+{
+	return myInputs;
+}
+
+QList<Connection *> Element::outputs()
+{
+	return myOutputs;
+}

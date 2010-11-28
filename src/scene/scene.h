@@ -37,9 +37,10 @@ public:
     MainWindow* mainWindow();
     QPointF lastMousePos;
     void paste(const QMimeData* mimeData, QPointF pos);
-    QString copy(QList<Element*> elements);
+    QString copy(QList<Element*> myElements);
 	void highlight(QGraphicsItem *element);
-	void highlight(QList<QGraphicsItem*> elements);
+	void highlight(QList<QGraphicsItem*> myElements);
+	QList<Element*> elementList();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -47,7 +48,7 @@ protected:
     bool pressed;
     QPointF startPos;
     QGraphicsItem* movingItem;
-    QMap<int, Element*> elements;
+    QMap<int, Element*> myElements;
     MainWindow* myMainWindow;
     bool wantsToDrag;
     bool blank;
@@ -62,6 +63,7 @@ signals:
     void elementMoved(QList<Element*> element, QList<QPointF> oldPos);
 public slots:
     void clear();
+	void clearHighlight();
 };
 
 #endif // SCENE_H

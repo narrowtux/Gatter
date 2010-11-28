@@ -123,8 +123,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
     connect(myScene,SIGNAL(elementMoved(QList<Element*>,QList<QPointF>)),this,SLOT(elementMoved(QList<Element*>,QList<QPointF>)));
+	QMenu * menu=new QMenu;
+	ui->addUTRecordingButton->setMenu(menu);
+	connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateConnectionAddMenu()));
+	connect(menu, SIGNAL(aboutToHide()), myScene, SLOT(clearHighlight()));
     //loadFile("/Users/tux/test.gtr");
-    ui->dockUTDiagram->close();
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
     
     myZoomOut=new QToolButton;
@@ -767,4 +770,66 @@ void MainWindow::printDialogClosed()
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.setRenderHint(QPainter::TextAntialiasing);
 	myScene->render(&painter);
+}
+
+void MainWindow::updateConnectionAddMenu()
+{
+    //Update Connections
+	QList<Element*> elements=myScene->elementList();
+	QList<Connection*> connections;
+	foreach(Element* element, elements){
+		connections<<element->inputs()<<element->outputs();
+	}
+
+	QMenu* menu=ui->addUTRecordingButton->menu();
+	if(menu==0){
+		menu=new QMenu;
+		ui->addUTRecordingButton->setMenu(menu);
+	}
+	menu->clear();
+	QList<QAction*> actions;
+	foreach (Connection* connection, connections){
+		QString name=connection->name();
+		if(name==""){
+			name=tr("(No name)");
+		}
+		name+=tr(" on %0").arg(connection->element()->metaObject()->className());
+		if(connection->connectionType()==Input){
+			name+=" ("+tr("Input")+")";
+		} else {
+			name+=" ("+tr("Output")+")";
+		}
+		QAction * action=new QAction(name, this);
+		QVariant pointer=qVariantFromValue<void*>(connection);
+		action->setProperty("connectionPointer", pointer);
+		connect(action, SIGNAL(hovered()), this, SLOT(connectionAddMenuHover()));
+		connect(action, SIGNAL(triggered()), this, SLOT(addUTConnectionRecording()));
+		actions<<action;
+	}
+	menu->addActions(actions);
+}
+
+void MainWindow::connectionAddMenuHover()
+{
+	QAction * action = qobject_cast<QAction*>(sender());
+	Connection* connection = static_cast<Connection*>(qVariantValue<void*>(action->property("connectionPointer")));
+	myScene->highlight(connection);
+}
+
+void MainWindow::on_recordUTButton_toggled(bool checked)
+{
+    foreach(UTDiagram* dia, myDiagrams){
+		dia->setRecordingStatus(checked);
+	}
+}
+
+void MainWindow::addUTConnectionRecording()
+{
+	UTDiagram* dia=new UTDiagram;
+	QAction * action = qobject_cast<QAction*>(sender());
+	Connection* connection = static_cast<Connection*>(qVariantValue<void*>(action->property("connectionPointer")));
+	connect(connection, SIGNAL(changed(bool)), dia, SLOT(changeSignal(bool)));
+	myDiagrams<<dia;
+	dia->setRecordingStatus(ui->recordUTButton->isChecked());
+	ui->UTRecordLayout->addWidget(dia);
 }

@@ -43,6 +43,9 @@ public:
     QColor elementColor();
     void releaseConnections();
 	QPainterPath shape() const;
+	QList<Connection*> inputs();
+	QList<Connection*> outputs();
+	
 public slots:
     void setElementColor(QColor c);
 signals:
