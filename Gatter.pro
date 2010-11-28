@@ -40,7 +40,9 @@ SOURCES += src/main.cpp\
     src/visualisation/visualisationmodel.cpp \
     src/scene/highlighter.cpp \
     src/elements/tunnel.cpp \
-    src/elements/oppositefinder.cpp
+    src/elements/oppositefinder.cpp \
+    src/grapher/utdiagram.cpp \
+    src/grapher/grapher.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -74,7 +76,9 @@ HEADERS  += src/widgets/mainwindow.h \
     src/visualisation/visualisationmodel.h \
     src/scene/highlighter.h \
     src/elements/tunnel.h \
-    src/elements/oppositefinder.h
+    src/elements/oppositefinder.h \
+    src/grapher/utdiagram.h \
+    src/grapher/grapher.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \
