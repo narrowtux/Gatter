@@ -10,7 +10,7 @@ class UTDiagram : public QGraphicsView
     Q_OBJECT
 public:
     explicit UTDiagram(QWidget *parent = 0);
-
+	~UTDiagram();
 signals:
 
 public slots:

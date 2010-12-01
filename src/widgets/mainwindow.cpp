@@ -198,6 +198,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 MainWindow::~MainWindow()
 {
     mainWindows.removeAll(this);
+	delete myDiagram;
     delete ui;
 }
 
