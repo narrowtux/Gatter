@@ -446,3 +446,8 @@ QList<QGraphicsItem *> Connection::connectedElements(QList<QGraphicsItem *> befo
 		return QList<QGraphicsItem *>()<<connectedToElement;
 	}
 }
+
+void Connection::flushValue()
+{
+	emit(changed(value()));
+}

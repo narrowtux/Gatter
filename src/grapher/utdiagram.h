@@ -30,7 +30,7 @@ private:
 	int timeOffset;
 	QTimer *timer;
 	bool recording;
-
+	QMap<QObject *, Grapher::Line *> myLines;
 };
 
 #endif // UTDIAGRAM_H

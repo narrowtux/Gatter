@@ -80,6 +80,7 @@ private:
 	QPrintDialog *printDialog;
 	
 	QList<UTDiagram*> myDiagrams;
+	UTDiagram* myDiagram;
 private slots:
 	void printDialogClosed();
 	void on_actionNew_GraphicsView_triggered();

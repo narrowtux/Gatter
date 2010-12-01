@@ -24,6 +24,7 @@ public:
 	void addLine(Line* l);
 	void clear();
 	void update();
+	void addPoint(Line *l, QPointF p);
 signals:
 	
 public slots:

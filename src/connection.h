@@ -31,6 +31,8 @@ public:
     void setClock(bool clock);
 	ConnectionType connectionType();
 	QList<QGraphicsItem *> connectedElements(QList<QGraphicsItem *> before=QList<QGraphicsItem *>());
+public slots:
+	void flushValue();
 signals:
     void changed(bool);
     void recalculate();

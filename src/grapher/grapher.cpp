@@ -64,3 +64,15 @@ Grapher::Line::Line()
 	offset=QPoint(0,0);
 	lastLine=0;
 }
+
+void Grapher::addPoint(Grapher::Line *line, QPointF p)
+{
+	QPointF lastPoint=line->points.last();
+	line->points<<p;
+	QLineF l(lastPoint, p);
+	QTransform t;
+	t.translate(line->offset.x(), line->offset.y());
+	t.scale(line->scaleX, line->scaleY);
+	l=t.map(l);
+	line->lastLine=myScene->addLine(l, line->pen);
+}

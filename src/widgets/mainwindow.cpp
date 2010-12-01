@@ -183,6 +183,10 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	
 	printDialog=0;
 	
+	myDiagram=new UTDiagram;
+	ui->UTRecordLayout->addWidget(myDiagram);
+	myDiagram->setRecordingStatus(false);
+	
     QTimer* timer=new QTimer;
 	timer->setSingleShot(true);
 	timer->start(0);
@@ -818,18 +822,13 @@ void MainWindow::connectionAddMenuHover()
 
 void MainWindow::on_recordUTButton_toggled(bool checked)
 {
-    foreach(UTDiagram* dia, myDiagrams){
-		dia->setRecordingStatus(checked);
-	}
+    myDiagram->setRecordingStatus(checked);
 }
 
 void MainWindow::addUTConnectionRecording()
 {
-	UTDiagram* dia=new UTDiagram;
 	QAction * action = qobject_cast<QAction*>(sender());
 	Connection* connection = static_cast<Connection*>(qVariantValue<void*>(action->property("connectionPointer")));
-	connect(connection, SIGNAL(changed(bool)), dia, SLOT(changeSignal(bool)));
-	myDiagrams<<dia;
-	dia->setRecordingStatus(ui->recordUTButton->isChecked());
-	ui->UTRecordLayout->addWidget(dia);
+	connect(connection, SIGNAL(changed(bool)), myDiagram, SLOT(changeSignal(bool)));
+	connection->flushValue();
 }
