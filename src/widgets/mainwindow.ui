@@ -248,7 +248,7 @@
           <x>0</x>
           <y>0</y>
           <width>226</width>
-          <height>198</height>
+          <height>204</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -314,8 +314,15 @@
        <property name="contextMenuPolicy">
         <enum>Qt::PreventContextMenu</enum>
        </property>
+       <property name="toolTip">
+        <string>Add watched connection</string>
+       </property>
        <property name="text">
         <string>+</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../res.qrc">
+         <normaloff>:/icons/toolbar/icons/list-add.png</normaloff>:/icons/toolbar/icons/list-add.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::InstantPopup</enum>
@@ -325,10 +332,17 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
       <widget class="QToolButton" name="recordUTButton">
+       <property name="toolTip">
+        <string>Record</string>
+       </property>
        <property name="text">
         <string>Rec</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../res.qrc">
+         <normaloff>:/icons/toolbar/icons/record.png</normaloff>:/icons/toolbar/icons/record.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -348,8 +362,28 @@
        </property>
       </spacer>
      </item>
-     <item row="1" column="0" colspan="3">
+     <item row="1" column="0" colspan="4">
       <layout class="QVBoxLayout" name="UTRecordLayout"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QToolButton" name="autoScrollButton">
+       <property name="toolTip">
+        <string>Auto-Scroll</string>
+       </property>
+       <property name="text">
+        <string>Auto-Move to right</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../res.qrc">
+         <normaloff>:/icons/toolbar/icons/go-last.png</normaloff>:/icons/toolbar/icons/go-last.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -423,10 +457,14 @@
        <item>
         <widget class="QToolButton" name="toolAddTemplateFromFile">
          <property name="toolTip">
-          <string>Add Template from File</string>
+          <string>Add Template from File or Category</string>
          </property>
          <property name="text">
           <string>+</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../res.qrc">
+           <normaloff>:/icons/toolbar/icons/list-add.png</normaloff>:/icons/toolbar/icons/list-add.png</iconset>
          </property>
          <property name="popupMode">
           <enum>QToolButton::InstantPopup</enum>
@@ -436,10 +474,14 @@
        <item>
         <widget class="QToolButton" name="toolRemoveTemplate">
          <property name="toolTip">
-          <string>Remove selected Template</string>
+          <string>Remove selected Template or Category</string>
          </property>
          <property name="text">
           <string>-</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../res.qrc">
+           <normaloff>:/icons/toolbar/icons/list-remove.png</normaloff>:/icons/toolbar/icons/list-remove.png</iconset>
          </property>
         </widget>
        </item>

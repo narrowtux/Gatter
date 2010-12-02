@@ -833,3 +833,9 @@ void MainWindow::addUTConnectionRecording()
 	connect(connection, SIGNAL(changed(bool)), myDiagram, SLOT(changeSignal(bool)));
 	connection->flushValue();
 }
+
+
+void MainWindow::on_autoScrollButton_clicked(bool checked)
+{
+    myDiagram->setAutoScrollStatus(checked);
+}

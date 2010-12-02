@@ -119,6 +119,7 @@ private slots:
 	void connectionAddMenuHover();
 	void on_recordUTButton_toggled(bool checked);
 	void addUTConnectionRecording();
+	void on_autoScrollButton_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H

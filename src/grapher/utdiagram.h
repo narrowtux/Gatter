@@ -19,6 +19,7 @@ public slots:
 	void stopRecording();
 	void setRecordingStatus(bool rec);
 	void updateGraph();
+	void setAutoScrollStatus(bool autoScroll);
 private:
 private slots:
 	void tick();
@@ -31,6 +32,7 @@ private:
 	QTimer *timer;
 	bool recording;
 	QMap<QObject *, Grapher::Line *> myLines;
+	bool myAutoScroll;
 };
 
 #endif // UTDIAGRAM_H

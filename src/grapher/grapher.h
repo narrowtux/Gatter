@@ -18,6 +18,7 @@ public:
 	void update();
 	void addPoint(Line *l, QPointF p);
 	void updateLabel(qreal x);
+	void setAutoScrollStatus(bool autoScroll);
 signals:
 	
 public slots:
@@ -25,10 +26,11 @@ public slots:
 private:
 	QGraphicsScene * myScene;
 	QList<Line*> myLines;
+	QList<QGraphicsItem*> itemsToClear;
+	bool myAutoScroll;
 };
 
 class Grapher::Line{
-	friend class Grapher;
 public:
 	Line();
 	QList<QPointF> points;
@@ -39,8 +41,8 @@ public:
 	QString labelName;
 	QString labelTooltip;
 	Connection* connection;
-private:
 	QGraphicsTextItem *textItem;
 	void updateLabelText();
+private:
 };
 #endif // GRAPHER_H

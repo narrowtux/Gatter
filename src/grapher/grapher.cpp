@@ -6,6 +6,7 @@ Grapher::Grapher(QObject *parent) :
     QObject(parent)
 {
 	myScene=0;
+	myAutoScroll=true;
 }
 
 void Grapher::setScene(QGraphicsScene *scene)
@@ -27,7 +28,10 @@ void Grapher::setPoints(QList<QPointF> points)
 void Grapher::update()
 {
 	qreal maxX;
-	myScene->clear();
+	foreach(QGraphicsItem * item, itemsToClear){
+		delete item;
+	}
+	itemsToClear.clear();
 	if(myScene){
 		foreach(Line* line, myLines){
 			QPointF lastPoint = line->points.at(0);
@@ -39,6 +43,7 @@ void Grapher::update()
 				l=t.map(l);
 				maxX=qMax(maxX, l.p2().x());
 				line->lastLine=myScene->addLine(l, line->pen);
+				itemsToClear<<line->lastLine;
 				lastPoint=p;
 			}
 		}
@@ -51,6 +56,7 @@ void Grapher::update()
 void Grapher::addLine(Grapher::Line *l)
 {
 	myLines<<l;
+	l->textItem=myScene->addText("");
 	update();
 }
 
@@ -79,6 +85,7 @@ void Grapher::addPoint(Grapher::Line *line, QPointF p)
 	t.scale(line->scaleX, line->scaleY);
 	l=t.map(l);
 	line->lastLine=myScene->addLine(l, line->pen);
+	itemsToClear<<line->lastLine;
 	updateLabel(l.p2().x());
 }
 
@@ -88,11 +95,6 @@ void Grapher::updateLabel(qreal x)
 	foreach(Line * line, myLines){
 		line->updateLabelText();
 		QGraphicsTextItem *text=line->textItem;
-		if(text==0){
-			line->textItem=new QGraphicsTextItem;
-			myScene->addItem(line->textItem);
-			text=line->textItem;
-		}
 		items<<text;
 		text->setPlainText(line->labelName);
 		text->setToolTip(line->labelTooltip);
@@ -104,8 +106,9 @@ void Grapher::updateLabel(qreal x)
 	}
 	if(items.count())
 		path.translate(items.at(0)->pos());
-	qDebug()<<path.boundingRect();
-	myScene->views().at(0)->ensureVisible(path.boundingRect());
+	if(myAutoScroll){
+		myScene->views().at(0)->ensureVisible(path.boundingRect());
+	}
 }
 
 void Grapher::Line::updateLabelText()
@@ -123,4 +126,9 @@ void Grapher::Line::updateLabelText()
 		name+=" ("+tr("Output")+")";
 	}
 	labelTooltip=name;
+}
+
+void Grapher::setAutoScrollStatus(bool autoScroll)
+{
+	myAutoScroll=autoScroll;
 }

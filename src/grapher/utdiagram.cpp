@@ -31,21 +31,6 @@ void UTDiagram::changeSignal(bool value)
 			myLine->scaleY=-20;
 			myLine->scaleX=50;
 			myLine->offset=QPointF(0.5,0.5+30.0*myLines.count());
-			if(c!=0){
-				myLine->labelName=c->name();
-				QString name=c->name();
-				if(name==""){
-					name=tr("(No name)");
-					myLine->labelName=tr("(No name)");
-				}
-				name+=tr(" on %0").arg(c->element()->metaObject()->className());
-				if(c->connectionType()==Input){
-					name+=" ("+tr("Input")+")";
-				} else {
-					name+=" ("+tr("Output")+")";
-				}
-				myLine->labelTooltip=name;
-			}
 			myLine->connection=c;
 			myGrapher->addLine(myLine);
 			myLines.insert(obj, myLine);
@@ -107,4 +92,10 @@ void UTDiagram::tick()
 UTDiagram::~UTDiagram(){
 	delete timer;
 	delete myGrapher;
+}
+
+void UTDiagram::setAutoScrollStatus(bool autoScroll)
+{
+	myAutoScroll=autoScroll;
+	myGrapher->setAutoScrollStatus(autoScroll);
 }
