@@ -1,7 +1,6 @@
 #include "grapher.h"
-
-
 #include "src/elements/element.h"
+
 Grapher::Grapher(QObject *parent) :
     QObject(parent)
 {
