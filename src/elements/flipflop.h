@@ -42,6 +42,7 @@ private:
     EnumComboBox *triggerBox;
     QCheckBox *negateBox;
     bool myBetweenValue;
+	bool toggled;
 };
 
 #endif // FLIPFLOP_H

@@ -175,7 +175,7 @@ void Element::relayoutConnections(){
 		myOutputs[i]->setPos(rightSide,(height/(qreal)(count+1))*(1+i)+topSide);
     }
     update();
-	
+	connectionsChanged();
 }
 
 QPen Element::getSelectionPen(){
@@ -194,7 +194,6 @@ void Element::inputChanged(){
 
 void Element::recalculate(){
     if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", Element::recalculate()";
-    //DUMMY-Method
 }
 
 void Element::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
@@ -239,6 +238,7 @@ void Element::setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOu
 		c->setClock(false);
 		c->setName("");
     }
+	connectionsChanged();
 }
 
 void Element::createForm()
@@ -574,4 +574,10 @@ QList<Connection *> Element::inputs()
 QList<Connection *> Element::outputs()
 {
 	return myOutputs;
+}
+
+void Element::connectionsChanged()
+{
+	//Do some default implementation here
+	//Will be called after the count of Inputs / Outputs has been changed
 }

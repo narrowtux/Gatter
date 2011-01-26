@@ -127,6 +127,7 @@
     <addaction name="menuOutputs"/>
     <addaction name="actionInsertSubscene"/>
     <addaction name="actionInsertDelay"/>
+    <addaction name="actionInsertByTypeName"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -796,6 +797,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionInsertByTypeName">
+   <property name="text">
+    <string>By Type Name</string>
    </property>
   </action>
  </widget>

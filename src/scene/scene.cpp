@@ -15,6 +15,7 @@
 #include "src/elements/sevensegmentoutput.h"
 #include "src/elements/distributor.h"
 #include "src/elements/tunnel.h"
+#include "src/elements/shiftregister.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
 #include <QMimeData>
@@ -451,28 +452,30 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
 }
 
 Element* Scene::getElementFromTypeName(QString typeName){
-    if(typeName=="gatter")
+    if(typeName == "gatter")
 		return new Gatter;
-    if(typeName=="button")
+    if(typeName == "button")
 		return new Button;
-    if(typeName=="clock")
+    if(typeName == "clock")
 		return new Clock;
-    if(typeName=="lamp")
+    if(typeName == "lamp")
 		return new Lamp;
-    if(typeName=="switch")
+    if(typeName == "switch")
 		return new Switch;
-    if(typeName=="subscene")
+    if(typeName == "subscene")
 		return new SubScene;
-    if(typeName=="delay")
+    if(typeName == "delay")
 		return new Delay;
-    if(typeName=="flipflop")
+    if(typeName == "flipflop")
 		return new FlipFlop;
-    if(typeName=="hexoutput")
+    if(typeName == "hexoutput")
 		return new SevenSegmentOutput;
-	if(typeName=="distributor")
+	if(typeName == "distributor")
 		return new Distributor;
 	if(typeName == "tunnel")
 		return new Tunnel;
+	if(typeName == "shiftregister")
+		return new ShiftRegister;
     return 0;
 }
 

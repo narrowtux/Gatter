@@ -120,6 +120,7 @@ private slots:
 	void on_recordUTButton_toggled(bool checked);
 	void addUTConnectionRecording();
 	void on_autoScrollButton_clicked(bool checked);
+	void on_actionInsertByTypeName_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -84,6 +84,7 @@ protected:
     virtual void createFormAfter();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual void relayoutConnections();
+	virtual void connectionsChanged();
 private:
     int uniqueId;
     void createForm();

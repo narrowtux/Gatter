@@ -17,6 +17,7 @@ FlipFlop::FlipFlop(QGraphicsObject *parent) :
     myType="flipflop";
     setProperty("recalcs",0);
 	setTransformOriginPoint(QPointF(25,25));
+	toggled=false;
 }
 
 FlipFlop::FlipFlop(const FlipFlop &copy){
@@ -270,7 +271,7 @@ void FlipFlop::jump(bool v){
 		break;
     case JumpKill:
 		if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
-			if(myInputs[2]->value()){
+			if(myInputs[2]->value()&&!toggled){
 				myValue=!myValue;
 			} else {
 				myValue=1;
@@ -279,16 +280,16 @@ void FlipFlop::jump(bool v){
 		recalculate();
 		break;
     }
+	toggled=v;
 }
 
 void FlipFlop::kill(bool v){
-	Q_UNUSED(v)
     switch(myFlipFlopType){
     default:
 		break;
     case JumpKill:
 		if(v&&myFlipFlopTrigger==OnValue&&myInputs[1]->value()==myOnWhichValue){
-			if(myInputs[0]->value()){
+			if(myInputs[0]->value()&&!toggled){
 				myValue=!myValue;
 			} else {
 				myValue=0;
@@ -297,6 +298,7 @@ void FlipFlop::kill(bool v){
 		recalculate();
 		break;
     }
+	toggled=v;
 }
 
 void FlipFlop::other(bool v){
