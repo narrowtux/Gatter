@@ -55,10 +55,8 @@ void ShiftRegister::clock(bool value)
 
 void ShiftRegister::recalculate()
 {
-	qDebug()<<"Content of the register:";
 	for(int i = 0; i < myRegister.count(); i++){
 		myOutputs[i]->setValue(myRegister[i]);
-		qDebug()<<myRegister[i];
 	}
 }
 
@@ -74,12 +72,14 @@ void ShiftRegister::setPrivateXml(QXmlStreamWriter *xml)
 
 void ShiftRegister::readPrivateXml(QXmlStreamReader *xml)
 {
-	QString myRegisterCSV = xml->attributes().value("values").toString();
-	QStringList myValues = myRegisterCSV.split(";");
-	foreach(QString value, myValues){
-		bool bvalue = value.toInt();
-		myRegister.append(bvalue);		//Reverse shift here. How great!
-		myRegister.pop_front();
+	if(xml->attributes().hasAttribute("values")){
+		QString myRegisterCSV = xml->attributes().value("values").toString();
+		QStringList myValues = myRegisterCSV.split(";");
+		foreach(QString value, myValues){
+			bool bvalue = value.toInt();
+			myRegister.append(bvalue);		//Reverse shift here. How great!
+			myRegister.pop_front();
+		}
 	}
 	recalculate();
 }
