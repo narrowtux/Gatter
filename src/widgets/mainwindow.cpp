@@ -843,6 +843,9 @@ void MainWindow::on_autoScrollButton_clicked(bool checked)
 void MainWindow::on_actionInsertByTypeName_triggered()
 {
     QString typeName = QInputDialog::getText(this, tr("Enter Typename"), tr("Enter the Typename. For example: button"));
+	if(typeName == ""){
+		return;
+	}
 	Element * element = myScene->getElementFromTypeName(typeName);
 	if(element == 0){
 		QMessageBox::information(this, tr("Not found"), tr("The system has not found the type %0.").arg(typeName));
