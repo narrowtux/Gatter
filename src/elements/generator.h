@@ -14,13 +14,17 @@ private slots:
 	void indexClicked( const QModelIndex & index );
 	void rowsChanged(int rows);
 	void outputCountChanged(int count);
+	void clock(bool value);
 protected:
 	bool createFormBefore();
 	BitPattern * myBitPattern;
 	int myRows;
+	int myCurrentRow;
 	int myOutputCount;
 	void setPrivateXml(QXmlStreamWriter *xml);
 	void readPrivateXml(QXmlStreamReader *xml);
+	bool myBeforeValue;
+	void recalculate();
 };
 
 #endif // GENERATOR_H

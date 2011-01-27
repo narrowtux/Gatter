@@ -14,6 +14,9 @@ Generator::Generator(QGraphicsObject *parent) :
 	setMinMaxInputsOutputs(1,1,1,16);
 	setOutputs(myOutputCount);
 	myInputs[0]->setName("C");
+	connect(myInputs[0], SIGNAL(changed(bool)), this, SLOT(clock(bool)));
+	myCurrentRow = 0;
+	myBeforeValue;
 }
 
 QRectF Generator::boundingRect() const
@@ -79,6 +82,7 @@ void Generator::outputCountChanged(int count)
 void Generator::setPrivateXml(QXmlStreamWriter *xml)
 {
 	xml->writeAttribute("bitpattern",myBitPattern->toString());
+	xml->writeAttribute("currentrow", QString("%0").arg(myCurrentRow));
 }
 
 void Generator::readPrivateXml(QXmlStreamReader *xml)
@@ -88,5 +92,30 @@ void Generator::readPrivateXml(QXmlStreamReader *xml)
 		myRows = myBitPattern->rowCount(QModelIndex());
 		myOutputCount = myBitPattern->columnCount(QModelIndex());
 		setOutputs(myOutputCount);
+	}
+	if(xml->attributes().hasAttribute("currentrow")){
+		myCurrentRow = xml->attributes().value("currentrow").toString().toInt();
+	}
+}
+
+void Generator::clock(bool value)
+{
+	if(value && value!=myBeforeValue){
+		myCurrentRow++;
+		if(myCurrentRow>=myRows){
+			myCurrentRow=0;
+		}
+		recalculate();
+	}
+	myBeforeValue = value;
+}
+
+void Generator::recalculate()
+{
+	for (int i = 0; i<myOutputCount; i++)
+	{
+		QModelIndex index = myBitPattern->index(myCurrentRow, i);
+		bool value = myBitPattern->data(index, Qt::DisplayRole).toInt();
+		myOutputs.at(i)->setValue(value);
 	}
 }
