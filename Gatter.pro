@@ -43,7 +43,9 @@ SOURCES += src/main.cpp\
     src/elements/oppositefinder.cpp \
     src/grapher/utdiagram.cpp \
     src/grapher/grapher.cpp \
-    src/elements/shiftregister.cpp
+    src/elements/shiftregister.cpp \
+    src/elements/generator.cpp \
+    src/visualisation/bitpattern.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -80,7 +82,9 @@ HEADERS  += src/widgets/mainwindow.h \
     src/elements/oppositefinder.h \
     src/grapher/utdiagram.h \
     src/grapher/grapher.h \
-    src/elements/shiftregister.h
+    src/elements/shiftregister.h \
+    src/elements/generator.h \
+    src/visualisation/bitpattern.h
 
 FORMS    += src/widgets/mainwindow.ui \
     src/widgets/settingsdialog.ui \

@@ -16,6 +16,7 @@
 #include "src/elements/distributor.h"
 #include "src/elements/tunnel.h"
 #include "src/elements/shiftregister.h"
+#include "src/elements/generator.h"
 #include <qxmlstream.h>
 #include <QGestureRecognizer>
 #include <QMimeData>
@@ -476,6 +477,8 @@ Element* Scene::getElementFromTypeName(QString typeName){
 		return new Tunnel;
 	if(typeName == "shiftregister")
 		return new ShiftRegister;
+	if(typeName == "generator")
+		return new Generator;
     return 0;
 }
 
