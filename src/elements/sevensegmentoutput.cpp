@@ -16,7 +16,7 @@ SevenSegmentOutput::SevenSegmentOutput(QGraphicsObject *parent) :
 void SevenSegmentOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Element::paint(painter,option,widget);
     QPen onPen("red");
-    QPen offPen("gray");
+    QPen offPen("lightgray");
     /*
      Seven-Segment Display:
         A0
@@ -42,7 +42,7 @@ void SevenSegmentOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem
 		if(values[i]){
 			painter->setBrush(QColor("red"));
 		}else{
-			painter->setBrush(QColor("gray"));
+			painter->setBrush(QColor("lightgray"));
 		}
 		QPainterPath path;
 		path.addPolygon(segment);
