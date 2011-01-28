@@ -26,7 +26,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
-#include <QDebug>
+#include <qDebug>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QIcon>	
@@ -56,7 +56,7 @@ QKeySequenceWidget::QKeySequenceWidget(QKeySequence seq, QString noneString, QWi
 {
     Q_D(QKeySequenceWidget);
     d->q_ptr = this;
-    qDebug() << "q_prt " << this;
+    //qDebug() << "q_prt " << this;
     d->init(seq, noneString);
     _connectingSlots();
 }
@@ -67,10 +67,10 @@ QKeySequenceWidget::QKeySequenceWidget(QKeySequence seq, QString noneString, QWi
 QKeySequenceWidget::QKeySequenceWidget(QKeySequence seq, QWidget *parent) :
         QWidget(parent), d_ptr(new QKeySequenceWidgetPrivate())
 {
-    qDebug() << "widget constructor";
+    //qDebug() << "widget constructor";
     Q_D(QKeySequenceWidget);
     d->q_ptr = this;
-    qDebug() << "q_prt " << this;
+    //qDebug() << "q_prt " << this;
     d->init(seq, QString());
     _connectingSlots();
 
@@ -82,10 +82,10 @@ QKeySequenceWidget::QKeySequenceWidget(QKeySequence seq, QWidget *parent) :
 QKeySequenceWidget::QKeySequenceWidget(QString noneString, QWidget *parent) :
         QWidget(parent), d_ptr(new QKeySequenceWidgetPrivate())
 {
-    qDebug() << "widget constructor";
+    //qDebug() << "widget constructor";
     Q_D(QKeySequenceWidget);
     d->q_ptr = this;
-    qDebug() << "q_prt " << this;
+    //qDebug() << "q_prt " << this;
     d->init(QKeySequence(), noneString);
 
     _connectingSlots();
@@ -298,7 +298,7 @@ void QKeySequenceWidgetPrivate::setToolTip(const QString &tip)
 // update the location of widgets
 void QKeySequenceWidgetPrivate::updateView()
 {
-    qDebug() << "update view ";
+    //qDebug() << "update view ";
     switch(showClearButton)
     {
     case QKeySequenceWidget::ShowLeft:
@@ -458,7 +458,7 @@ bool QShortcutButton::event(QEvent *e)
 
 void QShortcutButton::keyPressEvent(QKeyEvent *keyEvent)
 {
-    qDebug() << "key pressed";
+    //qDebug() << "key pressed";
     int keyQt =  keyEvent->key();
 
 // Qt sometimes returns garbage keycodes, I observed -1,
@@ -545,7 +545,7 @@ void QShortcutButton::keyPressEvent(QKeyEvent *keyEvent)
 
 void QShortcutButton::keyReleaseEvent(QKeyEvent *keyEvent)
 {
-    qDebug() << "key released";
+    //qDebug() << "key released";
     if (keyEvent->key() == -1)
     {
         // ignore garbage, see keyPressEvent()

@@ -141,9 +141,9 @@ void Gatter::recalculate(){
 			}
 		}
 		if(co%2!=0){
-			val=0;
-		} else {
 			val=1;
+		} else {
+			val=0;
 		}
 		break;
     case DUPLICATOR:
