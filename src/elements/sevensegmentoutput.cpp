@@ -15,8 +15,6 @@ SevenSegmentOutput::SevenSegmentOutput(QGraphicsObject *parent) :
 
 void SevenSegmentOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Element::paint(painter,option,widget);
-    QPen onPen("red");
-    QPen offPen("lightgray");
     /*
      Seven-Segment Display:
         A0

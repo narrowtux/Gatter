@@ -15,6 +15,7 @@ private slots:
 	void rowsChanged(int rows);
 	void outputCountChanged(int count);
 	void clock(bool value);
+	void inputTypeSelected(int type);
 protected:
 	bool createFormBefore();
 	BitPattern * myBitPattern;
@@ -25,6 +26,7 @@ protected:
 	void readPrivateXml(QXmlStreamReader *xml);
 	bool myBeforeValue;
 	void recalculate();
+	bool myInputType;
 };
 
 #endif // GENERATOR_H
