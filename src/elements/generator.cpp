@@ -7,6 +7,7 @@ Generator::Generator(QGraphicsObject *parent) :
 	myRows = 8;
 	myOutputCount = 4;
 	myBitPattern->init(myRows, myOutputCount);
+	connect(myBitPattern, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(recalculate()));
 	setData(ElementName,"Generator");
 	myType="generator";
 	height = 50;
@@ -56,7 +57,7 @@ bool Generator::createFormBefore()
 	QComboBox *comboInputType = new QComboBox;
 	QLabel *labelInput = new QLabel(tr("Input Type"));
 	comboInputType->addItem(tr("Clock Input"));
-	comboInputType->addItem(tr("Use number input for row selection"));
+	comboInputType->addItem(tr("Number Input"));
 	layout->addRow(labelInput, comboInputType);
 	additionalWidgets<<comboInputType<<labelInput;
 	connect(comboInputType, SIGNAL(currentIndexChanged(int)), this, SLOT(inputTypeSelected(int)));
@@ -68,7 +69,6 @@ void Generator::indexClicked(const QModelIndex &index)
 	bool value = myBitPattern->data(index, Qt::DisplayRole).toBool();
 	value = !value;
 	myBitPattern->setData(index, value, Qt::DisplayRole);
-	recalculate();
 }
 
 void Generator::rowsChanged(int rows)
