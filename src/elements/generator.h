@@ -27,6 +27,7 @@ protected:
 	bool myBeforeValue;
 	void recalculate();
 	bool myInputType;
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 };
 
 #endif // GENERATOR_H

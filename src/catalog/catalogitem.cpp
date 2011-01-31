@@ -9,12 +9,19 @@ CatalogItem::CatalogItem(const QList<QVariant> &data, CatalogItem *parent)
 		if(data.count()>=3)
 			itemPredefined=data.at(2).toBool();
 	}
+	myInMenu = false;
 }
 
 CatalogItem::CatalogItem(const QMap<QString, QVariant> &data, CatalogItem *parent){
 	itemName=data["name"].toString();
 	itemXml=data["xml"].toString();
 	itemPredefined=data["predefined"].toBool();
+	if(data.contains("shortcut")){
+		myShortcut = QKeySequence::fromString(data["shortcut"].toString());
+	}
+	if(data.contains("inmenu")){
+		myInMenu = data["inmenu"].toBool();
+	}
 	foreach(QVariant c, data["childItems"].toList()){
 		appendChild(new CatalogItem(c.toMap(),this));
 	}
@@ -114,6 +121,8 @@ QVariant CatalogItem::saveData()
 	list.insert("name",itemName);
 	list.insert("xml",itemXml);
 	list.insert("predefined", itemPredefined);
+	list.insert("inmenu", myInMenu);
+	list.insert("shortcut", myShortcut.toString(QKeySequence::PortableText));
 	QList<QVariant> children;
 	foreach(CatalogItem*c, childItems){
 		children<<c->saveData();

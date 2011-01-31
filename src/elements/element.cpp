@@ -23,6 +23,9 @@ Element::Element(QGraphicsObject* parent) :
     layout=0;
     isMoving=false;
     myElementColor=QColor(255,255,255);
+	mySelectionOpacityAnimation = new QPropertyAnimation(this, "selectionOpacity", this);
+	mySelectionOpacity = 0.0;
+	myIsSelected = false;
 }
 
 Element::~Element()
@@ -408,6 +411,9 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 			c->itemChange(change,value);
 		}
 	}
+	if(change==ItemSceneHasChanged){
+		connect(scene(), SIGNAL(selectionChanged()), this, SLOT(selectionUpdated()));
+	}
     return value;
 }
 
@@ -432,12 +438,15 @@ void Element::createFormAfter(){
 void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
+	
+	
     painter->setRenderHint(QPainter::HighQualityAntialiasing,true);
+	
+	
+	
+	//Draw Background
     painter->setPen(QColor("gray"));
-    if(isSelected()){
-		painter->setPen(getSelectionPen());
-    }
-    QLinearGradient gradient;
+	QLinearGradient gradient;
     int h,s,v;
     myElementColor.getHsv(&h,&s,&v);
     QColor gradientLight, gradientDark;
@@ -457,8 +466,20 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawEllipse(boundingRect().topRight()+QPointF(-5,5),1,1);
     painter->drawEllipse(boundingRect().bottomLeft()+QPointF(5,-5),1,1);
     painter->drawEllipse(boundingRect().bottomRight()+QPointF(-5,-5),1,1);
-    painter->setPen(QColor("black"));
-    painter->setBrush(Qt::NoBrush);
+	
+	//Draw Selection
+	QPen pen = getSelectionPen();
+	QColor co = pen.color();
+	co.setAlpha(mySelectionOpacity*255.0);
+	pen.setColor(co);
+	painter->setPen(pen);
+	painter->setBrush(Qt::NoBrush);
+	if(mySelectionOpacity!=0)
+		painter->drawRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
+	
+	//reset painter
+	painter->setPen(Qt::black);
+	painter->setBrush(Qt::NoBrush);
 	
 	//Draw labels
 	QFont font=painter->font();
@@ -580,4 +601,31 @@ void Element::connectionsChanged()
 {
 	//Do some default implementation here
 	//Will be called after the count of Inputs / Outputs has been changed
+}
+
+qreal Element::selectionOpacity()
+{
+	return mySelectionOpacity;
+}
+
+void Element::setSelectionOpacity(qreal op)
+{
+	mySelectionOpacity = op;
+	update();
+}
+
+void Element::selectionUpdated()
+{
+	if(isSelected() != myIsSelected){
+		mySelectionOpacityAnimation->setDuration(100);
+		if(isSelected()){
+			mySelectionOpacityAnimation->setStartValue(0.0);
+			mySelectionOpacityAnimation->setEndValue(1.0);
+		} else {
+			mySelectionOpacityAnimation->setStartValue(1.0);
+			mySelectionOpacityAnimation->setEndValue(0.0);
+		}
+		mySelectionOpacityAnimation->start();
+	}
+	myIsSelected = isSelected();
 }

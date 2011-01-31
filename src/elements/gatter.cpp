@@ -23,8 +23,6 @@ Gatter::Gatter(QGraphicsObject *parent) :
 int Gatter::delayMS=0;
 
 void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
     Element::paint(painter,option,widget);
     QString text;
     switch(myGatterType){
@@ -53,11 +51,6 @@ void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 	painter->setFont(f);
     o.setAlignment(Qt::AlignCenter);
     painter->drawText(boundingRect().adjusted(5,5,-5,-5),text,o);
-    if(isSelected()){
-		painter->setPen(getSelectionPen());
-		painter->setBrush(Qt::NoBrush);
-		painter->drawRect(boundingRect().adjusted(1,1,-1,-1));
-    }
 }
 
 QSize Gatter::sizeHint() const{

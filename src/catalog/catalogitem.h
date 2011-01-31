@@ -1,7 +1,7 @@
 #ifndef CATALOGITEM_H
 #define CATALOGITEM_H
 #include <QVariantList>
-
+#include <QKeySequence>
 class CatalogItem
 {
 public:
@@ -31,5 +31,7 @@ private:
 	QString itemXml;
 	bool itemPredefined;
     CatalogItem *parentItem;
+	bool myInMenu;
+	QKeySequence myShortcut;
 };
 #endif // CATALOGITEM_H

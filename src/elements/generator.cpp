@@ -148,6 +148,7 @@ void Generator::recalculate()
 		bool value = myBitPattern->data(index, Qt::DisplayRole).toInt();
 		myOutputs.at(i)->setValue(value);
 	}
+	update();
 }
 
 void Generator::inputTypeSelected(int type)
@@ -169,4 +170,24 @@ void Generator::inputTypeSelected(int type)
 		break;
 	}
 	myInputType = type;
+}
+
+void Generator::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+	Element::paint(painter, option, widget);
+	if(myRows>1){
+		QRectF rect = boundingRect().adjusted(10,10,-10,-10);
+		qreal height = rect.height();
+		painter->setPen(Qt::black);
+		painter->setBrush(Qt::NoBrush);
+		painter->drawRect(rect);
+		
+		qreal p = (qreal)myCurrentRow/((qreal)myRows-1);
+		height*=p;
+		QRectF prect = rect;
+		prect.setHeight(height);
+		painter->setPen(Qt::NoPen);
+		painter->setBrush(QApplication::palette().highlight());
+		painter->drawRect(prect);
+	}
 }

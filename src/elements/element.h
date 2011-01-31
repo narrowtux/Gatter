@@ -13,9 +13,11 @@
 #include <qxmlstream.h>
 #include <QtConcurrentRun>
 #include "src/widgets/colorbutton.h"
+#include <QPropertyAnimation>
 
 class Element : public QGraphicsObject
 {
+	Q_PROPERTY(qreal selectionOpacity READ selectionOpacity WRITE setSelectionOpacity)
     Q_OBJECT
     friend class Scene;
     friend class Connection;
@@ -45,7 +47,8 @@ public:
 	QPainterPath shape() const;
 	QList<Connection*> inputs();
 	QList<Connection*> outputs();
-	
+	qreal selectionOpacity();
+	void setSelectionOpacity(qreal op);
 public slots:
     void setElementColor(QColor c);
 signals:
@@ -85,17 +88,21 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual void relayoutConnections();
 	virtual void connectionsChanged();
+	qreal mySelectionOpacity;
 private:
     int uniqueId;
     void createForm();
     void deleteForm();
     bool isMoving;
+	QPropertyAnimation *mySelectionOpacityAnimation;
+	bool myIsSelected;
 private slots:
     void inputChanged();
     void updateName(QWidget* lineEdit);
     void updateNegation(QWidget* checkBox);
     void updateInputs(int);
     void updateOutputs(int);
+	void selectionUpdated();
 };
 
 #endif // ELEMENT_H
