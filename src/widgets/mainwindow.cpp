@@ -599,11 +599,19 @@ void MainWindow::on_actionRotate_triggered()
     foreach(QGraphicsItem* i, myScene->selectedItems()){
 		qreal rotation=i->data(ElementRotation).toReal();
 		rotation+=Element::rotationSteps;
+		qreal aniRotation = rotation;
 		if(rotation>=360){
 			rotation-=360;
 		}
-		i->setRotation(rotation);
-		qDebug()<<i->rotation();
+		QGraphicsObject *obj = static_cast<QGraphicsObject *>(i);
+		if(obj!=0){
+			QPropertyAnimation *ani = new QPropertyAnimation(obj, "rotation", this);
+			ani->setEndValue(aniRotation);
+			ani->setDuration(200);
+			ani->start(QAbstractAnimation::DeleteWhenStopped);
+		} else {
+			i->setRotation(rotation);
+		}
 		i->setData(ElementRotation,rotation);
     }
 }
