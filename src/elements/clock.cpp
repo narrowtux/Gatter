@@ -38,11 +38,6 @@ void Clock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     QTextOption o;
     o.setAlignment(Qt::AlignCenter);
     painter->drawText(boundingRect().adjusted(5,5,-5,-5),"C",o);
-    if(isSelected()){
-	painter->setPen(getSelectionPen());
-	painter->setBrush(Qt::NoBrush);
-	painter->drawRect(boundingRect().adjusted(1,1,-1,-1));
-    }
 }
 
 bool Clock::createFormBefore()

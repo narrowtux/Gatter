@@ -155,6 +155,8 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	myZoomBox->setRange(25,800);
 	myZoomBox->setValue(100);
 	myZoomBox->setSuffix(" %");
+	myZoomBox->setAccelerated(true);
+	myZoomBox->setSingleStep(10);
 	connect(myZoomBox, SIGNAL(valueChanged(int)), this, SLOT(zoomTo(int)));
 	ui->statusBar->addPermanentWidget(myZoomBox);
 	

@@ -4,8 +4,9 @@
 #include "src/scene/scene.h"
 #include "src/defines.h"
 #include "src/elements/element.h"
+#include <QPropertyAnimation>
 GraphicsView::GraphicsView(QWidget *parent) :
-		QGraphicsView(parent)
+    QGraphicsView(parent)
 {
     grabGesture(Qt::PinchGesture);
     myScaleFactor=1;
@@ -47,8 +48,19 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 				qreal rotation=i->rotation();
 				qreal r=round(rotation/Element::rotationSteps);
 				r*=Element::rotationSteps;
-				qDebug()<<"rotation"<<rotation<<"final rotation"<<r;
-				i->setRotation(r);
+				//qDebug()<<"rotation"<<rotation<<"final rotation"<<r;
+				QGraphicsObject *obj = static_cast<QGraphicsObject *>(i);
+				if(obj!=0){
+					QPropertyAnimation *anim = new QPropertyAnimation(this);
+					anim->setTargetObject(obj);
+					anim->setPropertyName("rotation");
+					anim->setStartValue(rotation);
+					anim->setEndValue(r);
+					anim->setDuration(300);
+					anim->start(QAbstractAnimation::DeleteWhenStopped);
+				} else {
+					i->setRotation(r);
+				}
 				i->setData(ElementRotation,r);
 			}
 		}
