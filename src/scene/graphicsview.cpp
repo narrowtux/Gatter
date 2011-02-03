@@ -40,6 +40,7 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 			if(qAbs(1.0-value)>0.05){
 				currentStepScaleFactor = value;
 			}
+			setScale(myScaleFactor);
 		}
 		if (gesture->state() == Qt::GestureFinished) {
 			myScaleFactor *= currentStepScaleFactor;
@@ -65,12 +66,14 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 			}
 		}
 		setScale(myScaleFactor);
-		emit(scaleFactorChanged(myScaleFactor*100));
     }
     return true;
 }
 
 void GraphicsView::setScale(qreal scale){
+	if(scale>8){
+		scale = 8;
+	}
     myScaleFactor=scale;
     QTransform tr;
     tr.scale(currentStepScaleFactor * myScaleFactor,currentStepScaleFactor * myScaleFactor);
