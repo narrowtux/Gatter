@@ -522,6 +522,15 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		painter->setFont(font);
 		painter->drawText(rect, name, QTextOption(Qt::AlignRight|Qt::AlignVCenter));
 	}
+	
+	/* 
+	 * Draw the title. It has to be on Top of the Element, according to
+	 * http://www.elektronik-kompendium.de/sites/dig/0207261.htm
+	 */
+	
+	QRectF textRect = boundingRect().adjusted(15,0,-15,0);
+	textRect.setHeight(20);
+	painter->drawText(textRect, myTitle, QTextOption(Qt::AlignCenter));
 }
 
 void Element::setPos(const QPointF &pos){
@@ -630,4 +639,15 @@ void Element::selectionUpdated()
 		mySelectionOpacityAnimation->start();
 	}
 	myIsSelected = isSelected();
+}
+
+QString Element::title()
+{
+	return myTitle;
+}
+
+void Element::setTitle(QString title)
+{
+	myTitle = title;
+	update();
 }

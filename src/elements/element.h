@@ -49,7 +49,9 @@ public:
 	QList<Connection*> outputs();
 	qreal selectionOpacity();
 	void setSelectionOpacity(qreal op);
+	QString title();
 public slots:
+	void setTitle(QString title);
     void setElementColor(QColor c);
 signals:
     void outputChanged(bool);
@@ -89,6 +91,7 @@ protected:
     virtual void relayoutConnections();
 	virtual void connectionsChanged();
 	qreal mySelectionOpacity;
+	QString myTitle;
 private:
     int uniqueId;
     void createForm();

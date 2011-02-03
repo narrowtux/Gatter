@@ -17,6 +17,7 @@ Clock::Clock(QGraphicsObject *parent) :
     high->start();
     myType="clock";
     tr("Clock");
+	setTitle("C");
 }
 
 void Clock::setLow(){
@@ -31,13 +32,6 @@ void Clock::setHigh(){
 
 QRectF Clock::boundingRect() const{
     return QRectF(-25,-25,width,height);
-}
-
-void Clock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Element::paint(painter,option,widget);
-    QTextOption o;
-    o.setAlignment(Qt::AlignCenter);
-    painter->drawText(boundingRect().adjusted(5,5,-5,-5),"C",o);
 }
 
 bool Clock::createFormBefore()

@@ -22,7 +22,6 @@ signals:
 public slots:
     void sendChanges();
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     Type myGatterType;
     bool beforeValue;
     bool beforeUndefined;

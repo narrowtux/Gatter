@@ -18,7 +18,6 @@ private slots:
     void setLowTime(int value);
     void setHighTime(int value);
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
     QTimer* low;
     QTimer* high;

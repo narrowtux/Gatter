@@ -22,37 +22,6 @@ Gatter::Gatter(QGraphicsObject *parent) :
 
 int Gatter::delayMS=0;
 
-void Gatter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Element::paint(painter,option,widget);
-    QString text;
-    switch(myGatterType){
-    case AND:
-		text="&";
-		break;
-    case OR:
-		text=QString::fromUtf8("≥1");
-		break;
-    case NOT:
-		text="1";
-		break;
-    case XOR:
-		text="=1";
-		break;
-    case DUPLICATOR:
-		text="";
-		break;
-    case ICON:
-		text="Gatter";
-		break;
-    }
-    QTextOption o;
-	QFont f=painter->font();
-	f.setPixelSize(12);
-	painter->setFont(f);
-    o.setAlignment(Qt::AlignCenter);
-    painter->drawText(boundingRect().adjusted(5,5,-5,-5),text,o);
-}
-
 QSize Gatter::sizeHint() const{
     return QSize(50,50);
 }
@@ -63,30 +32,36 @@ void Gatter::setType(Type t){
     case AND:
 		setData(ElementName,"And");
 		setMinMaxInputsOutputs(2,-1,1,1);
+		setTitle("&");
 		break;
     case NOT:
 		setMinMaxInputsOutputs(1,1,1,1);
 		myOutputs[0]->setNegated(1);
 		setData(ElementName,"Not");
+		setTitle("1");
 		break;
     case OR:
 		setMinMaxInputsOutputs(2,-1,1,1);
 		setData(ElementName,"Or");
+		setTitle(QString::fromUtf8("≥1"));
 		break;
     case XOR:
 		setMinMaxInputsOutputs(2,-1,1,1);
 		setData(ElementName,"XOr");
+		setTitle("=1");
 		break;
     case DUPLICATOR:
 		setData(ElementName,"Duplicator");
 		width=30;
 		setMinMaxInputsOutputs(1,1,1,-1);
 		setOutputs(4);
+		setTitle("");
 		break;
     case ICON:
 		setData(ElementName,"Icon");
 		setMinMaxInputsOutputs(2,2,1,1);
 		setScale(10);
+		setTitle("Gatter");
 		break;
     }
     update(boundingRect());
