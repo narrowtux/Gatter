@@ -66,8 +66,6 @@ private:
     void updateActions();
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *);
-    void saveFileTo(QString fileName);
-    void loadFileFrom(QString fileName);
     void writeSettings();
     bool maybeSave();
     QString strippedName(const QString &fullFileName);

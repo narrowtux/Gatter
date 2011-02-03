@@ -252,20 +252,10 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 MainWindow* MainWindow::newFile()
 {
-    MainWindow* m=new MainWindow(0);
+    MainWindow* m=new MainWindow;
     m->ui->elementCatalog->setModel(elementCatalog);
     m->show();
     return m;
-}
-
-void MainWindow::saveFileTo(QString fileName){
-	Q_UNUSED(fileName);
-    save();
-}
-
-void MainWindow::loadFileFrom(QString fileName){
-	Q_UNUSED(fileName);
-    open();
 }
 
 void MainWindow::open()
