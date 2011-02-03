@@ -9,7 +9,7 @@ ShiftRegister::ShiftRegister(QGraphicsObject *parent) :
     myValue=0;
     height=50;
     width=50;
-	setMinMaxInputsOutputs(2,2,4,16);
+	setMinMaxInputsOutputs(7,19,4,16);
 	beforeClockValue = false;
 }
 
@@ -20,10 +20,16 @@ QRectF ShiftRegister::boundingRect() const
 
 void ShiftRegister::connectionsChanged()
 {
-	if(myInputs.count()>=2){
+	if(myInputs.count()>=3){
 		myInputs.at(0)->setName("D");
 		myInputs.at(1)->setName("C");
+		myInputs.at(2)->setName("T");
 		connect(myInputs.at(1), SIGNAL(changed(bool)), this, SLOT(clock(bool)));
+	}
+	if(myInputs.count()>=4){
+		for (int i = 3; i<myInputs.count(); i++){
+			myInputs.at(i)->setName(QString("I%0").arg(i-2));
+		}
 	}
 	for (int i = 0; i<myOutputs.count(); i++){
 		myOutputs.at(i)->setName(QString("Q%0").arg(i+1));
@@ -55,6 +61,13 @@ void ShiftRegister::clock(bool value)
 
 void ShiftRegister::recalculate()
 {
+	if(myInputs.at(2)->value()==1){
+		//Set Data from Inputs
+		for(int i = 3; i<myInputs.count(); i++){
+			myRegister.append(myInputs.at(i)->value());
+			myRegister.pop_front();
+		}
+	}
 	for(int i = 0; i < myRegister.count(); i++){
 		myOutputs[i]->setValue(myRegister[i]);
 	}
@@ -82,4 +95,27 @@ void ShiftRegister::readPrivateXml(QXmlStreamReader *xml)
 		}
 	}
 	recalculate();
+}
+
+void ShiftRegister::relayoutConnections()
+{
+	Element::relayoutConnections();
+}
+
+bool ShiftRegister::createFormBefore()
+{
+	QLabel *bitCountLabel = new QLabel(tr("Size"));
+	QSpinBox *bitCountSpinBox = new QSpinBox;
+	bitCountSpinBox->setRange(4,16);
+	bitCountSpinBox->setValue(myOutputs.count());
+	layout->addRow(bitCountLabel, bitCountSpinBox);
+	connect(bitCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bitCountChanged(int)));
+	additionalWidgets<<bitCountLabel<<bitCountSpinBox;
+	return false;
+}
+
+void ShiftRegister::bitCountChanged(int n)
+{
+	setInputs(n+3);
+	setOutputs(n);
 }

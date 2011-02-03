@@ -17,10 +17,13 @@ private slots:
 	void shift();
 	void clock(bool value);
 	void recalculate();
+	void bitCountChanged(int n);
 protected:
 	void connectionsChanged();
 	QVector<bool> myRegister;
 	bool beforeClockValue;
+	void relayoutConnections();
+	bool createFormBefore();
 };
 
 #endif // SHIFTREGISTER_H

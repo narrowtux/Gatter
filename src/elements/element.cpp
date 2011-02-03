@@ -412,7 +412,8 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
 		}
 	}
 	if(change==ItemSceneHasChanged){
-		connect(scene(), SIGNAL(selectionChanged()), this, SLOT(selectionUpdated()));
+		if(scene()!=0)
+			connect(scene(), SIGNAL(selectionChanged()), this, SLOT(selectionUpdated()));
 	}
     return value;
 }

@@ -524,59 +524,6 @@ void MainWindow::addFromFile(){
 
 // Insert Actions
 
-void MainWindow::on_actionInsertAND_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::AND);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertOR_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::OR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertXOR_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::XOR);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertNOT_triggered()
-{
-    Gatter*g=new Gatter;
-    g->setType(Gatter::NOT);
-    myUndoStack->push(new AddElement(g,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionMultiplexer_triggered()
-{
-    myUndoStack->push(new AddElement(new Distributor,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertSwitch_triggered()
-{
-    myUndoStack->push(new AddElement(new Switch,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertLamp_triggered()
-{
-    myUndoStack->push(new AddElement(new Lamp,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertButton_triggered()
-{
-    myUndoStack->push(new AddElement(new Button,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertClock_triggered()
-{
-    myUndoStack->push(new AddElement(new Clock,myScene->lastMousePos,this));
-}
-
 void MainWindow::on_actionInsertSubscene_triggered()
 {
     SubScene* scene=subSceneChooseDialog->getSubScene();
@@ -584,22 +531,6 @@ void MainWindow::on_actionInsertSubscene_triggered()
 		myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
     }
 }
-
-void MainWindow::on_actionInsertDelay_triggered()
-{
-    myUndoStack->push(new AddElement(new Delay,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertFlipflop_triggered()
-{
-    myUndoStack->push(new AddElement(new FlipFlop,myScene->lastMousePos,this));
-}
-
-void MainWindow::on_actionInsertHexOutput_triggered()
-{
-    myUndoStack->push(new AddElement(new SevenSegmentOutput,myScene->lastMousePos,this));
-}
-
 
 //Other Actions
 
