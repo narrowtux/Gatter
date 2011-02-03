@@ -21,18 +21,20 @@ QRectF ShiftRegister::boundingRect() const
 void ShiftRegister::connectionsChanged()
 {
 	if(myInputs.count()>=3){
-		myInputs.at(0)->setName("D");
+		myInputs.at(0)->setName("SE");
 		myInputs.at(1)->setName("C");
-		myInputs.at(2)->setName("T");
+		myInputs.at(2)->setName("PE");
 		connect(myInputs.at(1), SIGNAL(changed(bool)), this, SLOT(clock(bool)));
 	}
 	if(myInputs.count()>=4){
 		for (int i = 3; i<myInputs.count(); i++){
-			myInputs.at(i)->setName(QString("I%0").arg(i-2));
+			//myInputs.at(i)->setName(QString("I%0").arg(i-2));
+			myInputs.at(i)->setName("");
 		}
 	}
 	for (int i = 0; i<myOutputs.count(); i++){
-		myOutputs.at(i)->setName(QString("Q%0").arg(i+1));
+		//myOutputs.at(i)->setName(QString("Q%0").arg(i+1));
+		myOutputs.at(i)->setName("");
 	}
 	if(myOutputs.count()>=4){
 		int beforeSize = myRegister.size();
@@ -99,7 +101,79 @@ void ShiftRegister::readPrivateXml(QXmlStreamReader *xml)
 
 void ShiftRegister::relayoutConnections()
 {
-	Element::relayoutConnections();
+	connectionsChanged();
+	//Q% on the Top, I% Bottom, everything else Left
+	QList<Connection *> left, top, bottom;
+	if(myInputs.count()-3==myRegister.size()&&myOutputs.count()==myRegister.size()){
+		for(int i = 0; i < 3; i++)
+		{
+			left<<myInputs.at(i);
+		}
+		for(int i = 3; i < myInputs.count(); i++)
+		{
+			bottom<<myInputs.at(i);
+		}
+		for(int i = 0; i < myOutputs.count(); i++)
+		{
+			top<<myOutputs.at(i);
+		}
+		//Calculate optimal height
+		qreal minimumHeight = left.count()*20;
+		if(minimumHeight>height){
+			prepareGeometryChange();
+			height = minimumHeight;
+		} else if(minimumHeight<=height){
+			if(minimumHeight>minHeight)
+			{
+				prepareGeometryChange();
+				height = minimumHeight;
+			} else {
+				prepareGeometryChange();
+				height = minHeight;
+			}
+		}
+		
+		//Calculate optimal width;
+		qreal minimumWidth = top.count()*20;
+		if(minimumWidth>height){
+			prepareGeometryChange();
+			width = minimumWidth;
+		} else if(minimumWidth<=width){
+			if(minimumWidth>minWidth)
+			{
+				prepareGeometryChange();
+				width = minimumWidth;
+			} else {
+				prepareGeometryChange();
+				width = minWidth;
+			}
+		}
+		
+		//Distribute Connections
+		qreal leftSide=boundingRect().left();
+	    qreal topSide=boundingRect().top();
+		qreal bottomSide=boundingRect().bottom();
+		//left
+		int count = left.count();
+		for(int i = 0; i < count; i++)
+		{
+			left[i]->setPos(leftSide-20,(height/(qreal)(count+1))*(1+i)+topSide);
+			left[i]->setRotation(0);
+		}
+		//top
+		count = top.count();
+		for(int i = 0; i < count; i++){
+			top[i]->setPos((width/(qreal)(count+1))*(1+i)+leftSide, topSide);
+			top[i]->setRotation(-90);
+		}
+		
+		//bottom
+		count = bottom.count();
+		for(int i = 0; i < count; i++){
+			bottom[i]->setPos((width/(qreal)(count+1))*(1+i)+leftSide, bottomSide+20);
+			bottom[i]->setRotation(-90);
+		}
+	}
 }
 
 bool ShiftRegister::createFormBefore()

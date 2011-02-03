@@ -6,6 +6,7 @@ Element::Element(QGraphicsObject* parent) :
 		QGraphicsObject(parent)
 {
     minHeight=50;
+	minWidth=50;
     setFlag(ItemIsSelectable,true);
     setFlag(ItemIsMovable,true);
     setData(ElementName,"Element");
