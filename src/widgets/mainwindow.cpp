@@ -130,27 +130,35 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     //loadFile("/Users/tux/test.gtr");
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
     
-    myZoomOut=new QToolButton;
-    myZoomOut->setText("-");
-    myZoomOut->setToolTip(tr("Zoom Out"));
-    ui->statusBar->addPermanentWidget(myZoomOut);
-    connect(myZoomOut,SIGNAL(clicked()),this,SLOT(zoomOut()));
+//    myZoomOut=new QToolButton;
+//    myZoomOut->setText("-");
+//    myZoomOut->setToolTip(tr("Zoom Out"));
+//    //ui->statusBar->addPermanentWidget(myZoomOut);
+//    connect(myZoomOut,SIGNAL(clicked()),this,SLOT(zoomOut()));
     
-    myZoomSlider=new QSlider;
-    myZoomSlider->setRange(0,100);
-    myZoomSlider->setTickInterval(50);
-    myZoomSlider->setValue(50);
-    myZoomSlider->setOrientation(Qt::Horizontal);
-    myZoomSlider->setTickPosition(QSlider::TicksBelow);
-    ui->statusBar->addPermanentWidget(myZoomSlider);
-    connect(myZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(zoomTo(int)));
+//    myZoomSlider=new QSlider;
+//    myZoomSlider->setRange(0,100);
+//    myZoomSlider->setTickInterval(50);
+//    myZoomSlider->setValue(50);
+//    myZoomSlider->setOrientation(Qt::Horizontal);
+//    myZoomSlider->setTickPosition(QSlider::TicksBelow);
+//    //ui->statusBar->addPermanentWidget(myZoomSlider);
+//    connect(myZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(zoomTo(int)));
     
-    myZoomIn=new QToolButton;
-    myZoomIn->setText("+");
-    myZoomIn->setToolTip(tr("Zoom In"));
-    ui->statusBar->addPermanentWidget(myZoomIn);
-    connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
+//    myZoomIn=new QToolButton;
+//    myZoomIn->setText("+");
+//    myZoomIn->setToolTip(tr("Zoom In"));
+//    //ui->statusBar->addPermanentWidget(myZoomIn);
+//    connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
     
+	myZoomBox = new QSpinBox;
+	myZoomBox->setRange(25,800);
+	myZoomBox->setValue(100);
+	myZoomBox->setSuffix(" %");
+	connect(myZoomBox, SIGNAL(valueChanged(int)), this, SLOT(zoomTo(int)));
+	ui->statusBar->addPermanentWidget(myZoomBox);
+	
+	
     scale=1.0;
     separatorAction=new QAction(this);
     separatorAction->setSeparator(true);
@@ -193,6 +201,8 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	connect(timer,SIGNAL(timeout()),this,SLOT(readSettings()));
 	
 	readSettings();
+	
+	connect(ui->graphicsView, SIGNAL(scaleFactorChanged(int)), myZoomBox, SLOT(setValue(int)));
 }
 
 MainWindow::~MainWindow()
@@ -448,14 +458,7 @@ void MainWindow::zoomOut()
 }
 
 void MainWindow::zoomTo(int v){
-    qreal value=v/100.0;
-    if(value>0.45&&value<0.55&&value!=0.5){
-		myZoomSlider->setValue(50);
-		return;
-    }
-    scale=0.25*qPow(16.0,value);
-    ui->graphicsView->setScale(scale);
-	updateSceneRect();
+    ui->graphicsView->setScale((qreal)v/100.0);
 }
 
 void MainWindow::elementMoved(QList<Element *> e, QList<QPointF> oldPos){
@@ -669,15 +672,6 @@ void MainWindow::on_toolRemoveTemplate_clicked()
     elementCatalog->removeRows(ui->elementCatalog->selectionModel()->currentIndex().row(),1,ui->elementCatalog->selectionModel()->currentIndex().parent());
 }
 
-void MainWindow::on_actionNew_GraphicsView_triggered()
-{
-    GraphicsView*tmp=new GraphicsView;
-	tmp->setScene(scene());
-	delete ui->graphicsView;
-	ui->graphicsView=tmp;
-	ui->centralWidget->layout()->addWidget(tmp);
-}
-
 void MainWindow::on_actionPrint_triggered()
 {
 	if(printDialog!=0)
@@ -774,3 +768,5 @@ void MainWindow::on_actionInsertByTypeName_triggered()
 		myScene->addElement(element);
 	}
 }
+
+

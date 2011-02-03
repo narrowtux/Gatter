@@ -79,9 +79,10 @@ private:
 	
 	QList<UTDiagram*> myDiagrams;
 	UTDiagram* myDiagram;
+	
+	QSpinBox *myZoomBox;
 private slots:
 	void printDialogClosed();
-	void on_actionNew_GraphicsView_triggered();
 	void addLabel();
 	void addFromFile();
     void on_toolRemoveTemplate_clicked();

@@ -13,7 +13,7 @@ public:
     void setScale(qreal scale);
 	qreal scaleFactor();
 signals:
-
+	void scaleFactorChanged(int);
 public slots:
 private:
     bool event(QEvent *event);

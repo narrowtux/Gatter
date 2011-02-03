@@ -53,6 +53,7 @@ bool GraphicsView::gestureEvent(QGestureEvent *event){
 			}
 		}
 		setScale(myScaleFactor);
+		emit(scaleFactorChanged(myScaleFactor*100));
     }
     return true;
 }
@@ -62,6 +63,7 @@ void GraphicsView::setScale(qreal scale){
     QTransform tr;
     tr.scale(currentStepScaleFactor * myScaleFactor,currentStepScaleFactor * myScaleFactor);
     setTransform(tr);
+	emit(scaleFactorChanged(myScaleFactor*100));
 }
 
 qreal GraphicsView::scaleFactor(){
