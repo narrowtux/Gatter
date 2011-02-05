@@ -194,6 +194,5 @@ void SubScene::setMainWindow(MainWindow *m){
 
 void SubScene::loadEvent()
 {
-	qDebug()<<"Updating Connections";
 	updateConnections();
 }
