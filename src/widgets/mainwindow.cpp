@@ -129,28 +129,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	connect(menu, SIGNAL(aboutToHide()), myScene, SLOT(clearHighlight()));
     //loadFile("/Users/tux/test.gtr");
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
-    
-//    myZoomOut=new QToolButton;
-//    myZoomOut->setText("-");
-//    myZoomOut->setToolTip(tr("Zoom Out"));
-//    //ui->statusBar->addPermanentWidget(myZoomOut);
-//    connect(myZoomOut,SIGNAL(clicked()),this,SLOT(zoomOut()));
-    
-//    myZoomSlider=new QSlider;
-//    myZoomSlider->setRange(0,100);
-//    myZoomSlider->setTickInterval(50);
-//    myZoomSlider->setValue(50);
-//    myZoomSlider->setOrientation(Qt::Horizontal);
-//    myZoomSlider->setTickPosition(QSlider::TicksBelow);
-//    //ui->statusBar->addPermanentWidget(myZoomSlider);
-//    connect(myZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(zoomTo(int)));
-    
-//    myZoomIn=new QToolButton;
-//    myZoomIn->setText("+");
-//    myZoomIn->setToolTip(tr("Zoom In"));
-//    //ui->statusBar->addPermanentWidget(myZoomIn);
-//    connect(myZoomIn,SIGNAL(clicked()),this,SLOT(zoomIn()));
-    
+
 	myZoomBox = new QSpinBox;
 	myZoomBox->setRange(25,800);
 	myZoomBox->setValue(100);
@@ -189,6 +168,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	ui->toolAddTemplateFromFile->addAction(action);
 	action=new QAction(tr("Add from file"),this);
 	connect(action,SIGNAL(triggered()), this,SLOT(addFromFile()));
+	ui->toolAddTemplateFromFile->addAction(action);
+	action = new QAction(tr("Add Subscene"), this);
+	connect(action, SIGNAL(triggered()), this, SLOT(addSubscene()));
 	ui->toolAddTemplateFromFile->addAction(action);
 	
 	printDialog=0;
@@ -776,6 +758,32 @@ void MainWindow::on_actionInsertByTypeName_triggered()
 		QMessageBox::information(this, tr("Not found"), tr("The system has not found the type %0.").arg(typeName));
 	} else {
 		myScene->addElement(element);
+	}
+}
+
+void MainWindow::addSubscene()
+{
+	QString nameOfSubscene = QInputDialog::getText(this, tr("Name of Subscene"), tr("Enter the Name of the Subscene"), QLineEdit::Normal, tr("My Subscene"));
+	if(nameOfSubscene != ""){
+		QFile catalogTemplate(":/data/subscene_catalog_template");
+		catalogTemplate.open(QIODevice::ReadOnly);
+		QString xmlTemplate = catalogTemplate.readAll();
+		catalogTemplate.close();
+		xmlTemplate = xmlTemplate.arg(nameOfSubscene);
+		QDir myDirectory=QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	    QString fn=nameOfSubscene.toLower().simplified();
+	    fn=myDirectory.absolutePath()+"/"+fn+".gtr";
+		xmlTemplate = xmlTemplate.arg(fn);
+		QFile fileTemplate(":/data/subscene_file_template");
+		fileTemplate.open(QIODevice::ReadOnly);
+		QFile subceneFile(fn);
+		if(subceneFile.open(QIODevice::WriteOnly))
+		{
+			subceneFile.write(fileTemplate.readAll());
+			elementCatalog->addItem(nameOfSubscene, xmlTemplate);
+		} else {
+			QMessageBox::critical(this, tr("Error"), tr("Aborted because the Template file couldn't be written to your Subscene Directory. Try to choose an other name."));
+		}
 	}
 }
 

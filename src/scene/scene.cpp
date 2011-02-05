@@ -308,6 +308,7 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes,
 					}
 				}
 				element->setOutputs(count);
+				element->loadEvent();
 			}
 		}
 		if(xml->name()=="connections"){
@@ -362,7 +363,10 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
     QFile file(fileName);
     if(xml==0){
 		xml=new QXmlStreamWriter;
-		file.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate);
+		if(!file.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)){
+			qDebug()<<"Unable to open file for writing: "<<file.fileName();
+			return;
+		}
 		xml->setDevice(&file);
 		xml->setAutoFormatting(true);
 		xml->writeStartDocument();

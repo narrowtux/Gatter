@@ -92,6 +92,7 @@ protected:
 	virtual void connectionsChanged();
 	qreal mySelectionOpacity;
 	QString myTitle;
+	virtual void loadEvent();
 private:
     int uniqueId;
     void createForm();

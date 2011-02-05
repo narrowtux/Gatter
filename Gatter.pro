@@ -18,7 +18,6 @@ SOURCES += src/main.cpp\
     src/widgets/settingsdialog.cpp \
     src/widgets/subscenechoosedialog.cpp \
     src/subsceneinfo.cpp \
-    src/loadthread.cpp \
     src/widgets/enumcombobox.cpp \
     src/elements/sevensegmentoutput.cpp \
     src/application.cpp \
@@ -63,7 +62,6 @@ HEADERS  += src/widgets/mainwindow.h \
     src/widgets/subscenechoosedialog.h \
     src/subsceneinfo.h \
     src/elements/delay.h \
-    src/loadthread.h \
     src/elements/flipflop.h \
     src/widgets/enumcombobox.h \
     src/elements/sevensegmentoutput.h \

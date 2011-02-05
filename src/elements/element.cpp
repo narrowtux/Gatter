@@ -651,3 +651,8 @@ void Element::setTitle(QString title)
 	myTitle = title;
 	update();
 }
+
+void Element::loadEvent()
+{
+	//TODO: do some default Implementation here.
+}

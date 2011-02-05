@@ -58,6 +58,7 @@ bool Generator::createFormBefore()
 	QLabel *labelInput = new QLabel(tr("Input Type"));
 	comboInputType->addItem(tr("Clock Input"));
 	comboInputType->addItem(tr("Number Input"));
+	comboInputType->setCurrentIndex(myInputType);
 	layout->addRow(labelInput, comboInputType);
 	additionalWidgets<<comboInputType<<labelInput;
 	connect(comboInputType, SIGNAL(currentIndexChanged(int)), this, SLOT(inputTypeSelected(int)));

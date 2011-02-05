@@ -82,6 +82,7 @@ private:
 	
 	QSpinBox *myZoomBox;
 private slots:
+	void addSubscene();
 	void printDialogClosed();
 	void addLabel();
 	void addFromFile();

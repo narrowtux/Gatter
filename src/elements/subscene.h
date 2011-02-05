@@ -21,6 +21,8 @@ signals:
 private slots:
     void updateConnections();
     void selectFile();
+protected:
+	void loadEvent();
 private:
     Scene* myScene;
     MainWindow* myMainWindow;

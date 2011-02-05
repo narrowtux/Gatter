@@ -191,3 +191,9 @@ void SubScene::setInfo(SubSceneInfo *info){
 void SubScene::setMainWindow(MainWindow *m){
     myMainWindow=m;
 }
+
+void SubScene::loadEvent()
+{
+	qDebug()<<"Updating Connections";
+	updateConnections();
+}
