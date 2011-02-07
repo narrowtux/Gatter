@@ -28,7 +28,6 @@ void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    Element::mousePressEvent(event);
     startPos=event->pos();
     if(event->button()==Qt::LeftButton&&boundingRect().adjusted(15,15,-15,-15).contains(event->pos())){
 		foreach(Connection* c, myOutputs){
@@ -41,10 +40,10 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    Element::mouseReleaseEvent(event);
     if(event->button()==Qt::LeftButton){
 		delay.start((Gatter::delayMS+100)*2);
     }
+	Element::mouseReleaseEvent(event);
 }
 
 

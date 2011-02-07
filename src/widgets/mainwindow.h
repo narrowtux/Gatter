@@ -31,6 +31,7 @@ public:
     void setCurrentFile(const QString &fileName);
     static QList<MainWindow*> mainWindows;
     Scene* scene();
+	void setScene(Scene *scene);
     void initElementCatalog();
 public slots:
     MainWindow* newFile();

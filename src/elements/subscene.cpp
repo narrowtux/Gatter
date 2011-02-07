@@ -1,9 +1,12 @@
 #include "src/elements/subscene.h"
 #include <QtGui>
+#include "src/scene/graphicsview.h"
 #include "src/subsceneinfo.h"
 
+QList<SubScene*> SubScene::subScenes = QList<SubScene*>();
+
 SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
-		Element(parent)
+    Element(parent)
 {
 	Q_UNUSED(createMainWindow);
     myScene=new Scene;
@@ -15,6 +18,9 @@ SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
     myType="subscene";
     fileName="";
     mySubSceneInfo=0;
+	mySaveButton = myCloseButton = 0;
+	myButtonsProxy = 0;
+	subScenes<<this;
 }
 
 bool SubScene::createFormBefore(){
@@ -94,12 +100,34 @@ void SubScene::recalculate(){
 
 void SubScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
 	Q_UNUSED(event)
-    if(myMainWindow==0){
-		myMainWindow=new MainWindow(0, myScene);
-		myMainWindow->setCurrentFile(fileName);
-		myScene->setMainWindow(myMainWindow);
-    }
-    myMainWindow->show();
+	//    if(myMainWindow==0){
+	//		myMainWindow=new MainWindow(0, myScene);
+	//		myMainWindow->setCurrentFile(fileName);
+	//		myScene->setMainWindow(myMainWindow);
+	//    }
+	//    myMainWindow->show();
+	
+	GraphicsView *view = static_cast<GraphicsView *>(scene()->views().at(0));
+	if(mySaveButton==0){
+		mySaveButton = new QPushButton(tr("Save Subscene"));
+		myCloseButton = new QPushButton(tr("Close"));
+		myButtonsProxy = new QGraphicsProxyWidget;
+		QWidget *centralWidget = new QWidget;
+		QHBoxLayout *layout = new QHBoxLayout;
+		centralWidget->setLayout(layout);
+		layout->addWidget(mySaveButton);
+		layout->addWidget(myCloseButton);
+		myButtonsProxy->setWidget(centralWidget);
+		QPointF pos;
+		pos = view->mapToScene(0,0);
+		myButtonsProxy->setPos(pos);
+		myScene->addItem(myButtonsProxy);
+		connect(myCloseButton, SIGNAL(clicked()), this, SLOT(close()));
+		connect(mySaveButton, SIGNAL(clicked()), this, SLOT(save()));
+	}
+	myContainerScene = static_cast<Scene *>(scene());
+	view->setScene(myScene, true);
+	myOpen = true;
 }
 
 QRectF SubScene::boundingRect() const{
@@ -171,10 +199,8 @@ void SubScene::selectFile(){
 }
 
 SubScene::~SubScene(){
-    if(myMainWindow!=0){
-		myMainWindow->close();
-		myMainWindow->deleteLater();
-    }
+    myScene->deleteLater();
+	subScenes.removeAll(this);
 }
 
 void SubScene::setFileName(QString fn){
@@ -195,4 +221,30 @@ void SubScene::setMainWindow(MainWindow *m){
 void SubScene::loadEvent()
 {
 	updateConnections();
+}
+
+void SubScene::close()
+{
+	if(myOpen){
+		if(myScene)
+			myScene->views().at(0)->setScene(myContainerScene);
+	}
+}
+
+void SubScene::save()
+{
+	myScene->save(fileName);
+	foreach(SubScene*i, subScenes)
+	{
+		if(i->fileName==fileName&&i!=this)
+		{
+			i->reload();
+		}
+	}
+}
+
+void SubScene::reload()
+{
+	myScene->clear();
+	myScene->load(fileName);
 }

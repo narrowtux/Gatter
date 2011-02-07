@@ -5,6 +5,8 @@
 #include <QGesture>
 #include <QGestureEvent>
 
+class MainWindow;
+
 class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
@@ -12,6 +14,9 @@ public:
     explicit GraphicsView(QWidget *parent = 0);
     void setScale(qreal scale);
 	qreal scaleFactor();
+	MainWindow *mainWindow();
+	void setMainWindow(MainWindow *mainWindow);
+	void setScene(QGraphicsScene *scene, bool notifyMainWindow = false);
 signals:
 	void scaleFactorChanged(int);
 public slots:
@@ -21,6 +26,7 @@ private:
     
     qreal myScaleFactor;
     qreal currentStepScaleFactor;
+	MainWindow *myMainWindow;
 };
 
 #endif // GRAPHICSVIEW_H

@@ -4,6 +4,7 @@
 #include "src/scene/scene.h"
 #include "src/defines.h"
 #include "src/elements/element.h"
+#include "src/widgets/mainwindow.h"
 #include <QPropertyAnimation>
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent)
@@ -83,4 +84,21 @@ void GraphicsView::setScale(qreal scale){
 
 qreal GraphicsView::scaleFactor(){
 	return myScaleFactor;
+}
+
+MainWindow * GraphicsView::mainWindow()
+{
+	return myMainWindow;
+}
+
+void GraphicsView::setMainWindow(MainWindow *mainWindow)
+{
+	myMainWindow = mainWindow;
+}
+
+void GraphicsView::setScene(QGraphicsScene *scene, bool notifyMainWindow)
+{
+	QGraphicsView::setScene(scene);
+	if(notifyMainWindow)
+		myMainWindow->setScene(static_cast<Scene *>(scene));
 }

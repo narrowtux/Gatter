@@ -52,24 +52,14 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 #endif
 	
 	
-    if(scene!=0){
-		myScene=scene;
-		mySubScene=true;
-		myShouldBeSaved=false;
-    }else{
-		myScene=new Scene(this);
-		mySubScene=false;
-		myShouldBeSaved=true;
-    }
+    setScene(new Scene);
+	myShouldBeSaved = true;
+	mySubScene = false;
 	
 	QSettings settings;
 	Element::rotationSteps=settings.value("rotationSteps",90).toReal();
     
-	sceneFitRect=new QGraphicsRectItem;
-	myScene->addItem(sceneFitRect);
-	sceneFitRect->setBrush(Qt::NoBrush);
-	sceneFitRect->setPen(Qt::NoPen);
-	updateSceneRect();
+
 	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
@@ -90,13 +80,10 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     
     ui->menuWindow->addAction( ui->dockUndoView->toggleViewAction());
     ui->menuWindow->addAction(ui->dockElementCatalog->toggleViewAction());
-    
-    
+	
     ui->elementCatalog->setAcceptDrops(true);
     
     subSceneChooseDialog=new SubSceneChooseDialog;
-    myScene->setMainWindow(this);
-    ui->graphicsView->setScene(myScene);
     setCurrentFile("");
     mainWindows<<this;
     myAction=new QAction(windowTitle(),this);
@@ -121,15 +108,14 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(open()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
-    connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
-    connect(myScene,SIGNAL(elementMoved(QList<Element*>,QList<QPointF>)),this,SLOT(elementMoved(QList<Element*>,QList<QPointF>)));
-	QMenu * menu=new QMenu;
+   	QMenu * menu=new QMenu;
 	ui->addUTRecordingButton->setMenu(menu);
 	connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateConnectionAddMenu()));
 	connect(menu, SIGNAL(aboutToHide()), myScene, SLOT(clearHighlight()));
     //loadFile("/Users/tux/test.gtr");
     ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
-
+	ui->graphicsView->setMainWindow(this);
+	
 	myZoomBox = new QSpinBox;
 	myZoomBox->setRange(25,800);
 	myZoomBox->setValue(100);
@@ -785,6 +771,20 @@ void MainWindow::addSubscene()
 			QMessageBox::critical(this, tr("Error"), tr("Aborted because the Template file couldn't be written to your Subscene Directory. Try to choose an other name."));
 		}
 	}
+}
+
+void MainWindow::setScene(Scene *scene)
+{
+	myScene = scene;
+	sceneFitRect=new QGraphicsRectItem;
+	myScene->addItem(sceneFitRect);
+	sceneFitRect->setBrush(Qt::NoBrush);
+	sceneFitRect->setPen(Qt::NoPen);
+    myScene->setMainWindow(this);
+    ui->graphicsView->setScene(myScene); 
+	connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
+    connect(myScene,SIGNAL(elementMoved(QList<Element*>,QList<QPointF>)),this,SLOT(elementMoved(QList<Element*>,QList<QPointF>)));
+
 }
 
 

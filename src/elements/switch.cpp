@@ -76,23 +76,22 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 void Switch::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    Element::mousePressEvent(event);
     if(event->button()==Qt::LeftButton&&boundingRect().adjusted(15,10,-15,-10).contains(event->pos()))
 		mouseDownPos=event->scenePos();
 }
 
 void Switch::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    Element::mouseReleaseEvent(event);
     if(event->scenePos()==mouseDownPos&&event->button()==Qt::LeftButton&&boundingRect().adjusted(15,10,-15,-10).contains(event->pos())){
 		myValue=!myValue;
 		foreach(Connection* c, myOutputs){
 			if(myValue)c->setValue(High);
 			if(!myValue)c->setValue(Low);
 		}
-		
 		update();
-    }
+    } else {
+		Element::mouseReleaseEvent(event);
+	}
 }
 
 QRectF Switch::boundingRect() const

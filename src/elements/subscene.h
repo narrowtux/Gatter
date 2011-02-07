@@ -3,6 +3,8 @@
 #include "src/elements/element.h"
 #include "src/scene/scene.h"
 #include "src/widgets/mainwindow.h"
+#include <QGraphicsProxyWidget>
+#include <QPushButton>
 class SubSceneInfo;
 
 class SubScene : public Element
@@ -17,7 +19,12 @@ public:
     void setFileName(QString fileName);
     void setInfo(SubSceneInfo* info);
     void setMainWindow(MainWindow*m);
+public slots:
+	void close();
+	void save();
+	void reload();
 signals:
+	void changed();
 private slots:
     void updateConnections();
     void selectFile();
@@ -25,6 +32,7 @@ protected:
 	void loadEvent();
 private:
     Scene* myScene;
+	Scene* myContainerScene;
     MainWindow* myMainWindow;
     SubSceneInfo* mySubSceneInfo;
     bool createFormBefore();
@@ -37,6 +45,10 @@ private:
     QList<Element*> sceneOutputs;
     QString fileName;
     QList<bool> inValues, outValues;
+	QGraphicsProxyWidget *myButtonsProxy;
+	QPushButton *mySaveButton, *myCloseButton;
+	bool myOpen;
+	static QList<SubScene*> subScenes;
 };
 
 #endif // SUBSCENE_H
