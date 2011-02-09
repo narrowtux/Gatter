@@ -16,7 +16,6 @@ SOURCES += src/main.cpp\
     src/connection.cpp \
     src/widgets/colorbutton.cpp \
     src/widgets/settingsdialog.cpp \
-    src/widgets/subscenechoosedialog.cpp \
     src/subsceneinfo.cpp \
     src/widgets/enumcombobox.cpp \
     src/elements/sevensegmentoutput.cpp \
@@ -44,7 +43,9 @@ SOURCES += src/main.cpp\
     src/grapher/grapher.cpp \
     src/elements/shiftregister.cpp \
     src/elements/generator.cpp \
-    src/visualisation/bitpattern.cpp
+    src/visualisation/bitpattern.cpp \
+    src/widgets/breadcumbbar.cpp \
+    src/widgets/breadcumbitem.cpp
 
 HEADERS  += src/widgets/mainwindow.h \
     src/scene/scene.h \
@@ -59,7 +60,6 @@ HEADERS  += src/widgets/mainwindow.h \
     src/elements/subscene.h \
     src/widgets/colorbutton.h \
     src/widgets/settingsdialog.h \
-    src/widgets/subscenechoosedialog.h \
     src/subsceneinfo.h \
     src/elements/delay.h \
     src/elements/flipflop.h \
@@ -82,11 +82,12 @@ HEADERS  += src/widgets/mainwindow.h \
     src/grapher/grapher.h \
     src/elements/shiftregister.h \
     src/elements/generator.h \
-    src/visualisation/bitpattern.h
+    src/visualisation/bitpattern.h \
+    src/widgets/breadcumbbar.h \
+    src/widgets/breadcumbitem.h
 
 FORMS    += src/widgets/mainwindow.ui \
-    src/widgets/settingsdialog.ui \
-    src/widgets/subscenechoosedialog.ui
+    src/widgets/settingsdialog.ui
 TRANSLATIONS += gatter_de_DE.ts
 ICON = Gatter.icns
 

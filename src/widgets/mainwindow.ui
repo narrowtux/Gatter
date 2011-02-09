@@ -25,6 +25,9 @@
      <number>0</number>
     </property>
     <item>
+     <widget class="BreadCumbBar" name="breadCumbBar" native="true"/>
+    </item>
+    <item>
      <widget class="GraphicsView" name="graphicsView">
       <property name="contextMenuPolicy">
        <enum>Qt::ActionsContextMenu</enum>
@@ -96,27 +99,6 @@
     <property name="title">
      <string>Insert</string>
     </property>
-    <widget class="QMenu" name="menuGatter">
-     <property name="title">
-      <string>Gatter</string>
-     </property>
-    </widget>
-    <widget class="QMenu" name="menuInputs">
-     <property name="title">
-      <string>Inputs</string>
-     </property>
-    </widget>
-    <widget class="QMenu" name="menuOutputs">
-     <property name="title">
-      <string>Outputs</string>
-     </property>
-     <addaction name="actionInsertHexOutput"/>
-    </widget>
-    <addaction name="menuGatter"/>
-    <addaction name="menuInputs"/>
-    <addaction name="menuOutputs"/>
-    <addaction name="actionInsertSubscene"/>
-    <addaction name="actionInsertDelay"/>
     <addaction name="actionInsertByTypeName"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
@@ -178,7 +160,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionInsertSubscene"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockInspector">
@@ -228,7 +209,7 @@
           <x>0</x>
           <y>0</y>
           <width>226</width>
-          <height>245</height>
+          <height>255</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -679,11 +660,6 @@
     <string>Vertical</string>
    </property>
   </action>
-  <action name="actionInsertSubscene">
-   <property name="text">
-    <string>Subscene</string>
-   </property>
-  </action>
   <action name="actionInsertDelay">
    <property name="text">
     <string>Delay</string>
@@ -730,6 +706,12 @@
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>src/scene/graphicsview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BreadCumbBar</class>
+   <extends>QWidget</extends>
+   <header>src/widgets/breadcumbbar.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

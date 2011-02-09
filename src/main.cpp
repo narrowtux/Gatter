@@ -7,7 +7,6 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QDebug>
-#include "src/widgets/subscenechoosedialog.h"
 #include "src/application.h"
 #include "src/elements/element.h"
 

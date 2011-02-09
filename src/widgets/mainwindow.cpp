@@ -15,7 +15,6 @@
 #include <qxmlstream.h>
 #include <QSettings>
 #include "src/elements/subscene.h"
-#include "src/widgets/subscenechoosedialog.h"
 #include "src/elements/delay.h"
 #include <qxmlstream.h>
 #include "src/elements/flipflop.h"
@@ -83,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	
     ui->elementCatalog->setAcceptDrops(true);
     
-    subSceneChooseDialog=new SubSceneChooseDialog;
     setCurrentFile("");
     mainWindows<<this;
     myAction=new QAction(windowTitle(),this);
@@ -173,6 +171,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	readSettings();
 	
 	connect(ui->graphicsView, SIGNAL(scaleFactorChanged(int)), myZoomBox, SLOT(setValue(int)));
+	
+	QAction *baction = new QAction(tr("Testaction"), this);
+	ui->breadCumbBar->addAction(baction);
+	baction = new QAction(tr("Subaction"), this);
+	ui->breadCumbBar->addAction(baction);
 }
 
 MainWindow::~MainWindow()
@@ -484,16 +487,6 @@ void MainWindow::addFromFile(){
 }
 
 //Qt Designer SLOTS
-
-// Insert Actions
-
-void MainWindow::on_actionInsertSubscene_triggered()
-{
-    SubScene* scene=subSceneChooseDialog->getSubScene();
-    if(scene!=0){
-		myUndoStack->push(new AddElement(scene,myScene->lastMousePos,this));
-    }
-}
 
 //Other Actions
 

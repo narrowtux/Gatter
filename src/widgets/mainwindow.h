@@ -73,7 +73,6 @@ private:
     QString curFile;
     SettingsDialog* settingsDialog;
     bool mySubScene, myShouldBeSaved;
-    SubSceneChooseDialog* subSceneChooseDialog;
     
     static ElementCatalog* elementCatalog;
 	QPrintDialog *printDialog;
@@ -95,7 +94,6 @@ private slots:
     void on_actionPaste_triggered();
     void on_actionCopy_triggered();
     void on_actionSelectAll_triggered();
-    void on_actionInsertSubscene_triggered();
     void on_actionLayoutMiddle_triggered();
     void on_actionLayoutCenter_triggered();
     void on_actionLayoutLeft_triggered();
