@@ -23,8 +23,12 @@
 
 bool Scene::debugMethods=false;
 
+/*!
+  Constructs the Scene as a child of the given \a parent.
+  */
+
 Scene::Scene(QObject *parent) :
-		QGraphicsScene(parent)
+    QGraphicsScene(parent)
 {
     pressed=false;
     QSettings settings;
@@ -40,18 +44,28 @@ Scene::Scene(QObject *parent) :
 	highlight(0);
 }
 
+/*!
+  Desctructs the Scene and all of its containing Elements
+  */
+
 Scene::~Scene(){
     foreach(Element* e, myElements){
 		delete e;
     }
 }
 
+/*!
+  \return if the Scene is currently loading
+  */
 bool Scene::isLoading(){
     return loads;
 }
 
 QColor Scene::highValueColor=QColor("red");
 
+/*!
+  \return a rect whose boundaries are limited by \a p1 and \a p2.
+  */
 QRectF Scene::rectFromPoints(QPointF p1, QPointF p2){
     qreal x1, x2, y1, y2;
     x1=p1.x();
@@ -144,6 +158,11 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
+
+/*!
+  Adds a new Element \a e with the \a uniqueId to the Scene.
+  */
+
 void Scene::addElement(Element *e,int uniqueId){
     addItem(e);
     e->setPos(lastMousePos);
@@ -168,6 +187,12 @@ void Scene::addElement(Element *e,int uniqueId){
 	connect(e,SIGNAL(moved()),this,SIGNAL(modified()));
 }
 
+/*!
+  removes the Element \a e from the scene.
+  
+  \warning This method does not delete the Element!
+  */
+
 void Scene::removeElement(Element *e){
     //Warning: this does not delete the removed Element!
     e->deleteForm();
@@ -175,6 +200,10 @@ void Scene::removeElement(Element *e){
     myElements.remove(e->uniqueId);
     e->releaseConnections();
 }
+
+/*!
+  removes the QGraphicsItem \a item from the scene.
+  */
 
 void Scene::removeItem(QGraphicsItem *item){
     if(isElement(item)){
@@ -186,9 +215,16 @@ void Scene::removeItem(QGraphicsItem *item){
     emit(elementAddedOrRemoved());
 }
 
+/*!
+  \return true if \a item is an Element.
+  */
 bool Scene::isElement(QGraphicsItem *item){
     return myElements.contains(myElements.key(static_cast<Element*>(item)));
 }
+
+/*!
+  sets the MainWindow to \a m
+  */
 
 void Scene::setMainWindow(MainWindow *m){
     myMainWindow=m;
@@ -197,12 +233,28 @@ void Scene::setMainWindow(MainWindow *m){
     }
 }
 
+/*!
+  sets the scale to \a scale. Useful for zooming.
+  */
 void Scene::setScale(qreal scale){
     foreach(Element* e, myElements){
 		e->setScale(scale);
     }
 }
 
+/*!
+  Loads the scene.
+  
+  If \a fileName is given, it will try to load from that file.
+  
+  If \a xml is not null, it will load from that QXmlStreamReader
+  
+  If \a setAllAttributes is false, it won't set the private and negation attributes to the loaded Elements
+  
+  If \a paste is true, it will paste the loaded Elements to the point \a pasteTo
+  
+  If \a paste is false, it will clear() the current scene
+  */
 void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes, bool paste, QPointF pasteTo)
 {
     if(pasteTo.isNull()){
@@ -354,6 +406,16 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes,
     loads=false;
 }
 
+/*!
+  Saves the current scene.
+  
+  If \a fileName is given, it will save the scene to this file.
+  
+  If \a xml is not null, it will write to the QXmlStreamWriter
+  
+  If \a selectionElements is given, it will just save these Elements and the connections between them.
+  */
+
 void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selectionElements)
 {
     bool own=false;
@@ -456,6 +518,10 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
     }
 }
 
+
+/*!
+  \returns a new Element with the type of the given \a typeName.
+  */
 Element* Scene::getElementFromTypeName(QString typeName){
     if(typeName == "gatter")
 		return new Gatter;
@@ -467,8 +533,11 @@ Element* Scene::getElementFromTypeName(QString typeName){
 		return new Lamp;
     if(typeName == "switch")
 		return new Switch;
-    if(typeName == "subscene")
-		return new SubScene;
+    if(typeName == "subscene"){
+		SubScene* sub = new SubScene;
+		sub->setParentSubScene(subscene);
+		return sub;
+	}
     if(typeName == "delay")
 		return new Delay;
     if(typeName == "flipflop")
@@ -485,6 +554,10 @@ Element* Scene::getElementFromTypeName(QString typeName){
 		return new Generator;
     return 0;
 }
+
+/*!
+  connects the elements \a inElement and \a outElements. It will use \a input and \a output as the Connections 
+  */
 
 void Scene::connectItems(int inElement, int outElement, int input, int output)
 {
@@ -505,9 +578,17 @@ void Scene::connectItems(int inElement, int outElement, int input, int output)
     emit(modified());
 }
 
+
+/*!
+  \returns if the scene does not contains any items.
+  */
 bool Scene::isBlank(){
     return blank;
 }
+
+/*!
+  Clears the scene.
+  */
 
 void Scene::clear(){
     foreach(Element* e, myElements){
@@ -520,7 +601,9 @@ void Scene::clear(){
 	myHighlighter->setBoundingRect(QRectF(-100,-100,200,200));
 	highlight(0);
 }
-
+/*!
+  \returns the MainWindow
+  */
 MainWindow* Scene::mainWindow(){
     return myMainWindow;
 }
@@ -558,6 +641,10 @@ void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
     
 }
 
+/*!
+  Pastes the Elements in \a mimeData to the Point \a pos
+  */
+
 void Scene::paste(const QMimeData *mimeData, QPointF pos){
     QXmlStreamReader*xml=new QXmlStreamReader;
     xml->addData(QString(mimeData->data("text/gatterxml")).toLatin1());
@@ -565,6 +652,9 @@ void Scene::paste(const QMimeData *mimeData, QPointF pos){
     delete xml;
 }
 
+/*!
+  \returns a QString that contains a saved representation of the given \a elements
+  */
 QString Scene::copy(QList<Element *> elements){
     QXmlStreamWriter* xml=new QXmlStreamWriter;
     QByteArray array;
@@ -579,6 +669,12 @@ QString Scene::copy(QList<Element *> elements){
     return QString(array).toLatin1();
 }
 
+
+/*!
+  highlights the given \a element with the Highlighter
+  
+  If \a element is null, the highlighter will be faded out.
+  */
 void Scene::highlight(QGraphicsItem *element){
 	if(element==0){
 		QPropertyAnimation*animation=new QPropertyAnimation(myHighlighter, "opacity");
@@ -599,6 +695,11 @@ void Scene::highlight(QGraphicsItem *element){
 	}
 }
 
+/*!
+  highlights the given \a elements with the Highlighter
+  
+  If \a elements contains 0 items the highlighter will be faded out.
+  */
 void Scene::highlight(QList<QGraphicsItem *> elements){
 	if(elements.count()==0){
 		highlight(0);
@@ -615,12 +716,24 @@ void Scene::highlight(QList<QGraphicsItem *> elements){
 	}
 }
 
+/*!
+  \returns a list with all elements
+  */
+
 QList<Element *> Scene::elementList()
 {
 	return myElements.values();
 }
-
+/*!
+  Convenience method for calling highlight(0)
+  */
 void Scene::clearHighlight()
 {
 	highlight(0);
 }
+
+void Scene::setSubscene(SubScene *sub)
+{
+	subscene = sub;
+}
+

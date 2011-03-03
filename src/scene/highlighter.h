@@ -4,6 +4,25 @@
 #include <QGraphicsObject>
 #include <QGraphicsScene>
 
+/*!
+  \class Highlighter
+  \brief Highlighter can highlight one or multiple QGraphicsItems in a scene.
+  
+  The scene will be darkened and the highlighted items will shine through it.
+  
+  \code
+  QGraphicsScene *scene = new QGraphicsScene;
+	Highlighter *highlighter = new Highlighter();
+  scene->addItem(highlighter);
+  QGraphicsRectItem *item = new QGraphicsRectItem(20,10);
+  scene->addItem(item);
+  highlighter->setBoundingRect(scene->boundingRect());
+  highlighter->highlight(item);
+  //to unhighlight, call
+  highlighter->highlight(0);
+  \endcode
+  */
+
 class Highlighter : public QGraphicsObject
 {
     Q_OBJECT

@@ -1,6 +1,11 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 #include "src/elements/switch.h"
+
+/*!
+  \class Button
+  \brief Button is a special type of Switch whose value returns to false if the User releases the mouse
+  */
 class Button : public Switch
 {
     Q_OBJECT

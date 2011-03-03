@@ -2,6 +2,7 @@
 #define BREADCUMBBAR_H
 
 #include <QWidget>
+#include <QSpacerItem>
 #include "src/widgets/breadcumbitem.h"
 class BreadCumbBar : public QWidget
 {
@@ -9,6 +10,7 @@ class BreadCumbBar : public QWidget
 public:
     explicit BreadCumbBar(QWidget *parent = 0);
 	QSize sizeHint() const;
+	QSize minimumSize() const;
 	void addAction(QAction *action);
 	void addActions(QList<QAction *> actions);
 	void insertAction(QAction *before, QAction *action);
@@ -20,6 +22,7 @@ public slots:
 protected:
 	void updateActions();
 	QList<BreadCumbItem *> myItems;
+	QSpacerItem *item;
 };
 
 #endif // BREADCUMBBAR_H

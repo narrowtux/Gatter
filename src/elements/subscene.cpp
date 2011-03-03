@@ -10,6 +10,7 @@ SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
 {
 	Q_UNUSED(createMainWindow);
     myScene=new Scene;
+	myScene->setSubscene(this);
     myMainWindow=0;
     tr("SubScene");
     connect(myScene,SIGNAL(elementAddedOrRemoved()),this,SLOT(updateConnections()));
@@ -21,6 +22,10 @@ SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
 	mySaveButton = myCloseButton = 0;
 	myButtonsProxy = 0;
 	subScenes<<this;
+	myChildSubScene = 0;
+	myParentSubScene = 0;
+	myAction = new QAction("subscene",this);
+	connect(myAction, SIGNAL(triggered()), this, SLOT(returnTo()));
 }
 
 bool SubScene::createFormBefore(){
@@ -107,26 +112,13 @@ void SubScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
 	//    }
 	//    myMainWindow->show();
 	
-	GraphicsView *view = static_cast<GraphicsView *>(scene()->views().at(0));
-	if(mySaveButton==0){
-		mySaveButton = new QPushButton(tr("Save Subscene"));
-		myCloseButton = new QPushButton(tr("Close"));
-		myButtonsProxy = new QGraphicsProxyWidget;
-		QWidget *centralWidget = new QWidget;
-		QHBoxLayout *layout = new QHBoxLayout;
-		centralWidget->setLayout(layout);
-		layout->addWidget(mySaveButton);
-		layout->addWidget(myCloseButton);
-		myButtonsProxy->setWidget(centralWidget);
-		QPointF pos;
-		pos = view->mapToScene(0,0);
-		myButtonsProxy->setPos(pos);
-		myScene->addItem(myButtonsProxy);
-		connect(myCloseButton, SIGNAL(clicked()), this, SLOT(close()));
-		connect(mySaveButton, SIGNAL(clicked()), this, SLOT(save()));
-	}
+	myView = static_cast<GraphicsView *>(scene()->views().at(0));
 	myContainerScene = static_cast<Scene *>(scene());
-	view->setScene(myScene, true);
+	setSelected(false);
+	myView->setScene(myScene, true, this);
+	if(myView->mainWindow()->openSubScene()==0){
+		myView->mainWindow()->setOpenSubScene(this); //Tell MainWindow that this is the first open SubScene
+	}
 	myOpen = true;
 }
 
@@ -180,6 +172,7 @@ void SubScene::readPrivateXml(QXmlStreamReader *xml){
     else
 		loadFromFile(fileName);
     mySubSceneInfo->setName(name);
+	myAction->setText(tr("Subscene: %0").arg(name));
     updateConnections();
 }
 
@@ -226,8 +219,20 @@ void SubScene::loadEvent()
 void SubScene::close()
 {
 	if(myOpen){
-		if(myScene)
-			myScene->views().at(0)->setScene(myContainerScene);
+		if(myChildSubScene){
+			if(myChildSubScene->isOpen()){
+				myChildSubScene->close();
+			}
+		}
+		if(myScene){
+			myView->setScene(myContainerScene,true,this);
+		}
+		myView->mainWindow()->breadCumbBar()->removeAction(myAction);
+		if(myView->mainWindow()->openSubScene()==this){
+			myView->mainWindow()->setOpenSubScene(0); //Only set null if the last subscene is closed
+		}
+		myOpen = false;
+		save();
 	}
 }
 
@@ -247,4 +252,61 @@ void SubScene::reload()
 {
 	myScene->clear();
 	myScene->load(fileName);
+}
+
+void SubScene::setAction(QAction *action)
+{
+	myAction = action;
+	connect(myAction, SIGNAL(triggered()), this, SLOT(returnTo()));
+}
+
+QAction * SubScene::action()
+{
+	return myAction;
+}
+
+void SubScene::returnTo()
+{
+	if(myChildSubScene){
+		if(myChildSubScene->isOpen()){
+			myChildSubScene->close();
+		}
+	}
+}
+
+
+void SubScene::setChildSubScene(SubScene *subscene)
+{
+	myChildSubScene = subscene;
+	if(myChildSubScene)
+		myChildSubScene->setParentSubScene(this);
+}
+
+void SubScene::setParentSubScene(SubScene *subscene)
+{
+	if(myParentSubScene!=subscene){
+		myParentSubScene = subscene;
+		if(myParentSubScene)
+			myParentSubScene->setChildSubScene(this);
+	}
+}
+
+Scene * SubScene::containingScene()
+{
+	return myScene;
+}
+
+SubScene * SubScene::childSubScene()
+{
+	return myChildSubScene;
+}
+
+SubScene * SubScene::parentSubScene()
+{
+	return myParentSubScene;
+}
+
+bool SubScene::isOpen()
+{
+	return myOpen;
 }

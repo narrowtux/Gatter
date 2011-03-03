@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include <QGesture>
 #include <QGestureEvent>
-
+#include "src/elements/subscene.h"
 class MainWindow;
 
 class GraphicsView : public QGraphicsView
@@ -16,7 +16,7 @@ public:
 	qreal scaleFactor();
 	MainWindow *mainWindow();
 	void setMainWindow(MainWindow *mainWindow);
-	void setScene(QGraphicsScene *scene, bool notifyMainWindow = false);
+	void setScene(QGraphicsScene *scene, bool notifyMainWindow = false, SubScene *subscene = 0);
 signals:
 	void scaleFactorChanged(int);
 public slots:

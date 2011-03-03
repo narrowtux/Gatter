@@ -6,6 +6,7 @@
 #include "src/elements/element.h"
 #include "src/widgets/mainwindow.h"
 #include <QPropertyAnimation>
+#include "src/elements/subscene.h"
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent)
 {
@@ -96,9 +97,14 @@ void GraphicsView::setMainWindow(MainWindow *mainWindow)
 	myMainWindow = mainWindow;
 }
 
-void GraphicsView::setScene(QGraphicsScene *scene, bool notifyMainWindow)
+void GraphicsView::setScene(QGraphicsScene *scene, bool notifyMainWindow, SubScene* subscene)
 {
 	QGraphicsView::setScene(scene);
-	if(notifyMainWindow)
+	if(notifyMainWindow){
 		myMainWindow->setScene(static_cast<Scene *>(scene));
+		if(subscene!=0){
+			if(subscene->containingScene()==scene)
+				myMainWindow->breadCumbBar()->addAction(subscene->action());
+		}
+	}
 }

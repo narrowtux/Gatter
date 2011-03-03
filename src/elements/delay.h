@@ -1,6 +1,11 @@
 #ifndef DELAY_H
 #define DELAY_H
 #include "src/elements/element.h"
+
+/*!
+  \class Delay
+  \brief Delay provides an Element that delays a signal.
+  */
 class Delay : public Element
 {
     Q_OBJECT

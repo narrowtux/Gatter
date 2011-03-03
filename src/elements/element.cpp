@@ -2,6 +2,10 @@
 
 qreal Element::rotationSteps=90;
 
+
+/*!
+  Constructs the Element as a child of the given \a parent;
+  */
 Element::Element(QGraphicsObject* parent) :
 		QGraphicsObject(parent)
 {
@@ -29,6 +33,10 @@ Element::Element(QGraphicsObject* parent) :
 	myIsSelected = false;
 }
 
+/*!
+  Destructs the Element
+  */
+
 Element::~Element()
 {
     lineEdits.clear();
@@ -36,6 +44,10 @@ Element::~Element()
     additionalWidgets.clear();
 }
 
+
+/*!
+  Adds the given Connection \a i to the Inputs.
+  */
 void Element::addInput(Connection *i){
     if(i==0){
 		i=new Connection;
@@ -49,6 +61,9 @@ void Element::addInput(Connection *i){
     connect(i,SIGNAL(changed(bool)),this,SLOT(inputChanged()));
 }
 
+/*!
+  Adds the given Connection \a o to the Outputs.
+  */
 void Element::addOutput(Connection *o){
     if(o==0){
 		o=new Connection;
@@ -61,6 +76,9 @@ void Element::addOutput(Connection *o){
     relayoutConnections();
 }
 
+/*!
+  Removes the given Connection \a i from the Inputs.
+  */
 void Element::removeInput(Connection *i){
     if(i==0){
 		Connection*c=0;
@@ -78,6 +96,9 @@ void Element::removeInput(Connection *i){
     delete i;
 }
 
+/*!
+  Removes the given Connection \a o from the Outputs.
+  */
 void Element::removeOutput(Connection *o){
     if(o==0){
 		Connection*c=0;
@@ -95,30 +116,44 @@ void Element::removeOutput(Connection *o){
     relayoutConnections();
 }
 
+/*!
+  Adds \a c new Connections to the Inputs.
+  */
 void Element::addInput(int c){
     for(int i=0;i<c;i++){
 		addInput();
     }
 }
-
+/*!
+  Adds \a c new Connections to the Outputs.
+  */
 void Element::addOutput(int c){
     for(int i=0;i<c;i++){
 		addOutput();
     }
 }
 
+/*!
+  Removes \a c Connections from the inputs.
+  */
 void Element::removeInput(int c){
     for(int i=0;i<c;i++){
 		removeInput();
     }
 }
 
+/*!
+  Removes \a c Connections from the outputs.
+  */
 void Element::removeOutput(int c){
     for(int i=0;i<c;i++){
 		removeOutput();
     }
 }
 
+/*!
+  Sets the count of the Inputs to \a c.
+  */
 void Element::setInputs(int c){
     if(c==myInputs.count()){
 		return;
@@ -131,6 +166,9 @@ void Element::setInputs(int c){
     }
 }
 
+/*!
+  Sets the count of the Outputs to \a c.
+  */
 void Element::setOutputs(int c){
     if(c==myOutputs.count()){
 		return;
@@ -143,6 +181,13 @@ void Element::setOutputs(int c){
     }
 }
 
+/*!
+  This will layout all Connections on the Element.
+  
+  By default, Inputs will go to the left side and Outputs will go to the right side.
+  
+  You can reimplement it to provide your own layout.
+  */
 void Element::relayoutConnections(){
     //Precalculate Optimal Height
     //qDebug()<<"height before"<<height;
@@ -182,6 +227,9 @@ void Element::relayoutConnections(){
 	connectionsChanged();
 }
 
+/*!
+  \returns a Pen that you can use to draw the selection indicator.
+  */
 QPen Element::getSelectionPen(){
     QColor hi=QApplication::palette().highlight().color();
     int h,s,v;
@@ -192,10 +240,16 @@ QPen Element::getSelectionPen(){
     return p;
 }
 
+/*!
+  This slot will recalculate() the Element.
+  */
 void Element::inputChanged(){
     recalculate();
 }
 
+/*!
+  This virtual method will be called whenever an input changes. Reimplement it to provide your own simulation.
+  */
 void Element::recalculate(){
     if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", Element::recalculate()";
 }
@@ -220,6 +274,9 @@ void Element::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
+/*!
+  sets the range for both the inputs and outputs.
+  */
 void Element::setMinMaxInputsOutputs(int minIn, int maxIn, int minOut, int maxOut)
 {
     minInputs=minIn;
@@ -388,6 +445,9 @@ void Element::updateOutputs(int c)
     createForm();
 }
 
+/*!
+  Sets form layout for the inspector to \a flayout.
+  */
 void Element::setFormLayout(QFormLayout *flayout)
 {
     layout=flayout;
@@ -419,24 +479,44 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
     return value;
 }
 
+/*!
+  This virtual method is called when the Element is saved to a file. Use \a xml to write the attributes to the file.
+  */
 void Element::setPrivateXml(QXmlStreamWriter *xml){
     xml->writeAttribute("rotation",QString().setNum(rotation()));
 }
 
+/*!
+  This virtual method is called when the Element is loaded. Use \a xml to read the attributes.
+  */
 void Element::readPrivateXml(QXmlStreamReader *xml){
     qreal rot=xml->attributes().value("rotation").toString().toDouble();
 	setRotation(rot);
 	setData(UserType+1411,rot);
 }
 
+/*!
+  reimplement this method to create your own Inspector widgets before the standard Element-Widgets.
+  
+  \return false if the standard-Element widgets should not be displayed.
+  
+  \return true if the standard-Element widgets should be displayed.
+  */
 bool Element::createFormBefore(){
     return true;
 }
 
+/*!
+  reimplement this method to create your own Inspector widgets after the standard Element-Widgets.
+  */
 void Element::createFormAfter(){
     //Dummy
 }
 
+/*!
+  Paints a basic Element with the title and labels for each Connection.
+  reimplement this method to provide your own Element-look.
+  */
 void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -533,32 +613,64 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	painter->drawText(textRect, myTitle, QTextOption(Qt::AlignCenter));
 }
 
+/*!
+  Set the position of the element on the scene.
+  */
 void Element::setPos(const QPointF &pos){
     qreal x=qRound(pos.x())+0.5;
     qreal y=qRound(pos.y())+0.5;
     QGraphicsItem::setPos(x,y);
 }
 
+/*!
+  Convenience method for calling Element::setPos(QPointF(\a x, \a y)).
+  */
 void Element::setPos(qreal x, qreal y){
     setPos(QPointF(x,y));
 }
 
+/*!
+  If your Element represents a Subscene-Input, reimplement this method like this:
+  \code
+  bool MyGreatElement::isInput(){
+      return true;
+  }
+  \endcode
+  */
 bool Element::isInput(){
     return false;
 }
 
+/*!
+  If your Element represents a Subscene-Output, reimplement this method like this:
+  \code
+  bool MyGreatElement::isOutput(){
+      return true;
+  }
+  \endcode
+  */
 bool Element::isOutput(){
     return false;
 }
 
+/*!
+  If your Element represents a Subscene-Input, this method will set the protected variable \var myValue to \a value.
+  */
 void Element::setInput(bool value){
     myValue=value;
 }
 
+/*!
+  If your Element represents a Subscene-Output, this method will return the protected variable \var myValue.
+  \returns myValue.
+  */
 bool Element::value(){
     return myValue;
 }
 
+/*!
+  \returns the name of the element
+  */
 QString Element::name(){
     QString ret="";
     foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
@@ -576,15 +688,24 @@ int Element::count(const char *propName){
     return ret;
 }
 
+/*!
+  Sets the Elements color to \a c.
+  */
 void Element::setElementColor(QColor c){
     myElementColor=c;
     update();
 }
 
+/*!
+  \returns the Color of the Element
+  */
 QColor Element::elementColor(){
     return myElementColor;
 }
 
+/*!
+  Disconnects the Element from every other Element.
+  */
 void Element::releaseConnections()
 {
     foreach(Connection* c, QList<Connection*>()<<myInputs<<myOutputs){
@@ -592,33 +713,49 @@ void Element::releaseConnections()
     }
 }
 
+/*!
+  \returns a shape that is used for selection.
+  */
 QPainterPath Element::shape() const{
 	QPainterPath ret;
 	ret.addRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
 	return ret;
 }
 
+/*!
+  \returns a list of all Inputs.
+  */
 QList<Connection *> Element::inputs()
 {
 	return myInputs;
 }
-
+/*!
+  \returns a list of all Outputs.
+  */
 QList<Connection *> Element::outputs()
 {
 	return myOutputs;
 }
-
+/*!
+  This method is called whenever the Count of connections changes. Reimplement this method to customize the handling of this.
+  */
 void Element::connectionsChanged()
 {
 	//Do some default implementation here
 	//Will be called after the count of Inputs / Outputs has been changed
 }
 
+/*!
+  \returns the \property selectionOpacity.
+  */
 qreal Element::selectionOpacity()
 {
 	return mySelectionOpacity;
 }
 
+/*!
+  Sets the \property selectionOpacity.
+  */
 void Element::setSelectionOpacity(qreal op)
 {
 	mySelectionOpacity = op;
@@ -641,18 +778,33 @@ void Element::selectionUpdated()
 	myIsSelected = isSelected();
 }
 
+/*!
+  \returns the title of the Element.
+  */
 QString Element::title()
 {
 	return myTitle;
 }
 
+/*!
+  Sets the title of the element.
+  */
 void Element::setTitle(QString title)
 {
 	myTitle = title;
 	update();
 }
 
+/*!
+  This method is called whenever the element has finished loading. Reimplement this to customize the handling of this event.
+  */
 void Element::loadEvent()
 {
 	//TODO: do some default Implementation here.
+}
+
+QRectF Element::boundingRect() const
+{
+	//Warning: this returns an invalid QRectF!
+	return QRectF();
 }

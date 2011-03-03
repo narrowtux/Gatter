@@ -25,7 +25,21 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="BreadCumbBar" name="breadCumbBar" native="true"/>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="BreadCumbBar" name="breadCumbBar" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="GraphicsView" name="graphicsView">
@@ -209,7 +223,7 @@
           <x>0</x>
           <y>0</y>
           <width>226</width>
-          <height>255</height>
+          <height>258</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -282,46 +296,6 @@
      <property name="spacing">
       <number>1</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QToolButton" name="addUTRecordingButton">
-       <property name="contextMenuPolicy">
-        <enum>Qt::PreventContextMenu</enum>
-       </property>
-       <property name="toolTip">
-        <string>Add watched connection</string>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../res.qrc">
-         <normaloff>:/icons/toolbar/icons/list-add.png</normaloff>:/icons/toolbar/icons/list-add.png</iconset>
-       </property>
-       <property name="popupMode">
-        <enum>QToolButton::InstantPopup</enum>
-       </property>
-       <property name="arrowType">
-        <enum>Qt::NoArrow</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QToolButton" name="recordUTButton">
-       <property name="toolTip">
-        <string>Record</string>
-       </property>
-       <property name="text">
-        <string>Rec</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../res.qrc">
-         <normaloff>:/icons/toolbar/icons/record.png</normaloff>:/icons/toolbar/icons/record.png</iconset>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
@@ -339,7 +313,7 @@
       <layout class="QVBoxLayout" name="UTRecordLayout"/>
      </item>
      <item row="0" column="3">
-      <widget class="QToolButton" name="autoScrollButton">
+      <widget class="QPushButton" name="autoScrollButton">
        <property name="toolTip">
         <string>Auto-Scroll</string>
        </property>
@@ -358,13 +332,47 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="recordUTButton">
+       <property name="toolTip">
+        <string>Record</string>
+       </property>
+       <property name="text">
+        <string>Record</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../res.qrc">
+         <normaloff>:/icons/toolbar/icons/record.png</normaloff>:/icons/toolbar/icons/record.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="addUTRecordingButton">
+       <property name="contextMenuPolicy">
+        <enum>Qt::PreventContextMenu</enum>
+       </property>
+       <property name="toolTip">
+        <string>Add watched connection</string>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../res.qrc">
+         <normaloff>:/icons/toolbar/icons/list-add.png</normaloff>:/icons/toolbar/icons/list-add.png</iconset>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
-      <widget class="QToolButton" name="removeUTRecordingButton">
+      <widget class="QPushButton" name="removeUTRecordingButton">
        <property name="toolTip">
         <string>Remove selected Template or Category</string>
        </property>
        <property name="text">
-        <string>-</string>
+        <string>Remove</string>
        </property>
        <property name="icon">
         <iconset resource="../res.qrc">
@@ -445,29 +453,26 @@
         <number>1</number>
        </property>
        <item>
-        <widget class="QToolButton" name="toolAddTemplateFromFile">
+        <widget class="QPushButton" name="toolAddTemplateFromFile">
          <property name="toolTip">
           <string>Add Template from File or Category</string>
          </property>
          <property name="text">
-          <string>+</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset resource="../res.qrc">
            <normaloff>:/icons/toolbar/icons/list-add.png</normaloff>:/icons/toolbar/icons/list-add.png</iconset>
          </property>
-         <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
-         </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="toolRemoveTemplate">
+        <widget class="QPushButton" name="toolRemoveTemplate">
          <property name="toolTip">
           <string>Remove selected Template or Category</string>
          </property>
          <property name="text">
-          <string>-</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset resource="../res.qrc">
@@ -489,7 +494,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QToolButton" name="toolButton">
+        <widget class="QPushButton" name="pushButton">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -497,7 +502,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Bearbeiten</string>
+          <string>Edit</string>
          </property>
         </widget>
        </item>

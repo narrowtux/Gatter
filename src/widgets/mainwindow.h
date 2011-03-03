@@ -11,11 +11,12 @@
 #include <QUndoView>
 #include "src/catalog/elementcatalog.h"
 #include "src/grapher/utdiagram.h"
-
+#include "src/widgets/breadcumbbar.h"
 class SubSceneChooseDialog;
 class Scene;
 class QXmlStreamReader;
 class Element;
+class SubScene;
 namespace Ui {
     class MainWindow;
 }
@@ -33,6 +34,9 @@ public:
     Scene* scene();
 	void setScene(Scene *scene);
     void initElementCatalog();
+	BreadCumbBar *breadCumbBar();
+	SubScene *openSubScene();
+	void setOpenSubScene(SubScene *sub);
 public slots:
     MainWindow* newFile();
     void open();
@@ -45,7 +49,7 @@ public slots:
     void zoomTo(int v);
     void loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);
-
+	void closeSubScenes();
 protected:
     void changeEvent(QEvent *e);
     QString fileName;
@@ -64,6 +68,7 @@ private:
     static QList<QAction*> windowActions;
     QAction* myAction;
     Scene* myScene;
+	SubScene *myOpenSubScene;
     void updateActions();
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *);
@@ -81,7 +86,10 @@ private:
 	UTDiagram* myDiagram;
 	
 	QSpinBox *myZoomBox;
+	
+	QFileDialog *openDialog;
 private slots:
+	void openFinished();
 	void addSubscene();
 	void printDialogClosed();
 	void addLabel();

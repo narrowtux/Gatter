@@ -6,12 +6,13 @@ BreadCumbBar::BreadCumbBar(QWidget *parent) :
 	QHBoxLayout *l = new QHBoxLayout;
 	l->setMargin(0);
 	l->setSpacing(0);
+	item = 0;
 	setLayout(l);
 }
 
 QSize BreadCumbBar::sizeHint() const
 {
-	return QSize(500,50);
+	return QSize(500,20);
 }
 
 void BreadCumbBar::addAction(QAction *action)
@@ -49,13 +50,30 @@ void BreadCumbBar::updateActions()
 	foreach(BreadCumbItem *item, myItems)
 	{
 		item->deleteLater();
-	}	        
+	}
 	myItems.clear();
+	QHBoxLayout *l = static_cast<QHBoxLayout*>(layout());
+	BreadCumbItem *left = 0;
 	foreach(QAction *action, actions())
 	{
 		BreadCumbItem *item = new BreadCumbItem(this);
-		layout()->addWidget(item);
+		item->setLeftBreadCumbItem(left);
+		if(left)
+			left->setRightBreadCumbItem(item);
 		item->setAction(action);
+		layout()->addWidget(item);
+		//l->setAlignment(item, Qt::AlignLeft);
 		myItems<<item;
+		left = item;
 	}
+}
+
+QSize BreadCumbBar::minimumSize() const
+{
+	int w = 0;
+	foreach(BreadCumbItem *item, myItems){
+		w+=item->minimumSize().width();
+	}
+	int h = 20;
+	return QSize(w,20);
 }

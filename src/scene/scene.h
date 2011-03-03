@@ -11,6 +11,13 @@ class QXmlStreamWriter;
 class Element;
 class MainWindow;
 class GraphicsView;
+class SubScene;
+
+/*!
+  \class Scene
+  \brief Scene contains the simulation Elements
+  */
+
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
@@ -41,6 +48,8 @@ public:
 	void highlight(QGraphicsItem *element);
 	void highlight(QList<QGraphicsItem*> myElements);
 	QList<Element*> elementList();
+	void setCurrentOpenSubScene(SubScene *subscene);
+	void setSubscene(SubScene* sub);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -57,9 +66,24 @@ protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
 	Highlighter *myHighlighter;
+	SubScene *subscene;
 signals:
+	/*!
+	  This signal is emitted whenever an Element is being added, removed or moved.
+	  */
     void modified();
+	/*!
+	  This signal is emitted whenever an Element is being added or removed.
+	  */
     void elementAddedOrRemoved();
+	
+	/*!
+	  This signal is emitted whenever an Element moved.
+	  
+	  \a element contains a list with the moved elements
+	  
+	  \a oldPos contains a list with the old positions of the elements
+	  */
     void elementMoved(QList<Element*> element, QList<QPointF> oldPos);
 public slots:
     void clear();

@@ -15,8 +15,24 @@
 #include "src/widgets/colorbutton.h"
 #include <QPropertyAnimation>
 
+/*!
+  \class Element
+  \brief Element is the base class for all simulation elements.
+  
+  It provides a basis painting of the element as well as virtual base methods for simulation and
+  methods for Connection-Handling. 
+  
+  To implement your own Element, you have to reimplement these methods:
+  
+  Element::boundingRect()
+  
+  Element::recalculate()
+  */
 class Element : public QGraphicsObject
 {
+	/*!
+	  The selectionOpacity is the opacity of the selection indicator on the boundaries of the element.
+	  */
 	Q_PROPERTY(qreal selectionOpacity READ selectionOpacity WRITE setSelectionOpacity)
     Q_OBJECT
     friend class Scene;
@@ -50,11 +66,35 @@ public:
 	qreal selectionOpacity();
 	void setSelectionOpacity(qreal op);
 	QString title();
+	
+	/*!
+	  \returns the bounding rect of the QGraphicsItem. 
+	  
+	  Reimplementation of this method is required to create your own Element.
+	  
+	  \code
+QRectF MyGreatElement::boundingRect() const{
+    return QRectF(0,0,width,height);
+}
+	  \endcode
+	  */
+	virtual QRectF boundingRect() const;
 public slots:
 	void setTitle(QString title);
     void setElementColor(QColor c);
 signals:
-    void outputChanged(bool);
+	/*!
+	  This signal is emitted whenever the outputs have changed.
+	  
+	  \a value contains the new output value
+	  
+	  \warning you should not rely on \a value.
+	  */
+    void outputChanged(bool value);
+	
+	/*!
+	  This signal is emitted whenever the Element is moved.
+	  */
     void moved();
 protected slots:
     virtual void recalculate();

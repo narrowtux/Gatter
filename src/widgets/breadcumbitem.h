@@ -11,6 +11,8 @@ public:
 	QSize sizeHint() const;
 	void setAction(QAction *action);
 	QAction *action();
+	void setLeftBreadCumbItem(BreadCumbItem *left);
+	void setRightBreadCumbItem(BreadCumbItem *right);
 signals:
 
 public slots:
@@ -20,6 +22,7 @@ private:
 	void mouseReleaseEvent(QMouseEvent *e);
 	QAction *myAction;
 	bool leftDown;
+	BreadCumbItem *myLeftItem, *myRightItem;
 };
 
 #endif // BREADCUMBITEM_H

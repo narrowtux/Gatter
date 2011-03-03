@@ -19,10 +19,19 @@ public:
     void setFileName(QString fileName);
     void setInfo(SubSceneInfo* info);
     void setMainWindow(MainWindow*m);
+	void setAction(QAction *action);
+	QAction *action();
+	void setChildSubScene(SubScene *subscene);
+	SubScene *childSubScene();
+	void setParentSubScene(SubScene *subscene);
+	SubScene *parentSubScene();
+	Scene *containingScene();
+	bool isOpen();
 public slots:
 	void close();
 	void save();
 	void reload();
+	void returnTo();
 signals:
 	void changed();
 private slots:
@@ -49,6 +58,10 @@ private:
 	QPushButton *mySaveButton, *myCloseButton;
 	bool myOpen;
 	static QList<SubScene*> subScenes;
+	QAction *myAction;
+	SubScene *myChildSubScene;
+	SubScene *myParentSubScene;
+	GraphicsView *myView;
 };
 
 #endif // SUBSCENE_H

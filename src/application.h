@@ -3,6 +3,11 @@
 
 #include <QApplication>
 
+/*!
+  \class Application
+  \brief this class extends QApplication to dispatch QFileOpenEvent
+  */
+
 class Application : public QApplication
 {
     Q_OBJECT

@@ -35,8 +35,8 @@ ElementCatalog* MainWindow::elementCatalog=0;
 //CONSTRUCTORS
 
 MainWindow::MainWindow(QWidget *parent, Scene *scene) :
-		QMainWindow(parent),
-		ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     
@@ -45,11 +45,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		ui->elementCatalog->expandAll();
 	}
 	
+	openDialog = 0;
 	
 #ifndef QT_ARCH_MACOSX
     ui->actionDelete->setShortcut(QKeySequence(Qt::Key_Delete));
 #endif
-	
 	
     setScene(new Scene);
 	myShouldBeSaved = true;
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	QSettings settings;
 	Element::rotationSteps=settings.value("rotationSteps",90).toReal();
     
-
+	myOpenSubScene = 0;
 	
     QAction *separatorAction;
     myUndoStack=new QUndoStack;
@@ -129,11 +129,11 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     separatorAction->setSeparator(true);
     QList<QAction*> actions;
     actions<<ui->actionCut
-			<<ui->actionCopy
-			<<ui->actionPaste
-			<<ui->actionDelete
-			<<separatorAction
-			<<ui->actionSelectAll;
+	       <<ui->actionCopy
+	       <<ui->actionPaste
+	       <<ui->actionDelete
+	       <<separatorAction
+	       <<ui->actionSelectAll;
     ui->graphicsView->addActions(actions);
     
     
@@ -172,10 +172,9 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 	
 	connect(ui->graphicsView, SIGNAL(scaleFactorChanged(int)), myZoomBox, SLOT(setValue(int)));
 	
-	QAction *baction = new QAction(tr("Testaction"), this);
+	QAction *baction = new QAction(tr("Main scene"), this);
 	ui->breadCumbBar->addAction(baction);
-	baction = new QAction(tr("Subaction"), this);
-	ui->breadCumbBar->addAction(baction);
+	connect(baction, SIGNAL(triggered()), this, SLOT(closeSubScenes()));
 }
 
 MainWindow::~MainWindow()
@@ -245,23 +244,33 @@ void MainWindow::open()
 {
     QSettings settings;
     QString lastOpenDir=settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString();
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setWindowTitle(tr("Select File"));
-    dialog.setDirectory(lastOpenDir);
-    QStringList filters;
-    filters<<tr("Gatter Files(*.gtr)")
-			<<tr("All Files(*)");
-    dialog.setFilters(filters);
-    dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
-    dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
-    dialog.setLabelText(QFileDialog::FileType, tr("Files of Type"));
-    dialog.setLabelText(QFileDialog::Accept, tr("Open"));
-    dialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
-    dialog.exec();
-    
-    if (!dialog.selectedFiles().count()==0){
-		foreach(QString fileName, dialog.selectedFiles()){
+	if(openDialog==0){
+		openDialog = new QFileDialog(this,Qt::Drawer);
+		openDialog->setFileMode(QFileDialog::ExistingFiles);
+		openDialog->setWindowTitle(tr("Select File"));
+		openDialog->setDirectory(lastOpenDir);
+		QStringList filters;
+		filters<<tr("Gatter Files(*.gtr)")
+			   <<tr("All Files(*)");
+		openDialog->setFilters(filters);
+		openDialog->setLabelText(QFileDialog::LookIn, tr("Look In"));
+		openDialog->setLabelText(QFileDialog::FileName, tr("Name of File"));
+		openDialog->setLabelText(QFileDialog::FileType, tr("Files of Type"));
+		openDialog->setLabelText(QFileDialog::Accept, tr("Open"));
+		openDialog->setLabelText(QFileDialog::Reject, tr("Cancel"));
+		connect(openDialog, SIGNAL(accepted()), this, SLOT(openFinished()));
+	}
+	
+	openDialog->open();	
+}
+
+
+
+void MainWindow::openFinished()
+{
+	QSettings settings;
+    if (!openDialog->selectedFiles().count()==0){
+		foreach(QString fileName, openDialog->selectedFiles()){
 			settings.setValue("lastOpenDir",QFileInfo(fileName).absoluteDir().path());
 			MainWindow*m;
 			if(!myScene->isBlank())
@@ -272,6 +281,8 @@ void MainWindow::open()
 		}
     }
 }
+
+
 
 bool MainWindow::save()
 {
@@ -285,13 +296,18 @@ bool MainWindow::save()
 bool MainWindow::saveAs()
 {
     QSettings settings;
-    QFileDialog dialog(this);
+    QFileDialog dialog(this, Qt::Drawer);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setDefaultSuffix("gtr");
     dialog.setDirectory(settings.value("lastOpenDir",QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString());
     dialog.setWindowTitle(tr("Save File As"));
-    dialog.exec();
+	QEventLoop loop;
+	dialog.open(&loop,SLOT(quit()));
+	loop.exec();
+	if(dialog.result()==QDialog::Rejected){
+		return false;
+	}
     QString fileName;
     if (dialog.selectedFiles().count()==0)
 		return false;
@@ -329,10 +345,17 @@ bool MainWindow::maybeSave()
 {
     if (isWindowModified()&&myShouldBeSaved) {
 		QMessageBox::StandardButton ret;
-		ret = QMessageBox::warning(this, tr("Gatter"),
-								   tr("The document has been modified.\n"
-									  "Do you want to save your changes?"),
-								   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		QMessageBox box(this);
+		box.setWindowFlags(Qt::Drawer);
+		box.setText(tr("The document has been modified.\n"
+		               "Do you want to save your changes?"));
+		box.setWindowTitle(tr("Gatter"));
+		box.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		box.button(QMessageBox::Save)->setFocus();
+		QEventLoop loop;
+		box.open(&loop,SLOT(quit()));
+		loop.exec();
+		ret = box.standardButton(box.clickedButton());
 		if (ret == QMessageBox::Save)
 			return save();
 		else if (ret == QMessageBox::Cancel)
@@ -461,7 +484,7 @@ void MainWindow::addFromFile(){
     dialog.setDirectory(lastOpenDir);
     QStringList filters;
     filters<<tr("Gatter Files(*.gtr)")
-			<<tr("All Files(*)");
+	       <<tr("All Files(*)");
     dialog.setFilters(filters);
     dialog.setLabelText(QFileDialog::LookIn, tr("Look In"));
     dialog.setLabelText(QFileDialog::FileName, tr("Name of File"));
@@ -584,23 +607,23 @@ void MainWindow::on_actionPreferences_triggered()
 }
 
 /*
- 
+  
 void MainWindow::on_actionDistribute_Horizontally_triggered()
 {
     if(myScene->selectedItems().count()>1){
-	int left=INT_MAX, right=INT_MIN, totalWidth=0;
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    left=qMin(left,(int)i->x());
-	    right=qMax(right,(int)(i->x()+i->boundingRect().width()));
-	    totalWidth+=i->boundingRect().width();
-	}
-	int space=abs(right-left-totalWidth)/myScene->selectedItems().count();
-	qDebug()<<"Left:"<<left<<"Right:"<<right<<"Space:"<<space;
-	int pos=left;
-	foreach(QGraphicsItem*i, myScene->selectedItems()){
-	    i->setX(pos+0.5);
-	    pos+=i->boundingRect().width()+space;
-	}
+ int left=INT_MAX, right=INT_MIN, totalWidth=0;
+ foreach(QGraphicsItem*i, myScene->selectedItems()){
+  left=qMin(left,(int)i->x());
+  right=qMax(right,(int)(i->x()+i->boundingRect().width()));
+  totalWidth+=i->boundingRect().width();
+ }
+ int space=abs(right-left-totalWidth)/myScene->selectedItems().count();
+ qDebug()<<"Left:"<<left<<"Right:"<<right<<"Space:"<<space;
+ int pos=left;
+ foreach(QGraphicsItem*i, myScene->selectedItems()){
+  i->setX(pos+0.5);
+  pos+=i->boundingRect().width()+space;
+ }
     }
 }
 */
@@ -671,7 +694,7 @@ void MainWindow::updateConnectionAddMenu()
 	foreach(Element* element, elements){
 		connections<<element->inputs()<<element->outputs();
 	}
-
+	
 	QMenu* menu=ui->addUTRecordingButton->menu();
 	if(menu==0){
 		menu=new QMenu;
@@ -777,7 +800,26 @@ void MainWindow::setScene(Scene *scene)
     ui->graphicsView->setScene(myScene); 
 	connect(myScene,SIGNAL(modified()),this,SLOT(documentWasModified()));
     connect(myScene,SIGNAL(elementMoved(QList<Element*>,QList<QPointF>)),this,SLOT(elementMoved(QList<Element*>,QList<QPointF>)));
-
 }
 
+BreadCumbBar * MainWindow::breadCumbBar()
+{
+	return ui->breadCumbBar;
+}
 
+void MainWindow::closeSubScenes()
+{
+	if(myOpenSubScene){
+		myOpenSubScene->close();
+	}
+}
+
+SubScene * MainWindow::openSubScene()
+{
+	return myOpenSubScene;
+}
+
+void MainWindow::setOpenSubScene(SubScene *sub)
+{
+	myOpenSubScene = sub;
+}
