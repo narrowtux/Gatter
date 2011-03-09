@@ -467,11 +467,12 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
     if(change==ItemScenePositionHasChanged){
 		isMoving=true;
     }
+	/*
 	if(change==ItemRotationHasChanged){
 		foreach(Connection*c, myInputs+myOutputs){
 			c->itemChange(change,value);
 		}
-	}
+	}*/
 	if(change==ItemSceneHasChanged){
 		if(scene()!=0)
 			connect(scene(), SIGNAL(selectionChanged()), this, SLOT(selectionUpdated()));
@@ -603,8 +604,13 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		painter->drawText(rect, name, QTextOption(Qt::AlignRight|Qt::AlignVCenter));
 	}
 	
+	
+	
+	font.setOverline(false);
+	painter->setFont(font);
+	
 	/* 
-	 * Draw the title. It has to be on Top of the Element, according to
+	 * Draw the title. It has to be on top of the Element, according to
 	 * http://www.elektronik-kompendium.de/sites/dig/0207261.htm
 	 */
 	

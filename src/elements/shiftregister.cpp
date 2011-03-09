@@ -9,8 +9,9 @@ ShiftRegister::ShiftRegister(QGraphicsObject *parent) :
     myValue=0;
     height=50;
     width=50;
-	setMinMaxInputsOutputs(7,19,4,16);
+	setMinMaxInputsOutputs(7,19,5,17);
 	beforeClockValue = false;
+	bitCountChanged(4);
 }
 
 QRectF ShiftRegister::boundingRect() const
@@ -32,18 +33,20 @@ void ShiftRegister::connectionsChanged()
 			myInputs.at(i)->setName("");
 		}
 	}
-	for (int i = 0; i<myOutputs.count(); i++){
+	for (int i = 0; i<myOutputs.count()-1; i++){
 		//myOutputs.at(i)->setName(QString("Q%0").arg(i+1));
 		myOutputs.at(i)->setName("");
 	}
 	if(myOutputs.count()>=4){
 		int beforeSize = myRegister.size();
-		myRegister.resize(myOutputs.count());
+		myRegister.resize(myOutputs.count()-1);
 		bool *data = myRegister.data();
 		for(int i = beforeSize; i < myRegister.count(); i++){
 			data[i] = false;
 		}
 	}
+	if(!myOutputs.isEmpty())
+		myOutputs.last()->setName(tr("Q%0").arg(myRegister.count()));
 }
 
 void ShiftRegister::shift()
@@ -73,6 +76,7 @@ void ShiftRegister::recalculate()
 	for(int i = 0; i < myRegister.count(); i++){
 		myOutputs[i]->setValue(myRegister[i]);
 	}
+	myOutputs.at(myOutputs.count()-1)->setValue(myRegister.at(myRegister.count()-1));
 }
 
 void ShiftRegister::setPrivateXml(QXmlStreamWriter *xml)
@@ -103,8 +107,8 @@ void ShiftRegister::relayoutConnections()
 {
 	connectionsChanged();
 	//Q% on the Top, I% Bottom, everything else Left
-	QList<Connection *> left, top, bottom;
-	if(myInputs.count()-3==myRegister.size()&&myOutputs.count()==myRegister.size()){
+	QList<Connection *> left, top, bottom, right;
+	if(myInputs.count()-3==myRegister.size()&&myOutputs.count()-1==myRegister.size()){
 		for(int i = 0; i < 3; i++)
 		{
 			left<<myInputs.at(i);
@@ -113,12 +117,13 @@ void ShiftRegister::relayoutConnections()
 		{
 			bottom<<myInputs.at(i);
 		}
-		for(int i = 0; i < myOutputs.count(); i++)
+		for(int i = 0; i < myOutputs.count()-1; i++)
 		{
 			top<<myOutputs.at(i);
 		}
+		right<<myOutputs.at(myOutputs.count()-1);
 		//Calculate optimal height
-		qreal minimumHeight = left.count()*20;
+		qreal minimumHeight = qMax(left.count()*20,right.count()*20);
 		if(minimumHeight>height){
 			prepareGeometryChange();
 			height = minimumHeight;
@@ -153,6 +158,7 @@ void ShiftRegister::relayoutConnections()
 		qreal leftSide=boundingRect().left();
 	    qreal topSide=boundingRect().top();
 		qreal bottomSide=boundingRect().bottom();
+		qreal rightSide=boundingRect().right();
 		//left
 		int count = left.count();
 		for(int i = 0; i < count; i++)
@@ -173,6 +179,12 @@ void ShiftRegister::relayoutConnections()
 			bottom[i]->setPos((width/(qreal)(count+1))*(1+i)+leftSide, bottomSide+20);
 			bottom[i]->setRotation(-90);
 		}
+		//right
+		count = right.count();
+		for(int i = 0; i < count; i++){
+			right[i]->setPos(rightSide, (height/(qreal)(count+1))*(1+i)+topSide);
+			right[i]->setRotation(0);
+		}
 	}
 }
 
@@ -191,5 +203,5 @@ bool ShiftRegister::createFormBefore()
 void ShiftRegister::bitCountChanged(int n)
 {
 	setInputs(n+3);
-	setOutputs(n);
+	setOutputs(n+1);
 }

@@ -189,6 +189,7 @@ bool ElementCatalog::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		endInsertRows();
 		return true;
 	}
+	return false;
 }
 
 Qt::DropActions ElementCatalog::supportedDropActions() const{
@@ -271,6 +272,8 @@ bool ElementCatalog::setData(const QModelIndex &index, const QVariant &value, in
 			} else {
 				return false;
 			}
+		} else {
+			return true;
 		}
 	}else{
 		return false;
