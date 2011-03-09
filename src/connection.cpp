@@ -60,10 +60,10 @@ void Connection::setValue(bool v)
 				//qDebug()<<"Connection Value Changed to"<<endValue;
 				if(endValue){
 					myConnectedTo->setValue(High);
-					//line->setPen(Scene::highValueColor);
+					line->setPen(Scene::highValueColor);
 				} else {
 					myConnectedTo->setValue(Low);
-					//line->setPen(QColor("black"));
+					line->setPen(QColor("black"));
 				}
 			}
 		}

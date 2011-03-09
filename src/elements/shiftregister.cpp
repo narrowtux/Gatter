@@ -193,7 +193,7 @@ bool ShiftRegister::createFormBefore()
 	QLabel *bitCountLabel = new QLabel(tr("Size"));
 	QSpinBox *bitCountSpinBox = new QSpinBox;
 	bitCountSpinBox->setRange(4,16);
-	bitCountSpinBox->setValue(myOutputs.count());
+	bitCountSpinBox->setValue(myRegister.size());
 	layout->addRow(bitCountLabel, bitCountSpinBox);
 	connect(bitCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bitCountChanged(int)));
 	additionalWidgets<<bitCountLabel<<bitCountSpinBox;
@@ -204,4 +204,6 @@ void ShiftRegister::bitCountChanged(int n)
 {
 	setInputs(n+3);
 	setOutputs(n+1);
+	if(!myOutputs.isEmpty())
+		myOutputs.last()->setName(tr("Q%0").arg(n));
 }
