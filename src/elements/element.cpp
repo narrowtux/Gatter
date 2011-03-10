@@ -235,6 +235,7 @@ QPen Element::getSelectionPen(){
     int h,s,v;
     hi.getHsv(&h,&s,&v);
     hi.setHsv(h,50,v);
+	hi.setAlpha(mySelectionOpacity*255.0);
     QPen p(h);
     p.setWidth(2);
     return p;

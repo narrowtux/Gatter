@@ -38,18 +38,18 @@
 <context>
     <name>Element</name>
     <message>
-        <location filename="src/elements/element.cpp" line="264"/>
+        <location filename="src/elements/element.cpp" line="322"/>
         <source>Element Color</source>
         <translation>Element Farbe</translation>
     </message>
     <message>
-        <location filename="src/elements/element.cpp" line="270"/>
+        <location filename="src/elements/element.cpp" line="328"/>
         <source>&lt;b&gt;Inputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Eingänge&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="src/elements/element.cpp" line="291"/>
-        <location filename="src/elements/element.cpp" line="323"/>
+        <location filename="src/elements/element.cpp" line="349"/>
+        <location filename="src/elements/element.cpp" line="381"/>
         <source>Negated</source>
         <translation>Negiert</translation>
     </message>
@@ -58,7 +58,7 @@
         <translation type="obsolete">Anzahl</translation>
     </message>
     <message>
-        <location filename="src/elements/element.cpp" line="303"/>
+        <location filename="src/elements/element.cpp" line="361"/>
         <source>&lt;b&gt;Outputs&lt;/b&gt;</source>
         <translation>&lt;b&gt;Ausgänge&lt;/b&gt;</translation>
     </message>
@@ -250,172 +250,178 @@
         <translation>Unterszene hinzufügen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="245"/>
-        <location filename="src/widgets/mainwindow.cpp" line="455"/>
+        <location filename="src/widgets/mainwindow.cpp" line="250"/>
+        <location filename="src/widgets/mainwindow.cpp" line="483"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="248"/>
-        <location filename="src/widgets/mainwindow.cpp" line="458"/>
+        <location filename="src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="src/widgets/mainwindow.cpp" line="486"/>
         <source>Gatter Files(*.gtr)</source>
         <oldsource>Gatter Files(*.gtr</oldsource>
         <translation>Gatter Dateien(*.gtr)</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="249"/>
-        <location filename="src/widgets/mainwindow.cpp" line="459"/>
+        <location filename="src/widgets/mainwindow.cpp" line="254"/>
+        <location filename="src/widgets/mainwindow.cpp" line="487"/>
         <source>All Files(*)</source>
         <translation>Alle Dateien(*)</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="251"/>
-        <location filename="src/widgets/mainwindow.cpp" line="461"/>
+        <location filename="src/widgets/mainwindow.cpp" line="256"/>
+        <location filename="src/widgets/mainwindow.cpp" line="489"/>
         <source>Look In</source>
         <translation>Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="252"/>
-        <location filename="src/widgets/mainwindow.cpp" line="462"/>
+        <location filename="src/widgets/mainwindow.cpp" line="257"/>
+        <location filename="src/widgets/mainwindow.cpp" line="490"/>
         <source>Name of File</source>
         <translation>Name der Datei</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="253"/>
-        <location filename="src/widgets/mainwindow.cpp" line="463"/>
+        <location filename="src/widgets/mainwindow.cpp" line="258"/>
+        <location filename="src/widgets/mainwindow.cpp" line="491"/>
         <source>Files of Type</source>
         <oldsource>Type of File</oldsource>
         <translation>Dateien vom Typ</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="255"/>
-        <location filename="src/widgets/mainwindow.cpp" line="465"/>
+        <location filename="src/widgets/mainwindow.cpp" line="260"/>
+        <location filename="src/widgets/mainwindow.cpp" line="493"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="288"/>
+        <location filename="src/widgets/mainwindow.cpp" line="304"/>
         <source>Save File As</source>
         <translation>Datei Speichern unter</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="300"/>
+        <location filename="src/widgets/mainwindow.cpp" line="321"/>
         <source>About Gatter</source>
         <translation>Über Gatter</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="301"/>
+        <location filename="src/widgets/mainwindow.cpp" line="322"/>
         <source>Gatter is a simulation for digital circuits.</source>
         <translation>Gatter ist eine Simulation für digitale Schaltungen.</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="327"/>
-        <location filename="src/widgets/mainwindow.cpp" line="365"/>
-        <location filename="src/widgets/mainwindow.cpp" line="367"/>
-        <location filename="src/widgets/mainwindow.cpp" line="370"/>
+        <location filename="src/widgets/mainwindow.cpp" line="352"/>
+        <location filename="src/widgets/mainwindow.cpp" line="393"/>
+        <location filename="src/widgets/mainwindow.cpp" line="395"/>
+        <location filename="src/widgets/mainwindow.cpp" line="398"/>
         <location filename="src/widgets/mainwindow.ui" line="14"/>
         <source>Gatter</source>
         <translation>Gatter</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="328"/>
+        <location filename="src/widgets/mainwindow.cpp" line="350"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde verändert.
 Möchten Sie die Änderungen speichern?</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="361"/>
+        <location filename="src/widgets/mainwindow.cpp" line="175"/>
+        <source>Main scene</source>
+        <translation>Hauptschaltung</translation>
+    </message>
+    <message>
+        <location filename="src/widgets/mainwindow.cpp" line="389"/>
         <source>untitled</source>
         <translation>Unbenannt</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="444"/>
+        <location filename="src/widgets/mainwindow.cpp" line="472"/>
         <source>Name of Label</source>
         <translation>Name der Kategorie</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="473"/>
+        <location filename="src/widgets/mainwindow.cpp" line="501"/>
         <source>Name for File</source>
         <translation>Name für Datei</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="680"/>
+        <location filename="src/widgets/mainwindow.cpp" line="708"/>
         <source>(No name)</source>
         <translation>(kein Name)</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="682"/>
+        <location filename="src/widgets/mainwindow.cpp" line="710"/>
         <source> on %0</source>
         <translation>an %0</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="684"/>
+        <location filename="src/widgets/mainwindow.cpp" line="712"/>
         <source>Input</source>
         <translation>Eingang</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="686"/>
+        <location filename="src/widgets/mainwindow.cpp" line="714"/>
         <source>Output</source>
         <translation>Ausgang</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="726"/>
+        <location filename="src/widgets/mainwindow.cpp" line="754"/>
         <source>Enter Typename</source>
         <translation>Typnamen eingeben</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="726"/>
+        <location filename="src/widgets/mainwindow.cpp" line="754"/>
         <source>Enter the Typename. For example: button</source>
         <translation>Bitte geben Sie den Typnamen an. Beispiel: button</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="732"/>
+        <location filename="src/widgets/mainwindow.cpp" line="760"/>
         <source>Not found</source>
         <translation>Nicht gefunden</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="732"/>
+        <location filename="src/widgets/mainwindow.cpp" line="760"/>
         <source>The system has not found the type %0.</source>
         <translation>Das System konnte den Typ %0 nicht finden.</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="740"/>
+        <location filename="src/widgets/mainwindow.cpp" line="768"/>
         <source>Name of Subscene</source>
         <translation>Name der Unterszene</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="740"/>
+        <location filename="src/widgets/mainwindow.cpp" line="768"/>
         <source>Enter the Name of the Subscene</source>
         <translation>Geben Sie den Namen der Unterszene ein</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="740"/>
+        <location filename="src/widgets/mainwindow.cpp" line="768"/>
         <source>My Subscene</source>
         <translation>Meine Unterszene</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="759"/>
+        <location filename="src/widgets/mainwindow.cpp" line="787"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="759"/>
+        <location filename="src/widgets/mainwindow.cpp" line="787"/>
         <source>Aborted because the Template file couldn&apos;t be written to your Subscene Directory. Try to choose an other name.</source>
         <translation>Vorgang abgebrochen, weil die Vorlagendatei nicht in Ihr Unterszenen-Verzeichnis geschrieben werden konnte. Versuchen Sie, einen anderen Namen zu verwenden.</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="68"/>
+        <location filename="src/widgets/mainwindow.ui" line="85"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="83"/>
+        <location filename="src/widgets/mainwindow.ui" line="100"/>
+        <location filename="src/widgets/mainwindow.ui" line="505"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="97"/>
+        <location filename="src/widgets/mainwindow.ui" line="114"/>
         <source>Insert</source>
         <translation>Einfügen</translation>
     </message>
@@ -428,34 +434,34 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Ausgänge</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="103"/>
+        <location filename="src/widgets/mainwindow.ui" line="120"/>
         <source>Window</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="108"/>
-        <location filename="src/widgets/mainwindow.ui" line="617"/>
+        <location filename="src/widgets/mainwindow.ui" line="125"/>
+        <location filename="src/widgets/mainwindow.ui" line="625"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="115"/>
-        <location filename="src/widgets/mainwindow.ui" line="119"/>
+        <location filename="src/widgets/mainwindow.ui" line="132"/>
+        <location filename="src/widgets/mainwindow.ui" line="136"/>
         <source>Layout</source>
         <translation>Anordnen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="131"/>
+        <location filename="src/widgets/mainwindow.ui" line="148"/>
         <source>Distribute</source>
         <translation>Verteilen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="149"/>
+        <location filename="src/widgets/mainwindow.ui" line="166"/>
         <source>Main Toolbar</source>
         <translation>Standard Toolbar</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="173"/>
+        <location filename="src/widgets/mainwindow.ui" line="190"/>
         <source>Inspector</source>
         <translation>Inspektor</translation>
     </message>
@@ -464,8 +470,8 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Global</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="221"/>
-        <location filename="src/widgets/mainwindow.ui" line="662"/>
+        <location filename="src/widgets/mainwindow.ui" line="238"/>
+        <location filename="src/widgets/mainwindow.ui" line="670"/>
         <source>Delay</source>
         <translation>Verzögerung</translation>
     </message>
@@ -474,22 +480,32 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Auswahl</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="269"/>
+        <location filename="src/widgets/mainwindow.ui" line="286"/>
         <source>U/t-Diagram</source>
         <translation>U/t-Diagramm</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="288"/>
+        <location filename="src/widgets/mainwindow.ui" line="358"/>
         <source>Add watched connection</source>
         <translation>Überwachte Verbindung hinzufügen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="377"/>
+        <location filename="src/widgets/mainwindow.ui" line="361"/>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="src/widgets/mainwindow.ui" line="375"/>
+        <source>Remove</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <location filename="src/widgets/mainwindow.ui" line="388"/>
         <source>Undo History</source>
         <translation>Journal</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="386"/>
+        <location filename="src/widgets/mainwindow.ui" line="397"/>
         <source>Element Catalog</source>
         <translation>Element Katalog</translation>
     </message>
@@ -498,185 +514,176 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Vorlage von Datei hinzufügen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="291"/>
-        <location filename="src/widgets/mainwindow.ui" line="450"/>
         <source>+</source>
-        <translation>+</translation>
+        <translation type="obsolete">+</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="308"/>
+        <location filename="src/widgets/mainwindow.ui" line="338"/>
+        <location filename="src/widgets/mainwindow.ui" line="341"/>
         <source>Record</source>
         <translation>Aufnehmen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="311"/>
         <source>Rec</source>
-        <translation>Aufn</translation>
+        <translation type="obsolete">Aufn</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="341"/>
+        <location filename="src/widgets/mainwindow.ui" line="318"/>
         <source>Auto-Scroll</source>
         <translation>Mitscrollen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="344"/>
+        <location filename="src/widgets/mainwindow.ui" line="321"/>
         <source>Auto-Move to right</source>
         <translation>Automatisch nach rechts scrollen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="361"/>
-        <location filename="src/widgets/mainwindow.ui" line="464"/>
+        <location filename="src/widgets/mainwindow.ui" line="372"/>
+        <location filename="src/widgets/mainwindow.ui" line="472"/>
         <source>Remove selected Template or Category</source>
         <oldsource>Remove selected Template</oldsource>
         <translation>Ausgewählte Vorlage oder Kategorie löschen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="364"/>
-        <location filename="src/widgets/mainwindow.ui" line="467"/>
         <source>-</source>
-        <translation>-</translation>
+        <translation type="obsolete">-</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="447"/>
+        <location filename="src/widgets/mainwindow.ui" line="458"/>
         <source>Add Template from File or Category</source>
         <translation>Vorlage von Datei oder Kategorie hinzufügen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="497"/>
-        <source>Bearbeiten</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/widgets/mainwindow.ui" line="508"/>
+        <location filename="src/widgets/mainwindow.ui" line="516"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="511"/>
+        <location filename="src/widgets/mainwindow.ui" line="519"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="516"/>
+        <location filename="src/widgets/mainwindow.ui" line="524"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="519"/>
+        <location filename="src/widgets/mainwindow.ui" line="527"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="524"/>
+        <location filename="src/widgets/mainwindow.ui" line="532"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="527"/>
+        <location filename="src/widgets/mainwindow.ui" line="535"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="532"/>
+        <location filename="src/widgets/mainwindow.ui" line="540"/>
         <source>Save As</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="535"/>
+        <location filename="src/widgets/mainwindow.ui" line="543"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="254"/>
-        <location filename="src/widgets/mainwindow.cpp" line="464"/>
-        <location filename="src/widgets/mainwindow.ui" line="540"/>
+        <location filename="src/widgets/mainwindow.cpp" line="259"/>
+        <location filename="src/widgets/mainwindow.cpp" line="492"/>
+        <location filename="src/widgets/mainwindow.ui" line="548"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="543"/>
+        <location filename="src/widgets/mainwindow.ui" line="551"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="548"/>
+        <location filename="src/widgets/mainwindow.ui" line="556"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="551"/>
+        <location filename="src/widgets/mainwindow.ui" line="559"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="556"/>
+        <location filename="src/widgets/mainwindow.ui" line="564"/>
         <source>Cut</source>
         <translation>Ausschneiden</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="559"/>
+        <location filename="src/widgets/mainwindow.ui" line="567"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="564"/>
+        <location filename="src/widgets/mainwindow.ui" line="572"/>
         <source>Paste</source>
         <translation>Einfügen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="567"/>
+        <location filename="src/widgets/mainwindow.ui" line="575"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="572"/>
+        <location filename="src/widgets/mainwindow.ui" line="580"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="575"/>
+        <location filename="src/widgets/mainwindow.ui" line="583"/>
         <source>Backspace</source>
         <translation>Backspace</translation>
     </message>
     <message>
         <location filename="src/widgets/mainwindow.cpp" line="68"/>
-        <location filename="src/widgets/mainwindow.ui" line="580"/>
+        <location filename="src/widgets/mainwindow.ui" line="588"/>
         <source>Undo</source>
         <translation>Rückgängig</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="583"/>
+        <location filename="src/widgets/mainwindow.ui" line="591"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
         <location filename="src/widgets/mainwindow.cpp" line="70"/>
-        <location filename="src/widgets/mainwindow.ui" line="588"/>
+        <location filename="src/widgets/mainwindow.ui" line="596"/>
         <source>Redo</source>
         <translation>Wiederholen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="591"/>
+        <location filename="src/widgets/mainwindow.ui" line="599"/>
         <source>Ctrl+Y</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="596"/>
+        <location filename="src/widgets/mainwindow.ui" line="604"/>
         <source>Recent Files</source>
         <translation>Zuletzt geöffnet</translation>
     </message>
     <message utf8="true">
-        <location filename="src/widgets/mainwindow.ui" line="601"/>
+        <location filename="src/widgets/mainwindow.ui" line="609"/>
         <source>Preferences …</source>
         <translation>Einstellungen …</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="604"/>
+        <location filename="src/widgets/mainwindow.ui" line="612"/>
         <source>Ctrl+,</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="612"/>
+        <location filename="src/widgets/mainwindow.ui" line="620"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -717,67 +724,67 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Taktgeber</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="622"/>
+        <location filename="src/widgets/mainwindow.ui" line="630"/>
         <source>Left</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="627"/>
+        <location filename="src/widgets/mainwindow.ui" line="635"/>
         <source>Center</source>
         <translation>Zentriert</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="632"/>
+        <location filename="src/widgets/mainwindow.ui" line="640"/>
         <source>Right</source>
         <translation>Rechts</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="637"/>
+        <location filename="src/widgets/mainwindow.ui" line="645"/>
         <source>Top</source>
         <translation>Oben</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="642"/>
+        <location filename="src/widgets/mainwindow.ui" line="650"/>
         <source>Middle</source>
         <translation>Mittig</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="647"/>
+        <location filename="src/widgets/mainwindow.ui" line="655"/>
         <source>Bottom</source>
         <translation>Unten</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="652"/>
+        <location filename="src/widgets/mainwindow.ui" line="660"/>
         <source>Horizontal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="657"/>
+        <location filename="src/widgets/mainwindow.ui" line="665"/>
         <source>Vertical</source>
         <translation>Vertikal</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="667"/>
+        <location filename="src/widgets/mainwindow.ui" line="675"/>
         <source>Hex Output</source>
         <translation>Hex Anzeige</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="672"/>
+        <location filename="src/widgets/mainwindow.ui" line="680"/>
         <source>Select All</source>
         <translation>Alles markieren</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="675"/>
+        <location filename="src/widgets/mainwindow.ui" line="683"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="680"/>
+        <location filename="src/widgets/mainwindow.ui" line="688"/>
         <source>Rotate</source>
         <translation>Drehen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="683"/>
+        <location filename="src/widgets/mainwindow.ui" line="691"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
@@ -787,23 +794,23 @@ Möchten Sie die Änderungen speichern?</translation>
         <translation type="obsolete">Neue Grafik-Ansicht</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="688"/>
+        <location filename="src/widgets/mainwindow.ui" line="696"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="691"/>
+        <location filename="src/widgets/mainwindow.ui" line="699"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.ui" line="696"/>
+        <location filename="src/widgets/mainwindow.ui" line="704"/>
         <source>By Type Name</source>
         <translation>nach Typnamen</translation>
     </message>
     <message>
-        <location filename="src/widgets/mainwindow.cpp" line="365"/>
-        <location filename="src/widgets/mainwindow.cpp" line="367"/>
+        <location filename="src/widgets/mainwindow.cpp" line="393"/>
+        <location filename="src/widgets/mainwindow.cpp" line="395"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
     </message>
@@ -864,7 +871,13 @@ Möchten Sie die Änderungen speichern?</translation>
 <context>
     <name>ShiftRegister</name>
     <message>
-        <location filename="src/elements/shiftregister.cpp" line="181"/>
+        <location filename="src/elements/shiftregister.cpp" line="49"/>
+        <location filename="src/elements/shiftregister.cpp" line="208"/>
+        <source>Q%0</source>
+        <translation>Q%0</translation>
+    </message>
+    <message>
+        <location filename="src/elements/shiftregister.cpp" line="193"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
@@ -872,29 +885,32 @@ Möchten Sie die Änderungen speichern?</translation>
 <context>
     <name>SubScene</name>
     <message>
-        <location filename="src/elements/subscene.cpp" line="14"/>
+        <location filename="src/elements/subscene.cpp" line="15"/>
         <source>SubScene</source>
         <translation>Unterschaltung</translation>
     </message>
     <message>
-        <location filename="src/elements/subscene.cpp" line="27"/>
-        <location filename="src/elements/subscene.cpp" line="198"/>
+        <location filename="src/elements/subscene.cpp" line="32"/>
+        <location filename="src/elements/subscene.cpp" line="191"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="src/elements/subscene.cpp" line="112"/>
+        <location filename="src/elements/subscene.cpp" line="175"/>
+        <source>Subscene: %0</source>
+        <translation>Unterschaltung: %0</translation>
+    </message>
+    <message>
         <source>Save Subscene</source>
-        <translation>Unterszene Speichern</translation>
+        <translation type="obsolete">Unterszene Speichern</translation>
     </message>
     <message>
-        <location filename="src/elements/subscene.cpp" line="113"/>
         <source>Close</source>
-        <translation>Schließen</translation>
+        <translation type="obsolete">Schließen</translation>
     </message>
     <message>
-        <location filename="src/elements/subscene.cpp" line="139"/>
-        <location filename="src/elements/subscene.cpp" line="176"/>
+        <location filename="src/elements/subscene.cpp" line="131"/>
+        <location filename="src/elements/subscene.cpp" line="168"/>
         <source>Subscene</source>
         <translation>Unterszene</translation>
     </message>

@@ -41,7 +41,10 @@ void FlipFlop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 void FlipFlop::setClockNegated(bool owv){
     //myOnWhichValue=owv;
     if(myFlipFlopTrigger!=None){
-		myInputs[1]->setNegated(owv);
+		if(myFlipFlopType!=Toggle)
+			myInputs[1]->setNegated(owv);
+		else
+			myInputs[0]->setNegated(owv);
     }
     update();
 }
@@ -120,12 +123,10 @@ void FlipFlop::setFlipFlopType(FlipFlopType type){
 		break;
     case Toggle:
 		setFlipFlopTrigger(OnSwitching, false);
-		setMinMaxInputsOutputs(2,2,2,2);
-		myInputs.at(0)->setName("1");
-		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(other(bool)));
-		myInputs.at(1)->setName("C");
-		connect(myInputs.at(1),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
-		myInputs.at(1)->setClock(true);
+		setMinMaxInputsOutputs(1,1,2,2);
+		myInputs.at(0)->setName("C");
+		connect(myInputs.at(0),SIGNAL(changed(bool)),this,SLOT(clock(bool)));
+		myInputs.at(0)->setClock(true);
 		myOutputs.at(0)->setName("Q");
 		myOutputs.at(1)->setName("Q*");
 		break;
@@ -257,10 +258,8 @@ void FlipFlop::clock(bool v){
 		break;
     case Toggle:
 		if(v==myOnWhichValue){
-			if(myInputs[0]->value()){
-				myValue=!myValue;
-				recalculate();
-			}
+			myValue=!myValue;
+			recalculate();
 		}
 		break;
     }
@@ -328,7 +327,10 @@ bool FlipFlop::createFormBefore(){
     QLabel *typeLabel=new QLabel(tr("Type")), *triggerLabel=new QLabel(tr("Trigger")), *onWhichValueLabel=new QLabel(tr("Negate Clock"));
     negateBox=new QCheckBox;
     if(myFlipFlopTrigger!=None){
-		negateBox->setChecked(myInputs[1]->isNegated());
+		if(myFlipFlopType!=Toggle)
+			negateBox->setChecked(myInputs[1]->isNegated());
+		else
+			negateBox->setCheckable(myInputs[0]->isNegated());
     } else {
 		negateBox->setDisabled(true);
 		negateBox->setChecked(false);

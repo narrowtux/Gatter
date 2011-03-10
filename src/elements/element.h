@@ -42,7 +42,7 @@ public:
 	
     explicit Element(QGraphicsObject *parent = 0);
     ~Element();
-    static QPen getSelectionPen();
+    QPen getSelectionPen();
     QMap<QString,QVariant> settings();
     void setSettings(QMap<QString, QVariant> s);
     void setInputs(int c);
