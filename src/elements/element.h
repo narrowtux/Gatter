@@ -79,6 +79,10 @@ QRectF MyGreatElement::boundingRect() const{
 	  \endcode
 	  */
 	virtual QRectF boundingRect() const;
+	/*!
+	  sets the rotation as well as the transform origin point to the center of the boundingRect()
+	  */
+	void setRotation(qreal angle);
 public slots:
 	void setTitle(QString title);
     void setElementColor(QColor c);

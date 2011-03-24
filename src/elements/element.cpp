@@ -468,12 +468,11 @@ QVariant Element::itemChange(GraphicsItemChange change, const QVariant &value)
     if(change==ItemScenePositionHasChanged){
 		isMoving=true;
     }
-	/*
 	if(change==ItemRotationHasChanged){
 		foreach(Connection*c, myInputs+myOutputs){
 			c->itemChange(change,value);
 		}
-	}*/
+	}
 	if(change==ItemSceneHasChanged){
 		if(scene()!=0)
 			connect(scene(), SIGNAL(selectionChanged()), this, SLOT(selectionUpdated()));
@@ -817,4 +816,11 @@ QRectF Element::boundingRect() const
 {
 	//Warning: this returns an invalid QRectF!
 	return QRectF();
+}
+
+void Element::setRotation(qreal angle)
+{
+	setTransformOriginPoint(boundingRect().center());
+	QGraphicsObject::setRotation(angle);
+	//itemChange(ItemRotationHasChanged, QVariant(angle));
 }

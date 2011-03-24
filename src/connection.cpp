@@ -294,7 +294,7 @@ void Connection::setOther(Connection *other){
 }
 
 QVariant Connection::itemChange(GraphicsItemChange change, const QVariant &value){
-    if(change==ItemScenePositionHasChanged||change==ItemPositionHasChanged/*||change==ItemRotationHasChanged*/){
+    if(change==ItemScenePositionHasChanged||change==ItemPositionHasChanged||change==ItemRotationHasChanged){
 		updateLine();
     }
     return value;
