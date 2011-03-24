@@ -87,7 +87,7 @@ void SubScene::updateConnections(){
 void SubScene::recalculate(){
     int i=0;
     foreach(Element*e, sceneInputs){
-		if(1||myInputs[i]->value()!=inValues[i]){
+		if(myInputs[i]->value()!=inValues[i]){
 			e->setInput(myInputs[i]->value());
 			inValues[i]=myInputs[i]->value();
 		}
@@ -95,7 +95,7 @@ void SubScene::recalculate(){
     }
     i=0;
     foreach(Element*e, sceneOutputs){
-		if(1||e->value()!=outValues[i]){
+		if(e->value()!=outValues[i]){
 			myOutputs[i]->setValue(e->value());
 			outValues[i]=e->value();
 		}

@@ -542,6 +542,8 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     gradient.setFinalStop(boundingRect().bottomLeft());
     painter->setBrush(QBrush(gradient));
     painter->drawRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
+	
+	/*
     QPen pointPen;
     pointPen.setColor(QColor(100,100,100));
     painter->setPen(pointPen);
@@ -550,6 +552,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawEllipse(boundingRect().topRight()+QPointF(-5,5),1,1);
     painter->drawEllipse(boundingRect().bottomLeft()+QPointF(5,-5),1,1);
     painter->drawEllipse(boundingRect().bottomRight()+QPointF(-5,-5),1,1);
+	*/
 	
 	//Draw Selection
 	QPen pen = getSelectionPen();

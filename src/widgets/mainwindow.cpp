@@ -90,8 +90,6 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
     action->setIcon(QIcon(":/icons/toolbar/inspector.png"));
     action->setShortcut(QKeySequence("Ctrl+Alt+I"));
     ui->menuWindow->addAction(action);
-    ui->mainToolBar->addSeparator();
-    ui->mainToolBar->addAction(action);
     ui->dockInspector->close();
     ui->menuWindow->addAction(ui->dockUTDiagram->toggleViewAction());
     ui->menuWindow->addSeparator();
@@ -147,16 +145,17 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		}
 		argvFileAlreadyOpened=true;
     }
+	QMenu *catalogAddMenu = new QMenu;
 	action=new QAction(tr("Add label"),this);
 	connect(action,SIGNAL(triggered()),this,SLOT(addLabel()));
-	ui->toolAddTemplateFromFile->addAction(action);
+	catalogAddMenu->addAction(action);
 	action=new QAction(tr("Add from file"),this);
 	connect(action,SIGNAL(triggered()), this,SLOT(addFromFile()));
-	ui->toolAddTemplateFromFile->addAction(action);
+	catalogAddMenu->addAction(action);
 	action = new QAction(tr("Add Subscene"), this);
 	connect(action, SIGNAL(triggered()), this, SLOT(addSubscene()));
-	ui->toolAddTemplateFromFile->addAction(action);
-	
+	catalogAddMenu->addAction(action);
+	ui->toolAddTemplateFromFile->setMenu(catalogAddMenu);
 	printDialog=0;
 	
 	myDiagram=new UTDiagram;

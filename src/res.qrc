@@ -12,6 +12,7 @@
     <qresource prefix="/data">
         <file alias="subscene_catalog_template">resources/subscene_catalog_template.gtr</file>
         <file alias="subscene_file_template">resources/subscene_file_template.gtr</file>
+        <file alias="elementCatalog.bin">resources/elementCatalogNew.bin</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

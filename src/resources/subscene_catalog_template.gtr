@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene>
+    <elements>
+        <element x="0" y="0" id="1" type="subscene" elementColor="rgb(255,255,255)" rotation="0">
+            <private src="%1" name="%0"/>
+            <inputs/>
+            <outputs/>
+        </element>
+    </elements>
+    <connections/>
+</scene>

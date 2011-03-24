@@ -231,14 +231,25 @@ void ElementCatalog::load(QString fileName){
 		fileName=myDirName+"/elementCatalogNew.bin";
 	}
 	QFile file(fileName);
-	file.open(QIODevice::ReadOnly);
+	if(!file.exists()){
+		/*
+         * Load the predefined Catalog file. This has the downside that it can't
+		 * add new Elements when new ones are added via software updates.
+		 */
+		QFile res(":/data/elementCatalog.bin");
+		res.copy(fileName);
+		file.setPermissions(QFile::ReadOwner|QFile::ReadUser|QFile::WriteOwner);
+	}
 	QVariant vars;
-	QDataStream ds(&file);
-	ds>>vars;
-	file.close();
-	
-	//Process Data
-	QMap<QString,QVariant> map=vars.toMap();
+	QMap<QString,QVariant> map;
+	if(file.open(QIODevice::ReadOnly)){
+		QDataStream ds(&file);
+		ds>>vars;
+		file.close();
+		map=vars.toMap();
+	} else {
+		qDebug()<<"Element Catalog is missing!";
+	}
 	rootItem=new CatalogItem(map);
 }
 
