@@ -80,6 +80,7 @@ void Gatter::recalculate(){
     if(Scene::debugMethods)qDebug()<<(void*)this<<","<<count("recalcs")<<", Gatter::recalculate()";
     bool val;
     int myDelay=0;
+	int co = 0;
     switch(myGatterType){
     case AND:
 		val=1;
@@ -102,7 +103,6 @@ void Gatter::recalculate(){
 		myDelay=10;
 		break;
     case XOR:
-		int co;
 		foreach(Connection*c, myInputs){
 			if(c->value()==High){
 				co++;
