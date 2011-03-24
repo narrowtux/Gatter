@@ -64,8 +64,8 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 void Lamp::recalculate(){
     myValue=myInputs[0]->value();
     //qDebug()<<"Recalculated";
-    emit(outputChanged(myValue));
-    update();
+	update();
+    outputChanged(myValue);
 }
 
 void Lamp::setColor(QColor c){

@@ -29,10 +29,10 @@ SubScene::SubScene(QGraphicsObject *parent, bool createMainWindow) :
 }
 
 bool SubScene::createFormBefore(){
-    QPushButton* push=new QPushButton(tr("Select File"));
-    additionalWidgets<<push;
-    layout->addRow(push);
-    connect(push,SIGNAL(clicked()),this,SLOT(selectFile()));
+    //QPushButton* push=new QPushButton(tr("Select File"));
+    //additionalWidgets<<push;
+    //layout->addRow(push);
+    //connect(push,SIGNAL(clicked()),this,SLOT(selectFile()));
     return false;
 }
 
@@ -50,7 +50,7 @@ void SubScene::updateConnections(){
 		}
 		if(e->isOutput()){
 			outputs.insert(e->scenePos().y(),e);
-			connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalculate()),Qt::UniqueConnection);
+			connect(e,SIGNAL(outputChanged(bool)),this,SLOT(recalcOutputs()),Qt::UniqueConnection);
 			outputP<<e->scenePos().y();
 		}
 		if(e->isInput()||e->isOutput()){
@@ -84,22 +84,16 @@ void SubScene::updateConnections(){
     recalculate();
 }
 
+/*!
+  Called when an input has changed. Won't update the outputs anymore!
+  */
+
 void SubScene::recalculate(){
-    int i=0;
-    foreach(Element*e, sceneInputs){
+    for(int i = 0; i<myInputs.count();i++){
 		if(myInputs[i]->value()!=inValues[i]){
-			e->setInput(myInputs[i]->value());
+			sceneInputs[i]->setInput(myInputs[i]->value());
 			inValues[i]=myInputs[i]->value();
 		}
-		i++;
-    }
-    i=0;
-    foreach(Element*e, sceneOutputs){
-		if(e->value()!=outValues[i]){
-			myOutputs[i]->setValue(e->value());
-			outValues[i]=e->value();
-		}
-		i++;
     }
 }
 
@@ -252,6 +246,7 @@ void SubScene::reload()
 {
 	myScene->clear();
 	myScene->load(fileName);
+	updateConnections();
 }
 
 void SubScene::setAction(QAction *action)
@@ -309,4 +304,20 @@ SubScene * SubScene::parentSubScene()
 bool SubScene::isOpen()
 {
 	return myOpen;
+}
+
+/*!
+  Called whenever an output on the scene changes.
+  The separation of recalculate() and recalcOutputs() was done to prevent
+  infinite loops.
+  */
+
+void SubScene::recalcOutputs()
+{
+	for(int i = 0; i<myOutputs.count();i++){
+		if(sceneOutputs[i]->value()!=outValues[i]){
+			myOutputs[i]->setValue(sceneOutputs[i]->value());
+			outValues[i]=sceneOutputs[i]->value();
+		}
+	}
 }

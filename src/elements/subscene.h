@@ -32,6 +32,7 @@ public slots:
 	void save();
 	void reload();
 	void returnTo();
+	void recalcOutputs();
 signals:
 	void changed();
 private slots:

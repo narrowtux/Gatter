@@ -42,6 +42,7 @@ Scene::Scene(QObject *parent) :
 	addItem(myHighlighter);
 	myHighlighter->setBoundingRect(QRectF(-100,-100,200,200));
 	highlight(0);
+	subscene=0;
 }
 
 /*!
