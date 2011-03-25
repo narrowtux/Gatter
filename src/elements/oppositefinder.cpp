@@ -149,6 +149,9 @@ void OppositeFinder::makeConnection(OppositeFinder *other)
 		myColor=findNewColor();
 		myOther->myColor=myColor;
 	}
+	if(other!=0){
+		emit(foundOther(other->element()));
+	}
 	update();
 }
 

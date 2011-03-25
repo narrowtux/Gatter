@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "element.h"
 #include "oppositefinder.h"
+#include <QVector>
 
 class Tunnel : public Element
 {
@@ -20,13 +21,17 @@ signals:
 
 private slots:
 	void setEntranceTypeInt(int type);
+	void onOtherFound(Element *element);
 private:
 	ConnectionType myEntrance;
 	Tunnel *myOther;
 	OppositeFinder *myOppositeFinder;
+	QVector<bool> myValues;
 	void recalculate();
 	void setEntranceType(ConnectionType t);
 	bool createFormBefore();
+	void connectionsChanged();
+	bool resizing;
 };
 
 #endif // TUNNEL_H

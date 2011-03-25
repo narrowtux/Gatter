@@ -95,7 +95,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 #else
 	dragMod=Qt::ControlModifier;
 #endif
-    if(event->modifiers()&dragMod){
+	if(event->button()==Qt::LeftButton){
+		pressed = true;
+	}
+    if(event->modifiers()&dragMod&&pressed){
 		wantsToDrag=true;
     }
 }
@@ -107,7 +110,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 #else
 	dragMod=Qt::ControlModifier;
 #endif
-    if(event->modifiers()&dragMod){
+    if(event->modifiers()&dragMod&&pressed){
 		wantsToDrag=true;
     }
     lastMousePos=event->scenePos();
@@ -142,6 +145,9 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     wantsToDrag=false;
+	if(event->button()==Qt::LeftButton){
+		pressed = false;
+	}
     QGraphicsItem*item=itemAt(event->scenePos());
     if(movingItem!=0&&movingItem==item&&item!=0&&item->flags()&QGraphicsItem::ItemIsMovable){
 		QPointF distance=movingItem->pos()-startPos;
