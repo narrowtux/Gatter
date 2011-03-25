@@ -283,6 +283,8 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes,
 		own=true;
     }
     QMap<int, int> elementIdMapping;
+	QMap<int, OppositeFinder*> opposites;
+	QMap<int, int> oppositeMapping;
     QList<Element*> pastedElements;
     while(!(xml->name()=="scene"&&xml->isEndElement())&&!xml->hasError()){
 		xml->readNext();
@@ -389,6 +391,34 @@ void Scene::load(QString fileName, QXmlStreamReader *xml, bool setAllAttributes,
 				}
 			}
 		}
+		if(xml->name()=="opposites"){
+			while(!(xml->name()=="opposites"&&xml->isEndElement()&&!xml->hasError())){
+				xml->readNext();
+				if(xml->name()=="opposite"&&xml->isStartElement()){
+					QXmlStreamAttributes attr = xml->attributes();
+					int oppid, otherid, elementid;
+					oppid = attr.value("id").toString().toInt();
+					otherid = attr.value("other").toString().toInt();
+					elementid = attr.value("element").toString().toInt();
+					if(paste){
+						elementid = elementIdMapping.value(elementid);
+					}
+					oppositeMapping.insert(oppid, otherid);
+					Element * element = myElements[elementid];
+					OppositeFinder *o = element->oppositeFinder();
+					opposites.insert(oppid, o);
+				}
+			}
+			foreach(int from, oppositeMapping.keys()){
+				int to = oppositeMapping.value(from);
+				OppositeFinder* fromO = opposites.value(from);
+				OppositeFinder* toO = opposites.value(to);
+				qDebug()<<fromO<<toO;
+				if(fromO->otherOppositeFinder()==0){
+					fromO->makeConnection(toO);
+				}
+			}
+		}
     }
     bool errors=xml->hasError();
     if(xml->hasError()){
@@ -441,12 +471,18 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
 		xml->writeStartDocument();
 		own=true;
     }
+	QMap<int, OppositeFinder*> opposites;
+	int maxid = 0;
     xml->writeStartElement("scene");
     /*Elements*/{
 		xml->writeStartElement("elements");
 		foreach(Element* e,selectionElements){
 			xml->writeStartElement("element");
 			QXmlStreamAttributes elementAttributes;
+			if(e->oppositeFinder()!=0){
+				OppositeFinder* o = e->oppositeFinder();
+				opposites.insert(maxid++,o);
+			}
 			elementAttributes.append("x",QString().setNum(e->scenePos().x()));
 			elementAttributes.append("y",QString().setNum(e->scenePos().y()));
 			elementAttributes.append("id",QString().setNum(e->uniqueId));
@@ -518,7 +554,28 @@ void Scene::save(QString fileName, QXmlStreamWriter *xml, QList<Element *> selec
 		}
 		xml->writeEndElement();
     }
+	
+	/*Opposites */
+	
+	if(opposites.count()>0){
+		xml->writeStartElement("opposites");
+		foreach(int id, opposites.keys()){
+			OppositeFinder *o = opposites.value(id);
+			if(o->otherOppositeFinder()!=0){
+				xml->writeStartElement("opposite");
+				xml->writeAttribute("id", QString().setNum(id));
+				xml->writeAttribute("element", QString().setNum(o->element()->uniqueId));
+				xml->writeAttribute("other", QString().setNum(opposites.key(o->otherOppositeFinder())));
+				xml->writeEndElement();
+			}
+		}
+		xml->writeEndElement();
+	}
+	
+	//Write </scene>
+	
     xml->writeEndElement();
+	
     if(own){
 		xml->writeEndDocument();
 		file.close();

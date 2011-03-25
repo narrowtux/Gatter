@@ -14,6 +14,7 @@
 #include <QtConcurrentRun>
 #include "src/widgets/colorbutton.h"
 #include <QPropertyAnimation>
+#include "src/elements/oppositefinder.h"
 
 /*!
   \class Element
@@ -83,6 +84,8 @@ QRectF MyGreatElement::boundingRect() const{
 	  sets the rotation as well as the transform origin point to the center of the boundingRect()
 	  */
 	void setRotation(qreal angle);
+	
+	virtual OppositeFinder *oppositeFinder();
 public slots:
 	void setTitle(QString title);
     void setElementColor(QColor c);

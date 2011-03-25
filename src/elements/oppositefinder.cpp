@@ -166,3 +166,4 @@ void OppositeFinder::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
 	static_cast<Scene*>(scene())->highlight(0);
 }
+

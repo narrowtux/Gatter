@@ -137,4 +137,9 @@ void Tunnel::onOtherFound(Element *element)
 	other->resizing = false;
 }
 
+OppositeFinder * Tunnel::oppositeFinder()
+{
+	return myOppositeFinder;
+}
+
 

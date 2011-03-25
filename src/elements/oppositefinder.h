@@ -17,6 +17,7 @@ public:
 	Element *element();
 	QPainterPath shape() const;
 	void setEntrance(ConnectionType type);
+	void makeConnection(OppositeFinder * other);
 signals:
 	void foundOther(Element *);
 public slots:
@@ -33,7 +34,6 @@ private:
 	QColor myColor;
 	QColor findNewColor();
 	static QList<QColor> colors;
-	void makeConnection(OppositeFinder * other);
 	void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 	void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };

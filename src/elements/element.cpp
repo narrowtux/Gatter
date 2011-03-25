@@ -824,3 +824,16 @@ void Element::setRotation(qreal angle)
 	QGraphicsObject::setRotation(angle);
 	//itemChange(ItemRotationHasChanged, QVariant(angle));
 }
+
+/*!
+  \brief This method should return its opposite finder if it has got one.
+  
+  The opposite finder of each element is used to save the connection between them.
+  Reimplement this method if your Element has got an opposite finder.
+  
+  \returns the opposite finder if available, else 0
+  */
+OppositeFinder * Element::oppositeFinder()
+{
+	return 0;
+}

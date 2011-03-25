@@ -17,6 +17,7 @@ public:
 	Tunnel *tunnelExit();
 	void setPrivateXml(QXmlStreamWriter *xml);
 	void readPrivateXml(QXmlStreamReader *xml);
+	OppositeFinder * oppositeFinder();
 signals:
 
 private slots:
