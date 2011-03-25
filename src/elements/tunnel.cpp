@@ -57,9 +57,13 @@ void Tunnel::setEntranceType(ConnectionType t)
 {
 	myEntrance=t;
 	if(t==Input){
+		int c = myOutputs.count();
 		setMinMaxInputsOutputs(1,8,0,0);
+		setInputs(c);
 	} else {
+		int c = myInputs.count();
 		setMinMaxInputsOutputs(0,0,1,8);
+		setOutputs(c);
 	}
 	myOppositeFinder->setEntrance(t);
 }
