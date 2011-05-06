@@ -35,7 +35,7 @@ void SevenSegmentOutput::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	QPolygonF segment=segmentPolygon();
     QPair<int, QPointF> cur;
 	int i=0, scale=3;
-	painter->setPen(QColor("white"));
+	painter->setPen(QPen(QColor("white"),1));
 	foreach(cur, segmentTransformations){
 		if(values[i]){
 			painter->setBrush(QColor("red"));

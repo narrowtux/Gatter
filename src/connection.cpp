@@ -110,21 +110,21 @@ void Connection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget)
     painter->setBrush(QColor("white"));
     if((myValue&&!myNegated)||(!myValue&&myNegated)){
-		painter->setPen(Scene::highValueColor);
+		painter->setPen(QPen(Scene::highValueColor,1));
 		//	if(line!=0){
 		//	    line->setPen(QColor("red"));
 		//	}
     } else {
-		painter->setPen(QColor("black"));
+		painter->setPen(QPen(QColor("black"),1));
 		//	if(line!=0){
 		//	    line->setPen(QColor("black"));
 		//	}
     }
 	if(poked){
 		if(painter->pen().color()==QColor("red")){
-			painter->setPen(QColor("darkred"));
+			painter->setPen(QPen(QColor("darkred"),1));
 		} else {
-			painter->setPen(QColor("lightgray"));
+			painter->setPen(QPen(QColor("lightgray"),1));
 		}
 	}
 	

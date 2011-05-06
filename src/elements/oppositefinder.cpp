@@ -26,7 +26,7 @@ OppositeFinder::OppositeFinder(Element *eparent, int elementType, QGraphicsObjec
 void OppositeFinder::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	if(myOther!=0){
-		painter->setPen(myColor);
+		painter->setPen(QPen(myColor,1));
 	}
 	painter->drawEllipse(boundingRect().center(), 4, 4);
 }

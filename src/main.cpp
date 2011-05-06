@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     Application a(argc, argv);	
 	
     QString locale = QLocale::system().name();
+	locale = "de_DE";
     QTranslator translator;
     translator.load(QString("gatter_") + locale,QApplication::applicationDirPath());
     a.installTranslator(&translator);

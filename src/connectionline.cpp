@@ -16,7 +16,7 @@ void ConnectionLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 	QList<QLineF> lines=getLines();
 	painter->setBrush(QColor("red"));
 	foreach(QLineF l, lines){
-		painter->setPen(pen());
+		painter->setPen(QPen(pen().brush(),1));
 		painter->drawLine(l);
 		painter->setPen(Qt::NoPen);
 		//painter->drawPolygon(polygonFromLine(l));

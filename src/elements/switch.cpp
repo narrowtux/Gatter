@@ -50,26 +50,26 @@ void Switch::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->drawRect(upper);
     painter->setBrush(lowerBrush);
     painter->drawRect(lower);
-    painter->setPen(QColor(240,240,240));
+    painter->setPen(QPen(QColor(240,240,240),1));
 	QFont f=painter->font();
 	f.setPixelSize(10);
 	painter->setFont(f);
     if(myValue){
 		painter->drawLine(upper.topLeft()+QPointF(1,1),upper.topRight()+QPointF(-1,1));
-		painter->setPen(QColor(150,150,150));
+		painter->setPen(QPen(QColor(150,150,150),1));
 		painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
-		painter->setPen(QColor("black"));
+		painter->setPen(QPen(QColor("black"),1));
 		painter->drawText(upper, "ON",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
-		painter->setPen(QColor("gray"));
+		painter->setPen(QPen(QColor("gray"),1));
 		painter->drawText(lower.adjusted(0,-2,0,0), "OFF",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
 		
     } else {
 		painter->drawLine(lower.bottomLeft()+QPointF(1,-1),lower.bottomRight()+QPointF(-1,-1));
-		painter->setPen(QColor(150,150,150));
+		painter->setPen(QPen(QColor(150,150,150),1));
 		painter->drawLine(upper.topLeft()+QPointF(1,1),upper.topRight()+QPointF(-1,1));
-		painter->setPen(QColor("black"));
+		painter->setPen(QPen(QColor("black"),1));
 		painter->drawText(lower, "OFF", QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
-		painter->setPen(QColor("gray"));
+		painter->setPen(QPen(QColor("gray"),1));
 		painter->drawText(upper.adjusted(0,1,0,0), "ON",QTextOption(Qt::AlignCenter|Qt::AlignHCenter));
     }
 }

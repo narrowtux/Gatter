@@ -529,7 +529,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	
 	
 	//Draw Background
-    painter->setPen(QColor("gray"));
+    painter->setPen(QPen(QColor("gray"),1));
 	QLinearGradient gradient;
     int h,s,v;
     myElementColor.getHsv(&h,&s,&v);
@@ -565,7 +565,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		painter->drawRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
 	
 	//reset painter
-	painter->setPen(Qt::black);
+	painter->setPen(QPen(Qt::black,1));
 	painter->setBrush(Qt::NoBrush);
 	
 	//Draw labels

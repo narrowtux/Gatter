@@ -254,7 +254,10 @@ void FlipFlop::clock(bool v){
 		}
 		break;
     case Delay:
-		
+		if(v==myOnWhichValue){
+			myValue = myInputs[0]->value();
+			recalculate();
+		}
 		break;
     case Toggle:
 		if(v==myOnWhichValue){
