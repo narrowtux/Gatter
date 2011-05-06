@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent, Scene *scene) :
 		ui->elementCatalog->expandAll();
 	}
 	
+	setWindowRole("mainwindow");
+	
 	openDialog = 0;
 	
 #ifndef QT_ARCH_MACOSX
@@ -558,6 +560,14 @@ void MainWindow::on_actionCopy_triggered()
     buffer.close();
     QMimeData* data=new QMimeData;
     data->setData("text/gatterxml",array);
+	foreach(Element *e, selectedItems){
+		e->setDrawSelectedBorder(false);
+	}
+	data->setImageData(myScene->renderElements(selectedItems, 20));
+	
+	foreach(Element *e, selectedItems){
+		e->setDrawSelectedBorder(true);
+	}
     clipboard->setMimeData(data);
     delete xml;
 }
@@ -821,4 +831,37 @@ SubScene * MainWindow::openSubScene()
 void MainWindow::setOpenSubScene(SubScene *sub)
 {
 	myOpenSubScene = sub;
+}
+
+void MainWindow::on_actionNew_View_triggered()
+{
+    GraphicsView *view = new GraphicsView(this);
+	view->setWindowRole("view");
+	view->setWindowTitle(tr("Circuit-View"));
+	view->setWindowFlags(Qt::Window);
+	view->setScene(myScene);
+	view->show();
+}
+
+void MainWindow::on_actionExportImage_triggered()
+{
+    QFileDialog dialog(this, Qt::Drawer);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDefaultSuffix("png");
+	dialog.setWindowTitle(tr("Export Image"));
+	QEventLoop loop;
+	dialog.open(&loop,SLOT(quit()));
+	loop.exec();
+	if(dialog.result()==QDialog::Rejected){
+		return;
+	}
+	QStringList files = dialog.selectedFiles();
+	if(files.count()!=0){
+		QImage img(QSize(myScene->itemsBoundingRect().width(), myScene->itemsBoundingRect().height()), QImage::Format_ARGB32);
+		QPainter painter(&img);
+		painter.setRenderHint(QPainter::Antialiasing);
+		myScene->render(&painter);
+		img.save(files.at(0));
+	}
 }

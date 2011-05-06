@@ -24,7 +24,7 @@ void Lamp::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     Q_UNUSED(option)
     Q_UNUSED(widget)
     // Draw border;
-    if(!isSelected()){
+    if(!isSelected()||!drawSelectedBorder){
 		painter->setPen(Qt::NoPen);
     } else {
 		painter->setPen(getSelectionPen());

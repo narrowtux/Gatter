@@ -123,14 +123,8 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 				}
 			}
 			QString xml=copy(selElements);
-			QRectF rect=selElements.at(0)->boundingRect();
-			QPixmap dragPixmap(rect.width(),rect.height());
-			dragPixmap.fill(QColor(0,0,0,0));
-			QPainter painter(&dragPixmap);
-			painter.setRenderHint(QPainter::Antialiasing);
-			render(&painter,QRectF(), selElements[0]->sceneBoundingRect());
 			QDrag*drag=new QDrag(views().at(0));
-			drag->setPixmap(dragPixmap);
+			drag->setPixmap(renderElements(selElements));
 			drag->setHotSpot(selElements[0]->mapFromScene(event->scenePos()).toPoint());
 			QMimeData* data=new QMimeData;
 			data->setData("text/gatterxml",xml.toLocal8Bit());
@@ -799,5 +793,24 @@ void Scene::clearHighlight()
 void Scene::setSubscene(SubScene *sub)
 {
 	subscene = sub;
+}
+
+QPixmap Scene::renderElements(QList<Element *> elements, int scale)
+{
+	QPainterPath path;
+	foreach(Element *e, elements)
+	{
+		path.addRect(e->sceneBoundingRect());
+		foreach(QGraphicsItem *item, e->childItems()){
+			path.addRect(item->sceneBoundingRect());
+		}
+	}
+	QPixmap dragPixmap(path.boundingRect().width()*scale, path.boundingRect().height()*scale);
+	dragPixmap.fill(QColor(0,0,0,0));
+	QPainter painter(&dragPixmap);
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.scale(scale, scale);
+	render(&painter, QRectF(0,0,path.boundingRect().width(), path.boundingRect().height()), path.boundingRect());
+	return dragPixmap;
 }
 

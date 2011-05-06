@@ -9,6 +9,7 @@
 #include <QtGui>
 #include <QUndoStack>
 #include <QUndoView>
+#include <QPrintDialog>
 #include "src/catalog/elementcatalog.h"
 #include "src/grapher/utdiagram.h"
 #include "src/widgets/breadcumbbar.h"
@@ -80,13 +81,12 @@ private:
     bool mySubScene, myShouldBeSaved;
     
     static ElementCatalog* elementCatalog;
+	
 	QPrintDialog *printDialog;
 	
 	QList<UTDiagram*> myDiagrams;
 	UTDiagram* myDiagram;
-	
 	QSpinBox *myZoomBox;
-	
 	QFileDialog *openDialog;
 private slots:
 	void openFinished();
@@ -116,6 +116,8 @@ private slots:
 	void addUTConnectionRecording();
 	void on_autoScrollButton_clicked(bool checked);
 	void on_actionInsertByTypeName_triggered();
+	void on_actionNew_View_triggered();
+	void on_actionExportImage_triggered();
 };
 
 #endif // MAINWINDOW_H

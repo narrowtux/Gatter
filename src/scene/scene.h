@@ -50,6 +50,7 @@ public:
 	QList<Element*> elementList();
 	void setCurrentOpenSubScene(SubScene *subscene);
 	void setSubscene(SubScene* sub);
+	QPixmap renderElements(QList<Element*> elements, int scale = 1);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

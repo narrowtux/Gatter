@@ -31,6 +31,7 @@ Element::Element(QGraphicsObject* parent) :
 	mySelectionOpacityAnimation = new QPropertyAnimation(this, "selectionOpacity", this);
 	mySelectionOpacity = 0.0;
 	myIsSelected = false;
+	drawSelectedBorder = true;
 }
 
 /*!
@@ -560,7 +561,7 @@ void Element::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	pen.setColor(co);
 	painter->setPen(pen);
 	painter->setBrush(Qt::NoBrush);
-	if(mySelectionOpacity!=0)
+	if(mySelectionOpacity!=0&&drawSelectedBorder)
 		painter->drawRoundedRect(boundingRect().adjusted(1,1,-1,-1),3,3);
 	
 	//reset painter
@@ -836,4 +837,9 @@ void Element::setRotation(qreal angle)
 OppositeFinder * Element::oppositeFinder()
 {
 	return 0;
+}
+
+void Element::setDrawSelectedBorder(bool va)
+{
+	drawSelectedBorder = va;
 }

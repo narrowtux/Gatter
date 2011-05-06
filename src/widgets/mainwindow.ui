@@ -88,8 +88,8 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="actionImage"/>
-     <addaction name="actionAnimation"/>
+     <addaction name="actionExportImage"/>
+     <addaction name="actionExportAnimation"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -127,6 +127,7 @@
     <property name="title">
      <string>Window</string>
     </property>
+    <addaction name="actionNew_View"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -217,7 +218,7 @@
           <x>0</x>
           <y>0</y>
           <width>226</width>
-          <height>269</height>
+          <height>259</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -407,7 +408,7 @@
         <bool>true</bool>
        </property>
        <attribute name="headerVisible">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
       </widget>
      </item>
@@ -674,14 +675,22 @@
     <string>By Type Name</string>
    </property>
   </action>
-  <action name="actionImage">
+  <action name="actionExportImage">
    <property name="text">
     <string>Image …</string>
    </property>
   </action>
-  <action name="actionAnimation">
+  <action name="actionExportAnimation">
    <property name="text">
     <string>Animation …</string>
+   </property>
+  </action>
+  <action name="actionNew_View">
+   <property name="text">
+    <string>New View</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
    </property>
   </action>
  </widget>

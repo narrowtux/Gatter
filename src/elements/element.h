@@ -86,6 +86,8 @@ QRectF MyGreatElement::boundingRect() const{
 	void setRotation(qreal angle);
 	
 	virtual OppositeFinder *oppositeFinder();
+	
+	void setDrawSelectedBorder(bool va);
 public slots:
 	void setTitle(QString title);
     void setElementColor(QColor c);
@@ -140,6 +142,7 @@ protected:
 	qreal mySelectionOpacity;
 	QString myTitle;
 	virtual void loadEvent();
+	bool drawSelectedBorder;
 private:
     int uniqueId;
     void createForm();

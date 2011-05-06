@@ -35,7 +35,7 @@ void Distributor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	Q_UNUSED(widget)
 	painter->setBrush(QBrush(QColor(0,0,0)));
 	QPen pen(getSelectionPen());
-	if(!isSelected()){
+	if(!isSelected()||!drawSelectedBorder){
 		pen.setColor(QColor(0,0,0));
 	}
 	painter->setPen(pen);
