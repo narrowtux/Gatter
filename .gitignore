@@ -1,0 +1,10 @@
+srcold
+old
+doc
+.bzr
+.DS_Store
+*.user*
+Doxyfile
+Gatter.zip
+opposite*.txt
+*.qm
